@@ -18,6 +18,7 @@ import {
     SettingsTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
 import { EventScreen } from '@screens/account/EventScreen/EventScreen';
+import { HangoutScreen } from '@screens/account/HangoutScreen/HangoutScreen';
 
 const Account = createStackNavigator<ParamListBase>();
 
@@ -40,7 +41,7 @@ export const AccountStackNavigator = (): JSX.Element => (
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.HangoutsScreen}
-            component={NotificationsScreen}
+            component={HangoutScreen}
             options={{ ...NavigationScreenHeader, ...HangoutsTitle }}
         />
         <Account.Screen

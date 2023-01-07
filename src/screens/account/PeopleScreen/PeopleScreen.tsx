@@ -46,7 +46,9 @@ export const PeopleScreen = (): JSX.Element => {
         [navigateTo]
     );
 
-    const renderItem = ({ item }: ListRenderItemInfo<PeopleListItemProps>) => (
+    const renderItem = ({
+        item
+    }: ListRenderItemInfo<PeopleListItemProps>): JSX.Element => (
         <TouchableOpacity
             onPress={() => onItemPress(item)}
             style={PeopleScreenStyle.itemView}

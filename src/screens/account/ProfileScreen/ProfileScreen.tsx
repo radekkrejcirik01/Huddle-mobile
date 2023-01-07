@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { SafeAreaView, SectionList, Text, View } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { ProfileScreenStyle } from '@screens/account/ProfileScreen/ProfileScreen.style';
 import { IconButton } from '@components/general/IconButton/IconButton';
@@ -8,11 +8,7 @@ import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/A
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import {
-    ComingsUpDataInterface,
-    ComingsUpList,
-    ComingsUpListItem
-} from '@screens/account/ProfileScreen/ProfileScreen.props';
+import { SectionList } from '@components/general/SectionList/SectionList';
 
 export const ProfileScreen = (): JSX.Element => {
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
@@ -36,136 +32,6 @@ export const ProfileScreen = (): JSX.Element => {
     const onMessagesPress = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.MessagesScreen);
     }, [navigateTo]);
-
-    const DATA: Array<ComingsUpDataInterface> = [
-        {
-            title: 'Today',
-            data: [
-                {
-                    list: [
-                        {
-                            id: 1,
-                            name: 'Radek',
-                            username: '@radek',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        },
-                        {
-                            id: 2,
-                            name: 'Tom',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        },
-                        {
-                            id: 3,
-                            name: 'Zuzka',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            title: 'Tomorrow',
-            data: [
-                {
-                    list: [
-                        {
-                            id: 4,
-                            name: 'Zuzka',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            title: '13. 1.',
-            data: [
-                {
-                    list: [
-                        {
-                            id: 5,
-                            name: 'Dominika + Tom + Radek',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1',
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1',
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        },
-                        {
-                            id: 6,
-                            name: 'Tom',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    ];
-
-    const SectionHeader = ({ title }: { title: string }): JSX.Element => (
-        <Text style={ProfileScreenStyle.sectionHeader}>{title}</Text>
-    );
-
-    const onItemPress = useCallback(
-        (item: ComingsUpListItem) => {
-            navigateTo(AccountStackNavigatorEnum.EventScreen, { item });
-        },
-        [navigateTo]
-    );
-
-    const Item = ({ data }: { data: ComingsUpList }) => (
-        <View style={ProfileScreenStyle.itemContainer}>
-            {data.list.map((value: ComingsUpListItem) => (
-                <TouchableOpacity
-                    key={value.id}
-                    onPress={() => onItemPress(value)}
-                    style={ProfileScreenStyle.itemView}
-                >
-                    <View style={ProfileScreenStyle.itemRow}>
-                        <View>
-                            <Text style={ProfileScreenStyle.itemText}>
-                                {value.name}
-                            </Text>
-                            <Text style={ProfileScreenStyle.itemText}>
-                                {value.time}
-                            </Text>
-                        </View>
-                        <FastImage
-                            style={ProfileScreenStyle.itemImage}
-                            source={{ uri: value.profilePictures[0] }}
-                        />
-                    </View>
-                </TouchableOpacity>
-            ))}
-        </View>
-    );
 
     return (
         <SafeAreaView style={ProfileScreenStyle.safeArea}>
@@ -218,16 +84,7 @@ export const ProfileScreen = (): JSX.Element => {
                     <Text style={ProfileScreenStyle.comingsUpTitle}>
                         Comings up
                     </Text>
-                    <SectionList
-                        sections={DATA}
-                        renderSectionHeader={({ section: { title } }) => (
-                            <SectionHeader title={title} />
-                        )}
-                        renderItem={({ item }) => <Item data={item} />}
-                        keyExtractor={(item, index: number) =>
-                            item.list[0].profilePictures[0] + index
-                        }
-                    />
+                    <SectionList />
                 </View>
             </View>
         </SafeAreaView>
