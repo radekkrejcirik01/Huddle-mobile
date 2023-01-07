@@ -8,13 +8,6 @@ export const PeopleScreenStyle = StyleSheet.create({
     container: {
         paddingHorizontal: 5
     },
-    title: {
-        paddingTop: 10,
-        fontSize: 26,
-        color: COLORS.WHITE,
-        alignSelf: 'center',
-        fontWeight: 'bold'
-    },
     inputView: {
         height: 40,
         marginTop: 15,

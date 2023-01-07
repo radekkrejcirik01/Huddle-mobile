@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { Alert, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { useNavigation } from '@react-navigation/native';
-import { PersonAccountStyle } from '@screens/account/PersonAccountScreen/PersonAccount.style';
-import { PersonAccountProps } from '@screens/account/PersonAccountScreen/PersonAccount.props';
+import { PersonAccountScreenStyle } from '@screens/account/PersonAccountScreen/PersonAccountScreen.style';
+import { PersonAccountScreenProps } from '@screens/account/PersonAccountScreen/PersonAccountScreen.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const PersonAccountScreen = ({
     route
-}: PersonAccountProps): JSX.Element => {
+}: PersonAccountScreenProps): JSX.Element => {
     const { name, username, profilePicture } = route.params;
     const navigation = useNavigation();
 
@@ -21,19 +21,21 @@ export const PersonAccountScreen = ({
     };
 
     return (
-        <View style={PersonAccountStyle.container}>
+        <View style={PersonAccountScreenStyle.container}>
             <View>
                 <FastImage
                     source={{ uri: profilePicture }}
-                    style={PersonAccountStyle.image}
+                    style={PersonAccountScreenStyle.image}
                 />
-                <Text style={PersonAccountStyle.name}>{name}</Text>
+                <Text style={PersonAccountScreenStyle.name}>{name}</Text>
             </View>
             <TouchableOpacity
                 onPress={onRequest}
-                style={PersonAccountStyle.hangoutTouchableOpacity}
+                style={PersonAccountScreenStyle.hangoutTouchableOpacity}
             >
-                <Text style={PersonAccountStyle.hangoutText}>Send hangout</Text>
+                <Text style={PersonAccountScreenStyle.hangoutText}>
+                    Send hangout
+                </Text>
             </TouchableOpacity>
         </View>
     );

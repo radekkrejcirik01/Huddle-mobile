@@ -67,7 +67,6 @@ export const PeopleScreen = (): JSX.Element => {
     return (
         <SafeAreaView style={PeopleScreenStyle.safeArea}>
             <View style={PeopleScreenStyle.container}>
-                <Text style={PeopleScreenStyle.title}>PingMe</Text>
                 <Input
                     iconLeft={<Text>🔍</Text>}
                     placeholder="Search for a friend..."

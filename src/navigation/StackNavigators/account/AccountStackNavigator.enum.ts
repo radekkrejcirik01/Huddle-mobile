@@ -5,5 +5,6 @@ export enum AccountStackNavigatorEnum {
     HangoutsScreen = 'HangoutsScreen',
     NotificationsScreen = 'NotificationsScreen',
     MessagesScreen = 'MessagesScreen',
-    ChatScreen = 'ChatScreen'
+    ChatScreen = 'ChatScreen',
+    EventScreen = 'EventScreen'
 }

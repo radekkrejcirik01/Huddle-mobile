@@ -48,6 +48,7 @@ export const ProfileScreen = (): JSX.Element => {
                             name: 'Radek',
                             username: '@radek',
                             time: '12:25',
+                            place: 'Coffee shop at Krymska',
                             profilePictures: [
                                 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
                             ]
@@ -57,6 +58,7 @@ export const ProfileScreen = (): JSX.Element => {
                             name: 'Tom',
                             username: '@',
                             time: '12:25',
+                            place: 'Coffee shop at Krymska',
                             profilePictures: [
                                 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
                             ]
@@ -66,6 +68,7 @@ export const ProfileScreen = (): JSX.Element => {
                             name: 'Zuzka',
                             username: '@',
                             time: '12:25',
+                            place: 'Coffee shop at Krymska',
                             profilePictures: [
                                 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
                             ]
@@ -84,6 +87,7 @@ export const ProfileScreen = (): JSX.Element => {
                             name: 'Zuzka',
                             username: '@',
                             time: '12:25',
+                            place: 'Coffee shop at Krymska',
                             profilePictures: [
                                 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
                             ]
@@ -102,7 +106,10 @@ export const ProfileScreen = (): JSX.Element => {
                             name: 'Dominika + Tom + Radek',
                             username: '@',
                             time: '12:25',
+                            place: 'Coffee shop at Krymska',
                             profilePictures: [
+                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1',
+                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1',
                                 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
                             ]
                         },
@@ -111,6 +118,7 @@ export const ProfileScreen = (): JSX.Element => {
                             name: 'Tom',
                             username: '@',
                             time: '12:25',
+                            place: 'Coffee shop at Krymska',
                             profilePictures: [
                                 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
                             ]
@@ -125,10 +133,21 @@ export const ProfileScreen = (): JSX.Element => {
         <Text style={ProfileScreenStyle.sectionHeader}>{title}</Text>
     );
 
+    const onItemPress = useCallback(
+        (item: ComingsUpListItem) => {
+            navigateTo(AccountStackNavigatorEnum.EventScreen, { item });
+        },
+        [navigateTo]
+    );
+
     const Item = ({ data }: { data: ComingsUpList }) => (
         <View style={ProfileScreenStyle.itemContainer}>
             {data.list.map((value: ComingsUpListItem) => (
-                <View key={value.id} style={ProfileScreenStyle.itemView}>
+                <TouchableOpacity
+                    key={value.id}
+                    onPress={() => onItemPress(value)}
+                    style={ProfileScreenStyle.itemView}
+                >
                     <View style={ProfileScreenStyle.itemRow}>
                         <View>
                             <Text style={ProfileScreenStyle.itemText}>
@@ -143,7 +162,7 @@ export const ProfileScreen = (): JSX.Element => {
                             source={{ uri: value.profilePictures[0] }}
                         />
                     </View>
-                </View>
+                </TouchableOpacity>
             ))}
         </View>
     );

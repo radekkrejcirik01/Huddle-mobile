@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const PersonAccountStyle = StyleSheet.create({
+export const PersonAccountScreenStyle = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 50,

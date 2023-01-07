@@ -12,5 +12,6 @@ export interface ComingsUpListItem {
     name: string;
     username: string;
     time: string;
+    place: string;
     profilePictures: Array<string>;
 }

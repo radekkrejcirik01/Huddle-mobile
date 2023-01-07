@@ -10,12 +10,14 @@ import { MessagesScreen } from '@screens/account/MessagesScreen/MessagesScreen';
 import { ChatScreen } from '@screens/account/ChatScreen/ChatScreen';
 import {
     ChatTitle,
+    EventTitle,
     HangoutsTitle,
     MessagesTitle,
     NotificationsTitle,
     PeopleTitle,
     SettingsTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
+import { EventScreen } from '@screens/account/EventScreen/EventScreen';
 
 const Account = createStackNavigator<ParamListBase>();
 
@@ -55,6 +57,11 @@ export const AccountStackNavigator = (): JSX.Element => (
             name={AccountStackNavigatorEnum.ChatScreen}
             component={ChatScreen}
             options={{ ...NavigationScreenHeader, ...ChatTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.EventScreen}
+            component={EventScreen}
+            options={{ ...NavigationScreenHeader, ...EventTitle }}
         />
     </Account.Navigator>
 );

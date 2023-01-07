@@ -23,3 +23,7 @@ export const MessagesTitle: StackNavigationOptions = {
 export const ChatTitle: StackNavigationOptions = {
     headerTitle: 'Chat'
 };
+
+export const EventTitle: StackNavigationOptions = {
+    headerTitle: 'Details'
+};
