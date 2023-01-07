@@ -17,6 +17,7 @@
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/stack": "^6.2.1",
     "@reduxjs/toolkit": "^1.8.1",
+    "@shopify/flash-list": "^1.4.0",
     "@types/prop-types": "^15.7.5",
     "amazon-cognito-identity-js": "^6.1.2",
     "axios": "^0.26.0",

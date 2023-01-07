@@ -1,8 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomTabNavigatorEnum } from '@navigation/BottomTabNavigator/BottomTabNavigator.enum';
-import { ProfileScreen } from '@screens/profile/ProfileScreen/ProfileScreen';
-import { PeopleScreen } from '@screens/people/PeopleScreen/PeopleScreen';
+import { ProfileScreen } from '@screens/account/ProfileScreen/ProfileScreen';
+import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
 import {
     BottomTabNavigatorOptions,
     PeopleTabOptions,

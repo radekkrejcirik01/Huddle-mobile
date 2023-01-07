@@ -1,9 +1,9 @@
 import { useCallback, useEffect } from 'react';
 import { useNavigation as useNavigationModule } from '@react-navigation/native';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { ProfileStackNavigatorEnum } from '@navigation/StackNavigators/profile/ProfileStackNavigator.enum';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
-type ScreenProp = RootStackNavigatorEnum | ProfileStackNavigatorEnum;
+type ScreenProp = RootStackNavigatorEnum | AccountStackNavigatorEnum;
 
 export const useNavigation = (
     stack?: RootStackNavigatorEnum,
