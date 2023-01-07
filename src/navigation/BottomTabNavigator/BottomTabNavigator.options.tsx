@@ -12,12 +12,12 @@ export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
 export const PeopleTabOptions: BottomTabNavigationOptions = {
     tabBarLabel: 'People',
     tabBarIcon: ({ focused }) => (
-        <Text style={{ fontSize: focused ? 26 : 24 }}>💬</Text>
+        <Text style={{ fontSize: focused ? 26 : 24 }}>🔍</Text>
     )
 };
 
 export const ProfileTabOptions: BottomTabNavigationOptions = {
-    tabBarLabel: 'Profile',
+    tabBarLabel: 'Me',
     tabBarIcon: ({ focused }) => (
         <Text style={{ fontSize: focused ? 25 : 20 }}>‍🙎‍♂️</Text>
     )

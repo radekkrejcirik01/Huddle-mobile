@@ -8,26 +8,12 @@ export const PeopleScreenStyle = StyleSheet.create({
     container: {
         paddingHorizontal: 5
     },
-    header: {
-        paddingRight: 5,
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
     title: {
         paddingTop: 10,
-        paddingLeft: 5,
         fontSize: 26,
         color: COLORS.WHITE,
+        alignSelf: 'center',
         fontWeight: 'bold'
-    },
-    iconContainer: {
-        marginTop: 5,
-        paddingRight: 5,
-        flexDirection: 'row'
-    },
-    bellIcon: {
-        marginRight: 20
     },
     scrollView: {
         marginTop: 10

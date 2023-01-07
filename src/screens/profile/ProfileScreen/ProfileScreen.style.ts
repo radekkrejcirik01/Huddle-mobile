@@ -6,26 +6,57 @@ export const ProfileScreenStyle = StyleSheet.create({
         flex: 1
     },
     container: {
+        paddingTop: 5,
         paddingHorizontal: 10
     },
+    header: {
+        paddingRight: 5,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    headerInnerContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    numbersContainer: {
+        marginLeft: 15,
+        flexDirection: 'row'
+    },
+    number: {
+        fontSize: 14,
+        color: COLORS.LIGHTGRAY,
+        alignSelf: 'center',
+        fontWeight: '600'
+    },
     title: {
-        paddingTop: 10,
-        fontSize: 26,
+        fontSize: 14,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
-    image: {
-        width: 125,
-        height: 125,
-        marginTop: 20,
-        borderRadius: 20,
-        alignSelf: 'center'
+    hangoutsContainer: {
+        marginLeft: 10
     },
-    name: {
-        marginTop: 20,
-        fontSize: 18,
+    iconContainer: {
+        marginTop: 5,
+        paddingRight: 5,
+        flexDirection: 'row'
+    },
+    bellIcon: {
+        marginRight: 20
+    },
+    image: {
+        width: 50,
+        height: 50,
+        borderRadius: 20
+    },
+    comingsUpContainer: {
+        flex: 1,
+        paddingTop: 20
+    },
+    comingsUpTitle: {
+        fontSize: 15,
         color: COLORS.WHITE,
-        alignSelf: 'center',
-        fontWeight: '500'
+        fontWeight: 'bold'
     }
 });

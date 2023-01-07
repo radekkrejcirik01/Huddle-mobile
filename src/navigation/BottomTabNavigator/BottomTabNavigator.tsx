@@ -13,7 +13,10 @@ export const BottomTabNavigator = (): JSX.Element => {
     const TabBar = createBottomTabNavigator();
 
     return (
-        <TabBar.Navigator screenOptions={BottomTabNavigatorOptions}>
+        <TabBar.Navigator
+            initialRouteName={BottomTabNavigatorEnum.ProfileTab}
+            screenOptions={BottomTabNavigatorOptions}
+        >
             <TabBar.Screen
                 name={BottomTabNavigatorEnum.PeopleTab}
                 component={PeopleScreen}
