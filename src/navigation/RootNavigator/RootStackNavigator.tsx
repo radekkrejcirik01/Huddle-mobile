@@ -7,7 +7,7 @@ import {
 } from '@navigation/RootNavigator/RootStackNavigator.options';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { BottomTabNavigator } from '@navigation/BottomTabNavigator/BottomTabNavigator';
-import { MessagesStackNavigator } from '@navigation/StackNavigators/messages/MessagesStackNavigator';
+import { ProfileStackNavigator } from '@navigation/StackNavigators/profile/ProfileStackNavigator';
 import { LoginStackNavigator } from '@navigation/StackNavigators/login/LoginStackNavigator';
 
 const Root = createStackNavigator<ParamListBase>();
@@ -26,7 +26,7 @@ export const RootStackNavigator = (): JSX.Element => {
                     />
                     <Root.Screen
                         name={RootStackNavigatorEnum.MessagesStack}
-                        component={MessagesStackNavigator}
+                        component={ProfileStackNavigator}
                         options={NoHeader}
                     />
                 </Root.Group>

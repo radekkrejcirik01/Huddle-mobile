@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Alert, SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { PeopleScreenStyle } from '@screens/people/PeopleScreen/PeopleScreen.style';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import COLORS from '@constants/COLORS';
-import { IconEnum } from '@components/icon/Icon.enum';
-import { IconButton } from '@components/general/IconButton/IconButton';
 
 export const PeopleScreen = (): JSX.Element => {
     const [inputValue, setInputValue] = useState<string>();
@@ -17,22 +15,7 @@ export const PeopleScreen = (): JSX.Element => {
     return (
         <SafeAreaView style={PeopleScreenStyle.safeArea}>
             <View style={PeopleScreenStyle.container}>
-                <View style={PeopleScreenStyle.header}>
-                    <Text style={PeopleScreenStyle.title}>PingMe</Text>
-                    <View style={PeopleScreenStyle.iconContainer}>
-                        <IconButton
-                            icon={IconEnum.BELL}
-                            onPress={() => Alert.alert('notifications')}
-                            size={25}
-                            style={PeopleScreenStyle.bellIcon}
-                        />
-                        <IconButton
-                            icon={IconEnum.CHAT_FILLED}
-                            onPress={() => Alert.alert('messages')}
-                            size={26}
-                        />
-                    </View>
-                </View>
+                <Text style={PeopleScreenStyle.title}>PingMe</Text>
                 <ScrollView style={PeopleScreenStyle.scrollView}>
                     <Input
                         iconLeft={<Text>🔍</Text>}
