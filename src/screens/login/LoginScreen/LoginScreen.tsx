@@ -9,20 +9,18 @@ import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { LoginScreenStyle } from '@screens/login/LoginScreen/LoginScreen.style';
 import { LoginStackNavigatorEnum } from '@navigation/StackNavigators/login/LoginStackNavigator.enum';
-import { useDispatch } from 'react-redux';
-import { setUserToken } from '@store/UserReducer';
+import { useCognito } from '@hooks/useCognito';
 
 export const LoginScreen = (): JSX.Element => {
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
 
-    const dispatch = useDispatch();
-
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.LoginStack);
+    const { login } = useCognito();
 
     const loginPressed = useCallback(() => {
-        dispatch(setUserToken(username));
-    }, [dispatch, username]);
+        login(username, password);
+    }, [login, password, username]);
 
     const registerPressed = useCallback(() => {
         navigateTo(LoginStackNavigatorEnum.RegistrationScreen);

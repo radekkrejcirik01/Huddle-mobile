@@ -1,20 +1,19 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { StyleProp, Text, TextStyle, View } from 'react-native';
-import { useDispatch } from 'react-redux';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import { Icon } from '@components/icon/Icon';
 import { IconEnum } from '@components/icon/Icon.enum';
 import { RegistrationScreenStyle } from '@screens/login/RegistrationScreen/RegistrationScreen.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { setUserStateAction } from '@store/UserReducer';
+import { useCognito } from '@hooks/useCognito';
 
 export const RegistrationScreen = (): JSX.Element => {
     const [firstname, setFirstname] = useState<string>();
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
 
-    const dispatch = useDispatch();
+    const { register } = useCognito();
 
     const iconLeftStyle = useMemo(
         (): StyleProp<TextStyle> => [
@@ -25,8 +24,8 @@ export const RegistrationScreen = (): JSX.Element => {
     );
 
     const confirmPressed = useCallback(() => {
-        dispatch(setUserStateAction({ firstname, username }));
-    }, [dispatch, firstname, username]);
+        register(firstname, username, password);
+    }, [firstname, password, register, username]);
 
     return (
         <View style={RegistrationScreenStyle.container}>
