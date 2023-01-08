@@ -8,6 +8,11 @@ import {
 } from 'amazon-cognito-identity-js';
 import { useDispatch } from 'react-redux';
 import { setUserStateAction } from '@store/UserReducer';
+import { postRequest } from '@utils/Axios/Axios.service';
+import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
+import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
+import { ResponseInterface } from '@interfaces/response/Response.interface';
+import { UserPostInterface } from '@interfaces/post/Post.inteface';
 
 export const useCognito = (): {
     register: (firstname: string, username: string, password: string) => void;
@@ -57,9 +62,22 @@ export const useCognito = (): {
                             );
                     }
                 } else {
-                    return dispatch(
-                        setUserStateAction({ firstname, username })
-                    );
+                    return postRequest<ResponseInterface, UserPostInterface>(
+                        'https://yco94z0aqg.execute-api.eu-central-1.amazonaws.com/PingMeUser/create',
+                        { username, firstname }
+                    ).subscribe((response: ResponseInterface) => {
+                        if (response?.status) {
+                            dispatch(
+                                setUserStateAction({ firstname, username })
+                            );
+                            PersistStorage.setItem(
+                                PersistStorageKeys.TOKEN,
+                                username
+                            ).catch();
+                        } else {
+                            Alert.alert('Oop, sorry, something went wrong');
+                        }
+                    });
                 }
             });
         },
@@ -86,6 +104,10 @@ export const useCognito = (): {
                 onSuccess: (res: CognitoUserSession) => {
                     if (res) {
                         dispatch(setUserStateAction({ username }));
+                        PersistStorage.setItem(
+                            PersistStorageKeys.TOKEN,
+                            username
+                        ).catch();
                     }
                 },
                 onFailure: (err) => {

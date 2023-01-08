@@ -4,6 +4,8 @@ import { ListItem } from '@components/general/ListItem/ListItem';
 import { ProfileScreenStyle } from '@screens/account/PrfofileScreen/ProfileScreen.style';
 import { useDispatch } from 'react-redux';
 import { resetUserState } from '@store/UserReducer';
+import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
+import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 
 export const ProfileScreen = (): JSX.Element => {
     const [switchNotificationsValue, setSwitchNotificationsValue] =
@@ -26,6 +28,7 @@ export const ProfileScreen = (): JSX.Element => {
 
     const logOut = useCallback(() => {
         dispatch(resetUserState());
+        PersistStorage.setItem(PersistStorageKeys.TOKEN, '').catch();
     }, [dispatch]);
 
     return (

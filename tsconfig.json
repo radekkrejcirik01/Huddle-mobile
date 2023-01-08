@@ -24,7 +24,7 @@
       "@screens/*": ["./src/screens/*"],
       "@services/*": ["./src/services/*"],
       "@shared/*": ["./src/shared/*"],
-      "@models/*": ["./src/models/*"],
+      "@interfaces/*": ["./src/interfaces/*"],
       "@types/*": ["./src/types/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@helpers/*": ["./src/helpers/*"],
