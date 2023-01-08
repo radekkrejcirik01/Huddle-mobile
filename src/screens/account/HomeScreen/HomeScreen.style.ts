@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const ProfileScreenStyle = StyleSheet.create({
+export const HomeScreenStyle = StyleSheet.create({
     safeArea: {
         flex: 1
     },

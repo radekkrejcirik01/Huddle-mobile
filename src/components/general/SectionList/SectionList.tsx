@@ -5,7 +5,7 @@ import {
     ComingsUpDataInterface,
     ComingsUpList,
     ComingsUpListItem
-} from '@screens/account/ProfileScreen/ProfileScreen.props';
+} from '@screens/account/HomeScreen/HomeScreen.props';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { useNavigation } from '@hooks/useNavigation';

@@ -22,9 +22,9 @@ export const PeopleTabOptions: BottomTabNavigationOptions = {
     )
 };
 
-export const ProfileTabOptions: BottomTabNavigationOptions = {
-    tabBarLabel: 'Me',
+export const HomeTabOptions: BottomTabNavigationOptions = {
+    tabBarLabel: 'Home',
     tabBarIcon: ({ focused }) => (
-        <Text style={{ fontSize: focused ? 25 : 20 }}>‍🙎‍♂️</Text>
+        <Text style={{ fontSize: focused ? 25 : 20 }}>🏠‍️</Text>
     )
 };

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { ProfileScreenStyle } from '@screens/account/ProfileScreen/ProfileScreen.style';
+import { HomeScreenStyle } from '@screens/account/HomeScreen/HomeScreen.style';
 import { IconButton } from '@components/general/IconButton/IconButton';
 import { IconEnum } from '@components/icon/Icon.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
@@ -10,7 +10,7 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { SectionList } from '@components/general/SectionList/SectionList';
 
-export const ProfileScreen = (): JSX.Element => {
+export const HomeScreen = (): JSX.Element => {
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const onProfileSettingsPress = useCallback(() => {
@@ -34,43 +34,39 @@ export const ProfileScreen = (): JSX.Element => {
     }, [navigateTo]);
 
     return (
-        <SafeAreaView style={ProfileScreenStyle.safeArea}>
-            <View style={ProfileScreenStyle.container}>
-                <View style={ProfileScreenStyle.header}>
+        <SafeAreaView style={HomeScreenStyle.safeArea}>
+            <View style={HomeScreenStyle.container}>
+                <View style={HomeScreenStyle.header}>
                     <TouchableOpacity onPress={onProfileSettingsPress}>
                         <FastImage
                             source={require('@assets/images/profilovka.png')}
-                            style={ProfileScreenStyle.image}
+                            style={HomeScreenStyle.image}
                         />
                     </TouchableOpacity>
-                    <View style={ProfileScreenStyle.headerInnerContainer}>
-                        <View style={ProfileScreenStyle.numbersContainer}>
+                    <View style={HomeScreenStyle.headerInnerContainer}>
+                        <View style={HomeScreenStyle.numbersContainer}>
                             <TouchableOpacity onPress={onPeoplePress}>
-                                <Text style={ProfileScreenStyle.number}>
-                                    12
-                                </Text>
-                                <Text style={ProfileScreenStyle.title}>
+                                <Text style={HomeScreenStyle.number}>12</Text>
+                                <Text style={HomeScreenStyle.title}>
                                     People
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={onHangoutsPress}
-                                style={ProfileScreenStyle.hangoutsContainer}
+                                style={HomeScreenStyle.hangoutsContainer}
                             >
-                                <Text style={ProfileScreenStyle.number}>
-                                    32
-                                </Text>
-                                <Text style={ProfileScreenStyle.title}>
+                                <Text style={HomeScreenStyle.number}>32</Text>
+                                <Text style={HomeScreenStyle.title}>
                                     Hangouts
                                 </Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={ProfileScreenStyle.iconContainer}>
+                        <View style={HomeScreenStyle.iconContainer}>
                             <IconButton
                                 icon={IconEnum.BELL}
                                 onPress={onNotificationsPress}
                                 size={25}
-                                style={ProfileScreenStyle.bellIcon}
+                                style={HomeScreenStyle.bellIcon}
                             />
                             <IconButton
                                 icon={IconEnum.CHAT_FILLED}
@@ -80,8 +76,8 @@ export const ProfileScreen = (): JSX.Element => {
                         </View>
                     </View>
                 </View>
-                <View style={ProfileScreenStyle.comingsUpContainer}>
-                    <Text style={ProfileScreenStyle.comingsUpTitle}>
+                <View style={HomeScreenStyle.comingsUpContainer}>
+                    <Text style={HomeScreenStyle.comingsUpTitle}>
                         Comings up
                     </Text>
                     <SectionList />

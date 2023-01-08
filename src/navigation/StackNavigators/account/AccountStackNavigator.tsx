@@ -3,6 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
 import { NavigationScreenHeader } from '@navigation/StackNavigators/StackNavigator.options';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { EventScreen } from '@screens/account/EventScreen/EventScreen';
+import { HangoutScreen } from '@screens/account/HangoutScreen/HangoutScreen';
+import { ProfileScreen } from '@screens/account/PrfofileScreen/ProfileScreen';
 import { NotificationsScreen } from '@screens/account/NotificationsScreen/NotificationsScreen';
 import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
 import { PersonAccountScreen } from '@screens/account/PersonAccountScreen/PersonAccountScreen';
@@ -15,19 +18,17 @@ import {
     MessagesTitle,
     NotificationsTitle,
     PeopleTitle,
-    SettingsTitle
+    ProfileTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
-import { EventScreen } from '@screens/account/EventScreen/EventScreen';
-import { HangoutScreen } from '@screens/account/HangoutScreen/HangoutScreen';
 
 const Account = createStackNavigator<ParamListBase>();
 
 export const AccountStackNavigator = (): JSX.Element => (
     <Account.Navigator>
         <Account.Screen
-            name={AccountStackNavigatorEnum.SettingsScreen}
-            component={NotificationsScreen}
-            options={{ ...NavigationScreenHeader, ...SettingsTitle }}
+            name={AccountStackNavigatorEnum.ProfileScreen}
+            component={ProfileScreen}
+            options={{ ...NavigationScreenHeader, ...ProfileTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.PeopleScreen}

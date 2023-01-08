@@ -1,7 +1,7 @@
 import { StackNavigationOptions } from '@react-navigation/stack';
 
-export const SettingsTitle: StackNavigationOptions = {
-    headerTitle: 'Settings'
+export const ProfileTitle: StackNavigationOptions = {
+    headerTitle: 'Profile'
 };
 
 export const PeopleTitle: StackNavigationOptions = {
