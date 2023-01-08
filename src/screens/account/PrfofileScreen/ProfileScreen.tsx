@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Alert, View } from 'react-native';
 import { ListItem } from '@components/general/ListItem/ListItem';
 import { ProfileScreenStyle } from '@screens/account/PrfofileScreen/ProfileScreen.style';
+import { useDispatch } from 'react-redux';
+import { resetUserState } from '@store/UserReducer';
 
 export const ProfileScreen = (): JSX.Element => {
     const [switchNotificationsValue, setSwitchNotificationsValue] =
         useState<boolean>(false);
+
+    const dispatch = useDispatch();
+
     const openAccountScreen = () => {
         Alert.alert('open');
     };
@@ -19,7 +24,9 @@ export const ProfileScreen = (): JSX.Element => {
 
     const openPrivacyPolicyScreen = () => {};
 
-    const logOut = () => {};
+    const logOut = useCallback(() => {
+        dispatch(resetUserState());
+    }, [dispatch]);
 
     return (
         <View>

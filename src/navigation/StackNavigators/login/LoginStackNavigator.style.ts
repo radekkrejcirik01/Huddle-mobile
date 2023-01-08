@@ -7,7 +7,7 @@ export const LoginStackNavigatorStyle = StyleSheet.create({
         backgroundColor: COLORS.TRANSPARENT
     },
     headerTitle: {
-        height: 100
+        color: COLORS.WHITE
     },
     headerLeft: {
         paddingLeft: 20

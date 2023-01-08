@@ -2,8 +2,12 @@ import { useCallback, useEffect } from 'react';
 import { useNavigation as useNavigationModule } from '@react-navigation/native';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { LoginStackNavigatorEnum } from '@navigation/StackNavigators/login/LoginStackNavigator.enum';
 
-type ScreenProp = RootStackNavigatorEnum | AccountStackNavigatorEnum;
+type ScreenProp =
+    | RootStackNavigatorEnum
+    | AccountStackNavigatorEnum
+    | LoginStackNavigatorEnum;
 
 export const useNavigation = (
     stack?: RootStackNavigatorEnum,

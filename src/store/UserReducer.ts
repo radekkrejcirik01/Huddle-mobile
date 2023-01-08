@@ -4,7 +4,7 @@ import { User } from '@store/index/index.props';
 const initialState: User = {
     token: null,
     firstname: null,
-    email: null
+    username: null
 };
 
 export const UserReducer = createSlice({
@@ -17,11 +17,11 @@ export const UserReducer = createSlice({
         setFirstnameAction: (state, action) => {
             state.firstname = action.payload;
         },
-        setEmailAction: (state, action) => {
-            state.email = action.payload;
+        setUsernameAction: (state, action) => {
+            state.username = action.payload;
         },
         setUserStateAction: (state, action) => {
-            action.payload.token = action.payload.email;
+            action.payload.token = action.payload.username;
             return action.payload;
         },
         resetUserState: () => initialState
@@ -31,7 +31,7 @@ export const UserReducer = createSlice({
 export const {
     setUserToken,
     setFirstnameAction,
-    setEmailAction,
+    setUsernameAction,
     setUserStateAction,
     resetUserState
 } = UserReducer.actions;

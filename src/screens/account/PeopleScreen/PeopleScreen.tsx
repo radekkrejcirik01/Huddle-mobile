@@ -77,7 +77,6 @@ export const PeopleScreen = (): JSX.Element => {
                     viewStyle={PeopleScreenStyle.inputView}
                     inputStyle={PeopleScreenStyle.input}
                     selectionColor={COLORS.MAIN_BLUE}
-                    placeholderTextColor={COLORS.GRAY_800}
                 />
                 <View style={PeopleScreenStyle.flashListView}>
                     <FlashList

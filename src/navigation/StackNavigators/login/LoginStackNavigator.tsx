@@ -5,25 +5,28 @@ import { LoginStackNavigatorEnum } from '@navigation/StackNavigators/login/Login
 import { LoginScreen } from '@screens/login/LoginScreen/LoginScreen';
 import { RegistrationScreen } from '@screens/login/RegistrationScreen/RegistrationScreen';
 import {
-    ForFade,
     ForNoAnimation,
-    LoginScreenOptions
+    RegistrationScreenOptions
 } from '@navigation/StackNavigators/login/LoginStackNavigator.options';
+import {
+    NavigatorScreenOptions,
+    NoHeader
+} from '@navigation/RootNavigator/RootStackNavigator.options';
 
 const Login = createStackNavigator<ParamListBase>();
 
 export const LoginStackNavigator = (): JSX.Element => (
-    <Login.Navigator>
+    <Login.Navigator screenOptions={NavigatorScreenOptions}>
         <Login.Screen
             name={LoginStackNavigatorEnum.LoginScreen}
             component={LoginScreen}
-            options={{ ...LoginScreenOptions, ...ForFade }}
+            options={NoHeader}
         />
         <Login.Screen
             name={LoginStackNavigatorEnum.RegistrationScreen}
             component={RegistrationScreen}
             options={{
-                ...LoginScreenOptions,
+                ...RegistrationScreenOptions,
                 ...ForNoAnimation
             }}
         />

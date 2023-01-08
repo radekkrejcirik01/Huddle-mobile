@@ -5,5 +5,5 @@ export interface ReducerProps {
 export interface User {
     token: string;
     firstname: string;
-    email: string;
+    username: string;
 }

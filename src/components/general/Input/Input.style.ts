@@ -4,10 +4,9 @@ import COLORS from '@constants/COLORS';
 export const InputStyle = StyleSheet.create({
     container: {
         paddingHorizontal: 15,
-        borderRadius: 30,
+        borderRadius: 10,
         height: 45,
-        borderWidth: 2,
-        borderColor: COLORS.WHITE,
+        backgroundColor: COLORS.GRAY_100,
         flexDirection: 'row'
     },
     centerItems: {
@@ -17,6 +16,6 @@ export const InputStyle = StyleSheet.create({
         flex: 1,
         fontSize: 16,
         color: COLORS.WHITE,
-        fontWeight: 'bold'
+        fontWeight: '600'
     }
 });

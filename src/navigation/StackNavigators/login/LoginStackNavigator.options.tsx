@@ -4,20 +4,14 @@ import {
     StackNavigationOptions
 } from '@react-navigation/stack';
 import { LoginStackNavigatorStyle } from '@navigation/StackNavigators/login/LoginStackNavigator.style';
+import { HeaderLeft } from '@components/general/HeaderLeft/HeaderLeft';
 
-export const LoginScreenOptions: StackNavigationOptions = {
-    headerTitle: '',
-    // headerLeft: () => <HeaderLeft />,
-    headerStyle: {
-        ...LoginStackNavigatorStyle.header
-    },
-    headerLeftContainerStyle: {
-        ...LoginStackNavigatorStyle.headerLeft
-    }
-};
-
-export const ForFade: StackNavigationOptions = {
-    headerStyleInterpolator: HeaderStyleInterpolators.forFade
+export const RegistrationScreenOptions: StackNavigationOptions = {
+    headerTitle: 'New account',
+    headerLeft: () => <HeaderLeft />,
+    headerStyle: LoginStackNavigatorStyle.header,
+    headerTitleStyle: LoginStackNavigatorStyle.headerTitle,
+    headerLeftContainerStyle: LoginStackNavigatorStyle.headerLeft
 };
 
 export const ForNoAnimation: StackNavigationOptions = {

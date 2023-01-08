@@ -21,6 +21,6 @@ export const InputDefaultProps: Omit<InputProps, 'onChange' | 'inputType'> = {
     viewStyle: {},
     inputStyle: {},
     selectionColor: COLORS.WHITE,
-    placeholderTextColor: COLORS.WHITE,
+    placeholderTextColor: COLORS.GRAY_800,
     iconRight: undefined
 };
