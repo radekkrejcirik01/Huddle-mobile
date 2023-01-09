@@ -15,7 +15,7 @@ module.exports = {
                     '@screens': './src/screens',
                     '@services': './src/services',
                     '@shared': './src/interfaces',
-                    '@models': './src/models',
+                    '@interfaces': './src/interfaces',
                     '@types': './src/types',
                     '@hooks': './src/hooks',
                     '@helpers': './src/helpers',

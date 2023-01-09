@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { BottomTabNavigatorStyle } from '@navigation/BottomTabNavigator/BottomTabNavigator.style';
+import { HeaderPlus } from '@components/general/HeaderPlus/HeaderPlus';
 
 export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
     headerShown: false,
@@ -10,15 +11,26 @@ export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
 };
 
 export const PeopleTabOptions: BottomTabNavigationOptions = {
+    header: () => (
+        <SafeAreaView>
+            <View style={BottomTabNavigatorStyle.peopleHeaderView}>
+                <Text style={BottomTabNavigatorStyle.peopleHeaderContent}>
+                    People
+                </Text>
+                <HeaderPlus />
+            </View>
+        </SafeAreaView>
+    ),
+    headerShown: true,
     tabBarLabel: 'People',
     tabBarIcon: ({ focused }) => (
         <Text style={{ fontSize: focused ? 26 : 24 }}>🔍</Text>
     )
 };
 
-export const ProfileTabOptions: BottomTabNavigationOptions = {
-    tabBarLabel: 'Me',
+export const HomeTabOptions: BottomTabNavigationOptions = {
+    tabBarLabel: 'Home',
     tabBarIcon: ({ focused }) => (
-        <Text style={{ fontSize: focused ? 25 : 20 }}>‍🙎‍♂️</Text>
+        <Text style={{ fontSize: focused ? 25 : 20 }}>🏠‍️</Text>
     )
 };

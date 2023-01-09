@@ -1,19 +1,21 @@
 import React from 'react';
 import { ParamListBase } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useSelector } from 'react-redux';
 import {
     NavigatorScreenOptions,
     NoHeader
 } from '@navigation/RootNavigator/RootStackNavigator.options';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { BottomTabNavigator } from '@navigation/BottomTabNavigator/BottomTabNavigator';
-import { ProfileStackNavigator } from '@navigation/StackNavigators/profile/ProfileStackNavigator';
+import { AccountStackNavigator } from '@navigation/StackNavigators/account/AccountStackNavigator';
 import { LoginStackNavigator } from '@navigation/StackNavigators/login/LoginStackNavigator';
+import { ReducerProps } from '@store/index/index.props';
 
 const Root = createStackNavigator<ParamListBase>();
 
 export const RootStackNavigator = (): JSX.Element => {
-    const token = true;
+    const { token } = useSelector((state: ReducerProps) => state.user);
 
     if (token) {
         return (
@@ -25,8 +27,8 @@ export const RootStackNavigator = (): JSX.Element => {
                         options={NoHeader}
                     />
                     <Root.Screen
-                        name={RootStackNavigatorEnum.MessagesStack}
-                        component={ProfileStackNavigator}
+                        name={RootStackNavigatorEnum.AccountStack}
+                        component={AccountStackNavigator}
                         options={NoHeader}
                     />
                 </Root.Group>
@@ -34,14 +36,12 @@ export const RootStackNavigator = (): JSX.Element => {
         );
     }
     return (
-        <Root.Navigator screenOptions={NavigatorScreenOptions}>
-            <Root.Group>
-                <Root.Screen
-                    name={RootStackNavigatorEnum.RegistrationStack}
-                    component={LoginStackNavigator}
-                    options={NoHeader}
-                />
-            </Root.Group>
+        <Root.Navigator>
+            <Root.Screen
+                name={RootStackNavigatorEnum.LoginStack}
+                component={LoginStackNavigator}
+                options={NoHeader}
+            />
         </Root.Navigator>
     );
 };

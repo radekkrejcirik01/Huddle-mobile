@@ -4,6 +4,11 @@ export interface ReducerProps {
 
 export interface User {
     token: string;
-    firstname: string;
-    email: string;
+    user: {
+        firstname: string;
+        username: string;
+        profilePicture: string;
+    };
+    people: number;
+    hangouts: number;
 }
