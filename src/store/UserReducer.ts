@@ -3,8 +3,13 @@ import { User } from '@store/index/index.props';
 
 const initialState: User = {
     token: null,
-    firstname: null,
-    username: null
+    user: {
+        firstname: null,
+        username: null,
+        profilePicture: null
+    },
+    people: null,
+    hangouts: null
 };
 
 export const UserReducer = createSlice({
@@ -15,13 +20,22 @@ export const UserReducer = createSlice({
             state.token = action.payload;
         },
         setFirstnameAction: (state, action) => {
-            state.firstname = action.payload;
+            state.user.firstname = action.payload;
         },
         setUsernameAction: (state, action) => {
-            state.username = action.payload;
+            state.user.username = action.payload;
+        },
+        setProfilePictureAction: (state, action) => {
+            state.user.profilePicture = action.payload;
+        },
+        setPeopleAction: (state, action) => {
+            state.people = action.payload;
+        },
+        setHangoutsAction: (state, action) => {
+            state.hangouts = action.payload;
         },
         setUserStateAction: (state, action) => {
-            action.payload.token = action.payload.username;
+            action.payload.token = action.payload.user.username;
             return action.payload;
         },
         resetUserState: () => initialState

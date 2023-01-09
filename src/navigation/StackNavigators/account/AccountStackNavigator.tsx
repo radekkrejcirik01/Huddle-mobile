@@ -5,7 +5,7 @@ import { NavigationScreenHeader } from '@navigation/StackNavigators/StackNavigat
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { EventScreen } from '@screens/account/EventScreen/EventScreen';
 import { HangoutScreen } from '@screens/account/HangoutScreen/HangoutScreen';
-import { ProfileScreen } from '@screens/account/PrfofileScreen/ProfileScreen';
+import { ProfileScreen } from '@screens/account/ProfileScreen/ProfileScreen';
 import { NotificationsScreen } from '@screens/account/NotificationsScreen/NotificationsScreen';
 import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
 import { PersonAccountScreen } from '@screens/account/PersonAccountScreen/PersonAccountScreen';
@@ -17,7 +17,7 @@ import {
     HangoutsTitle,
     MessagesTitle,
     NotificationsTitle,
-    PeopleTitle,
+    PeopleOptions,
     ProfileTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
 
@@ -33,7 +33,7 @@ export const AccountStackNavigator = (): JSX.Element => (
         <Account.Screen
             name={AccountStackNavigatorEnum.PeopleScreen}
             component={PeopleScreen}
-            options={{ ...NavigationScreenHeader, ...PeopleTitle }}
+            options={{ ...NavigationScreenHeader, ...PeopleOptions }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.PersonAccountScreen}

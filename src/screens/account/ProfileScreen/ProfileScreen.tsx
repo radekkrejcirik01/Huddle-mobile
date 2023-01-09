@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Alert, View } from 'react-native';
 import { ListItem } from '@components/general/ListItem/ListItem';
-import { ProfileScreenStyle } from '@screens/account/PrfofileScreen/ProfileScreen.style';
+import { ProfileScreenStyle } from '@screens/account/ProfileScreen/ProfileScreen.style';
 import { useDispatch } from 'react-redux';
 import { resetUserState } from '@store/UserReducer';
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';

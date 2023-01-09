@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import { HomeScreenStyle } from '@screens/account/HomeScreen/HomeScreen.style';
 import { IconButton } from '@components/general/IconButton/IconButton';
@@ -9,13 +10,21 @@ import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { SectionList } from '@components/general/SectionList/SectionList';
+import { ReducerProps } from '@store/index/index.props';
 
 export const HomeScreen = (): JSX.Element => {
+    const { people, hangouts } = useSelector(
+        (state: ReducerProps) => state.user
+    );
+
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const onProfileSettingsPress = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.SettingsScreen);
+        navigateTo(AccountStackNavigatorEnum.ProfileScreen);
     }, [navigateTo]);
+
+    const peopleNumber = useMemo((): number => people, [people]);
+    const hangoutsNumber = useMemo((): number => hangouts, [hangouts]);
 
     const onPeoplePress = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.PeopleScreen);
@@ -46,7 +55,9 @@ export const HomeScreen = (): JSX.Element => {
                     <View style={HomeScreenStyle.headerInnerContainer}>
                         <View style={HomeScreenStyle.numbersContainer}>
                             <TouchableOpacity onPress={onPeoplePress}>
-                                <Text style={HomeScreenStyle.number}>12</Text>
+                                <Text style={HomeScreenStyle.number}>
+                                    {peopleNumber}
+                                </Text>
                                 <Text style={HomeScreenStyle.title}>
                                     People
                                 </Text>
@@ -55,7 +66,9 @@ export const HomeScreen = (): JSX.Element => {
                                 onPress={onHangoutsPress}
                                 style={HomeScreenStyle.hangoutsContainer}
                             >
-                                <Text style={HomeScreenStyle.number}>32</Text>
+                                <Text style={HomeScreenStyle.number}>
+                                    {hangoutsNumber}
+                                </Text>
                                 <Text style={HomeScreenStyle.title}>
                                     Hangouts
                                 </Text>

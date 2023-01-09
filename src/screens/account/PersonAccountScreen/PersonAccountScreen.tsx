@@ -9,7 +9,7 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 export const PersonAccountScreen = ({
     route
 }: PersonAccountScreenProps): JSX.Element => {
-    const { name, username, profilePicture } = route.params;
+    const { firstname, username, profilePicture } = route.params;
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -27,7 +27,7 @@ export const PersonAccountScreen = ({
                     source={{ uri: profilePicture }}
                     style={PersonAccountScreenStyle.image}
                 />
-                <Text style={PersonAccountScreenStyle.name}>{name}</Text>
+                <Text style={PersonAccountScreenStyle.name}>{firstname}</Text>
             </View>
             <TouchableOpacity
                 onPress={onRequest}

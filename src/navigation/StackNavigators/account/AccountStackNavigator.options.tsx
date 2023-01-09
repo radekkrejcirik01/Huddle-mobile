@@ -1,11 +1,14 @@
+import React from 'react';
 import { StackNavigationOptions } from '@react-navigation/stack';
+import { HeaderPlus } from '@components/general/HeaderPlus/HeaderPlus';
 
 export const ProfileTitle: StackNavigationOptions = {
     headerTitle: 'Profile'
 };
 
-export const PeopleTitle: StackNavigationOptions = {
-    headerTitle: 'People'
+export const PeopleOptions: StackNavigationOptions = {
+    headerTitle: 'People',
+    headerRight: () => <HeaderPlus />
 };
 
 export const HangoutsTitle: StackNavigationOptions = {

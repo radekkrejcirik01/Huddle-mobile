@@ -1,5 +1,5 @@
 export interface PeopleListItemProps {
-    name: string;
+    firstname: string;
     username: string;
     profilePicture: string;
 }

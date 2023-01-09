@@ -17,8 +17,14 @@ export const BottomTabNavigatorStyle = StyleSheet.create({
     tabBarProfile: {
         backgroundColor: COLORS.BLACK
     },
-    peopleHeader: {
+    peopleHeaderView: {
         paddingTop: 10,
+        paddingLeft: 7,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    peopleHeaderContent: {
         fontSize: 26,
         color: COLORS.WHITE,
         alignSelf: 'center',

@@ -1,7 +1,8 @@
 import React from 'react';
-import { SafeAreaView, Text } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { BottomTabNavigatorStyle } from '@navigation/BottomTabNavigator/BottomTabNavigator.style';
+import { HeaderPlus } from '@components/general/HeaderPlus/HeaderPlus';
 
 export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
     headerShown: false,
@@ -12,7 +13,12 @@ export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
 export const PeopleTabOptions: BottomTabNavigationOptions = {
     header: () => (
         <SafeAreaView>
-            <Text style={BottomTabNavigatorStyle.peopleHeader}>PingMe</Text>
+            <View style={BottomTabNavigatorStyle.peopleHeaderView}>
+                <Text style={BottomTabNavigatorStyle.peopleHeaderContent}>
+                    People
+                </Text>
+                <HeaderPlus />
+            </View>
         </SafeAreaView>
     ),
     headerShown: true,

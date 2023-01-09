@@ -16,6 +16,7 @@ import Lock from '@assets/webp/Lock.webp';
 import LockPurple from '@assets/webp/LockPurple.webp';
 import Microphone from '@assets/webp/Microphone.webp';
 import Movie from '@assets/webp/Movie.webp';
+import Plus from '@assets/webp/Plus.webp';
 import Profile from '@assets/webp/Profile.webp';
 import Profile2 from '@assets/webp/Profile2.webp';
 import ProfileFilled from '@assets/webp/ProfileFilled.webp';
@@ -45,6 +46,7 @@ export enum IconEnum {
     LOCK_PURPLE = 'LockPurple',
     MICROPHONE = 'Microphone',
     MOVIE = 'Movie',
+    PLUS = 'PLUS',
     PROFILE = 'Profile',
     PROFILE2 = 'Profile2',
     PROFILE_FILLED = 'ProfileFilled',
@@ -75,6 +77,7 @@ export const ICONS = {
     [IconEnum.LOCK_PURPLE]: LockPurple,
     [IconEnum.MICROPHONE]: Microphone,
     [IconEnum.MOVIE]: Movie,
+    [IconEnum.PLUS]: Plus,
     [IconEnum.PROFILE]: Profile,
     [IconEnum.PROFILE2]: Profile2,
     [IconEnum.PROFILE_FILLED]: ProfileFilled,
