@@ -6,3 +6,8 @@ export interface UserPostInterface {
 export interface UserGetPostInterface {
     username: string;
 }
+
+export interface PeopleCreateInvitationPostInterface {
+    user: string;
+    username: string;
+}
