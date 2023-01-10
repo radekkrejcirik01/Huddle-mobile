@@ -1,17 +1,28 @@
 import React, { useCallback, useState } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import FastImage from 'react-native-fast-image';
 import { ListItem } from '@components/general/ListItem/ListItem';
 import { ProfileScreenStyle } from '@screens/account/ProfileScreen/ProfileScreen.style';
-import { useDispatch } from 'react-redux';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { resetUserState } from '@store/UserReducer';
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
+import { ReducerProps } from '@store/index/index.props';
 
 export const ProfileScreen = (): JSX.Element => {
+    const { firstname, username, profilePicture } = useSelector(
+        (state: ReducerProps) => state.user.user
+    );
+
     const [switchNotificationsValue, setSwitchNotificationsValue] =
         useState<boolean>(false);
 
     const dispatch = useDispatch();
+
+    const changeProfilePicture = useCallback(() => {
+        Alert.alert('A');
+    }, []);
 
     const openAccountScreen = () => {
         Alert.alert('open');
@@ -32,7 +43,17 @@ export const ProfileScreen = (): JSX.Element => {
     }, [dispatch]);
 
     return (
-        <View>
+        <View style={ProfileScreenStyle.container}>
+            <View style={ProfileScreenStyle.infoContainer}>
+                <TouchableOpacity onPress={changeProfilePicture}>
+                    <FastImage
+                        source={require('../../../assets/images/profilovka.png')}
+                        style={ProfileScreenStyle.image}
+                    />
+                </TouchableOpacity>
+                <Text style={ProfileScreenStyle.firstname}>{firstname}</Text>
+                <Text style={ProfileScreenStyle.username}>@{username}</Text>
+            </View>
             <ListItem title="Account" hasArrow onPress={openAccountScreen} />
             <ListItem
                 title="Receive notification"
