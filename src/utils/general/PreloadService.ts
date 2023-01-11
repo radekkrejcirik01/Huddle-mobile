@@ -21,7 +21,7 @@ class PreloadServiceSingleton {
 
     public loadUserObject = (username: string) => {
         postRequest<ResponseUserGetInterface, UserGetPostInterface>(
-            'https://yco94z0aqg.execute-api.eu-central-1.amazonaws.com/PingMeUser/get',
+            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/get',
             {
                 username
             }

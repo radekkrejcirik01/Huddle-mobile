@@ -26,7 +26,7 @@ export const HeaderPlus = (): JSX.Element => {
 
     const onSend = useCallback(() => {
         postRequest<ResponseInterface, PeopleCreateInvitationPostInterface>(
-            'https://yco94z0aqg.execute-api.eu-central-1.amazonaws.com/PingMeUser/create/people/invitation',
+            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/create/people/invitation',
             {
                 user,
                 username

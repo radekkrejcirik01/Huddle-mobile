@@ -64,7 +64,7 @@ export const useCognito = (): {
                     }
                 } else {
                     return postRequest<ResponseInterface, UserPostInterface>(
-                        'https://yco94z0aqg.execute-api.eu-central-1.amazonaws.com/PingMeUser/create',
+                        'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/create',
                         { username, firstname }
                     ).subscribe((response: ResponseInterface) => {
                         if (response?.status) {
