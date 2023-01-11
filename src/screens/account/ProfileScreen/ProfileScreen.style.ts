@@ -3,8 +3,10 @@ import COLORS from '@constants/COLORS';
 
 export const ProfileScreenStyle = StyleSheet.create({
     container: {
-        paddingTop: 15,
-        paddingHorizontal: 5
+        flex: 1,
+        paddingTop: 50,
+        paddingHorizontal: 5,
+        justifyContent: 'space-between'
     },
     infoContainer: {
         alignItems: 'center'
@@ -23,9 +25,7 @@ export const ProfileScreenStyle = StyleSheet.create({
     username: {
         color: COLORS.WHITE
     },
-    lastItem: {
-        marginTop: 100,
-        marginBottom: 50,
-        borderColor: COLORS.LIGHTGRAY_100
+    buttons: {
+        paddingBottom: 100
     }
 });

@@ -15,15 +15,15 @@ class PreloadServiceSingleton {
         store.dispatch(setUserToken(token));
 
         if (token) {
-            this.loadUserObject();
+            this.loadUserObject(this.username);
         }
     };
 
-    private loadUserObject = () => {
+    public loadUserObject = (username: string) => {
         postRequest<ResponseUserGetInterface, UserGetPostInterface>(
             'https://yco94z0aqg.execute-api.eu-central-1.amazonaws.com/PingMeUser/get',
             {
-                username: this.username
+                username
             }
         ).subscribe((response: ResponseUserGetInterface) => {
             if (response?.status) {

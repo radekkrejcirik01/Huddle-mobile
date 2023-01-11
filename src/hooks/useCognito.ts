@@ -13,6 +13,7 @@ import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { UserPostInterface } from '@interfaces/post/Post.inteface';
+import { PreloadService } from '@utils/general/PreloadService';
 
 export const useCognito = (): {
     register: (firstname: string, username: string, password: string) => void;
@@ -68,7 +69,12 @@ export const useCognito = (): {
                     ).subscribe((response: ResponseInterface) => {
                         if (response?.status) {
                             dispatch(
-                                setUserStateAction({ firstname, username })
+                                setUserStateAction({
+                                    user: {
+                                        firstname,
+                                        username
+                                    }
+                                })
                             );
                             PersistStorage.setItem(
                                 PersistStorageKeys.TOKEN,
@@ -103,11 +109,11 @@ export const useCognito = (): {
             return user.authenticateUser(authDetails, {
                 onSuccess: (res: CognitoUserSession) => {
                     if (res) {
-                        dispatch(setUserStateAction({ username }));
                         PersistStorage.setItem(
                             PersistStorageKeys.TOKEN,
                             username
                         ).catch();
+                        PreloadService.loadUserObject(username);
                     }
                 },
                 onFailure: (err) => {

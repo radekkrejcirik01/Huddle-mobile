@@ -54,28 +54,14 @@ export const ProfileScreen = (): JSX.Element => {
                 <Text style={ProfileScreenStyle.firstname}>{firstname}</Text>
                 <Text style={ProfileScreenStyle.username}>@{username}</Text>
             </View>
-            <ListItem title="Account" hasArrow onPress={openAccountScreen} />
-            <ListItem
-                title="Receive notification"
-                switchValue={switchNotificationsValue}
-                hasSwitch
-                toggleSwitch={toggleNotification}
-            />
-            <ListItem
-                title="Help center"
-                hasArrow
-                onPress={openHelpCenterScreen}
-            />
-            <ListItem
-                title="Privacy policy"
-                hasArrow
-                onPress={openPrivacyPolicyScreen}
-            />
-            <ListItem
-                title="Log Out"
-                onPress={logOut}
-                style={ProfileScreenStyle.lastItem}
-            />
+            <View style={ProfileScreenStyle.buttons}>
+                <ListItem
+                    title="Account"
+                    hasArrow
+                    onPress={openAccountScreen}
+                />
+                <ListItem title="Log Out" onPress={logOut} />
+            </View>
         </View>
     );
 };
