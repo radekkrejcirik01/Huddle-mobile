@@ -1,5 +1,5 @@
-import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { Moment } from 'moment';
+import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { ChatDataProps } from '@components/chat/ChatList/ChatList.props';
 
 export interface ResponseInterface {

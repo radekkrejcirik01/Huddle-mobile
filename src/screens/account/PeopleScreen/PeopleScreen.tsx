@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { RefreshControl, SafeAreaView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import FastImage from 'react-native-fast-image';
@@ -23,12 +23,11 @@ export const PeopleScreen = (): JSX.Element => {
     const [inputValue, setInputValue] = useState<string>();
 
     const [data, setData] = useState<Array<PeopleListItemProps>>([]);
+    const [filteredData, setFilteredData] = useState<
+        Array<PeopleListItemProps>
+    >([]);
 
-    const onInputChange = (value: string) => {
-        setInputValue(value);
-    };
-
-    useEffect(() => {
+    const loadPeople = useCallback(() => {
         postRequest<ResponsePeopleGetInterface, UserGetPostInterface>(
             'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/get/people',
             {
@@ -36,10 +35,34 @@ export const PeopleScreen = (): JSX.Element => {
             }
         ).subscribe((response: ResponsePeopleGetInterface) => {
             if (response?.status) {
-                setData(response.data);
+                setData(response?.data);
+                setFilteredData(response?.data);
             }
         });
     }, [username]);
+
+    useEffect(() => {
+        loadPeople();
+    }, [loadPeople]);
+
+    const filterData = (value: string) => {
+        setInputValue(value);
+        const text = value.toLowerCase();
+        const filteredName = data.filter((item: PeopleListItemProps) =>
+            item.username.toLowerCase().match(text)
+        );
+        setFilteredData(filteredName);
+    };
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const refresh = useCallback(() => {
+        setRefreshing(true);
+        loadPeople();
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
+    }, [loadPeople]);
 
     const onItemPress = useCallback(
         (item: PeopleListItemProps) => {
@@ -80,14 +103,22 @@ export const PeopleScreen = (): JSX.Element => {
                 <Input
                     iconLeft={<Text>🔍</Text>}
                     placeholder="Who you looking for?..."
-                    onChange={onInputChange}
+                    value={inputValue}
+                    onChange={filterData}
                     inputType={InputTypeEnum.TEXT}
                     viewStyle={PeopleScreenStyle.inputView}
                     inputStyle={PeopleScreenStyle.input}
                 />
                 <View style={PeopleScreenStyle.flashListView}>
                     <FlashList
-                        data={data}
+                        data={filteredData}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={refresh}
+                                tintColor="white"
+                            />
+                        }
                         renderItem={renderItem}
                         estimatedItemSize={68}
                     />

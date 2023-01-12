@@ -17,7 +17,7 @@ import { ReducerProps } from '@store/index/index.props';
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { MessagesScreenStyle } from './MessagesScreen.style';
+import { MessagesScreenStyle } from '@screens/account/MessagesScreen/MessagesScreen.style';
 
 export const MessagesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);

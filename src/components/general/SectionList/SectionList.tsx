@@ -1,5 +1,10 @@
-import React, { useCallback } from 'react';
-import { SectionList as SectionListComponent, Text, View } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import {
+    RefreshControl,
+    SectionList as SectionListComponent,
+    Text,
+    View
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {
     ComingsUpDataInterface,
@@ -17,7 +22,7 @@ import {
 } from '@components/general/SectionList/SectionList.props';
 
 export const SectionList = ({
-    data,
+    data: BigData,
     contentContainerStyle
 }: SectionListProps): JSX.Element => {
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
@@ -114,6 +119,15 @@ export const SectionList = ({
         }
     ];
 
+    const [refreshing, setRefreshing] = useState(false);
+
+    const refresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
+    }, []);
+
     const SectionHeader = ({ title }: { title: string }): JSX.Element => (
         <Text style={SectionListStyle.sectionHeader}>{title}</Text>
     );
@@ -161,10 +175,14 @@ export const SectionList = ({
             keyExtractor={(item, index: number) =>
                 item.list[0].profilePictures[0] + index
             }
-            contentContainerStyle={[
-                SectionListStyle.contentContainer,
-                contentContainerStyle
-            ]}
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={refresh}
+                    tintColor="white"
+                />
+            }
+            contentContainerStyle={contentContainerStyle}
         />
     );
 };

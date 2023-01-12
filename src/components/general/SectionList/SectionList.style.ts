@@ -2,9 +2,6 @@ import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
 export const SectionListStyle = StyleSheet.create({
-    contentContainer: {
-        paddingTop: 10
-    },
     sectionHeader: {
         paddingBottom: 5,
         fontSize: 15,

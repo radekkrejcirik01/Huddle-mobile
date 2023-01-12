@@ -11,14 +11,12 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { SectionList } from '@components/general/SectionList/SectionList';
 import { ReducerProps } from '@store/index/index.props';
-import { useCognito } from '@hooks/useCognito';
 
 export const HomeScreen = (): JSX.Element => {
     const { hangouts, people } = useSelector(
         (state: ReducerProps) => state.user
     );
 
-    useCognito();
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const onProfileSettingsPress = useCallback(() => {

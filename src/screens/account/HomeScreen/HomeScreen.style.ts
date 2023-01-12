@@ -56,6 +56,7 @@ export const HomeScreenStyle = StyleSheet.create({
         paddingTop: 20
     },
     comingsUpTitle: {
+        marginBottom: 10,
         fontSize: 15,
         color: COLORS.WHITE,
         fontWeight: 'bold'
