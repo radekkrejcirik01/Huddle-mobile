@@ -1,27 +1,76 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-import moment from 'moment';
+import { useSelector } from 'react-redux';
 import { useMessagesListRenders } from '@hooks/useMessagesListRenders';
 import { MessagesListDataProps } from '@screens/account/MessagesScreen/MessagesScreen.props';
+import { postRequest } from '@utils/Axios/Axios.service';
+import {
+    ResponseConversationsGetInterface,
+    ResponseInterface
+} from '@interfaces/response/Response.interface';
+import {
+    ReadMessageInterface,
+    UserGetPostInterface
+} from '@interfaces/post/Post.inteface';
+import { ReducerProps } from '@store/index/index.props';
+import { useNavigation } from '@hooks/useNavigation';
+import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { MessagesScreenStyle } from './MessagesScreen.style';
 
 export const MessagesScreen = (): JSX.Element => {
-    const data: Array<MessagesListDataProps> = [
-        {
-            message: 'A',
-            email: '@radek',
-            firstname: 'Radek',
-            profilePicture:
-                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1',
-            isRead: 0,
-            time: moment()
-        }
-    ];
+    const { username } = useSelector((state: ReducerProps) => state.user.user);
 
-    const onItemPress = () => {};
+    const [data, setData] = useState<Array<MessagesListDataProps>>([]);
 
-    const onRefresh = () => {};
+    const loadConversations = useCallback(() => {
+        postRequest<ResponseConversationsGetInterface, UserGetPostInterface>(
+            'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/get/conversations/0',
+            {
+                username
+            }
+        ).subscribe((response: ResponseConversationsGetInterface) => {
+            if (response?.status) {
+                setData(response?.data);
+            }
+        });
+    }, [username]);
+
+    const { navigateTo } = useNavigation(
+        RootStackNavigatorEnum.AccountStack,
+        loadConversations
+    );
+
+    const updateMessageRead = useCallback(
+        (user: string) => {
+            postRequest<ResponseInterface, ReadMessageInterface>(
+                'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/update/read',
+                {
+                    username,
+                    user
+                }
+            ).subscribe();
+        },
+        [username]
+    );
+
+    const onItemPress = useCallback(
+        (item: MessagesListDataProps) => {
+            navigateTo(AccountStackNavigatorEnum.ChatScreen, {
+                username: item?.username
+            });
+
+            if (!item.isRead) {
+                updateMessageRead(item.username);
+            }
+        },
+        [navigateTo, updateMessageRead]
+    );
+
+    const onRefresh = useCallback(() => {
+        loadConversations();
+    }, [loadConversations]);
 
     const { getItemType, renderItem, keyExtractor, refreshControl } =
         useMessagesListRenders(data, onItemPress, onRefresh);

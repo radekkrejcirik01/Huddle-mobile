@@ -12,7 +12,9 @@ import { PersonAccountScreen } from '@screens/account/PersonAccountScreen/Person
 import { MessagesScreen } from '@screens/account/MessagesScreen/MessagesScreen';
 import { ChatScreen } from '@screens/account/ChatScreen/ChatScreen';
 import {
-    ChatTitle,
+    AccountTitle,
+    ChangePasswordTitle,
+    DeleteAccountTitle,
     EventTitle,
     HangoutsTitle,
     MessagesTitle,
@@ -20,6 +22,9 @@ import {
     PeopleOptions,
     ProfileTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
+import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
+import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
+import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/DeleteAccountScreen';
 
 const Account = createStackNavigator<ParamListBase>();
 
@@ -58,12 +63,27 @@ export const AccountStackNavigator = (): JSX.Element => (
         <Account.Screen
             name={AccountStackNavigatorEnum.ChatScreen}
             component={ChatScreen}
-            options={{ ...NavigationScreenHeader, ...ChatTitle }}
+            options={NavigationScreenHeader}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.EventScreen}
             component={EventScreen}
             options={{ ...NavigationScreenHeader, ...EventTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.AccountScreen}
+            component={AccountScreen}
+            options={{ ...NavigationScreenHeader, ...AccountTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.ChangePasswordScreen}
+            component={ChangePasswordScreen}
+            options={{ ...NavigationScreenHeader, ...ChangePasswordTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.DeleteAccountScreen}
+            component={DeleteAccountScreen}
+            options={{ ...NavigationScreenHeader, ...DeleteAccountTitle }}
         />
     </Account.Navigator>
 );

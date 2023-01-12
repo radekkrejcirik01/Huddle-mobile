@@ -32,10 +32,10 @@ export const useMessagesListRenders = (
     const renderItem = ({
         item
     }: ListRenderItemInfo<MessagesListDataProps>): JSX.Element => (
-        <MessagesItem key={item.email} item={item} onPress={onItemPress} />
+        <MessagesItem key={item.username} item={item} onPress={onItemPress} />
     );
 
-    const keyExtractor = (item: MessagesListDataProps): string => item.email;
+    const keyExtractor = (item: MessagesListDataProps): string => item.username;
 
     const refreshControl = (
         <RefreshControl

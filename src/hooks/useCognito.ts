@@ -7,7 +7,7 @@ import {
     CognitoUserSession
 } from 'amazon-cognito-identity-js';
 import { useDispatch } from 'react-redux';
-import { setUserStateAction } from '@store/UserReducer';
+import { resetUserState, setUserStateAction } from '@store/UserReducer';
 import { postRequest } from '@utils/Axios/Axios.service';
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
@@ -18,6 +18,12 @@ import { PreloadService } from '@utils/general/PreloadService';
 export const useCognito = (): {
     register: (firstname: string, username: string, password: string) => void;
     login: (username: string, password: string) => void;
+    changePassword: (
+        username: string,
+        oldPassword: string,
+        newPassword: string
+    ) => void;
+    deleteAccount: (username: string, password: string) => void;
 } => {
     const dispatch = useDispatch();
 
@@ -123,8 +129,89 @@ export const useCognito = (): {
                 }
             });
         },
+        [cognitoPool]
+    );
+
+    const changePassword = useCallback(
+        (username: string, oldPassword: string, newPassword: string) => {
+            const user = new CognitoUser({
+                Username: username,
+                Pool: cognitoPool
+            });
+            const authDetails = new AuthenticationDetails({
+                Username: username,
+                Password: oldPassword
+            });
+
+            return user.authenticateUser(authDetails, {
+                onSuccess: (res: CognitoUserSession) => {
+                    if (res) {
+                        user.changePassword(
+                            oldPassword,
+                            newPassword,
+                            (e, r) => {
+                                if (r) {
+                                    Alert.alert(
+                                        'Successfully changed password 🎉'
+                                    );
+                                } else {
+                                    Alert.alert(
+                                        'Sorry, something went wrong 😔'
+                                    );
+                                }
+                            }
+                        );
+                    }
+                },
+                onFailure: (err) => {
+                    if (err) {
+                        Alert.alert('Sorry, password is incorrect');
+                    }
+                }
+            });
+        },
+        [cognitoPool]
+    );
+
+    const deleteAccount = useCallback(
+        (username: string, password: string) => {
+            const user = new CognitoUser({
+                Username: username,
+                Pool: cognitoPool
+            });
+            const authDetails = new AuthenticationDetails({
+                Username: username,
+                Password: password
+            });
+
+            return user.authenticateUser(authDetails, {
+                onSuccess: (res: CognitoUserSession) => {
+                    if (res) {
+                        user.deleteUser((e) => {
+                            if (e) {
+                                Alert.alert('Sorry, something went wrong 😔');
+                            } else {
+                                Alert.alert('Account successfully deleted');
+                                setTimeout(() => {
+                                    dispatch(resetUserState());
+                                    PersistStorage.setItem(
+                                        PersistStorageKeys.TOKEN,
+                                        ''
+                                    ).catch();
+                                }, 2000);
+                            }
+                        });
+                    }
+                },
+                onFailure: (err) => {
+                    if (err) {
+                        Alert.alert('Sorry, username or password is incorrect');
+                    }
+                }
+            });
+        },
         [cognitoPool, dispatch]
     );
 
-    return { register, login };
+    return { register, login, changePassword, deleteAccount };
 };

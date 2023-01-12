@@ -23,10 +23,18 @@ export const MessagesTitle: StackNavigationOptions = {
     headerTitle: 'Messages'
 };
 
-export const ChatTitle: StackNavigationOptions = {
-    headerTitle: 'Chat'
-};
-
 export const EventTitle: StackNavigationOptions = {
     headerTitle: 'Details'
+};
+
+export const AccountTitle: StackNavigationOptions = {
+    headerTitle: 'Account'
+};
+
+export const ChangePasswordTitle: StackNavigationOptions = {
+    headerTitle: 'Change password'
+};
+
+export const DeleteAccountTitle: StackNavigationOptions = {
+    headerTitle: 'Delete account'
 };
