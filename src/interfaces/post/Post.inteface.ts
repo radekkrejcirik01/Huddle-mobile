@@ -30,12 +30,14 @@ export interface SendMessageInterface {
     time: string;
 }
 
-export interface PasswordUpdateInterface {
+export interface HangoutCreateInterface {
+    user: string;
     username: string;
-    oldPassword: string;
-    newPassword: string;
+    time: string;
+    place: string;
 }
 
-export interface AccountDeleteInterface {
+export interface HangoutsGetInterface {
     username: string;
+    showAll: boolean;
 }

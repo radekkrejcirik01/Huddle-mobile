@@ -1,12 +1,34 @@
 import { StyleProp, ViewStyle } from 'react-native';
-import { ComingsUpDataInterface } from '@screens/account/HomeScreen/HomeScreen.props';
 
 export interface SectionListProps {
-    data?: Array<ComingsUpDataInterface>;
+    showAll?: boolean;
     contentContainerStyle?: StyleProp<ViewStyle>;
 }
 
 export const SectionListDefaultProps: SectionListProps = {
-    data: [],
+    showAll: false,
     contentContainerStyle: {}
 };
+
+export interface ComingsUpDataInterface {
+    title: string;
+    data: Array<ComingsUpList>;
+}
+
+export interface ComingsUpList {
+    list: Array<ComingsUpListItem>;
+}
+
+export interface ComingsUpListItem {
+    id: number;
+    createdBy: string;
+    users: Array<User>;
+    time: string;
+    place: string;
+}
+
+export interface User {
+    username: string;
+    firstname: string;
+    profilePicture: string;
+}

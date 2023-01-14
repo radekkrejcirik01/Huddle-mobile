@@ -4,7 +4,7 @@ import { ParamListBase } from '@react-navigation/native';
 import { NavigationScreenHeader } from '@navigation/StackNavigators/StackNavigator.options';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { EventScreen } from '@screens/account/EventScreen/EventScreen';
-import { HangoutScreen } from '@screens/account/HangoutScreen/HangoutScreen';
+import { HangoutsScreen } from '@screens/account/HangoutsScreen/HangoutsScreen';
 import { ProfileScreen } from '@screens/account/ProfileScreen/ProfileScreen';
 import { NotificationsScreen } from '@screens/account/NotificationsScreen/NotificationsScreen';
 import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
@@ -47,7 +47,7 @@ export const AccountStackNavigator = (): JSX.Element => (
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.HangoutsScreen}
-            component={HangoutScreen}
+            component={HangoutsScreen}
             options={{ ...NavigationScreenHeader, ...HangoutsTitle }}
         />
         <Account.Screen

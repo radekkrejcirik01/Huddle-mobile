@@ -1,6 +1,7 @@
 import { Moment } from 'moment';
 import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { ChatDataProps } from '@components/chat/ChatList/ChatList.props';
+import { ComingsUpDataInterface } from '@components/general/SectionList/SectionList.props';
 
 export interface ResponseInterface {
     status: string;
@@ -44,4 +45,10 @@ export interface MessagesResponseInterface {
     status: string;
     message: string;
     data?: Array<ChatDataProps>;
+}
+
+export interface ResponseHangoutsGetInterface {
+    status: string;
+    message: string;
+    data?: Array<ComingsUpDataInterface>;
 }

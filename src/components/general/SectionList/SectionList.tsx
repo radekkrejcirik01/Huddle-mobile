@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     RefreshControl,
     SectionList as SectionListComponent,
@@ -6,130 +6,67 @@ import {
     View
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {
-    ComingsUpDataInterface,
-    ComingsUpList,
-    ComingsUpListItem
-} from '@screens/account/HomeScreen/HomeScreen.props';
+import { useSelector } from 'react-redux';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { SectionListStyle } from '@components/general/SectionList/SectionList.style';
 import {
+    ComingsUpDataInterface,
+    ComingsUpList,
+    ComingsUpListItem,
     SectionListDefaultProps,
-    SectionListProps
+    SectionListProps,
+    User
 } from '@components/general/SectionList/SectionList.props';
+import { postRequest } from '@utils/Axios/Axios.service';
+import { ResponseHangoutsGetInterface } from '@interfaces/response/Response.interface';
+import { HangoutsGetInterface } from '@interfaces/post/Post.inteface';
+import { ReducerProps } from '@store/index/index.props';
+import { getDay } from '@functions/getDay';
 
 export const SectionList = ({
-    data: BigData,
+    showAll,
     contentContainerStyle
 }: SectionListProps): JSX.Element => {
+    const { username } = useSelector((state: ReducerProps) => state.user.user);
+
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
-    const DATA: Array<ComingsUpDataInterface> = [
-        {
-            title: 'Today',
-            data: [
-                {
-                    list: [
-                        {
-                            id: 1,
-                            name: 'Radek',
-                            username: '@radek',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        },
-                        {
-                            id: 2,
-                            name: 'Tom',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        },
-                        {
-                            id: 3,
-                            name: 'Zuzka',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            title: 'Tomorrow',
-            data: [
-                {
-                    list: [
-                        {
-                            id: 4,
-                            name: 'Zuzka',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            title: '13. 1.',
-            data: [
-                {
-                    list: [
-                        {
-                            id: 5,
-                            name: 'Dominika + Tom + Radek',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1',
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1',
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        },
-                        {
-                            id: 6,
-                            name: 'Tom',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    ];
-
+    const [data, setData] = useState<Array<ComingsUpDataInterface>>();
     const [refreshing, setRefreshing] = useState(false);
+
+    const loadHangouts = useCallback(() => {
+        postRequest<ResponseHangoutsGetInterface, HangoutsGetInterface>(
+            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/get/hangouts',
+            {
+                username,
+                showAll
+            }
+        ).subscribe((response: ResponseHangoutsGetInterface) => {
+            if (response?.status) {
+                setData(response?.data);
+            }
+        });
+    }, [showAll, username]);
+
+    useEffect(() => {
+        if (username) {
+            loadHangouts();
+        }
+    }, [loadHangouts, username]);
 
     const refresh = useCallback(() => {
         setRefreshing(true);
         setTimeout(() => {
+            loadHangouts();
             setRefreshing(false);
         }, 1000);
-    }, []);
+    }, [loadHangouts]);
 
     const SectionHeader = ({ title }: { title: string }): JSX.Element => (
-        <Text style={SectionListStyle.sectionHeader}>{title}</Text>
+        <Text style={SectionListStyle.sectionHeader}>{getDay(title)}</Text>
     );
 
     const onItemPress = useCallback(
@@ -139,9 +76,9 @@ export const SectionList = ({
         [navigateTo]
     );
 
-    const Item = ({ data }: { data: ComingsUpList }) => (
+    const Item = ({ itemData }: { itemData: ComingsUpList }) => (
         <View style={SectionListStyle.itemContainer}>
-            {data.list.map((value: ComingsUpListItem) => (
+            {itemData.list.map((value: ComingsUpListItem) => (
                 <TouchableOpacity
                     key={value.id}
                     onPress={() => onItemPress(value)}
@@ -150,7 +87,14 @@ export const SectionList = ({
                     <View style={SectionListStyle.itemRow}>
                         <View>
                             <Text style={SectionListStyle.itemText}>
-                                {value.name}
+                                {value.users.map(
+                                    (user: User, index: number) => {
+                                        if (index === 0) {
+                                            return user.firstname;
+                                        }
+                                        return ` + ${user.firstname}`;
+                                    }
+                                )}
                             </Text>
                             <Text style={SectionListStyle.itemText}>
                                 {value.time}
@@ -158,23 +102,21 @@ export const SectionList = ({
                         </View>
                         <FastImage
                             style={SectionListStyle.itemImage}
-                            source={{ uri: value.profilePictures[0] }}
+                            source={{ uri: value?.users[0]?.profilePicture }}
                         />
                     </View>
                 </TouchableOpacity>
             ))}
         </View>
     );
-    return (
+    return data?.length ? (
         <SectionListComponent
-            sections={DATA}
+            sections={data}
             renderSectionHeader={({ section: { title } }) => (
                 <SectionHeader title={title} />
             )}
-            renderItem={({ item }) => <Item data={item} />}
-            keyExtractor={(item, index: number) =>
-                item.list[0].profilePictures[0] + index
-            }
+            renderItem={({ item }) => <Item itemData={item} />}
+            keyExtractor={(item) => item?.list[0]?.id.toString()}
             refreshControl={
                 <RefreshControl
                     refreshing={refreshing}
@@ -184,7 +126,7 @@ export const SectionList = ({
             }
             contentContainerStyle={contentContainerStyle}
         />
-    );
+    ) : null;
 };
 
 SectionList.defaultProps = SectionListDefaultProps;

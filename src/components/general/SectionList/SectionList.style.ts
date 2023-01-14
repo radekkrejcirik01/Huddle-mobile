@@ -30,7 +30,7 @@ export const SectionListStyle = StyleSheet.create({
     itemImage: {
         width: 35,
         height: 35,
-        marginLeft: 5,
+        marginLeft: 10,
         borderRadius: 20
     }
 });
