@@ -102,15 +102,17 @@ export const PersonAccountScreen = ({
             {
                 user,
                 username,
+                firstname,
                 time: dateTime,
-                place
+                place,
+                picture: profilePicture
             }
         ).subscribe((response: ResponseInterface) => {
             if (response?.status) {
                 setIsHangoutSent(true);
             }
         });
-    }, [dateTime, user, username, place]);
+    }, [dateTime, firstname, user, username, place, profilePicture]);
 
     return (
         <View style={PersonAccountScreenStyle.container}>

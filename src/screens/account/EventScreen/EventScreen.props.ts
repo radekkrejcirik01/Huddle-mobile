@@ -1,5 +1,5 @@
 import { RouteProp } from '@react-navigation/native';
-import { ComingsUpListItem } from '@screens/account/HomeScreen/HomeScreen.props';
+import { ComingsUpListItem } from '@components/general/SectionList/SectionList.props';
 
 export interface EventScreenProps {
     route: RouteProp<{ params: { item: ComingsUpListItem } }, 'params'>;
