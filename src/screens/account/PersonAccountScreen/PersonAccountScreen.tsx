@@ -255,7 +255,7 @@ export const PersonAccountScreen = ({
 
                     setDateTime(constructDateTime(datum));
                 }}
-                theme="light"
+                theme="dark"
                 locale="cz"
                 onCancel={() => setOpen(false)}
             />

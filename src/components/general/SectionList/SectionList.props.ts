@@ -1,4 +1,4 @@
-import { StyleProp, ViewStyle } from 'react-native';
+import { SectionListData, StyleProp, ViewStyle } from 'react-native';
 
 export interface SectionListProps {
     showAll?: boolean;
@@ -21,14 +21,21 @@ export interface ComingsUpList {
 
 export interface ComingsUpListItem {
     id: number;
-    createdBy: User;
-    users: Array<User>;
+    createdBy: string;
+    title: string;
     time: string;
     place: string;
+    picture: string;
 }
 
-export interface User {
-    username: string | null;
-    firstname: string | null;
-    profilePicture: string | null;
+export interface SectionHeaderInterface {
+    title: string;
+}
+
+export interface SectionInterface {
+    section: SectionListData<ComingsUpList>;
+}
+
+export interface ItemDataInterface {
+    itemData: ComingsUpList;
 }

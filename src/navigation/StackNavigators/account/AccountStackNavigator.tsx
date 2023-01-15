@@ -11,6 +11,9 @@ import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
 import { PersonAccountScreen } from '@screens/account/PersonAccountScreen/PersonAccountScreen';
 import { MessagesScreen } from '@screens/account/MessagesScreen/MessagesScreen';
 import { ChatScreen } from '@screens/account/ChatScreen/ChatScreen';
+import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
+import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
+import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/DeleteAccountScreen';
 import {
     AccountTitle,
     ChangePasswordTitle,
@@ -22,9 +25,6 @@ import {
     PeopleOptions,
     ProfileTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
-import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
-import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
-import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/DeleteAccountScreen';
 
 const Account = createStackNavigator<ParamListBase>();
 

@@ -12,7 +12,7 @@ export const PeopleOptions: StackNavigationOptions = {
 };
 
 export const HangoutsTitle: StackNavigationOptions = {
-    headerTitle: 'Hangouts'
+    headerTitle: 'History'
 };
 
 export const NotificationsTitle: StackNavigationOptions = {

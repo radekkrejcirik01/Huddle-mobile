@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
     RefreshControl,
     SectionList as SectionListComponent,
+    SectionListRenderItemInfo,
     Text,
     View
 } from 'react-native';
@@ -16,9 +17,11 @@ import {
     ComingsUpDataInterface,
     ComingsUpList,
     ComingsUpListItem,
+    ItemDataInterface,
+    SectionHeaderInterface,
+    SectionInterface,
     SectionListDefaultProps,
-    SectionListProps,
-    User
+    SectionListProps
 } from '@components/general/SectionList/SectionList.props';
 import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseHangoutsGetInterface } from '@interfaces/response/Response.interface';
@@ -65,8 +68,12 @@ export const SectionList = ({
         }, 1000);
     }, [loadHangouts]);
 
-    const SectionHeader = ({ title }: { title: string }): JSX.Element => (
+    const SectionHeader = ({ title }: SectionHeaderInterface): JSX.Element => (
         <Text style={SectionListStyle.sectionHeader}>{getDay(title)}</Text>
+    );
+
+    const renderSectionHeader = ({ section: { title } }: SectionInterface) => (
+        <SectionHeader title={title} />
     );
 
     const onItemPress = useCallback(
@@ -76,60 +83,55 @@ export const SectionList = ({
         [navigateTo]
     );
 
-    const Item = ({ itemData }: { itemData: ComingsUpList }) => {
-        const list = showAll ? itemData.list.reverse() : itemData.list;
-        return (
+    const Item = useCallback(
+        ({ itemData }: ItemDataInterface) => (
             <View style={SectionListStyle.itemContainer}>
-                {list.map((value: ComingsUpListItem) => {
-                    const hasUsers = value?.users?.length > 0;
-                    return (
-                        <TouchableOpacity
-                            key={value.id}
-                            onPress={() => onItemPress(value)}
-                            style={SectionListStyle.itemView}
-                        >
-                            <View style={SectionListStyle.itemRow}>
-                                <View>
-                                    <Text style={SectionListStyle.itemText}>
-                                        {hasUsers
-                                            ? value.users.map(
-                                                  (
-                                                      user: User,
-                                                      index: number
-                                                  ) => {
-                                                      const createdByUser =
-                                                          value.createdBy
-                                                              .username ===
-                                                          username;
-                                                      if (index === 0) {
-                                                          return createdByUser
-                                                              ? user.firstname
-                                                              : `${value.createdBy.firstname} + ${user.firstname}`;
-                                                      }
-                                                      return ` + ${user.firstname}`;
-                                                  }
-                                              )
-                                            : value.createdBy.firstname}
-                                    </Text>
-                                    <Text style={SectionListStyle.itemText}>
-                                        {value.time}
-                                    </Text>
-                                </View>
-                                <FastImage
-                                    style={SectionListStyle.itemImage}
-                                    source={{
-                                        uri: hasUsers
-                                            ? value?.users[0]?.profilePicture
-                                            : value.createdBy.profilePicture
-                                    }}
-                                />
+                {itemData.list.map((value: ComingsUpListItem) => (
+                    <TouchableOpacity
+                        key={value.id}
+                        onPress={() => onItemPress(value)}
+                        style={SectionListStyle.itemView}
+                    >
+                        <View style={SectionListStyle.itemRow}>
+                            <View>
+                                <Text style={SectionListStyle.itemText}>
+                                    {value.title}
+                                </Text>
+                                <Text style={SectionListStyle.itemText}>
+                                    {value.time}
+                                </Text>
                             </View>
-                        </TouchableOpacity>
-                    );
-                })}
+                            <FastImage
+                                style={SectionListStyle.itemImage}
+                                source={{
+                                    uri: value.picture
+                                }}
+                            />
+                        </View>
+                    </TouchableOpacity>
+                ))}
             </View>
-        );
-    };
+        ),
+        [onItemPress]
+    );
+
+    const renderItem = useCallback(
+        ({ item }: SectionListRenderItemInfo<ComingsUpList>) => (
+            <Item itemData={item} />
+        ),
+        [Item]
+    );
+
+    const refreshControl = useMemo(
+        () => (
+            <RefreshControl
+                refreshing={refreshing}
+                onRefresh={refresh}
+                tintColor="white"
+            />
+        ),
+        [refresh, refreshing]
+    );
 
     if (!data?.length) {
         return null;
@@ -138,17 +140,9 @@ export const SectionList = ({
     return (
         <SectionListComponent
             sections={data}
-            renderSectionHeader={({ section: { title } }) => (
-                <SectionHeader title={title} />
-            )}
-            renderItem={({ item }) => <Item itemData={item} />}
-            refreshControl={
-                <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={refresh}
-                    tintColor="white"
-                />
-            }
+            renderSectionHeader={renderSectionHeader}
+            renderItem={renderItem}
+            refreshControl={refreshControl}
             contentContainerStyle={contentContainerStyle}
         />
     );
