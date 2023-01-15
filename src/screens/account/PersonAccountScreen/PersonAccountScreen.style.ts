@@ -47,7 +47,8 @@ export const PersonAccountScreenStyle = StyleSheet.create({
     tagsItem: {
         marginRight: 5,
         padding: 7,
-        borderRadius: 15
+        borderRadius: 15,
+        backgroundColor: COLORS.MAIN_BLUE
     },
     tagText: {
         fontSize: 15,

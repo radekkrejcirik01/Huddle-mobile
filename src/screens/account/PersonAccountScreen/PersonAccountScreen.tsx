@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import moment from 'moment';
 import FastImage from 'react-native-fast-image';
+import DatePicker from 'react-native-date-picker';
 import { PersonAccountScreenStyle } from '@screens/account/PersonAccountScreen/PersonAccountScreen.style';
 import { PersonAccountScreenProps } from '@screens/account/PersonAccountScreen/PersonAccountScreen.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
@@ -13,7 +15,9 @@ import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { HangoutCreateInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
-import moment from 'moment';
+import { formatDate } from '@functions/formatDate';
+import { getDate } from '@functions/getDate';
+import { constructDateTime } from '@functions/constructDateTime';
 
 export const PersonAccountScreen = ({
     route
@@ -26,15 +30,24 @@ export const PersonAccountScreen = ({
 
     const navigation = useNavigation();
 
-    const WHEN = ['Today', 'Tomorrow', 'Choose a date'];
-
     const [isHangoutSent, setIsHangoutSent] = useState<boolean>(false);
-    const [tappedWhen, setTappedWhen] = useState<string>(WHEN[0]);
+    const [suggestedWhen, setSuggestedWhen] = useState<Array<string>>([]);
+    const [tappedWhen, setTappedWhen] = useState<string>();
     const [suggestedTimes, setSuggestedTimes] = useState<Array<string>>([]);
     const [tappedTime, setTappedTime] = useState<string>();
-    const [when, setWhen] = useState<string>();
-    const [time, setTime] = useState<string>();
     const [place, setPlace] = useState<string>();
+
+    const [dateTimeText, setResultDateText] = useState<string>();
+    const [dateTime, setDateTime] = useState<string>();
+
+    const [date, setDate] = useState(new Date());
+    const [open, setOpen] = useState(false);
+
+    const minimumDate = new Date(moment().toString());
+
+    useEffect(() => {
+        setDateTime(getDate(tappedWhen, tappedTime));
+    }, [tappedWhen, tappedTime]);
 
     useEffect(() => {
         const hour = moment().hour();
@@ -65,8 +78,10 @@ export const PersonAccountScreen = ({
                 `${conditionHour.toString()}:30`
             );
         }
-        times.push('Choose time');
+        times.push('Choose a time');
+        setSuggestedWhen(['Today', 'Tomorrow', 'Choose a date']);
         setSuggestedTimes(times);
+        setTappedWhen('Today');
         setTappedTime(times[0]);
     }, []);
 
@@ -87,7 +102,7 @@ export const PersonAccountScreen = ({
             {
                 user,
                 username,
-                time,
+                time: dateTime,
                 place
             }
         ).subscribe((response: ResponseInterface) => {
@@ -95,7 +110,7 @@ export const PersonAccountScreen = ({
                 setIsHangoutSent(true);
             }
         });
-    }, [user, username, place, time]);
+    }, [dateTime, user, username, place]);
 
     return (
         <View style={PersonAccountScreenStyle.container}>
@@ -108,80 +123,106 @@ export const PersonAccountScreen = ({
                 <View style={PersonAccountScreenStyle.inputContainer}>
                     <Text style={PersonAccountScreenStyle.title}>When</Text>
                     <View style={PersonAccountScreenStyle.tagsRow}>
-                        {WHEN.map((value: string) => (
+                        {dateTimeText ? (
                             <TouchableOpacity
                                 activeOpacity={1}
-                                onPress={() => {
-                                    setTappedWhen(value);
-                                }}
-                                key={value}
-                                style={[
-                                    PersonAccountScreenStyle.tagsItem,
-                                    {
-                                        backgroundColor:
-                                            tappedWhen === value
-                                                ? COLORS.MAIN_BLUE
-                                                : COLORS.BLACK
-                                    }
-                                ]}
+                                onPress={() => setOpen(true)}
+                                style={PersonAccountScreenStyle.tagsItem}
                             >
                                 <Text style={PersonAccountScreenStyle.tagText}>
-                                    {value}
+                                    {dateTimeText}
                                 </Text>
                             </TouchableOpacity>
-                        ))}
+                        ) : (
+                            <>
+                                {suggestedWhen.map((value: string) => (
+                                    <TouchableOpacity
+                                        activeOpacity={1}
+                                        onPress={() => {
+                                            if (
+                                                value ===
+                                                suggestedWhen[
+                                                    suggestedWhen.length - 1
+                                                ]
+                                            ) {
+                                                setOpen(true);
+                                            } else {
+                                                setTappedWhen(value);
+                                            }
+                                        }}
+                                        key={value}
+                                        style={[
+                                            PersonAccountScreenStyle.tagsItem,
+                                            {
+                                                backgroundColor:
+                                                    tappedWhen === value
+                                                        ? COLORS.MAIN_BLUE
+                                                        : COLORS.BLACK
+                                            }
+                                        ]}
+                                    >
+                                        <Text
+                                            style={
+                                                PersonAccountScreenStyle.tagText
+                                            }
+                                        >
+                                            {value}
+                                        </Text>
+                                    </TouchableOpacity>
+                                ))}
+                            </>
+                        )}
                     </View>
                 </View>
-                {tappedWhen === WHEN[WHEN.length - 1] && (
-                    <Input
-                        value={when}
-                        onChange={setWhen}
-                        inputType={InputTypeEnum.TEXT}
-                        inputStyle={PersonAccountScreenStyle.input}
-                        viewStyle={PersonAccountScreenStyle.inputView}
-                        placeholderTextColor={COLORS.LIGHTGRAY}
-                    />
+                {!dateTimeText && (
+                    <View style={PersonAccountScreenStyle.inputContainer}>
+                        <Text style={PersonAccountScreenStyle.title}>Time</Text>
+                        <View style={PersonAccountScreenStyle.tagsRow}>
+                            {suggestedTimes.map((value: string) => (
+                                <TouchableOpacity
+                                    activeOpacity={1}
+                                    onPress={() => {
+                                        if (
+                                            value ===
+                                            suggestedTimes[
+                                                suggestedTimes.length - 1
+                                            ]
+                                        ) {
+                                            setOpen(true);
+                                            const currentDate = new Date(
+                                                moment().toString()
+                                            );
+                                            if (tappedWhen === 'Tomorrow') {
+                                                currentDate.setDate(
+                                                    currentDate.getDate() + 1
+                                                );
+                                            }
+                                            setDate(currentDate);
+                                        } else {
+                                            setTappedTime(value);
+                                        }
+                                    }}
+                                    key={value}
+                                    style={[
+                                        PersonAccountScreenStyle.tagsItem,
+                                        {
+                                            backgroundColor:
+                                                tappedTime === value
+                                                    ? COLORS.MAIN_BLUE
+                                                    : COLORS.BLACK
+                                        }
+                                    ]}
+                                >
+                                    <Text
+                                        style={PersonAccountScreenStyle.tagText}
+                                    >
+                                        {value}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </View>
                 )}
-                <View style={PersonAccountScreenStyle.inputContainer}>
-                    <Text style={PersonAccountScreenStyle.title}>Time</Text>
-                    <View style={PersonAccountScreenStyle.tagsRow}>
-                        {suggestedTimes.map((value: string) => (
-                            <TouchableOpacity
-                                activeOpacity={1}
-                                onPress={() => {
-                                    setTappedTime(value);
-                                }}
-                                key={value}
-                                style={[
-                                    PersonAccountScreenStyle.tagsItem,
-                                    {
-                                        backgroundColor:
-                                            tappedTime === value
-                                                ? COLORS.MAIN_BLUE
-                                                : COLORS.BLACK
-                                    }
-                                ]}
-                            >
-                                <Text style={PersonAccountScreenStyle.tagText}>
-                                    {value}
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                </View>
-                {suggestedTimes &&
-                    tappedTime ===
-                        suggestedTimes[suggestedTimes.length - 1] && (
-                        <Input
-                            value={time}
-                            onChange={setTime}
-                            inputType={InputTypeEnum.TEXT}
-                            inputStyle={PersonAccountScreenStyle.input}
-                            viewStyle={PersonAccountScreenStyle.inputView}
-                            placeholderTextColor={COLORS.LIGHTGRAY}
-                        />
-                    )}
-
                 <View style={PersonAccountScreenStyle.inputContainer}>
                     <Text style={PersonAccountScreenStyle.title}>Place</Text>
                     <Input
@@ -202,6 +243,22 @@ export const PersonAccountScreen = ({
                     {sendButtonText}
                 </Text>
             </TouchableOpacity>
+            <DatePicker
+                modal
+                open={open}
+                date={date}
+                minimumDate={minimumDate}
+                onConfirm={(datum: Date) => {
+                    setOpen(false);
+                    setDate(datum);
+                    setResultDateText(formatDate(datum));
+
+                    setDateTime(constructDateTime(datum));
+                }}
+                theme="light"
+                locale="cz"
+                onCancel={() => setOpen(false)}
+            />
         </View>
     );
 };

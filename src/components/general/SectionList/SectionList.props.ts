@@ -21,14 +21,14 @@ export interface ComingsUpList {
 
 export interface ComingsUpListItem {
     id: number;
-    createdBy: string;
+    createdBy: User;
     users: Array<User>;
     time: string;
     place: string;
 }
 
 export interface User {
-    username: string;
-    firstname: string;
-    profilePicture: string;
+    username: string | null;
+    firstname: string | null;
+    profilePicture: string | null;
 }

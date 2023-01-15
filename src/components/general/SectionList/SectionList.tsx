@@ -76,47 +76,72 @@ export const SectionList = ({
         [navigateTo]
     );
 
-    const Item = ({ itemData }: { itemData: ComingsUpList }) => (
-        <View style={SectionListStyle.itemContainer}>
-            {itemData.list.map((value: ComingsUpListItem) => (
-                <TouchableOpacity
-                    key={value.id}
-                    onPress={() => onItemPress(value)}
-                    style={SectionListStyle.itemView}
-                >
-                    <View style={SectionListStyle.itemRow}>
-                        <View>
-                            <Text style={SectionListStyle.itemText}>
-                                {value.users.map(
-                                    (user: User, index: number) => {
-                                        if (index === 0) {
-                                            return user.firstname;
-                                        }
-                                        return ` + ${user.firstname}`;
-                                    }
-                                )}
-                            </Text>
-                            <Text style={SectionListStyle.itemText}>
-                                {value.time}
-                            </Text>
-                        </View>
-                        <FastImage
-                            style={SectionListStyle.itemImage}
-                            source={{ uri: value?.users[0]?.profilePicture }}
-                        />
-                    </View>
-                </TouchableOpacity>
-            ))}
-        </View>
-    );
-    return data?.length ? (
+    const Item = ({ itemData }: { itemData: ComingsUpList }) => {
+        const list = showAll ? itemData.list.reverse() : itemData.list;
+        return (
+            <View style={SectionListStyle.itemContainer}>
+                {list.map((value: ComingsUpListItem) => {
+                    const hasUsers = value?.users?.length > 0;
+                    return (
+                        <TouchableOpacity
+                            key={value.id}
+                            onPress={() => onItemPress(value)}
+                            style={SectionListStyle.itemView}
+                        >
+                            <View style={SectionListStyle.itemRow}>
+                                <View>
+                                    <Text style={SectionListStyle.itemText}>
+                                        {hasUsers
+                                            ? value.users.map(
+                                                  (
+                                                      user: User,
+                                                      index: number
+                                                  ) => {
+                                                      const createdByUser =
+                                                          value.createdBy
+                                                              .username ===
+                                                          username;
+                                                      if (index === 0) {
+                                                          return createdByUser
+                                                              ? user.firstname
+                                                              : `${value.createdBy.firstname} + ${user.firstname}`;
+                                                      }
+                                                      return ` + ${user.firstname}`;
+                                                  }
+                                              )
+                                            : value.createdBy.firstname}
+                                    </Text>
+                                    <Text style={SectionListStyle.itemText}>
+                                        {value.time}
+                                    </Text>
+                                </View>
+                                <FastImage
+                                    style={SectionListStyle.itemImage}
+                                    source={{
+                                        uri: hasUsers
+                                            ? value?.users[0]?.profilePicture
+                                            : value.createdBy.profilePicture
+                                    }}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                    );
+                })}
+            </View>
+        );
+    };
+
+    if (!data?.length) {
+        return null;
+    }
+
+    return (
         <SectionListComponent
             sections={data}
             renderSectionHeader={({ section: { title } }) => (
                 <SectionHeader title={title} />
             )}
             renderItem={({ item }) => <Item itemData={item} />}
-            keyExtractor={(item) => item?.list[0]?.id.toString()}
             refreshControl={
                 <RefreshControl
                     refreshing={refreshing}
@@ -126,7 +151,7 @@ export const SectionList = ({
             }
             contentContainerStyle={contentContainerStyle}
         />
-    ) : null;
+    );
 };
 
 SectionList.defaultProps = SectionListDefaultProps;
