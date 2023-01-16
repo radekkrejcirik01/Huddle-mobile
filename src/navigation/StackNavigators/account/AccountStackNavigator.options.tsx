@@ -38,3 +38,7 @@ export const ChangePasswordTitle: StackNavigationOptions = {
 export const DeleteAccountTitle: StackNavigationOptions = {
     headerTitle: 'Delete account'
 };
+
+export const CreateGroupHangoutTitle: StackNavigationOptions = {
+    headerTitle: 'Group hangout'
+};

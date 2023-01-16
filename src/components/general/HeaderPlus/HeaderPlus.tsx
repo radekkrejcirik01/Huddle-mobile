@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import { IconEnum } from '@components/icon/Icon.enum';
 import { IconButton } from '@components/general/IconButton/IconButton';
 import { HeaderPlusStyle } from '@components/general/HeaderPlus/HeaderPlus.style';
@@ -14,13 +15,19 @@ import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { PeopleCreateInvitationPostInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
+import { useNavigation } from '@hooks/useNavigation';
+import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
 export const HeaderPlus = (): JSX.Element => {
     const { username: user } = useSelector(
         (state: ReducerProps) => state.user.user
     );
 
+    const { showActionSheetWithOptions } = useActionSheet();
+
     const { modalVisible, showModal, hideModal } = useModal();
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const [username, setUsername] = useState<string>();
 
@@ -67,12 +74,34 @@ export const HeaderPlus = (): JSX.Element => {
         [onSend, username]
     );
 
+    const showActionSheet = useCallback(() => {
+        const options = ['Add a friend', 'Create a group hangout', 'Cancel'];
+
+        showActionSheetWithOptions(
+            {
+                options,
+                cancelButtonIndex: 2,
+                userInterfaceStyle: 'dark'
+            },
+            (selectedIndex: number) => {
+                if (selectedIndex === 0) {
+                    showModal();
+                }
+                if (selectedIndex === 1) {
+                    navigateTo(
+                        AccountStackNavigatorEnum.CreateGroupHangoutScreen
+                    );
+                }
+            }
+        );
+    }, [navigateTo, showActionSheetWithOptions, showModal]);
+
     return (
         <>
             <IconButton
                 icon={IconEnum.PLUS}
                 size={22}
-                onPress={showModal}
+                onPress={showActionSheet}
                 style={HeaderPlusStyle.iconButton}
             />
             <Modal
