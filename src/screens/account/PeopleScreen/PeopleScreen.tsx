@@ -26,6 +26,7 @@ export const PeopleScreen = (): JSX.Element => {
     const [filteredData, setFilteredData] = useState<
         Array<PeopleListItemProps>
     >([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     const loadPeople = useCallback(() => {
         postRequest<ResponsePeopleGetInterface, UserGetPostInterface>(
@@ -54,12 +55,10 @@ export const PeopleScreen = (): JSX.Element => {
         setFilteredData(filteredName);
     };
 
-    const [refreshing, setRefreshing] = useState(false);
-
     const refresh = useCallback(() => {
         setRefreshing(true);
-        loadPeople();
         setTimeout(() => {
+            loadPeople();
             setRefreshing(false);
         }, 1000);
     }, [loadPeople]);

@@ -3,7 +3,11 @@
     "allowSyntheticDefaultImports": true,
     "jsx": "react-native",
     "baseUrl": ".",
-    "lib": ["es2015", "ES5", "DOM"],
+    "lib": [
+      "es2015",
+      "ES5",
+      "DOM"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
@@ -13,26 +17,71 @@
     "esModuleInterop": true,
     "strict": true,
     "target": "es2018",
-    "types": ["reflect-metadata", "node", "jest"],
-    "typeRoots": ["./src/types/env.d.ts", "./node_modules/@types"],
+    "types": [
+      "reflect-metadata",
+      "node",
+      "jest"
+    ],
+    "typeRoots": [
+      "./src/types/env.d.ts",
+      "./node_modules/@types"
+    ],
     "paths": {
-      "@app/*": ["./src/app/*"],
-      "@assets/*": ["./src/assets/*"],
-      "@constants/*": ["./src/constants/*"],
-      "@components/*": ["./src/components/*"],
-      "@store/*": ["./src/store/*"],
-      "@screens/*": ["./src/screens/*"],
-      "@services/*": ["./src/services/*"],
-      "@shared/*": ["./src/shared/*"],
-      "@interfaces/*": ["./src/interfaces/*"],
-      "@types/*": ["./src/types/*"],
-      "@hooks/*": ["./src/hooks/*"],
-      "@helpers/*": ["./src/helpers/*"],
-      "@navigation/*": ["./src/navigation/*"],
-      "@functions/*": ["./src/functions/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@app/*": [
+        "./src/app/*"
+      ],
+      "@assets/*": [
+        "./src/assets/*"
+      ],
+      "@constants/*": [
+        "./src/constants/*"
+      ],
+      "@enums/*": [
+        "./src/enums/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@store/*": [
+        "./src/store/*"
+      ],
+      "@screens/*": [
+        "./src/screens/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
+      "@shared/*": [
+        "./src/shared/*"
+      ],
+      "@interfaces/*": [
+        "./src/interfaces/*"
+      ],
+      "@types/*": [
+        "./src/types/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@helpers/*": [
+        "./src/helpers/*"
+      ],
+      "@navigation/*": [
+        "./src/navigation/*"
+      ],
+      "@functions/*": [
+        "./src/functions/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ]
     }
   },
-  "exclude": ["node_modules"],
-  "include": ["src", "src/custom.d.ts"]
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "src",
+    "src/custom.d.ts"
+  ]
 }
