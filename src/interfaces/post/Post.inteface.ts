@@ -33,10 +33,8 @@ export interface SendMessageInterface {
 export interface HangoutCreateInterface {
     user: string;
     username: string;
-    firstname: string;
     time: string;
     place: string;
-    picture: string;
 }
 
 export interface HangoutsGetInterface {
