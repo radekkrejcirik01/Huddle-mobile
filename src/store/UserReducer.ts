@@ -9,7 +9,8 @@ const initialState: User = {
         profilePicture: null
     },
     people: null,
-    hangouts: null
+    hangouts: null,
+    notifications: null
 };
 
 export const UserReducer = createSlice({

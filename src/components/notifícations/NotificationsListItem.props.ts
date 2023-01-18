@@ -2,6 +2,6 @@ import { NotificationsListProps } from '@screens/account/NotificationsScreen/Not
 
 export interface NotificationsListItemProps {
     item: NotificationsListProps;
-    onAccept: (item: NotificationsListProps) => void;
-    onItemPress: (item: NotificationsListProps) => void;
+    onAcceptInvite: (item: NotificationsListProps) => void;
+    onOpenHangout: (item: NotificationsListProps) => void;
 }

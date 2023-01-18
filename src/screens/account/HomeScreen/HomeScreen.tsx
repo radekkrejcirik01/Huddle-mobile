@@ -3,7 +3,6 @@ import { SafeAreaView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import { HomeScreenStyle } from '@screens/account/HomeScreen/HomeScreen.style';
-import { IconButton } from '@components/general/IconButton/IconButton';
 import { IconEnum } from '@components/icon/Icon.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { useNavigation } from '@hooks/useNavigation';
@@ -11,9 +10,11 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { SectionList } from '@components/general/SectionList/SectionList';
 import { ReducerProps } from '@store/index/index.props';
+import { Badge } from '@components/general/Badge/Badge';
+import { Icon } from '@components/icon/Icon';
 
 export const HomeScreen = (): JSX.Element => {
-    const { hangouts, people } = useSelector(
+    const { hangouts, notifications, people } = useSelector(
         (state: ReducerProps) => state.user
     );
 
@@ -75,17 +76,17 @@ export const HomeScreen = (): JSX.Element => {
                             </TouchableOpacity>
                         </View>
                         <View style={HomeScreenStyle.iconContainer}>
-                            <IconButton
-                                icon={IconEnum.BELL}
+                            <TouchableOpacity
                                 onPress={onNotificationsPress}
-                                size={25}
                                 style={HomeScreenStyle.bellIcon}
-                            />
-                            <IconButton
-                                icon={IconEnum.CHAT_FILLED}
-                                onPress={onMessagesPress}
-                                size={26}
-                            />
+                            >
+                                <Icon name={IconEnum.BELL} size={25} />
+                                <Badge value={notifications} />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={onMessagesPress}>
+                                <Icon name={IconEnum.CHAT_FILLED} size={26} />
+                                <Badge value={7} />
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>

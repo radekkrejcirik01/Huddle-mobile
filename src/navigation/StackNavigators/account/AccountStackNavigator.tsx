@@ -10,6 +10,7 @@ import { NotificationsScreen } from '@screens/account/NotificationsScreen/Notifi
 import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
 import { PersonAccountScreen } from '@screens/account/PersonAccountScreen/PersonAccountScreen';
 import { CreateGroupHangoutScreen } from '@screens/account/CreateGroupHangoutScreen/CreateGroupHangoutScreen';
+import { PickPeopleScreen } from '@screens/account/PickPeopleScreen/PickPeopleScreen';
 import { MessagesScreen } from '@screens/account/MessagesScreen/MessagesScreen';
 import { ChatScreen } from '@screens/account/ChatScreen/ChatScreen';
 import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
@@ -25,6 +26,7 @@ import {
     MessagesTitle,
     NotificationsTitle,
     PeopleOptions,
+    PickPeopleTitle,
     ProfileTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
 
@@ -51,6 +53,11 @@ export const AccountStackNavigator = (): JSX.Element => (
             name={AccountStackNavigatorEnum.CreateGroupHangoutScreen}
             component={CreateGroupHangoutScreen}
             options={{ ...NavigationScreenHeader, ...CreateGroupHangoutTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.PickPeopleScreen}
+            component={PickPeopleScreen}
+            options={{ ...NavigationScreenHeader, ...PickPeopleTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.HangoutsScreen}

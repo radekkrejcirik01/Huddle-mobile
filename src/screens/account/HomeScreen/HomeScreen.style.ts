@@ -44,7 +44,8 @@ export const HomeScreenStyle = StyleSheet.create({
         flexDirection: 'row'
     },
     bellIcon: {
-        marginRight: 20
+        marginRight: 20,
+        alignItems: 'flex-end'
     },
     image: {
         width: 50,

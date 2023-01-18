@@ -6,8 +6,8 @@ import {
     Text,
     View
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import { useSelector } from 'react-redux';
+import FastImage from 'react-native-fast-image';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { useNavigation } from '@hooks/useNavigation';
@@ -143,6 +143,7 @@ export const SectionList = ({
             renderSectionHeader={renderSectionHeader}
             renderItem={renderItem}
             refreshControl={refreshControl}
+            initialNumToRender={20}
             contentContainerStyle={contentContainerStyle}
         />
     );

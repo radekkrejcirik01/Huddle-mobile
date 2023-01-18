@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { StyleProp, Text, View, ViewStyle } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import moment from 'moment';
 import COLORS from '@constants/COLORS';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { NotificationTypeEnum } from '@enums/notifications/NotificationType.enum';
@@ -13,24 +14,41 @@ import { NotificationsListItemStyle } from '@components/notifícations/Notificat
 
 export const NotificationsListItem = ({
     item,
-    onAccept,
-    onItemPress
+    onAcceptInvite,
+    onOpenHangout
 }: NotificationsListItemProps): JSX.Element => {
-    const [accepted, setAccepted] = useState<boolean>(!!item.accepted);
+    const [accepted, setAccepted] = useState<boolean>(!!item.confirmed);
+
     const acceptButtonColor = useMemo(
         (): StyleProp<ViewStyle> => ({
             backgroundColor: accepted ? COLORS.GRAY_100 : COLORS.MAIN_BLUE
         }),
         [accepted]
     );
-    const acceptText = useMemo(
-        (): string => (!accepted ? 'Accept' : 'Accepted'),
-        [accepted]
-    );
+
+    const onButtonPress = useCallback(() => {
+        if (item.type === NotificationTypeEnum.PEOPLE) {
+            setAccepted(!accepted);
+            onAcceptInvite(item);
+        } else {
+            onOpenHangout(item);
+        }
+    }, [accepted, item, onAcceptInvite, onOpenHangout]);
+
+    const buttonText = useMemo((): string => {
+        if (item.type === NotificationTypeEnum.PEOPLE) {
+            if (accepted) {
+                return 'Accepted';
+            }
+            return 'Accept';
+        }
+        return 'Open';
+    }, [accepted, item.type]);
+
     return (
         <TouchableOpacity
             disabled={item.type === NotificationTypeEnum.PEOPLE}
-            onPress={() => onItemPress(item)}
+            onPress={onButtonPress}
             style={NotificationsListItemStyle.itemView}
         >
             <View style={NotificationsListItemStyle.contentView}>
@@ -58,27 +76,22 @@ export const NotificationsListItem = ({
                     <Text
                         style={NotificationsListItemStyle.itemTextDescription}
                     >
-                        {item.time}
+                        {moment(item.time).fromNow()}
                     </Text>
                 </View>
             </View>
-            {item.type === NotificationTypeEnum.PEOPLE && (
-                <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() => {
-                        setAccepted(!accepted);
-                        onAccept(item);
-                    }}
-                    style={[
-                        NotificationsListItemStyle.acceptButton,
-                        acceptButtonColor
-                    ]}
-                >
-                    <Text style={NotificationsListItemStyle.acceptText}>
-                        {acceptText}
-                    </Text>
-                </TouchableOpacity>
-            )}
+            <TouchableOpacity
+                activeOpacity={1}
+                onPress={onButtonPress}
+                style={[
+                    NotificationsListItemStyle.acceptButton,
+                    acceptButtonColor
+                ]}
+            >
+                <Text style={NotificationsListItemStyle.acceptText}>
+                    {buttonText}
+                </Text>
+            </TouchableOpacity>
         </TouchableOpacity>
     );
 };

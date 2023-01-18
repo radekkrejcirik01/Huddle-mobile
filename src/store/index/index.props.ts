@@ -1,5 +1,6 @@
 export interface ReducerProps {
     user: User;
+    choosePeople: ChoosePeople;
 }
 
 export interface User {
@@ -11,4 +12,9 @@ export interface User {
     };
     people: number;
     hangouts: number;
+    notifications: number;
+}
+
+export interface ChoosePeople {
+    users: Array<string>;
 }

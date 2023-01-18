@@ -1,32 +1,35 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { RefreshControl, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
-import FastImage from 'react-native-fast-image';
-import { PeopleScreenStyle } from '@screens/account/PeopleScreen/PeopleScreen.style';
-import { Input } from '@components/general/Input/Input';
-import { InputTypeEnum } from '@components/general/Input/Input.enum';
+import { ReducerProps } from '@store/index/index.props';
 import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { useNavigation } from '@hooks/useNavigation';
-import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponsePeopleGetInterface } from '@interfaces/response/Response.interface';
 import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
-import { ReducerProps } from '@store/index/index.props';
+import { Input } from '@components/general/Input/Input';
+import { InputTypeEnum } from '@components/general/Input/Input.enum';
+import { PickPeopleListItem } from '@components/people/PickPeopleListItem/PickPeopleListItem';
+import { setUsersAction } from '@store/ChoosePeopleReducer';
+import { HangoutPickerStyle } from '@screens/account/PickPeopleScreen/PickPeopleScreen.style';
 
-export const PeopleScreen = (): JSX.Element => {
+export const PickPeopleScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
+    const { users } = useSelector((state: ReducerProps) => state.choosePeople);
 
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
+
     const [inputValue, setInputValue] = useState<string>();
-
     const [data, setData] = useState<Array<PeopleListItemProps>>([]);
+
     const [filteredData, setFilteredData] = useState<
         Array<PeopleListItemProps>
     >([]);
     const [refreshing, setRefreshing] = useState(false);
+
+    const people = useRef(users);
 
     const loadPeople = useCallback(() => {
         postRequest<ResponsePeopleGetInterface, UserGetPostInterface>(
@@ -41,6 +44,13 @@ export const PeopleScreen = (): JSX.Element => {
             }
         });
     }, [username]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('beforeRemove', () => {
+            dispatch(setUsersAction(people.current));
+        });
+        return unsubscribe;
+    }, [dispatch, navigation]);
 
     useEffect(() => {
         loadPeople();
@@ -63,51 +73,32 @@ export const PeopleScreen = (): JSX.Element => {
         }, 1000);
     }, [loadPeople]);
 
-    const onItemPress = useCallback(
-        (item: PeopleListItemProps) => {
-            navigateTo(AccountStackNavigatorEnum.PersonAccountScreen, {
-                firstname: item.firstname,
-                username: item.username,
-                profilePicture: item.profilePicture
-            });
+    const onPressPerson = useCallback(
+        (user: string) => {
+            const array = people.current;
+            if (array.includes(user)) {
+                people.current = array.filter(
+                    (value: string) => value !== user
+                );
+            } else {
+                people.current = [...array, user];
+            }
         },
-        [navigateTo]
-    );
-
-    const renderItem = ({
-        item
-    }: ListRenderItemInfo<PeopleListItemProps>): JSX.Element => (
-        <TouchableOpacity
-            onPress={() => onItemPress(item)}
-            style={PeopleScreenStyle.itemView}
-        >
-            <View>
-                <Text style={PeopleScreenStyle.itemTextName}>
-                    {item.firstname}
-                </Text>
-                <Text style={PeopleScreenStyle.itemTextUsername}>
-                    {item.username}
-                </Text>
-            </View>
-            <FastImage
-                source={{ uri: item.profilePicture }}
-                style={PeopleScreenStyle.itemImage}
-            />
-        </TouchableOpacity>
+        [people]
     );
 
     return (
-        <View style={PeopleScreenStyle.container}>
+        <View style={HangoutPickerStyle.container}>
             <Input
                 iconLeft={<Text>🔍</Text>}
                 placeholder="Who you looking for?..."
                 value={inputValue}
                 onChange={filterData}
                 inputType={InputTypeEnum.TEXT}
-                viewStyle={PeopleScreenStyle.inputView}
-                inputStyle={PeopleScreenStyle.input}
+                viewStyle={HangoutPickerStyle.inputView}
+                inputStyle={HangoutPickerStyle.input}
             />
-            <View style={PeopleScreenStyle.flashListView}>
+            <View style={HangoutPickerStyle.flashListView}>
                 <FlashList
                     data={filteredData}
                     refreshControl={
@@ -117,7 +108,14 @@ export const PeopleScreen = (): JSX.Element => {
                             tintColor="white"
                         />
                     }
-                    renderItem={renderItem}
+                    renderItem={(
+                        item: ListRenderItemInfo<PeopleListItemProps>
+                    ) => (
+                        <PickPeopleListItem
+                            data={item}
+                            onPressPerson={onPressPerson}
+                        />
+                    )}
                     estimatedItemSize={68}
                 />
             </View>

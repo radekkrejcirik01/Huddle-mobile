@@ -1,4 +1,4 @@
 export enum NotificationTypeEnum {
-    PEOPLE,
-    HANGOUT
+    PEOPLE = 'people',
+    HANGOUT = 'hangout'
 }

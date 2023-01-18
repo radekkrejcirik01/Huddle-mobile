@@ -3,6 +3,7 @@ export enum AccountStackNavigatorEnum {
     PeopleScreen = 'PeopleScreen',
     PersonAccountScreen = 'PersonAccountScreen',
     CreateGroupHangoutScreen = 'CreateGroupHangoutScreen',
+    PickPeopleScreen = 'PickPeopleScreen',
     HangoutsScreen = 'HangoutsScreen',
     NotificationsScreen = 'NotificationsScreen',
     MessagesScreen = 'MessagesScreen',

@@ -20,54 +20,17 @@ export const PersonAccountScreenStyle = StyleSheet.create({
         fontWeight: '500'
     },
     hangoutTouchableOpacity: {
-        marginTop: 25,
+        width: 120,
+        marginTop: 50,
         padding: 10,
         borderRadius: 10,
         backgroundColor: COLORS.MAIN_BLUE,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        alignItems: 'center'
     },
     hangoutText: {
         fontSize: 15,
         color: COLORS.WHITE,
         fontWeight: '500'
-    },
-    modalContainer: {
-        padding: 15
-    },
-    title: {
-        paddingLeft: 2,
-        fontSize: 18,
-        color: COLORS.WHITE,
-        fontWeight: '600'
-    },
-    tagsRow: {
-        paddingTop: 10,
-        flexDirection: 'row'
-    },
-    tagsItem: {
-        marginRight: 5,
-        padding: 7,
-        borderRadius: 15,
-        backgroundColor: COLORS.MAIN_BLUE
-    },
-    tagText: {
-        fontSize: 15,
-        color: COLORS.WHITE,
-        fontWeight: '500'
-    },
-    inputContainer: {
-        paddingTop: 20
-    },
-    input: {
-        paddingLeft: 5,
-        fontSize: 14,
-        color: COLORS.WHITE,
-        fontWeight: '500'
-    },
-    inputView: {
-        marginTop: 10,
-        height: 40,
-        borderWidth: 0,
-        backgroundColor: COLORS.GRAY_100
     }
 });

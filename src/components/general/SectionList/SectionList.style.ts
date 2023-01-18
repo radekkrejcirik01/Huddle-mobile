@@ -15,7 +15,7 @@ export const SectionListStyle = StyleSheet.create({
         flexWrap: 'wrap'
     },
     itemView: {
-        marginRight: 10,
+        marginRight: 5,
         marginBottom: 5,
         padding: 10,
         borderRadius: 15,

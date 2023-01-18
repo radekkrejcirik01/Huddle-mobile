@@ -1,13 +1,10 @@
 import { NotificationTypeEnum } from '@enums/notifications/NotificationType.enum';
 
-export interface NotificationsListProps extends NotificationPeopleProps {
+export interface NotificationsListProps {
     id: number;
-    profilePicture: string;
     username: string;
-    type: NotificationTypeEnum;
+    profilePicture: string;
+    confirmed: number;
     time: string;
-}
-
-export interface NotificationPeopleProps {
-    accepted?: number;
+    type: NotificationTypeEnum;
 }
