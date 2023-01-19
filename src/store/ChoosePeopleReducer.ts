@@ -12,10 +12,11 @@ export const ChoosePeopleReducer = createSlice({
         setUsersAction: (state, action) => {
             state.users = action.payload;
         },
-        resetUserState: () => initialState
+        resetChoosePeopleState: () => initialState
     }
 });
 
-export const { setUsersAction } = ChoosePeopleReducer.actions;
+export const { setUsersAction, resetChoosePeopleState } =
+    ChoosePeopleReducer.actions;
 
 export default ChoosePeopleReducer.reducer;

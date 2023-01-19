@@ -1,45 +1,51 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import { Input } from '@components/general/Input/Input';
 import COLORS from '@constants/COLORS';
 import { CreateGroupHangoutScreenStyle } from '@screens/account/CreateGroupHangoutScreen/CreateGroupHangoutScreen.style';
 import { ReducerProps } from '@store/index/index.props';
 import { HangoutPicker } from '@components/general/HangoutPicker/HangoutPicker';
-import { PersonAccountScreenStyle } from '@screens/account/PersonAccountScreen/PersonAccountScreen.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
-import { HangoutCreateInterface } from '@interfaces/post/Post.inteface';
+import { GroupHangoutCreateInterface } from '@interfaces/post/Post.inteface';
 import { HangoutPickerEnum } from '@components/general/HangoutPicker/HangoutPicker.enum';
+import { resetChoosePeopleState } from '@store/ChoosePeopleReducer';
 
 export const CreateGroupHangoutScreen = (): JSX.Element => {
     const { username, profilePicture } = useSelector(
         (state: ReducerProps) => state.user.user
     );
+    const { users } = useSelector((state: ReducerProps) => state.choosePeople);
+    const dispatch = useDispatch();
 
-    const user = 'A';
-
+    const [title, setTitle] = useState<string>();
     const [dateTime, setDateTime] = useState<string>();
     const [place, setPlace] = useState<string>();
+    const [picture, setPicture] = useState<string>();
+
     const [isHangoutSent, setIsHangoutSent] = useState<boolean>(false);
 
-    const sendHangout = useCallback(() => {
-        postRequest<ResponseInterface, HangoutCreateInterface>(
-            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/create/hangout',
+    const sendGroupHangout = useCallback(() => {
+        postRequest<ResponseInterface, GroupHangoutCreateInterface>(
+            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/create/hangout/group',
             {
-                user,
-                username,
+                user: username,
+                title,
+                usernames: users,
                 time: dateTime,
-                place
+                place,
+                picture
             }
         ).subscribe((response: ResponseInterface) => {
             if (response?.status) {
                 setIsHangoutSent(true);
+                dispatch(resetChoosePeopleState());
             }
         });
-    }, [dateTime, user, username, place]);
+    }, [dateTime, dispatch, picture, place, title, username, users]);
 
     const sendButtonText = useMemo((): string => {
         if (isHangoutSent) {
@@ -52,7 +58,9 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
         <View style={CreateGroupHangoutScreenStyle.container}>
             <Input
                 autoFocus
+                value={title}
                 placeholder="What is happening?"
+                onChangeText={setTitle}
                 selectionColor={COLORS.WHITE}
                 style={CreateGroupHangoutScreenStyle.input}
                 viewStyle={CreateGroupHangoutScreenStyle.inputView}
@@ -71,10 +79,10 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
                 type={HangoutPickerEnum.GROUP}
             />
             <TouchableOpacity
-                onPress={sendHangout}
-                style={PersonAccountScreenStyle.hangoutTouchableOpacity}
+                onPress={sendGroupHangout}
+                style={CreateGroupHangoutScreenStyle.hangoutTouchableOpacity}
             >
-                <Text style={PersonAccountScreenStyle.hangoutText}>
+                <Text style={CreateGroupHangoutScreenStyle.hangoutText}>
                     {sendButtonText}
                 </Text>
             </TouchableOpacity>

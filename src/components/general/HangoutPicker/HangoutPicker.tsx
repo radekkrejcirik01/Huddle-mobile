@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
+import { useSelector } from 'react-redux';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import COLORS from '@constants/COLORS';
 import { Input } from '@components/general/Input/Input';
@@ -18,17 +18,15 @@ import { HangoutPickerStyle } from '@components/general/HangoutPicker/HangoutPic
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { ReducerProps } from '@store/index/index.props';
 import { HangoutPickerEnum } from '@components/general/HangoutPicker/HangoutPicker.enum';
+import { ReducerProps } from '@store/index/index.props';
 
 export const HangoutPicker = ({
     onDateTimeChange,
     onPlaceChange,
-    onPeopleChange,
     type
 }: HangoutPickerProps): JSX.Element => {
     const { users } = useSelector((state: ReducerProps) => state.choosePeople);
-
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const [suggestedWhen, setSuggestedWhen] = useState<Array<string>>([]);
