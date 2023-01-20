@@ -2,7 +2,15 @@ import { RouteProp } from '@react-navigation/native';
 import { Moment } from 'moment';
 
 export interface EventScreenProps {
-    route: RouteProp<{ params: { hangoutId: number } }, 'params'>;
+    route: RouteProp<
+        {
+            params: {
+                hangoutId: number;
+                confirmed: number;
+            };
+        },
+        'params'
+    >;
 }
 
 export interface EventScreenDataInterface {

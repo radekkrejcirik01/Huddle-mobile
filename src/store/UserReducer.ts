@@ -10,7 +10,8 @@ const initialState: User = {
     },
     people: null,
     hangouts: null,
-    notifications: null
+    notifications: null,
+    unreadMessages: null
 };
 
 export const UserReducer = createSlice({
@@ -35,6 +36,9 @@ export const UserReducer = createSlice({
         setHangoutsAction: (state, action) => {
             state.hangouts = action.payload;
         },
+        setUnreadMessagesAction: (state, action) => {
+            state.unreadMessages = action.payload;
+        },
         setUserStateAction: (state, action) => {
             action.payload.token = action.payload.user.username;
             return action.payload;
@@ -47,6 +51,10 @@ export const {
     setUserToken,
     setFirstnameAction,
     setUsernameAction,
+    setProfilePictureAction,
+    setPeopleAction,
+    setHangoutsAction,
+    setUnreadMessagesAction,
     setUserStateAction,
     resetUserState
 } = UserReducer.actions;

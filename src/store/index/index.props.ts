@@ -13,6 +13,7 @@ export interface User {
     people: number;
     hangouts: number;
     notifications: number;
+    unreadMessages: number;
 }
 
 export interface ChoosePeople {

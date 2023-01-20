@@ -19,16 +19,19 @@ export const NotificationsListItem = ({
 }: NotificationsListItemProps): JSX.Element => {
     const [accepted, setAccepted] = useState<boolean>(!!item.confirmed);
 
-    const acceptButtonColor = useMemo(
-        (): StyleProp<ViewStyle> => ({
-            backgroundColor: accepted ? COLORS.GRAY_100 : COLORS.MAIN_BLUE
-        }),
-        [accepted]
-    );
+    const acceptButtonColor = useMemo((): StyleProp<ViewStyle> => {
+        if (item.type === NotificationTypeEnum.PEOPLE) {
+            return {
+                backgroundColor: accepted ? COLORS.GRAY_100 : COLORS.MAIN_BLUE
+            };
+        }
+        return { backgroundColor: COLORS.GRAY_100 };
+    }, [accepted, item.type]);
 
     const onButtonPress = useCallback(() => {
         if (item.type === NotificationTypeEnum.PEOPLE) {
             setAccepted(!accepted);
+            item.confirmed = accepted ? 0 : 1;
             onAcceptInvite(item);
         } else {
             onOpenHangout(item);

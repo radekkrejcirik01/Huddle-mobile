@@ -11,9 +11,11 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { postRequest } from '@utils/Axios/Axios.service';
 import {
     ResponseConversationCreateInterface,
-    ResponseHangoutGetInterface
+    ResponseHangoutGetInterface,
+    ResponseInterface
 } from '@interfaces/response/Response.interface';
 import {
+    AcceptHangoutInvitationInterface,
     ConversationsCreateInterface,
     HangoutGetInterface
 } from '@interfaces/post/Post.inteface';
@@ -23,12 +25,13 @@ import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/A
 import { ReducerProps } from '@store/index/index.props';
 
 export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
-    const { hangoutId } = route.params;
+    const { confirmed = 1, hangoutId } = route.params;
 
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
+    const [accepted, setAccepted] = useState<boolean>(confirmed === 1);
     const [data, setData] = useState<EventScreenDataInterface>();
 
     useEffect(() => {
@@ -56,6 +59,17 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
         ),
         [data?.picture]
     );
+
+    const accept = useCallback(() => {
+        setAccepted(true);
+        postRequest<ResponseInterface, AcceptHangoutInvitationInterface>(
+            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/accept/hangout/invitation',
+            {
+                id: hangoutId,
+                value: 1
+            }
+        ).subscribe();
+    }, [hangoutId]);
 
     const onOpenChat = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.ChatScreen);
@@ -90,14 +104,29 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
                     {data?.time}
                 </Text>
             </View>
-            <View style={EventScreenStyle.buttonsRow}>
-                <TouchableOpacity
-                    onPress={onOpenChat}
-                    style={EventScreenStyle.row}
-                >
-                    <Text style={EventScreenStyle.buttonText}>Open chat</Text>
-                </TouchableOpacity>
-            </View>
+            {accepted ? (
+                <View style={EventScreenStyle.buttonsRow}>
+                    <TouchableOpacity
+                        onPress={onOpenChat}
+                        style={EventScreenStyle.row}
+                    >
+                        <Text style={EventScreenStyle.buttonText}>
+                            Open chat
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            ) : (
+                <View style={EventScreenStyle.buttonsRow}>
+                    <TouchableOpacity
+                        onPress={accept}
+                        style={EventScreenStyle.row}
+                    >
+                        <Text style={EventScreenStyle.buttonText}>
+                            Accept invite
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            )}
         </ScrollView>
     );
 };

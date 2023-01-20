@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, RefreshControl, View } from 'react-native';
+import { RefreshControl, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { ReducerProps } from '@store/index/index.props';
@@ -17,6 +17,7 @@ import {
     AcceptPeopleInvitationInterface,
     UserGetPostInterface
 } from '@interfaces/post/Post.inteface';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
 export const NotificationsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -55,14 +56,21 @@ export const NotificationsScreen = (): JSX.Element => {
         postRequest<ResponseInterface, AcceptPeopleInvitationInterface>(
             'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/accept/people/invitation',
             {
-                id: item.id
+                id: item.id,
+                value: item.confirmed
             }
         ).subscribe();
     }, []);
 
-    const onOpenHangout = useCallback((item: NotificationsListProps) => {
-        Alert.alert(`hangout id: ${item.id}`);
-    }, []);
+    const onOpenHangout = useCallback(
+        (item: NotificationsListProps) => {
+            navigateTo(AccountStackNavigatorEnum.EventScreen, {
+                hangoutId: item.id,
+                confirmed: item.confirmed
+            });
+        },
+        [navigateTo]
+    );
 
     const renderItem = useCallback(
         ({ item }: ListRenderItemInfo<NotificationsListProps>): JSX.Element => (
