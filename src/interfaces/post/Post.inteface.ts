@@ -59,3 +59,7 @@ export interface GroupHangoutCreateInterface {
 export interface ConversationsCreateInterface {
     usernames: Array<string>;
 }
+
+export interface AcceptPeopleInvitationInterface {
+    id: number;
+}

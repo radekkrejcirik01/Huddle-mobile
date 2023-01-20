@@ -9,8 +9,14 @@ import { NotificationsScreenStyle } from '@screens/account/NotificationsScreen/N
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
 import { NotificationsListItem } from '@components/notifícations/NotificationsListItem';
 import { postRequest } from '@utils/Axios/Axios.service';
-import { ResponseNotificationsGetInterface } from '@interfaces/response/Response.interface';
-import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
+import {
+    ResponseInterface,
+    ResponseNotificationsGetInterface
+} from '@interfaces/response/Response.interface';
+import {
+    AcceptPeopleInvitationInterface,
+    UserGetPostInterface
+} from '@interfaces/post/Post.inteface';
 
 export const NotificationsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -45,8 +51,13 @@ export const NotificationsScreen = (): JSX.Element => {
         }, 1000);
     }, [loadNotifications]);
 
-    const onAcceptInvite = useCallback((item: NotificationsListProps) => {
-        Alert.alert(`people invitation id: ${item.id}`);
+    const onAcceptPeopleInvite = useCallback((item: NotificationsListProps) => {
+        postRequest<ResponseInterface, AcceptPeopleInvitationInterface>(
+            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/accept/people/invitation',
+            {
+                id: item.id
+            }
+        ).subscribe();
     }, []);
 
     const onOpenHangout = useCallback((item: NotificationsListProps) => {
@@ -57,11 +68,11 @@ export const NotificationsScreen = (): JSX.Element => {
         ({ item }: ListRenderItemInfo<NotificationsListProps>): JSX.Element => (
             <NotificationsListItem
                 item={item}
-                onAcceptInvite={onAcceptInvite}
+                onAcceptInvite={onAcceptPeopleInvite}
                 onOpenHangout={onOpenHangout}
             />
         ),
-        [onAcceptInvite, onOpenHangout]
+        [onAcceptPeopleInvite, onOpenHangout]
     );
 
     return (
