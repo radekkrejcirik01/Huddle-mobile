@@ -58,11 +58,11 @@ export const MessagesScreen = (): JSX.Element => {
     const onItemPress = useCallback(
         (item: MessagesListDataProps) => {
             navigateTo(AccountStackNavigatorEnum.ChatScreen, {
-                username: item?.username
+                username: item.id
             });
 
             if (!item.isRead) {
-                updateMessageRead(item.username);
+                updateMessageRead(item.name);
             }
         },
         [navigateTo, updateMessageRead]

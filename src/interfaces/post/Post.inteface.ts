@@ -42,6 +42,11 @@ export interface HangoutsGetInterface {
     showAll: boolean;
 }
 
+export interface HangoutGetInterface {
+    id: number;
+    username: string;
+}
+
 export interface GroupHangoutCreateInterface {
     user: string;
     title: string;
@@ -49,4 +54,8 @@ export interface GroupHangoutCreateInterface {
     time: string;
     place: string;
     picture: string;
+}
+
+export interface ConversationsCreateInterface {
+    usernames: Array<string>;
 }

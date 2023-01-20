@@ -3,8 +3,8 @@ import { StyleProp, Text, TextStyle, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { MessagesItemProps } from './MessagesItem.props';
-import { MessagesItemStyle } from './MessagesItem.style';
+import { MessagesItemProps } from '@components/messages/MessagesItem/MessagesItem.props';
+import { MessagesItemStyle } from '@components/messages/MessagesItem/MessagesItem.style';
 
 export const MessagesItem = ({
     item,
@@ -27,15 +27,13 @@ export const MessagesItem = ({
             <View style={MessagesItemStyle.row}>
                 <View>
                     <FastImage
-                        source={{ uri: item.profilePicture }}
+                        source={{ uri: item.picture }}
                         style={MessagesItemStyle.image}
                     />
                 </View>
                 <View style={MessagesItemStyle.box}>
                     <View style={MessagesItemStyle.firstRow}>
-                        <Text style={MessagesItemStyle.text}>
-                            {item.firstname}
-                        </Text>
+                        <Text style={MessagesItemStyle.text}>{item.name}</Text>
                         <Text style={[MessagesItemStyle.text, opacityStyle]}>
                             {moment(item.time).fromNow()}
                         </Text>

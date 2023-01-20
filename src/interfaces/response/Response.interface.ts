@@ -3,6 +3,7 @@ import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.
 import { ChatDataProps } from '@components/chat/ChatList/ChatList.props';
 import { ComingsUpDataInterface } from '@components/general/SectionList/SectionList.props';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
+import { EventScreenDataInterface } from '@screens/account/EventScreen/EventScreen.props';
 
 export interface ResponseInterface {
     status: string;
@@ -33,9 +34,9 @@ export interface ResponseConversationsGetInterface {
     status: string;
     message: string;
     data?: Array<{
-        username: string;
-        firstname: string;
-        profilePicture: string;
+        id: number;
+        name: string;
+        picture: string;
         message: string;
         time: Moment;
         isRead: number;
@@ -54,8 +55,20 @@ export interface ResponseHangoutsGetInterface {
     data?: Array<ComingsUpDataInterface>;
 }
 
+export interface ResponseHangoutGetInterface {
+    status: string;
+    message: string;
+    data?: EventScreenDataInterface;
+}
+
 export interface ResponseNotificationsGetInterface {
     status: string;
     message: string;
     data?: Array<NotificationsListProps>;
+}
+
+export interface ResponseConversationCreateInterface {
+    status: string;
+    message: string;
+    conversationID: number;
 }

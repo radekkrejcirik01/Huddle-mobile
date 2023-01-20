@@ -1,9 +1,9 @@
 import { Moment } from 'moment';
 
 export interface MessagesListDataProps {
-    username: string;
-    firstname: string;
-    profilePicture: string;
+    id: number;
+    name: string;
+    picture: string;
     message: string;
     time: Moment;
     isRead: number;

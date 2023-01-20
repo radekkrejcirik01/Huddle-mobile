@@ -1,6 +1,15 @@
 import { RouteProp } from '@react-navigation/native';
-import { ComingsUpListItem } from '@components/general/SectionList/SectionList.props';
+import { Moment } from 'moment';
 
 export interface EventScreenProps {
-    route: RouteProp<{ params: { item: ComingsUpListItem } }, 'params'>;
+    route: RouteProp<{ params: { hangoutId: number } }, 'params'>;
+}
+
+export interface EventScreenDataInterface {
+    createdBy: string;
+    title: string;
+    time: Moment;
+    place: string;
+    picture: string;
+    usernames: Array<string>;
 }
