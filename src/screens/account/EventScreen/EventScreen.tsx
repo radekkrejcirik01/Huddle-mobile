@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import {
@@ -72,8 +72,6 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
     }, [hangoutId]);
 
     const onOpenChat = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.ChatScreen);
-
         postRequest<
             ResponseConversationCreateInterface,
             ConversationsCreateInterface
@@ -84,10 +82,13 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
             }
         ).subscribe((response: ResponseConversationCreateInterface) => {
             if (response?.status) {
-                Alert.alert(JSON.stringify(response));
+                navigateTo(AccountStackNavigatorEnum.ChatScreen, {
+                    conversationId: response.conversationId,
+                    title: data?.title
+                });
             }
         });
-    }, [navigateTo, data?.usernames]);
+    }, [navigateTo, data?.usernames, data?.title, username]);
 
     return (
         <ScrollView contentContainerStyle={EventScreenStyle.contentContainer}>

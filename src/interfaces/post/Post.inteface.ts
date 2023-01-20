@@ -18,16 +18,13 @@ export interface ReadMessageInterface {
 }
 
 export interface MessagesGetInterface {
-    username: string;
-    user: string;
+    conversationId: number;
 }
 
 export interface SendMessageInterface {
     sender: string;
-    senderFirstname: string;
-    receiver: string;
+    conversationId: number;
     message: string;
-    time: string;
 }
 
 export interface HangoutCreateInterface {

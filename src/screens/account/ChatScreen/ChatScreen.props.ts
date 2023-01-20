@@ -1,5 +1,8 @@
 import { RouteProp } from '@react-navigation/native';
 
 export interface ChatScreenProps {
-    route: RouteProp<{ params: { username: string } }, 'params'>;
+    route: RouteProp<
+        { params: { title: string; conversationId: number } },
+        'params'
+    >;
 }

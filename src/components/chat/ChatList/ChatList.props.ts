@@ -1,11 +1,15 @@
+import { Moment } from 'moment';
+
 export interface ChatDataProps {
     id: number;
     sender: string;
-    receiver: string;
+    profilePicture: string;
+    conversationId: number;
     message: string;
-    time: string;
+    time: Moment;
+    isRead: number;
 }
 
 export interface ChatListProps {
-    username: string;
+    conversationId: number;
 }

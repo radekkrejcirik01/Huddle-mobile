@@ -70,5 +70,5 @@ export interface ResponseNotificationsGetInterface {
 export interface ResponseConversationCreateInterface {
     status: string;
     message: string;
-    conversationID: number;
+    conversationId: number;
 }

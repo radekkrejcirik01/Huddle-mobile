@@ -27,7 +27,14 @@ export const useChatListRenders = (
 
         const isOutbound = sender === username;
 
-        return <ChatItem isOutbound={isOutbound} message={message} />;
+        return (
+            <ChatItem
+                isOutbound={isOutbound}
+                message={message}
+                sender={sender}
+                profilePicture={item.profilePicture}
+            />
+        );
     };
 
     const getItemCount = useCallback((): number => data?.length, [data]);

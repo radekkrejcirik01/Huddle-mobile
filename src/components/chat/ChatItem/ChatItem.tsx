@@ -1,12 +1,15 @@
 import React, { useMemo } from 'react';
 import { StyleProp, Text, TextStyle, View, ViewStyle } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import COLORS from '@constants/COLORS';
 import { ChatItemProps } from '@components/chat/ChatItem/ChatItem.props';
 import { ChatItemStyle } from '@components/chat/ChatItem/ChatItem.style';
 
 export const ChatItem = ({
     isOutbound,
-    message
+    message,
+    sender,
+    profilePicture
 }: ChatItemProps): JSX.Element => {
     const isDarkMode = true;
     const renderRight = useMemo(() => isOutbound, [isOutbound]);
@@ -53,8 +56,15 @@ export const ChatItem = ({
     );
 
     return (
-        <View style={viewStyle}>
-            <Text style={textStyle}>{message}</Text>
+        <View>
+            <View style={viewStyle}>
+                <FastImage
+                    source={{ uri: profilePicture }}
+                    style={{ width: 20, height: 20, borderRadius: 10 }}
+                />
+                <Text style={textStyle}>{message}</Text>
+            </View>
+            {!isOutbound && <Text style={textStyle}>{sender}</Text>}
         </View>
     );
 };

@@ -24,17 +24,14 @@ import {
 } from '@interfaces/response/Response.interface';
 import {
     MessagesGetInterface,
-    ReadMessageInterface,
     SendMessageInterface
 } from '@interfaces/post/Post.inteface';
 import COLORS from '@constants/COLORS';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { getDateAndTime } from '@functions/getDateAndTime';
 
-export const ChatList = ({ username }: ChatListProps): JSX.Element => {
-    const { username: appUser, firstname } = useSelector(
-        (state: ReducerProps) => state.user.user
-    );
+export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
+    const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const [data, setData] = useState<Array<ChatDataProps>>([]);
     const [messageValue, setMessageValue] = useState<string>();
@@ -46,34 +43,20 @@ export const ChatList = ({ username }: ChatListProps): JSX.Element => {
 
     const listRef = useRef(null);
 
-    const updateMessageRead = useCallback(() => {
-        postRequest<ResponseInterface, ReadMessageInterface>(
-            'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/update/read',
-            {
-                username: appUser,
-                user: username
-            }
-        ).subscribe();
-    }, [appUser, username]);
-
     const loadMessages = useCallback(
         (read = false) => {
             postRequest<MessagesResponseInterface, MessagesGetInterface>(
-                'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/get/messages/0',
+                'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/get/messages',
                 {
-                    username: appUser,
-                    user: username
+                    conversationId
                 }
             ).subscribe((response: MessagesResponseInterface) => {
                 if (response?.status) {
                     setData(response?.data);
-                    if (read) {
-                        updateMessageRead();
-                    }
                 }
             });
         },
-        [appUser, updateMessageRead, username]
+        [conversationId]
     );
 
     useEffect(() => {
@@ -102,14 +85,12 @@ export const ChatList = ({ username }: ChatListProps): JSX.Element => {
         postRequest<ResponseInterface, SendMessageInterface>(
             'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/send/message',
             {
-                sender: appUser,
-                senderFirstname: firstname,
-                receiver: username,
-                message: messageValue,
-                time: getDateAndTime()
+                sender: username,
+                conversationId,
+                message: messageValue
             }
         ).subscribe();
-    }, [appUser, firstname, messageValue, username]);
+    }, [conversationId, messageValue, username]);
 
     const onSend = useCallback(() => {
         Keyboard.dismiss();
@@ -117,7 +98,7 @@ export const ChatList = ({ username }: ChatListProps): JSX.Element => {
 
         const newMessage: ChatDataProps = {
             id: data[0].id + 1,
-            sender: appUser,
+            sender: username,
             receiver: username,
             message: messageValue,
             time: getDateAndTime()
@@ -125,7 +106,7 @@ export const ChatList = ({ username }: ChatListProps): JSX.Element => {
         setData([newMessage, ...data]);
 
         setMessageValue(null);
-    }, [appUser, data, messageValue, sendMessage, username]);
+    }, [data, messageValue, sendMessage, username]);
 
     return (
         <>

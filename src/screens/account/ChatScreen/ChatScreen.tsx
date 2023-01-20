@@ -7,19 +7,19 @@ import { ChatScreenProps } from '@screens/account/ChatScreen/ChatScreen.props';
 import { ChatScreenStyle } from '@screens/account/ChatScreen/ChatScreen.style';
 
 export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
-    const { username } = route.params;
+    const { title, conversationId } = route.params;
 
     const navigation = useNavigation();
 
     useEffect(() => {
-        navigation.setOptions({ title: username });
-    }, [navigation, username]);
+        navigation.setOptions({ title });
+    }, [navigation, title]);
 
     return (
         <SafeAreaView>
             <KeyboardAvoidingView keyboardVerticalOffset={50}>
                 <View style={ChatScreenStyle.container}>
-                    <ChatList username={username} />
+                    <ChatList conversationId={conversationId} />
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
