@@ -28,7 +28,6 @@ import {
 } from '@interfaces/post/Post.inteface';
 import COLORS from '@constants/COLORS';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { getDateAndTime } from '@functions/getDateAndTime';
 
 export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -89,24 +88,19 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
                 conversationId,
                 message: messageValue
             }
-        ).subscribe();
-    }, [conversationId, messageValue, username]);
+        ).subscribe((response: ResponseInterface) => {
+            if (response?.status) {
+                loadMessages();
+            }
+        });
+    }, [conversationId, loadMessages, messageValue, username]);
 
     const onSend = useCallback(() => {
         Keyboard.dismiss();
         sendMessage();
 
-        const newMessage: ChatDataProps = {
-            id: data[0].id + 1,
-            sender: username,
-            receiver: username,
-            message: messageValue,
-            time: getDateAndTime()
-        };
-        setData([newMessage, ...data]);
-
         setMessageValue(null);
-    }, [data, messageValue, sendMessage, username]);
+    }, [sendMessage]);
 
     return (
         <>

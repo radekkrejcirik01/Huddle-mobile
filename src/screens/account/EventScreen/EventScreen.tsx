@@ -10,13 +10,11 @@ import { EventScreenStyle } from '@screens/account/EventScreen/EventScreen.style
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { postRequest } from '@utils/Axios/Axios.service';
 import {
-    ResponseConversationCreateInterface,
     ResponseHangoutGetInterface,
     ResponseInterface
 } from '@interfaces/response/Response.interface';
 import {
     AcceptHangoutInvitationInterface,
-    ConversationsCreateInterface,
     HangoutGetInterface
 } from '@interfaces/post/Post.inteface';
 import { useNavigation } from '@hooks/useNavigation';
@@ -72,23 +70,11 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
     }, [hangoutId]);
 
     const onOpenChat = useCallback(() => {
-        postRequest<
-            ResponseConversationCreateInterface,
-            ConversationsCreateInterface
-        >(
-            'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/create/conversation',
-            {
-                usernames: data?.usernames
-            }
-        ).subscribe((response: ResponseConversationCreateInterface) => {
-            if (response?.status) {
-                navigateTo(AccountStackNavigatorEnum.ChatScreen, {
-                    conversationId: response.conversationId,
-                    title: data?.title
-                });
-            }
+        navigateTo(AccountStackNavigatorEnum.ChatScreen, {
+            title: data?.title,
+            usernames: data?.usernames
         });
-    }, [navigateTo, data?.usernames, data?.title, username]);
+    }, [navigateTo, data?.usernames, data?.title]);
 
     return (
         <ScrollView contentContainerStyle={EventScreenStyle.contentContainer}>
