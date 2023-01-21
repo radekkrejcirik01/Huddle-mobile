@@ -66,7 +66,9 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
         ).subscribe((response: MessagesResponseInterface) => {
             if (response?.status) {
                 setData(response?.data);
-                updateMessageRead(response?.data[0].id);
+                if (response?.data?.length) {
+                    updateMessageRead(response?.data[0]?.id);
+                }
             }
         });
     }, [conversationId, updateMessageRead]);

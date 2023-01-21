@@ -26,6 +26,7 @@ export const MessagesItemStyle = StyleSheet.create({
         justifyContent: 'space-between'
     },
     text: {
+        maxWidth: '65%',
         fontSize: 14,
         paddingBottom: 5,
         color: COLORS.WHITE,
