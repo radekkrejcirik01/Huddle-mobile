@@ -24,7 +24,8 @@ import {
 } from '@interfaces/response/Response.interface';
 import {
     MessagesGetInterface,
-    SendMessageInterface
+    SendMessageInterface,
+    UpdateReadInterface
 } from '@interfaces/post/Post.inteface';
 import COLORS from '@constants/COLORS';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
@@ -42,21 +43,33 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
 
     const listRef = useRef(null);
 
-    const loadMessages = useCallback(
-        (read = false) => {
-            postRequest<MessagesResponseInterface, MessagesGetInterface>(
-                'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/get/messages',
+    const updateMessageRead = useCallback(
+        (messageId: number) => {
+            postRequest<ResponseInterface, UpdateReadInterface>(
+                'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/update/read',
                 {
-                    conversationId
+                    username,
+                    conversationId,
+                    messageId
                 }
-            ).subscribe((response: MessagesResponseInterface) => {
-                if (response?.status) {
-                    setData(response?.data);
-                }
-            });
+            ).subscribe();
         },
-        [conversationId]
+        [conversationId, username]
     );
+
+    const loadMessages = useCallback(() => {
+        postRequest<MessagesResponseInterface, MessagesGetInterface>(
+            'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/get/messages',
+            {
+                conversationId
+            }
+        ).subscribe((response: MessagesResponseInterface) => {
+            if (response?.status) {
+                setData(response?.data);
+                updateMessageRead(response?.data[0].id);
+            }
+        });
+    }, [conversationId, updateMessageRead]);
 
     useEffect(() => {
         loadMessages();

@@ -1,6 +1,5 @@
+import { ChatDataProps } from '@components/chat/ChatList/ChatList.props';
+
 export interface ChatItemProps {
-    isOutbound: boolean;
-    message: string;
-    sender: string;
-    profilePicture: string;
+    item: ChatDataProps;
 }

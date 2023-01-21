@@ -7,7 +7,10 @@ export interface ChatDataProps {
     conversationId: number;
     message: string;
     time: Moment;
-    isRead: number;
+    readBy: Array<{
+        username: string;
+        profilePicture: string;
+    }>;
 }
 
 export interface ChatListProps {

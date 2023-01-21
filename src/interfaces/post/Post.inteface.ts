@@ -66,3 +66,9 @@ export interface AcceptHangoutInvitationInterface {
     id: number;
     value: number;
 }
+
+export interface UpdateReadInterface {
+    username: string;
+    conversationId: number;
+    messageId: number;
+}

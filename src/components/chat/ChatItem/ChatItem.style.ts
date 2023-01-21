@@ -25,5 +25,29 @@ export const ChatItemStyle = StyleSheet.create({
         margin: 4,
         color: COLORS.WHITE,
         fontWeight: '600'
+    },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    image: {
+        width: 25,
+        height: 25,
+        marginRight: 5,
+        borderRadius: 10
+    },
+    senderText: {
+        marginBottom: 4,
+        fontSize: 10,
+        color: COLORS.LIGHTGRAY_100,
+        fontWeight: '600'
+    },
+    readView: {
+        alignItems: 'flex-end'
+    },
+    readImage: {
+        width: 15,
+        height: 15,
+        borderRadius: 10
     }
 });
