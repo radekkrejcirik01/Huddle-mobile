@@ -14,7 +14,7 @@ import { Badge } from '@components/general/Badge/Badge';
 import { Icon } from '@components/icon/Icon';
 
 export const HomeScreen = (): JSX.Element => {
-    const { hangouts, notifications, people } = useSelector(
+    const { hangouts, notifications, people, unreadMessages } = useSelector(
         (state: ReducerProps) => state.user
     );
 
@@ -85,7 +85,7 @@ export const HomeScreen = (): JSX.Element => {
                             </TouchableOpacity>
                             <TouchableOpacity onPress={onMessagesPress}>
                                 <Icon name={IconEnum.CHAT_FILLED} size={26} />
-                                <Badge value={7} />
+                                <Badge value={unreadMessages} />
                             </TouchableOpacity>
                         </View>
                     </View>
