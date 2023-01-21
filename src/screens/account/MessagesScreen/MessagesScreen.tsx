@@ -5,14 +5,8 @@ import { useSelector } from 'react-redux';
 import { useMessagesListRenders } from '@hooks/useMessagesListRenders';
 import { MessagesListDataProps } from '@screens/account/MessagesScreen/MessagesScreen.props';
 import { postRequest } from '@utils/Axios/Axios.service';
-import {
-    ResponseConversationsGetInterface,
-    ResponseInterface
-} from '@interfaces/response/Response.interface';
-import {
-    ReadMessageInterface,
-    UserGetPostInterface
-} from '@interfaces/post/Post.inteface';
+import { ResponseConversationsGetInterface } from '@interfaces/response/Response.interface';
+import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
@@ -40,19 +34,6 @@ export const MessagesScreen = (): JSX.Element => {
     const { navigateTo } = useNavigation(
         RootStackNavigatorEnum.AccountStack,
         loadConversations
-    );
-
-    const updateMessageRead = useCallback(
-        (user: string) => {
-            postRequest<ResponseInterface, ReadMessageInterface>(
-                'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/update/read',
-                {
-                    username,
-                    user
-                }
-            ).subscribe();
-        },
-        [username]
     );
 
     const onItemPress = useCallback(
