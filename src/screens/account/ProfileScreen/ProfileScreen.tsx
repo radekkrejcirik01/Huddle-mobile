@@ -12,11 +12,15 @@ import { ReducerProps } from '@store/index/index.props';
 import { useNavigation } from '@hooks/useNavigation';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
+import { postRequest } from '@utils/Axios/Axios.service';
+import { ResponseInterface } from '@interfaces/response/Response.interface';
+import { DeviceInterface } from '@interfaces/post/Post.inteface';
 
 export const ProfileScreen = (): JSX.Element => {
     const { firstname, username, profilePicture } = useSelector(
         (state: ReducerProps) => state.user.user
     );
+    const { token } = useSelector((state: ReducerProps) => state.device);
     const dispatch = useDispatch();
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
@@ -32,7 +36,15 @@ export const ProfileScreen = (): JSX.Element => {
     const logOut = useCallback(() => {
         dispatch(resetUserState());
         PersistStorage.setItem(PersistStorageKeys.TOKEN, '').catch();
-    }, [dispatch]);
+
+        postRequest<ResponseInterface, DeviceInterface>(
+            'https://31rdr1bvjk.execute-api.eu-central-1.amazonaws.com/pushnotifications/device/delete',
+            {
+                username,
+                deviceToken: token
+            }
+        ).subscribe();
+    }, [dispatch, username, token]);
 
     return (
         <View style={ProfileScreenStyle.container}>

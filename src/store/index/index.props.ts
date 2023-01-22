@@ -1,6 +1,7 @@
 export interface ReducerProps {
     user: User;
     choosePeople: ChoosePeople;
+    device: Device;
 }
 
 export interface User {
@@ -18,4 +19,8 @@ export interface User {
 
 export interface ChoosePeople {
     users: Array<string>;
+}
+
+export interface Device {
+    token: string;
 }

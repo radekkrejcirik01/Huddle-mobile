@@ -73,7 +73,7 @@ export interface UpdateReadInterface {
     messageId: number;
 }
 
-export interface RegisterDeviceInterface {
+export interface DeviceInterface {
     username: string;
     deviceToken: string;
 }
