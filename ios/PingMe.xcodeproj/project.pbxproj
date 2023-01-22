@@ -420,7 +420,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D93233E26A339349498ECD10 /* Pods-PingMe-PingMeTests.debug.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -439,7 +438,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PingMe.app/PingMe";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PingMe.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PingMe";
 			};
 			name = Debug;
 		};
@@ -447,7 +446,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1C551CCCF1C6CB557F6EE996 /* Pods-PingMe-PingMeTests.release.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = PingMeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
@@ -463,7 +461,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PingMe.app/PingMe";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PingMe.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PingMe";
 			};
 			name = Release;
 		};
@@ -478,6 +476,8 @@
 				DEVELOPMENT_TEAM = QHEV58KVJ8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = PingMe/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Notify;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -509,6 +509,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QHEV58KVJ8;
 				INFOPLIST_FILE = PingMe/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Notify;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

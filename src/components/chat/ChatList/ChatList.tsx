@@ -126,7 +126,7 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
                 renderItem={renderItem}
                 getItemCount={getItemCount}
                 keyExtractor={keyExtractor}
-                initialNumToRender={40}
+                initialNumToRender={20}
                 showsVerticalScrollIndicator={false}
                 inverted
                 scrollEnabled={scrollEnabled}
