@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import { Icon } from '@components/icon/Icon';
@@ -17,6 +18,10 @@ export const LoginScreen = (): JSX.Element => {
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.LoginStack);
     const { login } = useCognito();
+
+    useEffect(() => {
+        SplashScreen.hide();
+    }, []);
 
     const loginPressed = useCallback(() => {
         login(username, password);

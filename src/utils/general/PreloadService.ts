@@ -1,3 +1,4 @@
+import SplashScreen from 'react-native-splash-screen';
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import store from '@store/index/index';
@@ -28,6 +29,7 @@ class PreloadServiceSingleton {
         ).subscribe((response: ResponseUserGetInterface) => {
             if (response?.status) {
                 store.dispatch(setUserStateAction(response.data));
+                SplashScreen.hide();
             }
         });
     };
