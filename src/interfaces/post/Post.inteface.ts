@@ -72,3 +72,8 @@ export interface UpdateReadInterface {
     conversationId: number;
     messageId: number;
 }
+
+export interface RegisterDeviceInterface {
+    username: string;
+    deviceToken: string;
+}

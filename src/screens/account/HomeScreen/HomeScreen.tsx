@@ -12,12 +12,14 @@ import { SectionList } from '@components/general/SectionList/SectionList';
 import { ReducerProps } from '@store/index/index.props';
 import { Badge } from '@components/general/Badge/Badge';
 import { Icon } from '@components/icon/Icon';
+import { useMessaging } from '@hooks/useMessaging';
 
 export const HomeScreen = (): JSX.Element => {
     const { hangouts, notifications, people, unreadMessages } = useSelector(
         (state: ReducerProps) => state.user
     );
 
+    useMessaging();
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const onProfileSettingsPress = useCallback(() => {
