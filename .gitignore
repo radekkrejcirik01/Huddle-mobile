@@ -1,3 +1,26 @@
+# General
+#
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+release/*
+android/app/release/*
+android/app/releaseDetox/*
+.env
+
+# Tests
+#
+coverage/
+
+# Firebase setup files
+#
+android/app/google-services.json
+ios/GoogleService-Info.plist
+
 # OSX
 #
 .DS_Store
@@ -19,15 +42,17 @@ xcuserdata
 DerivedData
 *.hmap
 *.ipa
+*.app.dSYM.zip
 *.xcuserstate
 ios/.xcode.env.local
+project.xcworkspace
 
 # Android/IntelliJ
 #
-build/
 .idea
 .gradle
 local.properties
+key.properties
 *.iml
 *.hprof
 .cxx/
@@ -42,6 +67,7 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
+*.keystore.asc
 !debug.keystore
 
 # fastlane
@@ -56,9 +82,35 @@ buck-out/
 **/fastlane/screenshots
 **/fastlane/test_output
 
-# Bundle artifact
+# Encrypted files needed for fastlane
+#
+key.json.asc
+play-store-credentials.json.asc
+
+# Bundle artifacts
+#
 *.jsbundle
 
 # Ruby / CocoaPods
+#
 /ios/Pods/
 /vendor/bundle/
+
+# Expo
+#
+.expo/*
+web-build/
+
+# @end expo-cli
+#
+/fastlane/report.xml
+/node_modules/
+/android/app/key.properties*
+fastlane/play-store-credentials.json
+release.keystore*
+fastlane/.env.default
+fastlane/key.json
+
+# Detox
+#
+artifacts/*
