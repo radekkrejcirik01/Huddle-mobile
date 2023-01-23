@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import { ListItem } from '@components/general/ListItem/ListItem';
@@ -15,6 +15,7 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { DeviceInterface } from '@interfaces/post/Post.inteface';
+import { useUploadPhoto } from '@hooks/useUploadPhoto';
 
 export const ProfileScreen = (): JSX.Element => {
     const { firstname, username, profilePicture } = useSelector(
@@ -23,11 +24,12 @@ export const ProfileScreen = (): JSX.Element => {
     const { token } = useSelector((state: ReducerProps) => state.device);
     const dispatch = useDispatch();
 
+    const { chooseAndUploadPhoto } = useUploadPhoto(username);
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const changeProfilePicture = useCallback(() => {
-        Alert.alert('A');
-    }, []);
+        chooseAndUploadPhoto();
+    }, [chooseAndUploadPhoto]);
 
     const openAccountScreen = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.AccountScreen);
@@ -51,7 +53,7 @@ export const ProfileScreen = (): JSX.Element => {
             <View style={ProfileScreenStyle.infoContainer}>
                 <TouchableOpacity onPress={changeProfilePicture}>
                     <FastImage
-                        source={require('../../../assets/images/profilovka.png')}
+                        source={{ uri: profilePicture }}
                         style={ProfileScreenStyle.image}
                     />
                 </TouchableOpacity>

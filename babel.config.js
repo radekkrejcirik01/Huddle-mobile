@@ -1,11 +1,13 @@
 module.exports = {
     presets: ['module:metro-react-native-babel-preset'],
     plugins: [
+        ['module:react-native-dotenv', { envName: 'APP_ENV' }],
         [
             require.resolve('babel-plugin-module-resolver'),
             {
                 cwd: 'babelrc',
                 extensions: ['.ts', '.tsx', '.js', '.ios.js', '.android.js'],
+                root: ['./'],
                 alias: {
                     '@app': './src/app',
                     '@assets': './src/assets',
