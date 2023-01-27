@@ -27,8 +27,8 @@ export const useCognito = (): {
 } => {
     const dispatch = useDispatch();
 
-    const USER_POOL_ID = 'eu-central-1_kaF0fBM87';
-    const CLIENT_ID = '213lat3j0sc0c1gcta8iqqtb4r';
+    const USER_POOL_ID = 'eu-central-1_vaEVNCc6v';
+    const CLIENT_ID = '1aav8kcrgq8esa6adht7rte79v';
 
     const cognitoPool = useMemo(
         () =>
@@ -64,13 +64,11 @@ export const useCognito = (): {
                                 'Sorry, this username already exists'
                             );
                         default:
-                            return Alert.alert(
-                                'Oop, sorry, something went wrong'
-                            );
+                            return Alert.alert(JSON.stringify(err));
                     }
                 } else {
                     return postRequest<ResponseInterface, UserPostInterface>(
-                        'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/create',
+                        'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/create',
                         { username, firstname }
                     ).subscribe((response: ResponseInterface) => {
                         if (response?.status) {
@@ -87,7 +85,7 @@ export const useCognito = (): {
                                 username
                             ).catch();
                         } else {
-                            Alert.alert('Oop, sorry, something went wrong');
+                            Alert.alert(JSON.stringify(response));
                         }
                     });
                 }

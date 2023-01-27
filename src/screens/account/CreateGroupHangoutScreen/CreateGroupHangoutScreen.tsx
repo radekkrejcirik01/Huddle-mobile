@@ -30,7 +30,7 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
 
     const sendGroupHangout = useCallback(() => {
         postRequest<ResponseInterface, GroupHangoutCreateInterface>(
-            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/create/hangout/group',
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/create/hangout/group',
             {
                 user: username,
                 title,

@@ -46,7 +46,7 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
     const updateMessageRead = useCallback(
         (messageId: number) => {
             postRequest<ResponseInterface, UpdateReadInterface>(
-                'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/update/read',
+                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/update/read',
                 {
                     username,
                     conversationId,
@@ -59,7 +59,7 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
 
     const loadMessages = useCallback(() => {
         postRequest<MessagesResponseInterface, MessagesGetInterface>(
-            'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/get/messages',
+            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/get/messages',
             {
                 conversationId
             }
@@ -97,7 +97,7 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
 
     const sendMessage = useCallback(() => {
         postRequest<ResponseInterface, SendMessageInterface>(
-            'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/send/message',
+            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/send/message',
             {
                 sender: username,
                 conversationId,

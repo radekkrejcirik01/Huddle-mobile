@@ -26,7 +26,7 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
                 ResponseConversationCreateInterface,
                 ConversationsCreateInterface
             >(
-                'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/create/conversation',
+                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/create/conversation',
                 {
                     usernames
                 }

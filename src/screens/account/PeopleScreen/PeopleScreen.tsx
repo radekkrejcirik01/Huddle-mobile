@@ -30,7 +30,7 @@ export const PeopleScreen = (): JSX.Element => {
 
     const loadPeople = useCallback(() => {
         postRequest<ResponsePeopleGetInterface, UserGetPostInterface>(
-            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/get/people',
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/people',
             {
                 username
             }

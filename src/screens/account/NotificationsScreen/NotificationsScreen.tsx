@@ -29,7 +29,7 @@ export const NotificationsScreen = (): JSX.Element => {
 
     const loadNotifications = useCallback(() => {
         postRequest<ResponseNotificationsGetInterface, UserGetPostInterface>(
-            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/get/notifications',
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/notifications',
             {
                 username
             }
@@ -54,7 +54,7 @@ export const NotificationsScreen = (): JSX.Element => {
 
     const onAcceptPeopleInvite = useCallback((item: NotificationsListProps) => {
         postRequest<ResponseInterface, AcceptPeopleInvitationInterface>(
-            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/accept/people/invitation',
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/accept/people/invitation',
             {
                 id: item.id,
                 value: item.confirmed

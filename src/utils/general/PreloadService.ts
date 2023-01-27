@@ -22,7 +22,7 @@ class PreloadServiceSingleton {
 
     public loadUserObject = (username: string) => {
         postRequest<ResponseUserGetInterface, UserGetPostInterface>(
-            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/get',
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get',
             {
                 username
             }

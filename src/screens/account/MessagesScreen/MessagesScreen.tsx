@@ -20,7 +20,7 @@ export const MessagesScreen = (): JSX.Element => {
 
     const loadConversations = useCallback(() => {
         postRequest<ResponseConversationsGetInterface, UserGetPostInterface>(
-            'https://x3u5q0e94f.execute-api.eu-central-1.amazonaws.com/messages/get/conversations/0',
+            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/get/conversations/0',
             {
                 username
             }

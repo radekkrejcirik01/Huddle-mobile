@@ -38,7 +38,7 @@ export const ProfileScreen = (): JSX.Element => {
         PersistStorage.setItem(PersistStorageKeys.TOKEN, '').catch();
 
         postRequest<ResponseInterface, DeviceInterface>(
-            'https://31rdr1bvjk.execute-api.eu-central-1.amazonaws.com/pushnotifications/device/delete',
+            'https://2df57yatfl.execute-api.eu-central-1.amazonaws.com/pushnotifications/device/delete',
             {
                 username,
                 deviceToken: token

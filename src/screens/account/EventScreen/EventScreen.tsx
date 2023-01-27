@@ -34,7 +34,7 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
 
     useEffect(() => {
         postRequest<ResponseHangoutGetInterface, HangoutGetInterface>(
-            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/get/hangout',
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/hangout',
             {
                 id: hangoutId,
                 username
@@ -61,7 +61,7 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
     const accept = useCallback(() => {
         setAccepted(true);
         postRequest<ResponseInterface, AcceptHangoutInvitationInterface>(
-            'https://n4i9nm6vo6.execute-api.eu-central-1.amazonaws.com/user/accept/hangout/invitation',
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/accept/hangout/invitation',
             {
                 id: hangoutId,
                 value: 1

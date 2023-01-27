@@ -24,7 +24,7 @@ export const useMessaging = (): {
     const registerDevice = useCallback(
         (fcmToken: string) => {
             postRequest<ResponseInterface, DeviceInterface>(
-                'https://31rdr1bvjk.execute-api.eu-central-1.amazonaws.com/pushnotifications/device/register',
+                'https://2df57yatfl.execute-api.eu-central-1.amazonaws.com/pushnotifications/device/register',
                 {
                     username,
                     deviceToken: fcmToken
