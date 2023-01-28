@@ -52,21 +52,38 @@ export const NotificationsScreen = (): JSX.Element => {
         }, 1000);
     }, [loadNotifications]);
 
-    const onAcceptPeopleInvite = useCallback((item: NotificationsListProps) => {
-        postRequest<ResponseInterface, AcceptPeopleInvitationInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/accept/people/invitation',
-            {
-                id: item.id,
-                value: item.confirmed
-            }
-        ).subscribe();
-    }, []);
+    const onAcceptPeopleInvite = useCallback(
+        (item: NotificationsListProps) => {
+            postRequest<ResponseInterface, AcceptPeopleInvitationInterface>(
+                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/accept/people/invitation',
+                {
+                    id: item.id,
+                    value: item.confirmed,
+                    user: username,
+                    username: item.username
+                }
+            ).subscribe();
+        },
+        [username]
+    );
+
+    const onOpenAccount = useCallback(
+        (item: NotificationsListProps) => {
+            navigateTo(AccountStackNavigatorEnum.PersonAccountScreen, {
+                firstname: item.name,
+                username: item.username,
+                profilePicture: item.profilePicture
+            });
+        },
+        [navigateTo]
+    );
 
     const onOpenHangout = useCallback(
         (item: NotificationsListProps) => {
             navigateTo(AccountStackNavigatorEnum.EventScreen, {
                 hangoutId: item.id,
-                confirmed: item.confirmed
+                confirmed: item.confirmed,
+                username: item.username
             });
         },
         [navigateTo]
@@ -77,10 +94,11 @@ export const NotificationsScreen = (): JSX.Element => {
             <NotificationsListItem
                 item={item}
                 onAcceptInvite={onAcceptPeopleInvite}
+                onOpenAccount={onOpenAccount}
                 onOpenHangout={onOpenHangout}
             />
         ),
-        [onAcceptPeopleInvite, onOpenHangout]
+        [onAcceptPeopleInvite, onOpenAccount, onOpenHangout]
     );
 
     return (

@@ -60,11 +60,15 @@ export interface ConversationsCreateInterface {
 export interface AcceptPeopleInvitationInterface {
     id: number;
     value: number;
+    user: string;
+    username: string;
 }
 
 export interface AcceptHangoutInvitationInterface {
     id: number;
     value: number;
+    user: string;
+    username: string;
 }
 
 export interface UpdateReadInterface {

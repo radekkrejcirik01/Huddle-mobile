@@ -23,9 +23,11 @@ import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/A
 import { ReducerProps } from '@store/index/index.props';
 
 export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
-    const { confirmed = 1, hangoutId } = route.params;
+    const { confirmed = 1, hangoutId, username } = route.params;
 
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
+    const { username: user } = useSelector(
+        (state: ReducerProps) => state.user.user
+    );
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
@@ -37,14 +39,14 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
             'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/hangout',
             {
                 id: hangoutId,
-                username
+                username: user
             }
         ).subscribe((response: ResponseHangoutGetInterface) => {
             if (response?.status) {
                 setData(response.data);
             }
         });
-    }, [hangoutId, username]);
+    }, [hangoutId, user]);
 
     const pictures = useMemo(
         (): JSX.Element => (
@@ -64,10 +66,12 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
             'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/accept/hangout/invitation',
             {
                 id: hangoutId,
-                value: 1
+                value: 1,
+                user,
+                username
             }
         ).subscribe();
-    }, [hangoutId]);
+    }, [hangoutId, user, username]);
 
     const onOpenChat = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.ChatScreen, {

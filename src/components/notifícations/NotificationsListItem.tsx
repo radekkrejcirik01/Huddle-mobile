@@ -5,19 +5,22 @@ import moment from 'moment';
 import COLORS from '@constants/COLORS';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { NotificationTypeEnum } from '@enums/notifications/NotificationType.enum';
+import { NotificationsListItemProps } from '@components/notifícations/NotificationsListItem.props';
+import { NotificationsListItemStyle } from '@components/notifícations/NotificationsListItem.style';
 import {
+    ACCEPTED_HANGOUT_TYPE_TEXT,
+    ACCEPTED_PEOPLE_TYPE_TEXT,
     HANGOUT_TYPE_TEXT,
     PEOPLE_TYPE_TEXT
 } from '@screens/account/NotificationsScreen/NotificationsScreen.const';
-import { NotificationsListItemProps } from '@components/notifícations/NotificationsListItem.props';
-import { NotificationsListItemStyle } from '@components/notifícations/NotificationsListItem.style';
 
 export const NotificationsListItem = ({
     item,
     onAcceptInvite,
+    onOpenAccount,
     onOpenHangout
 }: NotificationsListItemProps): JSX.Element => {
-    const [accepted, setAccepted] = useState<boolean>(!!item.confirmed);
+    const [accepted, setAccepted] = useState<boolean>(item.confirmed === 1);
 
     const acceptButtonColor = useMemo((): StyleProp<ViewStyle> => {
         if (item.type === NotificationTypeEnum.PEOPLE) {
@@ -33,10 +36,17 @@ export const NotificationsListItem = ({
             setAccepted(!accepted);
             item.confirmed = accepted ? 0 : 1;
             onAcceptInvite(item);
-        } else {
+        }
+        if (item.type === NotificationTypeEnum.ACCEPTED_PEOPLE) {
+            onOpenAccount(item);
+        }
+        if (
+            item.type === NotificationTypeEnum.HANGOUT ||
+            item.type === NotificationTypeEnum.ACCEPTED_HANGOUT
+        ) {
             onOpenHangout(item);
         }
-    }, [accepted, item, onAcceptInvite, onOpenHangout]);
+    }, [accepted, item, onAcceptInvite, onOpenAccount, onOpenHangout]);
 
     const buttonText = useMemo((): string => {
         if (item.type === NotificationTypeEnum.PEOPLE) {
@@ -45,8 +55,27 @@ export const NotificationsListItem = ({
             }
             return 'Accept';
         }
-        return 'Open';
+        if (item.type === NotificationTypeEnum.HANGOUT) {
+            return 'Open';
+        }
+        return null;
     }, [accepted, item.type]);
+
+    const getText = useMemo(() => {
+        if (item.type === NotificationTypeEnum.PEOPLE) {
+            return PEOPLE_TYPE_TEXT;
+        }
+        if (item.type === NotificationTypeEnum.HANGOUT) {
+            return HANGOUT_TYPE_TEXT;
+        }
+        if (item.type === NotificationTypeEnum.ACCEPTED_PEOPLE) {
+            return ACCEPTED_PEOPLE_TYPE_TEXT;
+        }
+        if (item.type === NotificationTypeEnum.ACCEPTED_HANGOUT) {
+            return ACCEPTED_HANGOUT_TYPE_TEXT;
+        }
+        return null;
+    }, [item.type]);
 
     return (
         <TouchableOpacity
@@ -71,9 +100,7 @@ export const NotificationsListItem = ({
                                 NotificationsListItemStyle.itemTextDescription
                             }
                         >
-                            {item.type === NotificationTypeEnum.PEOPLE
-                                ? PEOPLE_TYPE_TEXT
-                                : HANGOUT_TYPE_TEXT}
+                            {getText}
                         </Text>
                     </View>
                     <Text
@@ -83,18 +110,21 @@ export const NotificationsListItem = ({
                     </Text>
                 </View>
             </View>
-            <TouchableOpacity
-                activeOpacity={1}
-                onPress={onButtonPress}
-                style={[
-                    NotificationsListItemStyle.acceptButton,
-                    acceptButtonColor
-                ]}
-            >
-                <Text style={NotificationsListItemStyle.acceptText}>
-                    {buttonText}
-                </Text>
-            </TouchableOpacity>
+            {(item?.type === NotificationTypeEnum.HANGOUT ||
+                item?.type === NotificationTypeEnum.PEOPLE) && (
+                <TouchableOpacity
+                    activeOpacity={1}
+                    onPress={onButtonPress}
+                    style={[
+                        NotificationsListItemStyle.acceptButton,
+                        acceptButtonColor
+                    ]}
+                >
+                    <Text style={NotificationsListItemStyle.acceptText}>
+                        {buttonText}
+                    </Text>
+                </TouchableOpacity>
+            )}
         </TouchableOpacity>
     );
 };

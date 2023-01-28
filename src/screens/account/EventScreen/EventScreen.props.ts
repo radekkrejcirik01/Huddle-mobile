@@ -7,6 +7,7 @@ export interface EventScreenProps {
             params: {
                 hangoutId: number;
                 confirmed: number;
+                username: string;
             };
         },
         'params'
