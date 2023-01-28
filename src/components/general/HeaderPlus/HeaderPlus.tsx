@@ -42,7 +42,7 @@ export const HeaderPlus = (): JSX.Element => {
             if (response?.status) {
                 Alert.alert(response?.message);
 
-                if (!response?.message?.includes('exists')) {
+                if (!response?.message?.includes('exist')) {
                     setUsername(null);
                 }
             }

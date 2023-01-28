@@ -44,7 +44,7 @@ export const ProfileScreen = (): JSX.Element => {
             dispatch(setProfilePictureAction(image?.sourceURL));
 
             postRequest<ResponseUploadImageInterface, UploadImageInterface>(
-                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/upload/profile/picture',
+                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/upload/photo',
                 {
                     username,
                     key: `profile-images/${username}/${image.filename}`,

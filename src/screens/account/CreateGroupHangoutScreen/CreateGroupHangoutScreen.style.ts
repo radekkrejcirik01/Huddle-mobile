@@ -6,7 +6,8 @@ export const CreateGroupHangoutScreenStyle = StyleSheet.create({
         marginTop: 5
     },
     input: {
-        fontSize: 18
+        fontSize: 18,
+        color: COLORS.WHITE
     },
     inputView: {
         backgroundColor: COLORS.BLACK
@@ -18,7 +19,8 @@ export const CreateGroupHangoutScreenStyle = StyleSheet.create({
     image: {
         width: 90,
         height: 90,
-        borderRadius: 30
+        borderRadius: 30,
+        backgroundColor: COLORS.GRAY_100
     },
     hangoutTouchableOpacity: {
         width: 120,

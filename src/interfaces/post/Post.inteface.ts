@@ -83,7 +83,8 @@ export interface DeviceInterface {
 }
 
 export interface UploadImageInterface {
-    username: string;
+    username?: string;
     key: string;
     buffer: string;
+    isHangout?: boolean;
 }
