@@ -15,9 +15,8 @@ import { Icon } from '@components/icon/Icon';
 import { useMessaging } from '@hooks/useMessaging';
 
 export const HomeScreen = (): JSX.Element => {
-    const { hangouts, notifications, people, unreadMessages } = useSelector(
-        (state: ReducerProps) => state.user
-    );
+    const { hangouts, notifications, people, unreadMessages, user } =
+        useSelector((state: ReducerProps) => state.user);
 
     useMessaging();
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
@@ -51,7 +50,9 @@ export const HomeScreen = (): JSX.Element => {
                 <View style={HomeScreenStyle.header}>
                     <TouchableOpacity onPress={onProfileSettingsPress}>
                         <FastImage
-                            source={require('@assets/images/profilovka.png')}
+                            source={{
+                                uri: user.profilePicture
+                            }}
                             style={HomeScreenStyle.image}
                         />
                     </TouchableOpacity>

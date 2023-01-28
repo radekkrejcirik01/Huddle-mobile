@@ -77,3 +77,9 @@ export interface DeviceInterface {
     username: string;
     deviceToken: string;
 }
+
+export interface UploadImageInterface {
+    username: string;
+    key: string;
+    buffer: string;
+}

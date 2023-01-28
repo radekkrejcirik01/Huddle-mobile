@@ -72,3 +72,9 @@ export interface ResponseConversationCreateInterface {
     message: string;
     conversationId: number;
 }
+
+export interface ResponseUploadImageInterface {
+    status: string;
+    message: string;
+    imageUrl: string;
+}
