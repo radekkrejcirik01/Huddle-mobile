@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import { HomeScreenStyle } from '@screens/account/HomeScreen/HomeScreen.style';
 import { IconEnum } from '@components/icon/Icon.enum';
@@ -13,13 +13,37 @@ import { ReducerProps } from '@store/index/index.props';
 import { Badge } from '@components/general/Badge/Badge';
 import { Icon } from '@components/icon/Icon';
 import { useMessaging } from '@hooks/useMessaging';
+import { postRequest } from '@utils/Axios/Axios.service';
+import { ResponseUserGetInterface } from '@interfaces/response/Response.interface';
+import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
+import { setUserStateAction } from '@store/UserReducer';
 
 export const HomeScreen = (): JSX.Element => {
     const { hangouts, notifications, people, unreadMessages, user } =
         useSelector((state: ReducerProps) => state.user);
+    const dispatch = useDispatch();
 
     useMessaging();
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
+
+    const refreshUser = useCallback(() => {
+        if (user?.username) {
+            postRequest<ResponseUserGetInterface, UserGetPostInterface>(
+                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get',
+                {
+                    username: user?.username
+                }
+            ).subscribe((response: ResponseUserGetInterface) => {
+                if (response?.status) {
+                    dispatch(setUserStateAction(response?.data));
+                }
+            });
+        }
+    }, [dispatch, user?.username]);
+
+    const { navigateTo } = useNavigation(
+        RootStackNavigatorEnum.AccountStack,
+        () => refreshUser()
+    );
 
     const onProfileSettingsPress = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.ProfileScreen);
