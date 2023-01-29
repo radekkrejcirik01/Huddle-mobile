@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import notifee from '@notifee/react-native';
 import FastImage from 'react-native-fast-image';
 import { HomeScreenStyle } from '@screens/account/HomeScreen/HomeScreen.style';
 import { IconEnum } from '@components/icon/Icon.enum';
@@ -45,6 +46,7 @@ export const HomeScreen = (): JSX.Element => {
         if (user?.username) {
             refreshUser();
             sectionListRef.current.refresh();
+            notifee.setBadgeCount(0);
         }
     }, [refreshUser, user?.username]);
 
