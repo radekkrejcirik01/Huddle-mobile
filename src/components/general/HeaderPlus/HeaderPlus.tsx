@@ -40,14 +40,32 @@ export const HeaderPlus = (): JSX.Element => {
             }
         ).subscribe((response: ResponseInterface) => {
             if (response?.status) {
-                Alert.alert(response?.message);
+                if (response?.message?.includes('notifications')) {
+                    Alert.alert(response?.message, '', [
+                        {
+                            text: 'Go to noifications',
+                            onPress: () => {
+                                hideModal();
+                                navigateTo(
+                                    AccountStackNavigatorEnum.NotificationsScreen
+                                );
+                            }
+                        },
+                        {
+                            text: 'OK',
+                            style: 'cancel'
+                        }
+                    ]);
+                } else {
+                    Alert.alert(response?.message);
+                }
 
                 if (response?.message?.includes('✅')) {
                     setUsername(null);
                 }
             }
         });
-    }, [user, username]);
+    }, [hideModal, navigateTo, user, username]);
 
     const content = useMemo(
         (): JSX.Element => (

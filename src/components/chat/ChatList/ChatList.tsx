@@ -77,6 +77,8 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
 
     useEffect(() => {
         loadMessages();
+
+        return loadMessages();
     }, [loadMessages]);
 
     useEffect(() => {
@@ -84,6 +86,10 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
             listRef.current?.scrollToOffset({ offset });
             setScrollEnabled(true);
         }
+
+        return () => {
+            setScrollEnabled(true);
+        };
     }, [isKeyboardVisible, offset]);
 
     const onScrollBeginDrag = useCallback(
@@ -111,7 +117,7 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
                 loadMessages();
             }
         });
-    }, [conversationId, loadMessages, messageValue, username]);
+    }, [conversationId, firstname, loadMessages, messageValue, username]);
 
     const onSend = useCallback(() => {
         Keyboard.dismiss();
