@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { RefreshControl, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
@@ -19,7 +19,6 @@ import { ReducerProps } from '@store/index/index.props';
 export const PeopleScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const [inputValue, setInputValue] = useState<string>();
 
     const [data, setData] = useState<Array<PeopleListItemProps>>([]);
@@ -42,9 +41,10 @@ export const PeopleScreen = (): JSX.Element => {
         });
     }, [username]);
 
-    useEffect(() => {
-        loadPeople();
-    }, [loadPeople]);
+    const { navigateTo } = useNavigation(
+        RootStackNavigatorEnum.AccountStack,
+        loadPeople
+    );
 
     const filterData = (value: string) => {
         setInputValue(value);
@@ -58,8 +58,8 @@ export const PeopleScreen = (): JSX.Element => {
     const refresh = useCallback(() => {
         setRefreshing(true);
         setTimeout(() => {
-            loadPeople();
             setRefreshing(false);
+            loadPeople();
         }, 1000);
     }, [loadPeople]);
 

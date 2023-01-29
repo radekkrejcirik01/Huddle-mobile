@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ChatList } from '@components/chat/ChatList/ChatList';
@@ -17,10 +17,11 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
     const [id, setId] = useState<number>(conversationId);
 
     useEffect(() => {
-        navigation.setOptions({ title });
+        const unsubscribe = navigation.setOptions({ title });
+        return unsubscribe;
     }, [navigation, title]);
 
-    useEffect(() => {
+    const createConversation = useCallback(() => {
         if (!conversationId) {
             postRequest<
                 ResponseConversationCreateInterface,
@@ -37,6 +38,11 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
             });
         }
     }, [conversationId, usernames]);
+
+    useEffect(() => {
+        createConversation();
+        return createConversation();
+    }, [createConversation]);
 
     return (
         <SafeAreaView>

@@ -55,23 +55,24 @@ export const SectionList = forwardRef(
         const [refreshing, setRefreshing] = useState(false);
 
         const loadHangouts = useCallback(() => {
-            postRequest<ResponseHangoutsGetInterface, HangoutsGetInterface>(
-                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/hangouts',
-                {
-                    username,
-                    showAll
-                }
-            ).subscribe((response: ResponseHangoutsGetInterface) => {
-                if (response?.status) {
-                    setData(response?.data);
-                }
-            });
+            if (username) {
+                postRequest<ResponseHangoutsGetInterface, HangoutsGetInterface>(
+                    'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/hangouts',
+                    {
+                        username,
+                        showAll
+                    }
+                ).subscribe((response: ResponseHangoutsGetInterface) => {
+                    if (response?.status) {
+                        setData(response?.data);
+                    }
+                });
+            }
         }, [showAll, username]);
 
         useEffect(() => {
-            if (username) {
-                loadHangouts();
-            }
+            loadHangouts();
+            return loadHangouts();
         }, [loadHangouts, username]);
 
         useImperativeHandle(reference, () => ({

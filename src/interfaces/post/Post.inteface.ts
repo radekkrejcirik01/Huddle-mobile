@@ -12,11 +12,6 @@ export interface PeopleCreateInvitationPostInterface {
     username: string;
 }
 
-export interface ReadMessageInterface {
-    username: string;
-    user: string;
-}
-
 export interface MessagesGetInterface {
     conversationId: number;
 }
