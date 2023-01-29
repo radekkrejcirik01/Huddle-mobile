@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
@@ -8,18 +8,29 @@ import { PersonAccountScreenProps } from '@screens/account/PersonAccountScreen/P
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
-import { HangoutCreateInterface } from '@interfaces/post/Post.inteface';
+import {
+    AcceptPeopleInvitationInterface,
+    HangoutCreateInterface
+} from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { HangoutPicker } from '@components/general/HangoutPicker/HangoutPicker';
 
 export const PersonAccountScreen = ({
     route
 }: PersonAccountScreenProps): JSX.Element => {
-    const { firstname, username, profilePicture } = route.params;
+    const {
+        firstname,
+        id,
+        inviteAccepted: accepted = true,
+        username,
+        profilePicture
+    } = route.params;
 
-    const { username: user } = useSelector(
+    const { firstname: name, username: user } = useSelector(
         (state: ReducerProps) => state.user.user
     );
+
+    const [inviteAccepted, setInviteAccepted] = useState<boolean>(accepted);
 
     const navigation = useNavigation();
 
@@ -29,21 +40,46 @@ export const PersonAccountScreen = ({
     const [place, setPlace] = useState<string>();
 
     useEffect(() => {
-        navigation.setOptions({ title: username });
+        navigation.setOptions({
+            title: username
+        });
     }, [navigation, username]);
 
-    const sendButtonText = useMemo((): string => {
+    const buttonText = useMemo((): string => {
+        if (!inviteAccepted) {
+            return 'Accept';
+        }
         if (isHangoutSent) {
             return 'Hangout sent ✅';
         }
         return 'Send';
-    }, [isHangoutSent]);
+    }, [inviteAccepted, isHangoutSent]);
+
+    const acceptFriendInvite = useCallback(() => {
+        postRequest<ResponseInterface, AcceptPeopleInvitationInterface>(
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/accept/people/invitation',
+            {
+                id,
+                value: 1,
+                user,
+                name,
+                username
+            }
+        ).subscribe((response) => {
+            if (response?.status) {
+                setInviteAccepted(true);
+            } else {
+                Alert.alert("We apologize, invite couldn't be accepted");
+            }
+        });
+    }, [id, name, user, username]);
 
     const sendHangout = useCallback(() => {
         postRequest<ResponseInterface, HangoutCreateInterface>(
             'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/create/hangout',
             {
                 user,
+                name,
                 username,
                 time: dateTime,
                 place
@@ -53,25 +89,37 @@ export const PersonAccountScreen = ({
                 setIsHangoutSent(true);
             }
         });
-    }, [dateTime, user, username, place]);
+    }, [dateTime, name, place, user, username]);
+
+    const onPress = useCallback(() => {
+        if (inviteAccepted) {
+            sendHangout();
+        } else {
+            acceptFriendInvite();
+        }
+    }, [acceptFriendInvite, inviteAccepted, sendHangout]);
 
     return (
         <View style={PersonAccountScreenStyle.container}>
-            <FastImage
-                source={{ uri: profilePicture }}
-                style={PersonAccountScreenStyle.image}
-            />
-            <Text style={PersonAccountScreenStyle.name}>{firstname}</Text>
-            <HangoutPicker
-                onDateTimeChange={setDateTime}
-                onPlaceChange={setPlace}
-            />
+            <View>
+                <FastImage
+                    source={{ uri: profilePicture }}
+                    style={PersonAccountScreenStyle.image}
+                />
+                <Text style={PersonAccountScreenStyle.name}>{firstname}</Text>
+            </View>
+            {inviteAccepted && (
+                <HangoutPicker
+                    onDateTimeChange={setDateTime}
+                    onPlaceChange={setPlace}
+                />
+            )}
             <TouchableOpacity
-                onPress={sendHangout}
+                onPress={onPress}
                 style={PersonAccountScreenStyle.hangoutTouchableOpacity}
             >
                 <Text style={PersonAccountScreenStyle.hangoutText}>
-                    {sendButtonText}
+                    {buttonText}
                 </Text>
             </TouchableOpacity>
         </View>

@@ -1,5 +1,9 @@
 import { SectionListData, StyleProp, ViewStyle } from 'react-native';
 
+export interface SectionListForwardRefProps {
+    refresh: () => void;
+}
+
 export interface SectionListProps {
     showAll?: boolean;
     contentContainerStyle?: StyleProp<ViewStyle>;

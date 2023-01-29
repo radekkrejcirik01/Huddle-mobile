@@ -25,7 +25,7 @@ import { ReducerProps } from '@store/index/index.props';
 export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
     const { confirmed = 1, hangoutId, username } = route.params;
 
-    const { username: user } = useSelector(
+    const { firstname, username: user } = useSelector(
         (state: ReducerProps) => state.user.user
     );
 
@@ -68,10 +68,11 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
                 id: hangoutId,
                 value: 1,
                 user,
-                username
+                username,
+                name: firstname
             }
         ).subscribe();
-    }, [hangoutId, user, username]);
+    }, [firstname, hangoutId, user, username]);
 
     const onOpenChat = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.ChatScreen, {

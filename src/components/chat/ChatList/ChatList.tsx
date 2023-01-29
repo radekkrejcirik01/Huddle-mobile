@@ -31,7 +31,9 @@ import COLORS from '@constants/COLORS';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
+    const { firstname, username } = useSelector(
+        (state: ReducerProps) => state.user.user
+    );
 
     const [data, setData] = useState<Array<ChatDataProps>>([]);
     const [messageValue, setMessageValue] = useState<string>();
@@ -100,6 +102,7 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
             'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/send/message',
             {
                 sender: username,
+                name: firstname,
                 conversationId,
                 message: messageValue
             }

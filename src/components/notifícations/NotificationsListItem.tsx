@@ -31,14 +31,12 @@ export const NotificationsListItem = ({
         return { backgroundColor: COLORS.GRAY_100 };
     }, [accepted, item.type]);
 
-    const onButtonPress = useCallback(() => {
-        if (item.type === NotificationTypeEnum.PEOPLE) {
-            setAccepted(!accepted);
-            item.confirmed = accepted ? 0 : 1;
-            onAcceptInvite(item);
-        }
-        if (item.type === NotificationTypeEnum.ACCEPTED_PEOPLE) {
-            onOpenAccount(item);
+    const onItemPress = useCallback(() => {
+        if (
+            item.type === NotificationTypeEnum.PEOPLE ||
+            item.type === NotificationTypeEnum.ACCEPTED_PEOPLE
+        ) {
+            onOpenAccount(item, accepted);
         }
         if (
             item.type === NotificationTypeEnum.HANGOUT ||
@@ -46,7 +44,21 @@ export const NotificationsListItem = ({
         ) {
             onOpenHangout(item);
         }
-    }, [accepted, item, onAcceptInvite, onOpenAccount, onOpenHangout]);
+    }, [accepted, item, onOpenAccount, onOpenHangout]);
+
+    const onButtonPress = useCallback(() => {
+        if (item.type === NotificationTypeEnum.PEOPLE) {
+            setAccepted(!accepted);
+            item.confirmed = accepted ? 0 : 1;
+            onAcceptInvite(item);
+        }
+        if (
+            item.type === NotificationTypeEnum.HANGOUT ||
+            item.type === NotificationTypeEnum.ACCEPTED_HANGOUT
+        ) {
+            onOpenHangout(item);
+        }
+    }, [accepted, item, onAcceptInvite, onOpenHangout]);
 
     const buttonText = useMemo((): string => {
         if (item.type === NotificationTypeEnum.PEOPLE) {
@@ -79,8 +91,7 @@ export const NotificationsListItem = ({
 
     return (
         <TouchableOpacity
-            disabled={item.type === NotificationTypeEnum.PEOPLE}
-            onPress={onButtonPress}
+            onPress={onItemPress}
             style={NotificationsListItemStyle.itemView}
         >
             <View style={NotificationsListItemStyle.contentView}>

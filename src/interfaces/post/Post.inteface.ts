@@ -23,12 +23,14 @@ export interface MessagesGetInterface {
 
 export interface SendMessageInterface {
     sender: string;
+    name: string;
     conversationId: number;
     message: string;
 }
 
 export interface HangoutCreateInterface {
     user: string;
+    name: string;
     username: string;
     time: string;
     place: string;
@@ -46,6 +48,7 @@ export interface HangoutGetInterface {
 
 export interface GroupHangoutCreateInterface {
     user: string;
+    name: string;
     title: string;
     usernames: Array<string>;
     time: string;
@@ -62,6 +65,7 @@ export interface AcceptPeopleInvitationInterface {
     value: number;
     user: string;
     username: string;
+    name: string;
 }
 
 export interface AcceptHangoutInvitationInterface {
@@ -69,6 +73,7 @@ export interface AcceptHangoutInvitationInterface {
     value: number;
     user: string;
     username: string;
+    name: string;
 }
 
 export interface UpdateReadInterface {

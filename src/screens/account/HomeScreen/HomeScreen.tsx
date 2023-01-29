@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
@@ -17,6 +17,7 @@ import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseUserGetInterface } from '@interfaces/response/Response.interface';
 import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
 import { setUserStateAction } from '@store/UserReducer';
+import { SectionListForwardRefProps } from '@components/general/SectionList/SectionList.props';
 
 export const HomeScreen = (): JSX.Element => {
     const { hangouts, notifications, people, unreadMessages, user } =
@@ -25,24 +26,31 @@ export const HomeScreen = (): JSX.Element => {
 
     useMessaging();
 
+    const sectionListRef = useRef<SectionListForwardRefProps>();
+
     const refreshUser = useCallback(() => {
-        if (user?.username) {
-            postRequest<ResponseUserGetInterface, UserGetPostInterface>(
-                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get',
-                {
-                    username: user?.username
-                }
-            ).subscribe((response: ResponseUserGetInterface) => {
-                if (response?.status) {
-                    dispatch(setUserStateAction(response?.data));
-                }
-            });
-        }
+        postRequest<ResponseUserGetInterface, UserGetPostInterface>(
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get',
+            {
+                username: user?.username
+            }
+        ).subscribe((response: ResponseUserGetInterface) => {
+            if (response?.status) {
+                dispatch(setUserStateAction(response?.data));
+            }
+        });
     }, [dispatch, user?.username]);
+
+    const onFocus = useCallback(() => {
+        if (user?.username) {
+            refreshUser();
+            sectionListRef.current.refresh();
+        }
+    }, [refreshUser, user?.username]);
 
     const { navigateTo } = useNavigation(
         RootStackNavigatorEnum.AccountStack,
-        () => refreshUser()
+        onFocus
     );
 
     const onProfileSettingsPress = useCallback(() => {
@@ -121,7 +129,7 @@ export const HomeScreen = (): JSX.Element => {
                     <Text style={HomeScreenStyle.comingsUpTitle}>
                         Comings up
                     </Text>
-                    <SectionList />
+                    <SectionList ref={sectionListRef} />
                 </View>
             </View>
         </SafeAreaView>

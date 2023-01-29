@@ -4,7 +4,8 @@ import COLORS from '@constants/COLORS';
 export const PersonAccountScreenStyle = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 30
+        paddingTop: 30,
+        justifyContent: 'space-between'
     },
     image: {
         width: 140,
@@ -21,7 +22,8 @@ export const PersonAccountScreenStyle = StyleSheet.create({
     },
     hangoutTouchableOpacity: {
         width: 120,
-        marginTop: 50,
+        marginTop: 25,
+        marginBottom: 125,
         padding: 10,
         borderRadius: 10,
         backgroundColor: COLORS.MAIN_BLUE,

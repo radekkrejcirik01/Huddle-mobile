@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { RefreshControl, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
@@ -20,9 +20,9 @@ import {
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
 export const NotificationsScreen = (): JSX.Element => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
+    const { firstname, username } = useSelector(
+        (state: ReducerProps) => state.user.user
+    );
 
     const [data, setData] = useState<Array<NotificationsListProps>>([]);
     const [refreshing, setRefreshing] = useState(false);
@@ -40,9 +40,10 @@ export const NotificationsScreen = (): JSX.Element => {
         });
     }, [username]);
 
-    useEffect(() => {
-        loadNotifications();
-    }, [loadNotifications]);
+    const { navigateTo } = useNavigation(
+        RootStackNavigatorEnum.AccountStack,
+        loadNotifications
+    );
 
     const refresh = useCallback(() => {
         setRefreshing(true);
@@ -60,19 +61,22 @@ export const NotificationsScreen = (): JSX.Element => {
                     id: item.id,
                     value: item.confirmed,
                     user: username,
+                    name: firstname,
                     username: item.username
                 }
             ).subscribe();
         },
-        [username]
+        [firstname, username]
     );
 
     const onOpenAccount = useCallback(
-        (item: NotificationsListProps) => {
+        (item: NotificationsListProps, accepted: boolean) => {
             navigateTo(AccountStackNavigatorEnum.PersonAccountScreen, {
+                id: item.id,
                 firstname: item.name,
                 username: item.username,
-                profilePicture: item.profilePicture
+                profilePicture: item.profilePicture,
+                inviteAccepted: accepted
             });
         },
         [navigateTo]

@@ -29,7 +29,9 @@ import { HangoutPickerEnum } from '@components/general/HangoutPicker/HangoutPick
 import { resetChoosePeopleState } from '@store/ChoosePeopleReducer';
 
 export const CreateGroupHangoutScreen = (): JSX.Element => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
+    const { firstname, username } = useSelector(
+        (state: ReducerProps) => state.user.user
+    );
     const { users } = useSelector((state: ReducerProps) => state.choosePeople);
     const dispatch = useDispatch();
 
@@ -78,6 +80,7 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
             'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/create/hangout/group',
             {
                 user: username,
+                name: firstname,
                 title,
                 usernames: users,
                 time: dateTime,
@@ -90,7 +93,7 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
                 dispatch(resetChoosePeopleState());
             }
         });
-    }, [dateTime, dispatch, place, title, username, users]);
+    }, [dateTime, dispatch, firstname, place, title, username, users]);
 
     const sendButtonText = useMemo((): string => {
         if (isHangoutSent) {
