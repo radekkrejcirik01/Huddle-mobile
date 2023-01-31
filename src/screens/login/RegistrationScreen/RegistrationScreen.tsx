@@ -31,7 +31,7 @@ export const RegistrationScreen = (): JSX.Element => {
         <View style={RegistrationScreenStyle.container}>
             <View style={RegistrationScreenStyle.inputsContainer}>
                 <Input
-                    placeholder="first name"
+                    placeholder="Firstname"
                     onChange={setFirstname}
                     inputType={InputTypeEnum.TEXT}
                     iconRight={<Icon name={IconEnum.PROFILE} size={25} />}
@@ -45,7 +45,7 @@ export const RegistrationScreen = (): JSX.Element => {
                     viewStyle={RegistrationScreenStyle.inputView}
                 />
                 <Input
-                    placeholder="password"
+                    placeholder="Password"
                     onChange={setPassword}
                     inputType={InputTypeEnum.PASSWORD}
                     viewStyle={RegistrationScreenStyle.inputView}

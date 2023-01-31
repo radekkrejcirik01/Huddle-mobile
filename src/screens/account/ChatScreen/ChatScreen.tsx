@@ -46,7 +46,7 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
 
     return (
         <SafeAreaView>
-            <KeyboardAvoidingView keyboardVerticalOffset={50}>
+            <KeyboardAvoidingView keyboardVerticalOffset={55}>
                 <View style={ChatScreenStyle.container}>
                     {!!id && <ChatList conversationId={id} />}
                 </View>

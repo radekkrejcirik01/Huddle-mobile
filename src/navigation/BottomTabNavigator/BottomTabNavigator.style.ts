@@ -19,7 +19,7 @@ export const BottomTabNavigatorStyle = StyleSheet.create({
     },
     peopleHeaderView: {
         paddingTop: 10,
-        paddingLeft: 7,
+        paddingLeft: 10,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'

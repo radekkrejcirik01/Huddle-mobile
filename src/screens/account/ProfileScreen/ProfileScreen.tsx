@@ -41,7 +41,7 @@ export const ProfileScreen = (): JSX.Element => {
             waitAnimationEnd: false
         }).then(async (image) => {
             const base64 = await fs.readFile(image?.path, 'base64');
-            dispatch(setProfilePictureAction(image?.sourceURL));
+            dispatch(setProfilePictureAction(image?.path));
 
             postRequest<ResponseUploadImageInterface, UploadImageInterface>(
                 'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/upload/photo',

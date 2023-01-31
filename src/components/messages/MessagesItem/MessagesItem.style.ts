@@ -34,7 +34,6 @@ export const MessagesItemStyle = StyleSheet.create({
     },
     message: {
         fontSize: 12,
-        color: COLORS.WHITE,
         fontWeight: 'bold'
     }
 });

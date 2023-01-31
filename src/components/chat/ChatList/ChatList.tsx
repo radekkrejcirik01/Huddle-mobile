@@ -1,13 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-    Keyboard,
-    NativeScrollEvent,
-    NativeSyntheticEvent,
-    Text,
-    TextInput,
-    View,
-    VirtualizedList
-} from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Keyboard, Text, TextInput, View, VirtualizedList } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ChatListStyle } from '@components/chat/ChatList/ChatList.style';
 import {
@@ -16,7 +8,6 @@ import {
 } from '@components/chat/ChatList/ChatList.props';
 import { ReducerProps } from '@store/index/index.props';
 import { useChatListRenders } from '@hooks/useChatListRenders';
-import { useKeyboard } from '@hooks/useKeyboard';
 import { postRequest } from '@utils/Axios/Axios.service';
 import {
     MessagesResponseInterface,
@@ -37,13 +28,8 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
 
     const [data, setData] = useState<Array<ChatDataProps>>([]);
     const [messageValue, setMessageValue] = useState<string>();
-    const [scrollEnabled, setScrollEnabled] = useState<boolean>(true);
-    const [offset, setOffset] = useState<number>(0);
     const { getItem, renderItem, getItemCount, keyExtractor } =
         useChatListRenders(data);
-    const { isKeyboardVisible } = useKeyboard();
-
-    const listRef = useRef(null);
 
     const updateMessageRead = useCallback(
         (messageId: number) => {
@@ -81,28 +67,6 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
         return loadMessages();
     }, [loadMessages]);
 
-    useEffect(() => {
-        if (!isKeyboardVisible) {
-            listRef.current?.scrollToOffset({ offset });
-            setScrollEnabled(true);
-        }
-
-        return () => {
-            setScrollEnabled(true);
-        };
-    }, [isKeyboardVisible, offset]);
-
-    const onScrollBeginDrag = useCallback(
-        (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-            if (isKeyboardVisible) {
-                setScrollEnabled(false);
-                setOffset(event.nativeEvent.contentOffset.y);
-                Keyboard.dismiss();
-            }
-        },
-        [isKeyboardVisible]
-    );
-
     const sendMessage = useCallback(() => {
         postRequest<ResponseInterface, SendMessageInterface>(
             'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/send/message',
@@ -120,16 +84,13 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
     }, [conversationId, firstname, loadMessages, messageValue, username]);
 
     const onSend = useCallback(() => {
-        Keyboard.dismiss();
         sendMessage();
-
         setMessageValue(null);
     }, [sendMessage]);
 
     return (
         <>
             <VirtualizedList
-                ref={listRef}
                 data={data}
                 getItem={getItem}
                 renderItem={renderItem}
@@ -138,9 +99,8 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
                 initialNumToRender={20}
                 showsVerticalScrollIndicator={false}
                 inverted
-                scrollEnabled={scrollEnabled}
                 keyboardShouldPersistTaps="always"
-                onScrollBeginDrag={onScrollBeginDrag}
+                onScrollBeginDrag={Keyboard.dismiss}
                 contentContainerStyle={ChatListStyle.contentContainer}
             />
             <View style={ChatListStyle.container}>

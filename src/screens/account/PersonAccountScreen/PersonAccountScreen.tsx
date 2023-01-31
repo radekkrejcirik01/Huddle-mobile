@@ -50,7 +50,7 @@ export const PersonAccountScreen = ({
             return 'Accept';
         }
         if (isHangoutSent) {
-            return 'Hangout sent ✅';
+            return 'Sent ✅';
         }
         return 'Send';
     }, [inviteAccepted, isHangoutSent]);

@@ -24,8 +24,8 @@ export const PersonAccountScreenStyle = StyleSheet.create({
         width: 120,
         marginTop: 25,
         marginBottom: 125,
-        padding: 10,
-        borderRadius: 10,
+        padding: 12,
+        borderRadius: 20,
         backgroundColor: COLORS.MAIN_BLUE,
         alignSelf: 'center',
         alignItems: 'center'

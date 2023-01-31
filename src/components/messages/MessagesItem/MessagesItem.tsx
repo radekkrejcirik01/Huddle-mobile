@@ -5,6 +5,7 @@ import moment from 'moment';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { MessagesItemProps } from '@components/messages/MessagesItem/MessagesItem.props';
 import { MessagesItemStyle } from '@components/messages/MessagesItem/MessagesItem.style';
+import COLORS from '@constants/COLORS';
 
 export const MessagesItem = ({
     item,
@@ -15,7 +16,9 @@ export const MessagesItem = ({
     }, [item, onPress]);
 
     const opacityStyle = useMemo(
-        (): StyleProp<TextStyle> => [{ opacity: item.isRead ? 0.7 : 1 }],
+        (): StyleProp<TextStyle> => [
+            { color: item.isRead ? COLORS.LIGHTGRAY_300 : COLORS.WHITE }
+        ],
         [item.isRead]
     );
 

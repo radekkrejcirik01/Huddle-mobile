@@ -7,7 +7,7 @@ export const PeopleScreenStyle = StyleSheet.create({
         paddingHorizontal: 5
     },
     inputView: {
-        height: 40,
+        height: 45,
         marginTop: 15,
         borderWidth: 0,
         backgroundColor: COLORS.GRAY_100
@@ -24,7 +24,7 @@ export const PeopleScreenStyle = StyleSheet.create({
         marginTop: 10
     },
     itemView: {
-        height: 50,
+        height: 55,
         marginVertical: 5,
         paddingHorizontal: 12,
         borderRadius: 12,
@@ -45,8 +45,8 @@ export const PeopleScreenStyle = StyleSheet.create({
         fontWeight: '500'
     },
     itemImage: {
-        width: 32,
-        height: 32,
+        width: 35,
+        height: 35,
         borderRadius: 25
     }
 });
