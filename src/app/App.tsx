@@ -7,6 +7,7 @@ import store from '@store/index/index';
 import { BAR_STYLE } from '@app/App.const';
 import { Navigation } from '@navigation/index';
 import { PreloadService } from '@utils/general/PreloadService';
+import { ToastMessage } from '@components/general/ToastMessage/ToastMessage';
 
 const App = () => {
     PreloadService.init().catch();
@@ -18,6 +19,7 @@ const App = () => {
                 <Provider store={store}>
                     <Navigation />
                 </Provider>
+                <ToastMessage />
             </SafeAreaProvider>
         </ActionSheetProvider>
     );
