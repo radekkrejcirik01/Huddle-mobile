@@ -2,6 +2,8 @@ export interface ReducerProps {
     user: User;
     choosePeople: ChoosePeople;
     device: Device;
+    navigationState: NavigationSate;
+    conversation: Conversation;
 }
 
 export interface User {
@@ -23,4 +25,14 @@ export interface ChoosePeople {
 
 export interface Device {
     token: string;
+}
+
+export interface NavigationSate {
+    isReady: boolean;
+}
+
+export interface Conversation {
+    conversationId: number;
+    loadConversation: boolean;
+    loadRead: boolean;
 }

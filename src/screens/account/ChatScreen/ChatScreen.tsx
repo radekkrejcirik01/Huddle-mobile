@@ -16,10 +16,7 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
 
     const [id, setId] = useState<number>(conversationId);
 
-    useEffect(() => {
-        const unsubscribe = navigation.setOptions({ title });
-        return unsubscribe;
-    }, [navigation, title]);
+    useEffect(() => navigation.setOptions({ title }), [navigation, title]);
 
     const createConversation = useCallback(() => {
         if (!conversationId) {

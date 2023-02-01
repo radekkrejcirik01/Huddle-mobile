@@ -2,11 +2,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import UserReducer from '@store/UserReducer';
 import ChoosePeopleReducer from '@store/ChoosePeopleReducer';
 import DeviceReducer from '@store/DeviceReducer';
+import NavigationStateReducer from '@store/NavigationState';
+import ConversationReducer from '@store/Conversation';
 
 export default configureStore({
     reducer: {
         user: UserReducer,
         choosePeople: ChoosePeopleReducer,
-        device: DeviceReducer
+        device: DeviceReducer,
+        navigationState: NavigationStateReducer,
+        conversation: ConversationReducer
     }
 });

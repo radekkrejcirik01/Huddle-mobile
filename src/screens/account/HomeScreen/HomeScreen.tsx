@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { Platform, SafeAreaView, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import notifee from '@notifee/react-native';
 import FastImage from 'react-native-fast-image';
@@ -19,6 +19,7 @@ import { ResponseUserGetInterface } from '@interfaces/response/Response.interfac
 import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
 import { setUserStateAction } from '@store/UserReducer';
 import { SectionListForwardRefProps } from '@components/general/SectionList/SectionList.props';
+import { useNotifications } from '@hooks/useNotifications';
 
 export const HomeScreen = (): JSX.Element => {
     const { hangouts, notifications, people, unreadMessages, user } =
@@ -42,11 +43,15 @@ export const HomeScreen = (): JSX.Element => {
         });
     }, [dispatch, user?.username]);
 
+    useNotifications(refreshUser, sectionListRef?.current?.refresh);
+
     const onFocus = useCallback(() => {
         if (user?.username) {
             refreshUser();
             sectionListRef.current.refresh();
-            notifee.setBadgeCount(0);
+            if (Platform.OS === 'ios') {
+                notifee.setBadgeCount(0);
+            }
         }
     }, [refreshUser, user?.username]);
 

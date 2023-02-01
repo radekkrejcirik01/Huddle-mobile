@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Keyboard, Text, TextInput, View, VirtualizedList } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { ChatListStyle } from '@components/chat/ChatList/ChatList.style';
 import {
     ChatDataProps,
@@ -20,11 +21,21 @@ import {
 } from '@interfaces/post/Post.inteface';
 import COLORS from '@constants/COLORS';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import {
+    setConversationId,
+    setLoadConversation,
+    setLoadRead
+} from '@store/Conversation';
 
 export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
     const { firstname, username } = useSelector(
         (state: ReducerProps) => state.user.user
     );
+    const { loadConversation, loadRead } = useSelector(
+        (state: ReducerProps) => state.conversation
+    );
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
 
     const [data, setData] = useState<Array<ChatDataProps>>([]);
     const [messageValue, setMessageValue] = useState<string>();
@@ -45,27 +56,50 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
         [conversationId, username]
     );
 
-    const loadMessages = useCallback(() => {
-        postRequest<MessagesResponseInterface, MessagesGetInterface>(
-            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/get/messages',
-            {
-                conversationId
-            }
-        ).subscribe((response: MessagesResponseInterface) => {
-            if (response?.status) {
-                setData(response?.data);
-                if (response?.data?.length) {
-                    updateMessageRead(response?.data[0]?.id);
+    const loadMessages = useCallback(
+        (updateRead = true) => {
+            postRequest<MessagesResponseInterface, MessagesGetInterface>(
+                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/get/messages',
+                {
+                    conversationId
                 }
-            }
-        });
-    }, [conversationId, updateMessageRead]);
+            ).subscribe((response: MessagesResponseInterface) => {
+                if (response?.status) {
+                    setData(response?.data);
+                    if (updateRead && response?.data?.length) {
+                        updateMessageRead(response?.data[0]?.id);
+                    }
+                }
+            });
+        },
+        [conversationId, updateMessageRead]
+    );
+
+    useEffect(() => loadMessages(), [loadMessages]);
 
     useEffect(() => {
-        loadMessages();
+        dispatch(setConversationId(conversationId));
+    }, [conversationId, dispatch]);
 
-        return loadMessages();
-    }, [loadMessages]);
+    useEffect(() => {
+        navigation.addListener('beforeRemove', () => {
+            dispatch(setConversationId(null));
+        });
+    }, [dispatch, navigation]);
+
+    useEffect(() => {
+        if (loadConversation) {
+            loadMessages();
+        }
+        dispatch(setLoadConversation(false));
+    }, [dispatch, loadConversation, loadMessages]);
+
+    useEffect(() => {
+        if (loadRead) {
+            loadMessages(false);
+        }
+        dispatch(setLoadRead(false));
+    }, [dispatch, loadMessages, loadRead]);
 
     const sendMessage = useCallback(() => {
         postRequest<ResponseInterface, SendMessageInterface>(
