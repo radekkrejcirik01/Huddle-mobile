@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { RefreshControl } from 'react-native';
+import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { MessagesItem } from '@components/messages/MessagesItem/MessagesItem';
 import { MessagesListDataProps } from '@screens/account/MessagesScreen/MessagesScreen.props';
 import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { ConversationDeleteInterface } from '@interfaces/post/Post.inteface';
-import { useSelector } from 'react-redux';
 import { ReducerProps } from '@store/index/index.props';
 
 export const useMessagesListRenders = (
