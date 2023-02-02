@@ -1,14 +1,26 @@
-import React, { useMemo } from 'react';
-import { StyleProp, Text, TextStyle, View, ViewStyle } from 'react-native';
+import React, { useCallback, useMemo } from 'react';
+import {
+    Alert,
+    StyleProp,
+    Text,
+    TextStyle,
+    View,
+    ViewStyle
+} from 'react-native';
 import { useSelector } from 'react-redux';
+import { useActionSheet } from '@expo/react-native-action-sheet';
+import Clipboard from '@react-native-clipboard/clipboard';
 import FastImage from 'react-native-fast-image';
 import COLORS from '@constants/COLORS';
 import { ChatItemProps } from '@components/chat/ChatItem/ChatItem.props';
 import { ChatItemStyle } from '@components/chat/ChatItem/ChatItem.style';
 import { ReducerProps } from '@store/index/index.props';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
+
+    const { showActionSheetWithOptions } = useActionSheet();
 
     const isDarkMode = true;
 
@@ -56,8 +68,30 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
         [renderRight, textColor]
     );
 
+    const showActionSheet = useCallback(() => {
+        const options = ['Copy', 'Report', 'Cancel'];
+
+        showActionSheetWithOptions(
+            {
+                options,
+                cancelButtonIndex: 2,
+                userInterfaceStyle: 'dark'
+            },
+            (selectedIndex: number) => {
+                if (selectedIndex === 0) {
+                    Clipboard.setString(item?.message);
+                }
+                if (selectedIndex === 1) {
+                    Alert.alert(
+                        'Thank you for reporting this message. Our team will take a look 🙂'
+                    );
+                }
+            }
+        );
+    }, [item?.message, showActionSheetWithOptions]);
+
     return (
-        <View>
+        <View activeOpacity={1} onLongPress={showActionSheet}>
             <View style={!isOutbound && ChatItemStyle.row}>
                 {!isOutbound && (
                     <FastImage
@@ -65,9 +99,13 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
                         style={ChatItemStyle.image}
                     />
                 )}
-                <View style={viewStyle}>
+                <TouchableOpacity
+                    activeOpacity={1}
+                    onLongPress={showActionSheet}
+                    style={viewStyle}
+                >
                     <Text style={textStyle}>{item.message}</Text>
-                </View>
+                </TouchableOpacity>
             </View>
             {!isOutbound && (
                 <Text style={ChatItemStyle.senderText}>{item.sender}</Text>
