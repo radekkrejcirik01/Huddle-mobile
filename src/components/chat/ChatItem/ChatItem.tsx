@@ -91,7 +91,7 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
     }, [item?.message, showActionSheetWithOptions]);
 
     return (
-        <View activeOpacity={1} onLongPress={showActionSheet}>
+        <View>
             <View style={!isOutbound && ChatItemStyle.row}>
                 {!isOutbound && (
                     <FastImage
