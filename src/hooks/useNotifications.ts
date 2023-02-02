@@ -1,5 +1,7 @@
 import { useCallback, useEffect } from 'react';
+import { Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import notifee from '@notifee/react-native';
 import messaging, {
     FirebaseMessagingTypes
 } from '@react-native-firebase/messaging';
@@ -38,6 +40,12 @@ export const useNotifications = (
         },
         [isReady, navigateTo, username]
     );
+
+    useEffect(() => {
+        if (Platform.OS === 'ios') {
+            notifee.setBadgeCount(0);
+        }
+    }, []);
 
     useEffect(() => {
         // On open notification from killed state

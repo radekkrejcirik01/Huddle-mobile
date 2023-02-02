@@ -6,6 +6,8 @@ export const CreateGroupHangoutScreenStyle = StyleSheet.create({
         marginTop: 5
     },
     input: {
+        height: 45,
+        flex: 1,
         fontSize: 18,
         color: COLORS.WHITE
     },
@@ -25,8 +27,8 @@ export const CreateGroupHangoutScreenStyle = StyleSheet.create({
     hangoutTouchableOpacity: {
         width: 120,
         marginTop: 50,
-        padding: 10,
-        borderRadius: 10,
+        padding: 12,
+        borderRadius: 20,
         backgroundColor: COLORS.MAIN_BLUE,
         alignSelf: 'center',
         alignItems: 'center'

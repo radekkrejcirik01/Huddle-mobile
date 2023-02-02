@@ -5,13 +5,11 @@ export const NotificationsListItemStyle = StyleSheet.create({
     itemView: {
         height: 50,
         marginVertical: 5,
-        paddingRight: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+        flexDirection: 'row'
     },
     contentView: {
-        flexDirection: 'row',
-        alignSelf: 'center'
+        flex: 1,
+        flexDirection: 'row'
     },
     itemImage: {
         width: 32,
@@ -19,26 +17,26 @@ export const NotificationsListItemStyle = StyleSheet.create({
         marginRight: 12,
         borderRadius: 25
     },
+    itemTextContainer: {
+        flex: 1
+    },
     flexRow: {
         flexDirection: 'row'
-    },
-    itemTextUsername: {
-        fontSize: 12.5,
-        color: COLORS.WHITE,
-        fontWeight: '500'
     },
     itemTextDescription: {
         fontSize: 12.5,
         color: COLORS.LIGHTGRAY,
         fontWeight: '500'
     },
+    itemTextUsername: {
+        color: COLORS.WHITE
+    },
     acceptButton: {
-        width: 90,
-        marginTop: 5,
-        paddingVertical: 8,
+        width: 100,
+        height: 35,
         borderRadius: 12,
-        alignItems: 'center',
-        alignSelf: 'flex-start'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     acceptText: {
         fontSize: 14,

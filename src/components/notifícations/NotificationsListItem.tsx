@@ -28,6 +28,9 @@ export const NotificationsListItem = ({
                 backgroundColor: accepted ? COLORS.GRAY_100 : COLORS.MAIN_BLUE
             };
         }
+        if (item.type === NotificationTypeEnum.HANGOUT) {
+            return { backgroundColor: COLORS.MAIN_BLUE };
+        }
         return { backgroundColor: COLORS.GRAY_100 };
     }, [accepted, item.type]);
 
@@ -99,18 +102,20 @@ export const NotificationsListItem = ({
                     source={{ uri: item.profilePicture }}
                     style={NotificationsListItemStyle.itemImage}
                 />
-                <View>
+                <View style={NotificationsListItemStyle.itemTextContainer}>
                     <View style={NotificationsListItemStyle.flexRow}>
-                        <Text
-                            style={NotificationsListItemStyle.itemTextUsername}
-                        >
-                            {item.username}
-                        </Text>
                         <Text
                             style={
                                 NotificationsListItemStyle.itemTextDescription
                             }
                         >
+                            <Text
+                                style={
+                                    NotificationsListItemStyle.itemTextUsername
+                                }
+                            >
+                                {item.username}
+                            </Text>
                             {getText}
                         </Text>
                     </View>

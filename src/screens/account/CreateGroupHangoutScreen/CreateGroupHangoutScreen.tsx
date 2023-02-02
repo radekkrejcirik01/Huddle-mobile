@@ -5,7 +5,7 @@ import React, {
     useRef,
     useState
 } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert, Keyboard, ScrollView, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import fs from 'react-native-fs';
@@ -95,15 +95,18 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
         });
     }, [dateTime, dispatch, firstname, place, title, username, users]);
 
-    const sendButtonText = useMemo((): string => {
+    const buttonText = useMemo((): string => {
         if (isHangoutSent) {
-            return 'Hangout sent ✅';
+            return 'Sent ✅';
         }
         return 'Send';
     }, [isHangoutSent]);
 
     return (
-        <View style={CreateGroupHangoutScreenStyle.container}>
+        <ScrollView
+            onScrollBeginDrag={Keyboard.dismiss}
+            style={CreateGroupHangoutScreenStyle.container}
+        >
             <Input
                 autoFocus
                 value={title}
@@ -132,9 +135,9 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
                 style={CreateGroupHangoutScreenStyle.hangoutTouchableOpacity}
             >
                 <Text style={CreateGroupHangoutScreenStyle.hangoutText}>
-                    {sendButtonText}
+                    {buttonText}
                 </Text>
             </TouchableOpacity>
-        </View>
+        </ScrollView>
     );
 };
