@@ -55,6 +55,11 @@ export interface ConversationsCreateInterface {
     usernames: Array<string>;
 }
 
+export interface ConversationDeleteInterface {
+    conversationId: number;
+    username: string;
+}
+
 export interface AcceptPeopleInvitationInterface {
     id: number;
     value: number;

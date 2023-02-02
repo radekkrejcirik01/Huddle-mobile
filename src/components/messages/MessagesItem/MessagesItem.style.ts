@@ -4,6 +4,7 @@ import COLORS from '@constants/COLORS';
 export const MessagesItemStyle = StyleSheet.create({
     container: {
         marginBottom: 15,
+        backgroundColor: COLORS.BLACK,
         alignItems: 'flex-start'
     },
     row: {

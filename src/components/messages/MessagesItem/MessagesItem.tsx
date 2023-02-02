@@ -6,10 +6,12 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { MessagesItemProps } from '@components/messages/MessagesItem/MessagesItem.props';
 import { MessagesItemStyle } from '@components/messages/MessagesItem/MessagesItem.style';
 import COLORS from '@constants/COLORS';
+import { SwipeableView } from '@components/general/SwipeableView/SwipeableView';
 
 export const MessagesItem = ({
     item,
-    onPress
+    onPress,
+    onDelete
 }: MessagesItemProps): JSX.Element => {
     const onPressItem = useCallback(() => {
         onPress(item);
@@ -23,29 +25,36 @@ export const MessagesItem = ({
     );
 
     return (
-        <TouchableOpacity
-            onPress={onPressItem}
-            style={MessagesItemStyle.container}
-        >
-            <View style={MessagesItemStyle.row}>
-                <View>
-                    <FastImage
-                        source={{ uri: item.picture }}
-                        style={MessagesItemStyle.image}
-                    />
-                </View>
-                <View style={MessagesItemStyle.box}>
-                    <View style={MessagesItemStyle.firstRow}>
-                        <Text style={MessagesItemStyle.text}>{item.name}</Text>
-                        <Text style={[MessagesItemStyle.text, opacityStyle]}>
-                            {moment(item.time).fromNow()}
+        <SwipeableView onDelete={() => onDelete(item.id)}>
+            <TouchableOpacity
+                activeOpacity={1}
+                onPress={onPressItem}
+                style={MessagesItemStyle.container}
+            >
+                <View style={MessagesItemStyle.row}>
+                    <View>
+                        <FastImage
+                            source={{ uri: item.picture }}
+                            style={MessagesItemStyle.image}
+                        />
+                    </View>
+                    <View style={MessagesItemStyle.box}>
+                        <View style={MessagesItemStyle.firstRow}>
+                            <Text style={MessagesItemStyle.text}>
+                                {item.name}
+                            </Text>
+                            <Text
+                                style={[MessagesItemStyle.text, opacityStyle]}
+                            >
+                                {moment(item.time).fromNow()}
+                            </Text>
+                        </View>
+                        <Text style={[MessagesItemStyle.message, opacityStyle]}>
+                            {item.message}
                         </Text>
                     </View>
-                    <Text style={[MessagesItemStyle.message, opacityStyle]}>
-                        {item.message}
-                    </Text>
                 </View>
-            </View>
-        </TouchableOpacity>
+            </TouchableOpacity>
+        </SwipeableView>
     );
 };
