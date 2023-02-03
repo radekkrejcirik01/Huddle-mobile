@@ -22,17 +22,12 @@ export const NotificationsListItem = ({
 }: NotificationsListItemProps): JSX.Element => {
     const [accepted, setAccepted] = useState<boolean>(item.confirmed === 1);
 
-    const acceptButtonColor = useMemo((): StyleProp<ViewStyle> => {
-        if (item.type === NotificationTypeEnum.PEOPLE) {
-            return {
-                backgroundColor: accepted ? COLORS.GRAY_100 : COLORS.MAIN_BLUE
-            };
-        }
-        if (item.type === NotificationTypeEnum.HANGOUT) {
-            return { backgroundColor: COLORS.MAIN_BLUE };
-        }
-        return { backgroundColor: COLORS.GRAY_100 };
-    }, [accepted, item.type]);
+    const acceptButtonColor = useMemo(
+        (): StyleProp<ViewStyle> => ({
+            backgroundColor: accepted ? COLORS.GRAY_100 : COLORS.MAIN_BLUE
+        }),
+        [accepted]
+    );
 
     const onItemPress = useCallback(() => {
         if (

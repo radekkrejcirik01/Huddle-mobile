@@ -33,17 +33,13 @@ export const EventScreenStyle = StyleSheet.create({
     timeText: {
         fontSize: 25
     },
-    buttonsRow: {
-        justifyContent: 'space-evenly',
-        flexDirection: 'row'
-    },
     row: {
-        height: 40,
-        flex: 1,
-        marginHorizontal: 10,
-        borderRadius: 10,
+        width: 200,
+        marginTop: 35,
+        padding: 12,
+        borderRadius: 20,
         backgroundColor: COLORS.MAIN_BLUE,
-        justifyContent: 'center',
+        alignSelf: 'center',
         alignItems: 'center'
     },
     buttonText: {

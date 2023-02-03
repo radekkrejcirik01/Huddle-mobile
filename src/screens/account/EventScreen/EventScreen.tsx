@@ -97,25 +97,27 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
                 </Text>
             </View>
             {accepted ? (
-                <View style={EventScreenStyle.buttonsRow}>
-                    <TouchableOpacity
-                        onPress={onOpenChat}
-                        style={EventScreenStyle.row}
-                    >
-                        <Text style={EventScreenStyle.buttonText}>
-                            Open chat
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity
+                    onPress={onOpenChat}
+                    style={EventScreenStyle.row}
+                >
+                    <Text style={EventScreenStyle.buttonText}>Open chat</Text>
+                </TouchableOpacity>
             ) : (
-                <View style={EventScreenStyle.buttonsRow}>
+                <View>
                     <TouchableOpacity
                         onPress={accept}
                         style={EventScreenStyle.row}
                     >
                         <Text style={EventScreenStyle.buttonText}>
-                            Accept invite
+                            Suggest changes
                         </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={accept}
+                        style={EventScreenStyle.row}
+                    >
+                        <Text style={EventScreenStyle.buttonText}>Accept</Text>
                     </TouchableOpacity>
                 </View>
             )}
