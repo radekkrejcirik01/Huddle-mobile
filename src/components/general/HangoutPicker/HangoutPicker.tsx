@@ -20,6 +20,7 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { HangoutPickerEnum } from '@components/general/HangoutPicker/HangoutPicker.enum';
 import { ReducerProps } from '@store/index/index.props';
+import { getUTCDateTime } from '@functions/getUTCDateTime';
 
 export const HangoutPicker = ({
     onDateTimeChange,
@@ -43,7 +44,8 @@ export const HangoutPicker = ({
     const minimumDate = new Date(moment().toString());
 
     useEffect(() => {
-        onDateTimeChange(dateTime);
+        // TODO: Assure datetime does not include undefined
+        onDateTimeChange(getUTCDateTime(dateTime));
     }, [dateTime, onDateTimeChange]);
 
     useEffect(() => {

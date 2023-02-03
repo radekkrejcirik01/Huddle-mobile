@@ -21,6 +21,7 @@ import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { ReducerProps } from '@store/index/index.props';
+import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
 
 export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
     const { confirmed = 1, hangoutId, username } = route.params;
@@ -93,7 +94,7 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
                         EventScreenStyle.timeText
                     ]}
                 >
-                    {data?.time}
+                    {getLocalDateTimeFromUTC(data?.time)}
                 </Text>
             </View>
             {accepted ? (
