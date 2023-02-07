@@ -34,7 +34,9 @@ export const ChatItemStyle = StyleSheet.create({
         width: 25,
         height: 25,
         marginRight: 5,
-        borderRadius: 10
+        marginBottom: 8,
+        borderRadius: 10,
+        alignSelf: 'flex-end'
     },
     senderText: {
         marginBottom: 4,

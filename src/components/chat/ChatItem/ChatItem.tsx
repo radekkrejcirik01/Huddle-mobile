@@ -8,6 +8,7 @@ import {
     ViewStyle
 } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import Clipboard from '@react-native-clipboard/clipboard';
 import FastImage from 'react-native-fast-image';
@@ -16,9 +17,12 @@ import { ChatItemProps } from '@components/chat/ChatItem/ChatItem.props';
 import { ChatItemStyle } from '@components/chat/ChatItem/ChatItem.style';
 import { ReducerProps } from '@store/index/index.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
 export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
+
+    const navigation = useNavigation();
 
     const { showActionSheetWithOptions } = useActionSheet();
 
@@ -55,9 +59,10 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
         (): StyleProp<ViewStyle> => [
             ChatItemStyle.item,
             isDarkMode ? ChatItemStyle.darkBorder : ChatItemStyle.lightBorder,
-            renderRight ? rightContainer : leftContainer
+            renderRight ? rightContainer : leftContainer,
+            item?.url && { padding: 0, paddingHorizontal: 0 }
         ],
-        [isDarkMode, leftContainer, rightContainer, renderRight]
+        [isDarkMode, renderRight, rightContainer, leftContainer, item?.url]
     );
 
     const textStyle = useMemo(
@@ -69,26 +74,40 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
     );
 
     const showActionSheet = useCallback(() => {
-        const options = ['Copy', 'Report', 'Cancel'];
+        const options = ['Copy', !isOutbound && 'Report', 'Cancel'].filter(
+            Boolean
+        );
 
         showActionSheetWithOptions(
             {
                 options,
-                cancelButtonIndex: 2,
+                cancelButtonIndex: isOutbound ? 1 : 2,
                 userInterfaceStyle: 'dark'
             },
             (selectedIndex: number) => {
                 if (selectedIndex === 0) {
                     Clipboard.setString(item?.message);
                 }
-                if (selectedIndex === 1) {
+                if (!isOutbound && selectedIndex === 1) {
                     Alert.alert(
                         'Thank you for reporting this message. Our team will take a look 🙂'
                     );
                 }
             }
         );
-    }, [item?.message, showActionSheetWithOptions]);
+    }, [isOutbound, item?.message, showActionSheetWithOptions]);
+
+    const onPhotoPress = useCallback(
+        (picture) => {
+            navigation.navigate(
+                AccountStackNavigatorEnum.PictureScreen as never,
+                {
+                    picture
+                } as never
+            );
+        },
+        [navigation]
+    );
 
     return (
         <View>
@@ -99,13 +118,27 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
                         style={ChatItemStyle.image}
                     />
                 )}
-                <TouchableOpacity
-                    activeOpacity={1}
-                    onLongPress={showActionSheet}
-                    style={viewStyle}
-                >
-                    <Text style={textStyle}>{item.message}</Text>
-                </TouchableOpacity>
+                {(item?.message || item?.url) && (
+                    <TouchableOpacity
+                        activeOpacity={1}
+                        onLongPress={showActionSheet}
+                        onPress={() => item?.url && onPhotoPress(item?.url)}
+                        style={viewStyle}
+                    >
+                        {item?.url ? (
+                            <FastImage
+                                source={{ uri: item.url }}
+                                style={{
+                                    width: 175,
+                                    height: 175,
+                                    borderRadius: 15
+                                }}
+                            />
+                        ) : (
+                            <Text style={textStyle}>{item.message}</Text>
+                        )}
+                    </TouchableOpacity>
+                )}
             </View>
             {!isOutbound && (
                 <Text style={ChatItemStyle.senderText}>{item.sender}</Text>

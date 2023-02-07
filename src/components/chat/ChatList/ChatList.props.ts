@@ -11,6 +11,7 @@ export interface ChatDataProps {
         username: string;
         profilePicture: string;
     }>;
+    url: string;
 }
 
 export interface ChatListProps {

@@ -22,6 +22,8 @@ export interface SendMessageInterface {
     picture: string;
     conversationId: number;
     message: string;
+    buffer?: string;
+    fileName?: string;
 }
 
 export interface HangoutCreateInterface {

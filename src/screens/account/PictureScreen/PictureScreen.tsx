@@ -6,7 +6,7 @@ import { PictureScreenProps } from '@screens/account/PictureScreen/PictureScreen
 import { PictureScreenStyle } from '@screens/account/PictureScreen/PictureScreen.style';
 
 export const PictureScreen = ({ route }: PictureScreenProps): JSX.Element => {
-    const { picture, title } = route.params;
+    const { picture, title = null } = route.params;
 
     const navigation = useNavigation();
 
@@ -14,11 +14,13 @@ export const PictureScreen = ({ route }: PictureScreenProps): JSX.Element => {
 
     return (
         <View style={PictureScreenStyle.view}>
-            <FastImage
-                resizeMode="contain"
-                source={{ uri: picture }}
-                style={PictureScreenStyle.image}
-            />
+            {!!picture && (
+                <FastImage
+                    resizeMode="contain"
+                    source={{ uri: picture }}
+                    style={PictureScreenStyle.image}
+                />
+            )}
         </View>
     );
 };

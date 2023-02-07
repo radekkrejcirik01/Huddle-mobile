@@ -3,6 +3,7 @@ import { Keyboard, Text, TextInput, View, VirtualizedList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
+import fs from 'react-native-fs';
 import { ChatListStyle } from '@components/chat/ChatList/ChatList.style';
 import {
     ChatDataProps,
@@ -45,6 +46,7 @@ export const ChatList = ({
 
     const [data, setData] = useState<Array<ChatDataProps>>([]);
     const [messageValue, setMessageValue] = useState<string>();
+
     const { getItem, renderItem, getItemCount, keyExtractor } =
         useChatListRenders(data);
 
@@ -107,53 +109,60 @@ export const ChatList = ({
         dispatch(setLoadRead(false));
     }, [dispatch, loadMessages, loadRead]);
 
-    const sendMessage = useCallback(() => {
-        postRequest<ResponseInterface, SendMessageInterface>(
-            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/send/message',
-            {
-                sender: username,
-                name: firstname,
-                picture,
-                conversationId,
-                message: messageValue
-            }
-        ).subscribe((response: ResponseInterface) => {
-            if (response?.status) {
-                loadMessages();
-            }
-        });
-    }, [
-        conversationId,
-        firstname,
-        loadMessages,
-        messageValue,
-        picture,
-        username
-    ]);
+    const sendMessage = useCallback(
+        (buffer?: string, fileName?: string) => {
+            postRequest<ResponseInterface, SendMessageInterface>(
+                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/send/message',
+                {
+                    sender: username,
+                    name: firstname,
+                    picture,
+                    conversationId,
+                    message: messageValue,
+                    buffer,
+                    fileName
+                }
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    loadMessages();
+                }
+            });
+        },
+        [
+            conversationId,
+            firstname,
+            loadMessages,
+            messageValue,
+            picture,
+            username
+        ]
+    );
 
     const openPhoto = useCallback(() => {
         ImagePicker.openCamera({
-            width: 500,
-            height: 500,
             cropping: true,
+            freeStyleCropEnabled: true,
+            compressImageQuality: 0.5,
             waitAnimationEnd: false,
             cropperChooseText: 'Send'
-        }).then((image) => {
-            console.log(image.path);
+        }).then(async (image) => {
+            const base64 = await fs.readFile(image?.path, 'base64');
+            sendMessage(base64, image?.filename);
         });
-    }, []);
+    }, [sendMessage]);
 
     const openGallery = useCallback(() => {
         ImagePicker.openPicker({
-            width: 500,
-            height: 500,
             cropping: true,
+            freeStyleCropEnabled: true,
+            compressImageQuality: 0.7,
             waitAnimationEnd: false,
             cropperChooseText: 'Send'
-        }).then((image) => {
-            console.log(image.path);
+        }).then(async (image) => {
+            const base64 = await fs.readFile(image?.path, 'base64');
+            sendMessage(base64, image?.filename);
         });
-    }, []);
+    }, [sendMessage]);
 
     const onSend = useCallback(() => {
         sendMessage();
