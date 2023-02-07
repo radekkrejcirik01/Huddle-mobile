@@ -11,11 +11,13 @@ import FlashFilled from '@assets/webp/FlashFilled.webp';
 import Food from '@assets/webp/Food.webp';
 import FoodFilled from '@assets/webp/FoodFilled.webp';
 import FoodFilled2 from '@assets/webp/FoodFilled2.webp';
+import Gallery from '@assets/webp/Gallery.webp';
 import Heart from '@assets/webp/Heart.webp';
 import Lock from '@assets/webp/Lock.webp';
 import LockPurple from '@assets/webp/LockPurple.webp';
 import Microphone from '@assets/webp/Microphone.webp';
 import Movie from '@assets/webp/Movie.webp';
+import Photo from '@assets/webp/Photo.webp';
 import Plus from '@assets/webp/Plus.webp';
 import Profile from '@assets/webp/Profile.webp';
 import Profile2 from '@assets/webp/Profile2.webp';
@@ -41,11 +43,13 @@ export enum IconEnum {
     FOOD = 'Food',
     FOOD_FILLED = 'FoodFilled',
     FOOD_FILLED2 = 'FoodFilled2',
+    GALLERY = 'Gallery',
     HEART = 'Heart',
     LOCK = 'Lock',
     LOCK_PURPLE = 'LockPurple',
     MICROPHONE = 'Microphone',
     MOVIE = 'Movie',
+    PHOTO = 'Photo',
     PLUS = 'PLUS',
     PROFILE = 'Profile',
     PROFILE2 = 'Profile2',
@@ -72,11 +76,13 @@ export const ICONS = {
     [IconEnum.FOOD]: Food,
     [IconEnum.FOOD_FILLED]: FoodFilled,
     [IconEnum.FOOD_FILLED2]: FoodFilled2,
+    [IconEnum.GALLERY]: Gallery,
     [IconEnum.HEART]: Heart,
     [IconEnum.LOCK]: Lock,
     [IconEnum.LOCK_PURPLE]: LockPurple,
     [IconEnum.MICROPHONE]: Microphone,
     [IconEnum.MOVIE]: Movie,
+    [IconEnum.PHOTO]: Photo,
     [IconEnum.PLUS]: Plus,
     [IconEnum.PROFILE]: Profile,
     [IconEnum.PROFILE2]: Profile2,

@@ -7,9 +7,17 @@ export const ChatListStyle = StyleSheet.create({
         paddingHorizontal: 12,
         paddingBottom: 20
     },
-    container: {
-        marginTop: -25, // to match input's layout with chat list items
+    bottomContainer: {
         marginHorizontal: 10,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    iconButton: {
+        marginRight: 12,
+        paddingBottom: 5
+    },
+    inputContainer: {
+        flex: 1,
         marginBottom: 5,
         padding: 5,
         paddingLeft: 10,

@@ -13,6 +13,7 @@ import { CreateGroupHangoutScreen } from '@screens/account/CreateGroupHangoutScr
 import { PickPeopleScreen } from '@screens/account/PickPeopleScreen/PickPeopleScreen';
 import { MessagesScreen } from '@screens/account/MessagesScreen/MessagesScreen';
 import { ChatScreen } from '@screens/account/ChatScreen/ChatScreen';
+import { PictureScreen } from '@screens/account/PictureScreen/PictureScreen';
 import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
 import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/DeleteAccountScreen';
@@ -27,6 +28,7 @@ import {
     NotificationsTitle,
     PeopleOptions,
     PickPeopleTitle,
+    PictureScreenOptions,
     ProfileTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
 
@@ -78,6 +80,14 @@ export const AccountStackNavigator = (): JSX.Element => (
             name={AccountStackNavigatorEnum.ChatScreen}
             component={ChatScreen}
             options={NavigationScreenHeader}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.PictureScreen}
+            component={PictureScreen}
+            options={{
+                ...NavigationScreenHeader,
+                ...PictureScreenOptions
+            }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.EventScreen}

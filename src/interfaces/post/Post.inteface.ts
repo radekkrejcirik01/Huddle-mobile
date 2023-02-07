@@ -19,6 +19,7 @@ export interface MessagesGetInterface {
 export interface SendMessageInterface {
     sender: string;
     name: string;
+    picture: string;
     conversationId: number;
     message: string;
 }

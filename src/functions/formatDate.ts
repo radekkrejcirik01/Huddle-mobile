@@ -1,3 +1,5 @@
+import { format } from '@functions/getDateAndTime';
+
 export const formatDate = (date: Date): string => {
     const monthNames = [
         'January',
@@ -18,7 +20,7 @@ export const formatDate = (date: Date): string => {
     const day = date.getDate().toString();
 
     const hour = date.getHours().toString();
-    const minute = date.getMinutes().toString();
+    const minute = format(date.getMinutes().toString());
 
     return `${day}. ${month} ${hour}:${minute}`;
 };

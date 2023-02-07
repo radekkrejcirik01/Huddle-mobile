@@ -30,11 +30,12 @@ export const useNotifications = (
     const { showToast } = useToastMessage();
 
     const openChat = useCallback(
-        (conversationId: string, sender: string) => {
+        (conversationId: string, sender: string, picture) => {
             if (isReady && username) {
                 navigateTo(AccountStackNavigatorEnum.ChatScreen, {
                     conversationId: Number(conversationId),
-                    title: sender
+                    title: sender,
+                    image: picture
                 });
             }
         },
@@ -54,8 +55,9 @@ export const useNotifications = (
             .then((remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
                 if (remoteMessage && remoteMessage.data.type === 'message') {
                     openChat(
-                        remoteMessage.data.conversationId,
-                        remoteMessage.data.sender
+                        remoteMessage?.data?.conversationId,
+                        remoteMessage?.data?.sender,
+                        remoteMessage?.data?.picture
                     );
                 }
             });
@@ -67,8 +69,9 @@ export const useNotifications = (
             (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
                 if (remoteMessage && remoteMessage.data.type === 'message') {
                     openChat(
-                        remoteMessage.data.conversationId,
-                        remoteMessage.data.sender
+                        remoteMessage?.data?.conversationId,
+                        remoteMessage?.data?.sender,
+                        remoteMessage?.data?.picture
                     );
                 }
             }
@@ -114,7 +117,8 @@ export const useNotifications = (
                             () =>
                                 openChat(
                                     remoteMessage?.data?.conversationId,
-                                    remoteMessage?.data?.sender
+                                    remoteMessage?.data?.sender,
+                                    remoteMessage?.data?.picture
                                 )
                         );
                     }

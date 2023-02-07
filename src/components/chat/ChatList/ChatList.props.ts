@@ -15,4 +15,5 @@ export interface ChatDataProps {
 
 export interface ChatListProps {
     conversationId: number;
+    picture: string;
 }

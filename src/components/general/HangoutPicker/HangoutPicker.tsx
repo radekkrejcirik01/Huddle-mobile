@@ -238,7 +238,7 @@ export const HangoutPicker = ({
             <DatePicker
                 modal
                 open={open}
-                date={date}
+                date={dateTime ? new Date(dateTime) : date}
                 minimumDate={minimumDate}
                 onConfirm={(datum: Date) => {
                     setOpen(false);

@@ -39,8 +39,9 @@ export const MessagesScreen = (): JSX.Element => {
     const onItemPress = useCallback(
         (item: MessagesListDataProps) => {
             navigateTo(AccountStackNavigatorEnum.ChatScreen, {
-                conversationId: item.id,
-                title: item.name
+                conversationId: item?.id,
+                title: item?.name,
+                image: item?.picture
             });
         },
         [navigateTo]

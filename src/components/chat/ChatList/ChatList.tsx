@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Keyboard, Text, TextInput, View, VirtualizedList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import ImagePicker from 'react-native-image-crop-picker';
 import { ChatListStyle } from '@components/chat/ChatList/ChatList.style';
 import {
     ChatDataProps,
@@ -26,8 +27,13 @@ import {
     setLoadConversation,
     setLoadRead
 } from '@store/Conversation';
+import { IconButton } from '@components/general/IconButton/IconButton';
+import { IconEnum } from '@components/icon/Icon.enum';
 
-export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
+export const ChatList = ({
+    conversationId,
+    picture
+}: ChatListProps): JSX.Element => {
     const { firstname, username } = useSelector(
         (state: ReducerProps) => state.user.user
     );
@@ -107,6 +113,7 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
             {
                 sender: username,
                 name: firstname,
+                picture,
                 conversationId,
                 message: messageValue
             }
@@ -115,7 +122,38 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
                 loadMessages();
             }
         });
-    }, [conversationId, firstname, loadMessages, messageValue, username]);
+    }, [
+        conversationId,
+        firstname,
+        loadMessages,
+        messageValue,
+        picture,
+        username
+    ]);
+
+    const openPhoto = useCallback(() => {
+        ImagePicker.openCamera({
+            width: 500,
+            height: 500,
+            cropping: true,
+            waitAnimationEnd: false,
+            cropperChooseText: 'Send'
+        }).then((image) => {
+            console.log(image.path);
+        });
+    }, []);
+
+    const openGallery = useCallback(() => {
+        ImagePicker.openPicker({
+            width: 500,
+            height: 500,
+            cropping: true,
+            waitAnimationEnd: false,
+            cropperChooseText: 'Send'
+        }).then((image) => {
+            console.log(image.path);
+        });
+    }, []);
 
     const onSend = useCallback(() => {
         sendMessage();
@@ -137,20 +175,37 @@ export const ChatList = ({ conversationId }: ChatListProps): JSX.Element => {
                 onScrollBeginDrag={Keyboard.dismiss}
                 contentContainerStyle={ChatListStyle.contentContainer}
             />
-            <View style={ChatListStyle.container}>
-                <TextInput
-                    placeholder="Message..."
-                    placeholderTextColor={COLORS.WHITE}
-                    onChangeText={setMessageValue}
-                    value={messageValue}
-                    multiline
-                    selectionColor={COLORS.WHITE}
-                    style={ChatListStyle.input}
+            <View style={ChatListStyle.bottomContainer}>
+                <IconButton
+                    icon={IconEnum.PHOTO}
+                    onPress={openPhoto}
+                    size={25}
+                    style={ChatListStyle.iconButton}
                 />
-                <View style={ChatListStyle.sendView}>
-                    <TouchableOpacity disabled={!messageValue} onPress={onSend}>
-                        <Text style={ChatListStyle.send}>Send</Text>
-                    </TouchableOpacity>
+                <IconButton
+                    icon={IconEnum.GALLERY}
+                    onPress={openGallery}
+                    size={20}
+                    style={ChatListStyle.iconButton}
+                />
+                <View style={ChatListStyle.inputContainer}>
+                    <TextInput
+                        placeholder="Message..."
+                        placeholderTextColor={COLORS.WHITE}
+                        onChangeText={setMessageValue}
+                        value={messageValue}
+                        multiline
+                        selectionColor={COLORS.WHITE}
+                        style={ChatListStyle.input}
+                    />
+                    <View style={ChatListStyle.sendView}>
+                        <TouchableOpacity
+                            disabled={!messageValue}
+                            onPress={onSend}
+                        >
+                            <Text style={ChatListStyle.send}>Send</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         </>

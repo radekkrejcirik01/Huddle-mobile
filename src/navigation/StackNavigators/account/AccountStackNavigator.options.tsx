@@ -46,3 +46,12 @@ export const CreateGroupHangoutTitle: StackNavigationOptions = {
 export const PickPeopleTitle: StackNavigationOptions = {
     headerTitle: 'Add people'
 };
+
+export const PictureScreenOptions: StackNavigationOptions = {
+    cardStyleInterpolator: ({ current }) => ({
+        cardStyle: {
+            opacity: current.progress
+        }
+    }),
+    headerBackTitleVisible: false
+};
