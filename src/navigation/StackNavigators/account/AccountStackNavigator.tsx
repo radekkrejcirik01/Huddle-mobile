@@ -28,7 +28,6 @@ import {
     NotificationsTitle,
     PeopleOptions,
     PickPeopleTitle,
-    PictureScreenOptions,
     ProfileTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
 
@@ -84,10 +83,7 @@ export const AccountStackNavigator = (): JSX.Element => (
         <Account.Screen
             name={AccountStackNavigatorEnum.PictureScreen}
             component={PictureScreen}
-            options={{
-                ...NavigationScreenHeader,
-                ...PictureScreenOptions
-            }}
+            options={NavigationScreenHeader}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.EventScreen}
