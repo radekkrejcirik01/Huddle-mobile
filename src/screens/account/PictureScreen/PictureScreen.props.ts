@@ -4,7 +4,6 @@ export interface PictureScreenProps {
     route: RouteProp<
         {
             params: {
-                title?: string;
                 picture?: string;
             };
         },

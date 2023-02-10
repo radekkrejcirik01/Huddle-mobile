@@ -23,11 +23,10 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
         navigation.navigate(
             AccountStackNavigatorEnum.PictureScreen as never,
             {
-                title,
                 picture: image
             } as never
         );
-    }, [image, navigation, title]);
+    }, [image, navigation]);
 
     useEffect(
         () =>

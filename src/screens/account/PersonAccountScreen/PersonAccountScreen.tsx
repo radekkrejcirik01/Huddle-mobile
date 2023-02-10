@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert, Keyboard, ScrollView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
@@ -14,6 +14,7 @@ import {
 } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { HangoutPicker } from '@components/general/HangoutPicker/HangoutPicker';
+import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 
 export const PersonAccountScreen = ({
     route
@@ -31,6 +32,7 @@ export const PersonAccountScreen = ({
     );
 
     const [inviteAccepted, setInviteAccepted] = useState<boolean>(accepted);
+    const [addDetails, setAddDetails] = useState<boolean>(false);
 
     const navigation = useNavigation();
 
@@ -100,28 +102,52 @@ export const PersonAccountScreen = ({
     }, [acceptFriendInvite, inviteAccepted, sendHangout]);
 
     return (
-        <View style={PersonAccountScreenStyle.container}>
-            <View>
-                <FastImage
-                    source={{ uri: profilePicture }}
-                    style={PersonAccountScreenStyle.image}
-                />
-                <Text style={PersonAccountScreenStyle.name}>{firstname}</Text>
-            </View>
-            {inviteAccepted && (
+        <ScrollView
+            onScrollBeginDrag={Keyboard.dismiss}
+            contentContainerStyle={PersonAccountScreenStyle.container}
+        >
+            <KeyboardAvoidingView>
+                <View>
+                    <FastImage
+                        source={{ uri: profilePicture }}
+                        style={PersonAccountScreenStyle.image}
+                    />
+                    <Text style={PersonAccountScreenStyle.name}>
+                        {firstname}
+                    </Text>
+                </View>
                 <HangoutPicker
+                    isVisible={addDetails && !isHangoutSent}
                     onDateTimeChange={setDateTime}
                     onPlaceChange={setPlace}
                 />
-            )}
-            <TouchableOpacity
-                onPress={onPress}
-                style={PersonAccountScreenStyle.hangoutTouchableOpacity}
-            >
-                <Text style={PersonAccountScreenStyle.hangoutText}>
-                    {buttonText}
-                </Text>
-            </TouchableOpacity>
-        </View>
+                <View style={PersonAccountScreenStyle.actionsButtonsView}>
+                    <TouchableOpacity
+                        onPress={onPress}
+                        style={
+                            PersonAccountScreenStyle.mainButtonTouchableOpacity
+                        }
+                    >
+                        <Text style={PersonAccountScreenStyle.text}>
+                            {buttonText}
+                        </Text>
+                    </TouchableOpacity>
+                    <View style={PersonAccountScreenStyle.addDetailsButtonView}>
+                        {inviteAccepted && !addDetails && (
+                            <TouchableOpacity
+                                onPress={() => setAddDetails(true)}
+                                style={
+                                    PersonAccountScreenStyle.secondaryButtonTouchableOpacity
+                                }
+                            >
+                                <Text style={PersonAccountScreenStyle.text}>
+                                    Add details
+                                </Text>
+                            </TouchableOpacity>
+                        )}
+                    </View>
+                </View>
+            </KeyboardAvoidingView>
+        </ScrollView>
     );
 };

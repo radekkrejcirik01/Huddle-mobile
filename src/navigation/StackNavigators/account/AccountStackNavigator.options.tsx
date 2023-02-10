@@ -1,6 +1,8 @@
 import React from 'react';
 import { StackNavigationOptions } from '@react-navigation/stack';
 import { HeaderPlus } from '@components/general/HeaderPlus/HeaderPlus';
+import { StackNavigatorStyle } from '@navigation/StackNavigators/StackNavigator.style';
+import DIMENSIONS from '@constants/DIMENSIONS';
 
 export const ProfileTitle: StackNavigationOptions = {
     headerTitle: 'Profile'
@@ -9,6 +11,13 @@ export const ProfileTitle: StackNavigationOptions = {
 export const PeopleOptions: StackNavigationOptions = {
     headerTitle: 'People',
     headerRight: () => <HeaderPlus />
+};
+
+export const PictureOptions: StackNavigationOptions = {
+    headerLeft: null,
+    headerStyle: StackNavigatorStyle.navigationScreen,
+    gestureResponseDistance: DIMENSIONS.width,
+    headerTitle: ''
 };
 
 export const HangoutsTitle: StackNavigationOptions = {

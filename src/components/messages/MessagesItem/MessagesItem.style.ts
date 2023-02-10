@@ -18,9 +18,7 @@ export const MessagesItemStyle = StyleSheet.create({
     box: {
         flex: 1,
         paddingBottom: 25,
-        paddingHorizontal: 10,
-        borderBottomWidth: 0.75,
-        borderBottomColor: COLORS.BLACK_200
+        paddingHorizontal: 10
     },
     firstRow: {
         flexDirection: 'row',
@@ -28,8 +26,8 @@ export const MessagesItemStyle = StyleSheet.create({
     },
     text: {
         maxWidth: '65%',
-        fontSize: 14,
         paddingBottom: 5,
+        fontSize: 14,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },

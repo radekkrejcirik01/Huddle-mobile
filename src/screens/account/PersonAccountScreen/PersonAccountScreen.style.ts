@@ -20,19 +20,29 @@ export const PersonAccountScreenStyle = StyleSheet.create({
         alignSelf: 'center',
         fontWeight: '500'
     },
-    hangoutTouchableOpacity: {
+    actionsButtonsView: {
+        marginBottom: 75
+    },
+    mainButtonTouchableOpacity: {
         width: 120,
         marginTop: 25,
-        marginBottom: 125,
         padding: 12,
         borderRadius: 20,
         backgroundColor: COLORS.MAIN_BLUE,
         alignSelf: 'center',
         alignItems: 'center'
     },
-    hangoutText: {
+    text: {
         fontSize: 15,
         color: COLORS.WHITE,
         fontWeight: '500'
+    },
+    secondaryButtonTouchableOpacity: {
+        alignSelf: 'center'
+    },
+    addDetailsButtonView: {
+        height: 50,
+        width: '100%',
+        marginTop: 35
     }
 });

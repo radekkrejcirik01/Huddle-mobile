@@ -27,6 +27,7 @@ import {
 } from '@interfaces/post/Post.inteface';
 import { HangoutPickerEnum } from '@components/general/HangoutPicker/HangoutPicker.enum';
 import { resetChoosePeopleState } from '@store/ChoosePeopleReducer';
+import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 
 export const CreateGroupHangoutScreen = (): JSX.Element => {
     const { firstname, username } = useSelector(
@@ -38,6 +39,7 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
     const [title, setTitle] = useState<string>();
     const [dateTime, setDateTime] = useState<string>();
     const [place, setPlace] = useState<string>();
+    const [isPlaceFocused, setIsPlaceFocused] = useState<boolean>(false);
     const [picture, setPicture] = useState<string>();
 
     const photoUrl = useRef<string>();
@@ -107,37 +109,48 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
             onScrollBeginDrag={Keyboard.dismiss}
             style={CreateGroupHangoutScreenStyle.container}
         >
-            <Input
-                autoFocus
-                value={title}
-                placeholder="What is happening?"
-                onChangeText={setTitle}
-                selectionColor={COLORS.WHITE}
-                style={CreateGroupHangoutScreenStyle.input}
-                viewStyle={CreateGroupHangoutScreenStyle.inputView}
-            />
-            <TouchableOpacity
-                onPress={choosePhoto}
-                style={CreateGroupHangoutScreenStyle.imageTouchableOpacity}
+            <KeyboardAvoidingView
+                keyboardVerticalOffset={100}
+                enabled={isPlaceFocused}
             >
-                <FastImage
-                    source={{ uri: picture }}
-                    style={CreateGroupHangoutScreenStyle.image}
+                <Input
+                    value={title}
+                    onFocus={() => setIsPlaceFocused(false)}
+                    placeholder="What is happening?"
+                    onChangeText={setTitle}
+                    selectionColor={COLORS.WHITE}
+                    style={CreateGroupHangoutScreenStyle.input}
+                    viewStyle={CreateGroupHangoutScreenStyle.inputView}
                 />
-            </TouchableOpacity>
-            <HangoutPicker
-                onDateTimeChange={setDateTime}
-                onPlaceChange={setPlace}
-                type={HangoutPickerEnum.GROUP}
-            />
-            <TouchableOpacity
-                onPress={sendGroupHangout}
-                style={CreateGroupHangoutScreenStyle.hangoutTouchableOpacity}
-            >
-                <Text style={CreateGroupHangoutScreenStyle.hangoutText}>
-                    {buttonText}
-                </Text>
-            </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={choosePhoto}
+                    style={CreateGroupHangoutScreenStyle.imageTouchableOpacity}
+                >
+                    <FastImage
+                        source={{ uri: picture }}
+                        style={CreateGroupHangoutScreenStyle.image}
+                    />
+                </TouchableOpacity>
+                <HangoutPicker
+                    isVisible
+                    onDateTimeChange={setDateTime}
+                    onPlaceChange={setPlace}
+                    onPlaceInputFocusChanged={(focused) =>
+                        setIsPlaceFocused(focused)
+                    }
+                    type={HangoutPickerEnum.GROUP}
+                />
+                <TouchableOpacity
+                    onPress={sendGroupHangout}
+                    style={
+                        CreateGroupHangoutScreenStyle.hangoutTouchableOpacity
+                    }
+                >
+                    <Text style={CreateGroupHangoutScreenStyle.hangoutText}>
+                        {buttonText}
+                    </Text>
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
         </ScrollView>
     );
 };

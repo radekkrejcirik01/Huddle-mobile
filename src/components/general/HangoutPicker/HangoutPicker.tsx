@@ -23,8 +23,10 @@ import { ReducerProps } from '@store/index/index.props';
 import { getUTCDateTime } from '@functions/getUTCDateTime';
 
 export const HangoutPicker = ({
+    isVisible,
     onDateTimeChange,
     onPlaceChange,
+    onPlaceInputFocusChanged,
     type
 }: HangoutPickerProps): JSX.Element => {
     const { users } = useSelector((state: ReducerProps) => state.choosePeople);
@@ -97,35 +99,86 @@ export const HangoutPicker = ({
     }, [navigateTo]);
 
     return (
-        <View style={HangoutPickerStyle.container}>
-            <View style={HangoutPickerStyle.inputContainer}>
-                <Text style={HangoutPickerStyle.title}>When</Text>
-                <View style={HangoutPickerStyle.tagsRow}>
-                    {dateTimeText ? (
-                        <TouchableOpacity
-                            activeOpacity={1}
-                            onPress={() => setOpen(true)}
-                            style={HangoutPickerStyle.tagsItem}
-                        >
-                            <Text style={HangoutPickerStyle.tagText}>
-                                {dateTimeText}
-                            </Text>
-                        </TouchableOpacity>
-                    ) : (
-                        <>
-                            {suggestedWhen.map((value: string) => (
+        isVisible && (
+            <View style={HangoutPickerStyle.container}>
+                <View style={HangoutPickerStyle.inputContainer}>
+                    <Text style={HangoutPickerStyle.title}>When</Text>
+                    <View style={HangoutPickerStyle.tagsRow}>
+                        {dateTimeText ? (
+                            <TouchableOpacity
+                                activeOpacity={1}
+                                onPress={() => setOpen(true)}
+                                style={HangoutPickerStyle.tagsItem}
+                            >
+                                <Text style={HangoutPickerStyle.tagText}>
+                                    {dateTimeText}
+                                </Text>
+                            </TouchableOpacity>
+                        ) : (
+                            <>
+                                {suggestedWhen.map((value: string) => (
+                                    <TouchableOpacity
+                                        activeOpacity={1}
+                                        onPress={() => {
+                                            if (
+                                                value ===
+                                                suggestedWhen[
+                                                    suggestedWhen.length - 1
+                                                ]
+                                            ) {
+                                                setOpen(true);
+                                            } else {
+                                                setTappedWhen(value);
+                                            }
+                                        }}
+                                        key={value}
+                                        style={[
+                                            HangoutPickerStyle.tagsItem,
+                                            {
+                                                backgroundColor:
+                                                    tappedWhen === value
+                                                        ? COLORS.MAIN_BLUE
+                                                        : COLORS.BLACK
+                                            }
+                                        ]}
+                                    >
+                                        <Text
+                                            style={HangoutPickerStyle.tagText}
+                                        >
+                                            {value}
+                                        </Text>
+                                    </TouchableOpacity>
+                                ))}
+                            </>
+                        )}
+                    </View>
+                </View>
+                {!dateTimeText && (
+                    <View style={HangoutPickerStyle.inputContainer}>
+                        <Text style={HangoutPickerStyle.title}>Time</Text>
+                        <View style={HangoutPickerStyle.tagsRow}>
+                            {suggestedTimes.map((value: string) => (
                                 <TouchableOpacity
                                     activeOpacity={1}
                                     onPress={() => {
                                         if (
                                             value ===
-                                            suggestedWhen[
-                                                suggestedWhen.length - 1
+                                            suggestedTimes[
+                                                suggestedTimes.length - 1
                                             ]
                                         ) {
                                             setOpen(true);
+                                            const currentDate = new Date(
+                                                moment().toString()
+                                            );
+                                            if (tappedWhen === 'Tomorrow') {
+                                                currentDate.setDate(
+                                                    currentDate.getDate() + 1
+                                                );
+                                            }
+                                            setDate(currentDate);
                                         } else {
-                                            setTappedWhen(value);
+                                            setTappedTime(value);
                                         }
                                     }}
                                     key={value}
@@ -133,7 +186,7 @@ export const HangoutPicker = ({
                                         HangoutPickerStyle.tagsItem,
                                         {
                                             backgroundColor:
-                                                tappedWhen === value
+                                                tappedTime === value
                                                     ? COLORS.MAIN_BLUE
                                                     : COLORS.BLACK
                                         }
@@ -144,114 +197,70 @@ export const HangoutPicker = ({
                                     </Text>
                                 </TouchableOpacity>
                             ))}
-                        </>
-                    )}
-                </View>
-            </View>
-            {!dateTimeText && (
+                        </View>
+                    </View>
+                )}
                 <View style={HangoutPickerStyle.inputContainer}>
-                    <Text style={HangoutPickerStyle.title}>Time</Text>
-                    <View style={HangoutPickerStyle.tagsRow}>
-                        {suggestedTimes.map((value: string) => (
+                    <Text style={HangoutPickerStyle.title}>Place</Text>
+                    <Input
+                        value={place}
+                        onChange={setPlace}
+                        onFocus={() => onPlaceInputFocusChanged(true)}
+                        inputType={InputTypeEnum.TEXT}
+                        inputStyle={HangoutPickerStyle.input}
+                        viewStyle={HangoutPickerStyle.inputView}
+                        placeholderTextColor={COLORS.LIGHTGRAY}
+                    />
+                </View>
+                {type === HangoutPickerEnum.GROUP && (
+                    <View style={HangoutPickerStyle.inputContainer}>
+                        <Text style={HangoutPickerStyle.title}>People</Text>
+                        {users?.length ? (
+                            <View style={HangoutPickerStyle.tagsRow}>
+                                {users.map((value: string) => (
+                                    <TouchableOpacity
+                                        key={value}
+                                        onPress={openPeopleScreen}
+                                        style={HangoutPickerStyle.peopleItem}
+                                    >
+                                        <Text
+                                            style={HangoutPickerStyle.tagText}
+                                        >
+                                            {value}
+                                        </Text>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        ) : (
                             <TouchableOpacity
-                                activeOpacity={1}
-                                onPress={() => {
-                                    if (
-                                        value ===
-                                        suggestedTimes[
-                                            suggestedTimes.length - 1
-                                        ]
-                                    ) {
-                                        setOpen(true);
-                                        const currentDate = new Date(
-                                            moment().toString()
-                                        );
-                                        if (tappedWhen === 'Tomorrow') {
-                                            currentDate.setDate(
-                                                currentDate.getDate() + 1
-                                            );
-                                        }
-                                        setDate(currentDate);
-                                    } else {
-                                        setTappedTime(value);
-                                    }
-                                }}
-                                key={value}
-                                style={[
-                                    HangoutPickerStyle.tagsItem,
-                                    {
-                                        backgroundColor:
-                                            tappedTime === value
-                                                ? COLORS.MAIN_BLUE
-                                                : COLORS.BLACK
-                                    }
-                                ]}
+                                onPress={openPeopleScreen}
+                                style={HangoutPickerStyle.tagsItem}
                             >
                                 <Text style={HangoutPickerStyle.tagText}>
-                                    {value}
+                                    Add a friend
                                 </Text>
                             </TouchableOpacity>
-                        ))}
+                        )}
                     </View>
-                </View>
-            )}
-            <View style={HangoutPickerStyle.inputContainer}>
-                <Text style={HangoutPickerStyle.title}>Place</Text>
-                <Input
-                    value={place}
-                    onChange={setPlace}
-                    inputType={InputTypeEnum.TEXT}
-                    inputStyle={HangoutPickerStyle.input}
-                    viewStyle={HangoutPickerStyle.inputView}
-                    placeholderTextColor={COLORS.LIGHTGRAY}
+                )}
+                <DatePicker
+                    modal
+                    open={open}
+                    date={dateTime ? new Date(dateTime) : date}
+                    minimumDate={minimumDate}
+                    onConfirm={(datum: Date) => {
+                        setOpen(false);
+                        setDate(datum);
+                        setResultDateText(formatDate(datum));
+
+                        setDateTime(constructDateTime(datum));
+                    }}
+                    theme="dark"
+                    locale="cz"
+                    onCancel={() => setOpen(false)}
                 />
             </View>
-            {type === HangoutPickerEnum.GROUP && (
-                <View style={HangoutPickerStyle.inputContainer}>
-                    <Text style={HangoutPickerStyle.title}>People</Text>
-                    {users?.length ? (
-                        <View style={HangoutPickerStyle.tagsRow}>
-                            {users.map((value: string) => (
-                                <TouchableOpacity
-                                    key={value}
-                                    onPress={openPeopleScreen}
-                                    style={HangoutPickerStyle.peopleItem}
-                                >
-                                    <Text style={HangoutPickerStyle.tagText}>
-                                        {value}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                    ) : (
-                        <TouchableOpacity
-                            onPress={openPeopleScreen}
-                            style={HangoutPickerStyle.tagsItem}
-                        >
-                            <Text style={HangoutPickerStyle.tagText}>
-                                Add a friend
-                            </Text>
-                        </TouchableOpacity>
-                    )}
-                </View>
-            )}
-            <DatePicker
-                modal
-                open={open}
-                date={dateTime ? new Date(dateTime) : date}
-                minimumDate={minimumDate}
-                onConfirm={(datum: Date) => {
-                    setOpen(false);
-                    setDate(datum);
-                    setResultDateText(formatDate(datum));
-
-                    setDateTime(constructDateTime(datum));
-                }}
-                theme="dark"
-                locale="cz"
-                onCancel={() => setOpen(false)}
-            />
-        </View>
+        )
     );
 };
 

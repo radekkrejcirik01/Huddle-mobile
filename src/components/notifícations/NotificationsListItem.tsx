@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleProp, Text, View, ViewStyle } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
@@ -20,7 +20,7 @@ export const NotificationsListItem = ({
     onOpenAccount,
     onOpenHangout
 }: NotificationsListItemProps): JSX.Element => {
-    const [accepted, setAccepted] = useState<boolean>(item.confirmed === 1);
+    const [accepted, setAccepted] = useState<boolean>();
 
     const acceptButtonColor = useMemo(
         (): StyleProp<ViewStyle> => ({
@@ -28,6 +28,10 @@ export const NotificationsListItem = ({
         }),
         [accepted]
     );
+
+    useEffect(() => {
+        setAccepted(item.confirmed === 1);
+    }, [item.confirmed]);
 
     const onItemPress = useCallback(() => {
         if (
