@@ -37,6 +37,7 @@ import { ResponseHangoutsGetInterface } from '@interfaces/response/Response.inte
 import { HangoutsGetInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { getDay } from '@functions/getDay';
+import { getLocalHourFromUTC } from '@functions/getLocalHourFromUTC';
 
 export const SectionList = forwardRef(
     (
@@ -121,7 +122,7 @@ export const SectionList = forwardRef(
                                         {value.title}
                                     </Text>
                                     <Text style={SectionListStyle.itemText}>
-                                        {value.time}
+                                        {getLocalHourFromUTC(value.time)}
                                     </Text>
                                 </View>
                                 <FastImage

@@ -106,7 +106,12 @@ export const PersonAccountScreen = ({
             onScrollBeginDrag={Keyboard.dismiss}
             contentContainerStyle={PersonAccountScreenStyle.container}
         >
-            <KeyboardAvoidingView>
+            <KeyboardAvoidingView
+                style={PersonAccountScreenStyle.container}
+                contentContainerStyle={
+                    PersonAccountScreenStyle.contentContainer
+                }
+            >
                 <View>
                     <FastImage
                         source={{ uri: profilePicture }}

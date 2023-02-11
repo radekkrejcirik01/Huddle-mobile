@@ -1,4 +1,5 @@
 import { SectionListData, StyleProp, ViewStyle } from 'react-native';
+import { Moment } from 'moment';
 
 export interface SectionListForwardRefProps {
     refresh: () => void;
@@ -27,7 +28,7 @@ export interface ComingsUpListItem {
     id: number;
     createdBy: string;
     title: string;
-    time: string;
+    time: Moment;
     place: string;
     picture: string;
 }

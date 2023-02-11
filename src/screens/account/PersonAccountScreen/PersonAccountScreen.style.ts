@@ -3,6 +3,9 @@ import COLORS from '@constants/COLORS';
 
 export const PersonAccountScreenStyle = StyleSheet.create({
     container: {
+        flex: 1
+    },
+    contentContainer: {
         flex: 1,
         paddingTop: 30,
         justifyContent: 'space-between'

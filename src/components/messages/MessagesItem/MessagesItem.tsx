@@ -7,6 +7,7 @@ import { MessagesItemProps } from '@components/messages/MessagesItem/MessagesIte
 import { MessagesItemStyle } from '@components/messages/MessagesItem/MessagesItem.style';
 import COLORS from '@constants/COLORS';
 import { SwipeableView } from '@components/general/SwipeableView/SwipeableView';
+import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
 
 export const MessagesItem = ({
     item,
@@ -46,7 +47,9 @@ export const MessagesItem = ({
                             <Text
                                 style={[MessagesItemStyle.text, opacityStyle]}
                             >
-                                {moment(item.time).fromNow()}
+                                {moment(
+                                    getLocalDateTimeFromUTC(item.time)
+                                ).fromNow()}
                             </Text>
                         </View>
                         <Text style={[MessagesItemStyle.message, opacityStyle]}>

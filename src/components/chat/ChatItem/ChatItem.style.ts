@@ -30,13 +30,21 @@ export const ChatItemStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    image: {
+    profilePicture: {
         width: 25,
         height: 25,
         marginRight: 5,
         marginBottom: 8,
         borderRadius: 10,
         alignSelf: 'flex-end'
+    },
+    image: {
+        width: 175,
+        height: 175,
+        borderRadius: 15
+    },
+    positionAbsolute: {
+        position: 'absolute'
     },
     senderText: {
         marginBottom: 4,

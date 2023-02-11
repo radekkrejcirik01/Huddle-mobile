@@ -13,6 +13,7 @@ import {
     HANGOUT_TYPE_TEXT,
     PEOPLE_TYPE_TEXT
 } from '@screens/account/NotificationsScreen/NotificationsScreen.const';
+import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
 
 export const NotificationsListItem = ({
     item,
@@ -121,7 +122,7 @@ export const NotificationsListItem = ({
                     <Text
                         style={NotificationsListItemStyle.itemTextDescription}
                     >
-                        {moment(item.time).fromNow()}
+                        {moment(getLocalDateTimeFromUTC(item.time)).fromNow()}
                     </Text>
                 </View>
             </View>

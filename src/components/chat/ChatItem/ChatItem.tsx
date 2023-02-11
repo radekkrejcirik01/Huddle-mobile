@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
     Alert,
     StyleProp,
@@ -12,12 +12,18 @@ import { useNavigation } from '@react-navigation/native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import Clipboard from '@react-native-clipboard/clipboard';
 import FastImage from 'react-native-fast-image';
+import * as Animatable from 'react-native-animatable';
+import {
+    State,
+    TapGestureHandler,
+    TapGestureHandlerGestureEvent
+} from 'react-native-gesture-handler';
 import COLORS from '@constants/COLORS';
 import { ChatItemProps } from '@components/chat/ChatItem/ChatItem.props';
 import { ChatItemStyle } from '@components/chat/ChatItem/ChatItem.style';
 import { ReducerProps } from '@store/index/index.props';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -28,6 +34,9 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
 
     const isDarkMode = true;
 
+    const [liked, setLiked] = useState<boolean>(false);
+
+    const isImage = !!item?.url;
     const isOutbound = item.sender === username;
     const renderRight = useMemo(() => isOutbound, [isOutbound]);
 
@@ -60,7 +69,10 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
             ChatItemStyle.item,
             isDarkMode ? ChatItemStyle.darkBorder : ChatItemStyle.lightBorder,
             renderRight ? rightContainer : leftContainer,
-            item?.url && { padding: 0, paddingHorizontal: 0 }
+            item?.url && {
+                padding: 0,
+                paddingHorizontal: 0
+            }
         ],
         [isDarkMode, renderRight, rightContainer, leftContainer, item?.url]
     );
@@ -73,40 +85,96 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
         [renderRight, textColor]
     );
 
-    const showActionSheet = useCallback(() => {
-        const options = ['Copy', !isOutbound && 'Report', 'Cancel'].filter(
-            Boolean
-        );
+    const performLike = () => {
+        setLiked(true);
+    };
 
+    const showOutboundActionSheet = useCallback(() => {
+        if (isImage) {
+            return;
+        }
+
+        const options = ['Copy', 'Cancel'];
         showActionSheetWithOptions(
             {
                 options,
-                cancelButtonIndex: isOutbound ? 1 : 2,
+                cancelButtonIndex: 1,
                 userInterfaceStyle: 'dark'
             },
             (selectedIndex: number) => {
                 if (selectedIndex === 0) {
                     Clipboard.setString(item?.message);
                 }
-                if (!isOutbound && selectedIndex === 1) {
+            }
+        );
+    }, [isImage, item?.message, showActionSheetWithOptions]);
+
+    const showInboundActionSheet = useCallback(() => {
+        const options = [
+            'Like ❤️',
+            !isImage && 'Copy',
+            'Report',
+            'Cancel'
+        ].filter(Boolean);
+
+        showActionSheetWithOptions(
+            {
+                options,
+                cancelButtonIndex: options?.length - 1,
+                userInterfaceStyle: 'dark'
+            },
+            (selectedIndex: number) => {
+                if (selectedIndex === 0) {
+                    performLike();
+                }
+                if (selectedIndex === options.indexOf('Copy')) {
+                    Clipboard.setString(item?.message);
+                }
+                if (selectedIndex === options.indexOf('Report')) {
                     Alert.alert(
                         'Thank you for reporting this message. Our team will take a look 🙂'
                     );
                 }
             }
         );
-    }, [isOutbound, item?.message, showActionSheetWithOptions]);
+    }, [isImage, item?.message, showActionSheetWithOptions]);
 
-    const onPhotoPress = useCallback(
-        (picture) => {
+    const onPhotoPress = useCallback(() => {
+        if (isImage) {
             navigation.navigate(
                 AccountStackNavigatorEnum.PictureScreen as never,
                 {
-                    picture
+                    picture: item?.url
                 } as never
             );
+        }
+    }, [isImage, item?.url, navigation]);
+
+    const onDoubleTap = useCallback(
+        (event: TapGestureHandlerGestureEvent) => {
+            // Trigger like event when there is no picture
+            if (!isImage && event.nativeEvent.state === State.ACTIVE) {
+                performLike();
+            }
         },
-        [navigation]
+        [isImage]
+    );
+
+    const animatableViewStyle = useMemo(
+        (): StyleProp<ViewStyle> => [
+            ChatItemStyle.positionAbsolute,
+            {
+                top: item?.url ? -5 : -10
+            },
+            isOutbound
+                ? {
+                      left: item?.url ? -5 : -15
+                  }
+                : {
+                      right: item?.url ? -5 : -15
+                  }
+        ],
+        [isOutbound, item?.url]
     );
 
     return (
@@ -115,28 +183,46 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
                 {!isOutbound && (
                     <FastImage
                         source={{ uri: item.profilePicture }}
-                        style={ChatItemStyle.image}
+                        style={ChatItemStyle.profilePicture}
                     />
                 )}
                 {(item?.message || item?.url) && (
                     <TouchableOpacity
                         activeOpacity={1}
-                        onLongPress={showActionSheet}
-                        onPress={() => item?.url && onPhotoPress(item?.url)}
+                        onLongPress={
+                            isOutbound
+                                ? showOutboundActionSheet
+                                : showInboundActionSheet
+                        }
+                        onPress={onPhotoPress}
                         style={viewStyle}
                     >
-                        {item?.url ? (
-                            <FastImage
-                                source={{ uri: item.url }}
-                                style={{
-                                    width: 175,
-                                    height: 175,
-                                    borderRadius: 15
-                                }}
-                            />
-                        ) : (
-                            <Text style={textStyle}>{item.message}</Text>
-                        )}
+                        <TapGestureHandler
+                            onHandlerStateChange={onDoubleTap}
+                            numberOfTaps={2}
+                            maxDurationMs={200}
+                        >
+                            <View>
+                                {item?.url ? (
+                                    <FastImage
+                                        source={{ uri: item.url }}
+                                        style={ChatItemStyle.image}
+                                    />
+                                ) : (
+                                    <Text style={textStyle}>
+                                        {item.message}
+                                    </Text>
+                                )}
+                                {liked && (
+                                    <Animatable.View
+                                        animation="bounceIn"
+                                        style={animatableViewStyle}
+                                    >
+                                        <Text>❤️</Text>
+                                    </Animatable.View>
+                                )}
+                            </View>
+                        </TapGestureHandler>
                     </TouchableOpacity>
                 )}
             </View>
