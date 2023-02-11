@@ -13,6 +13,7 @@ import { CreateGroupHangoutScreen } from '@screens/account/CreateGroupHangoutScr
 import { PickPeopleScreen } from '@screens/account/PickPeopleScreen/PickPeopleScreen';
 import { MessagesScreen } from '@screens/account/MessagesScreen/MessagesScreen';
 import { ChatScreen } from '@screens/account/ChatScreen/ChatScreen';
+import { ChatDetailScreen } from '@screens/account/ChatDetailScreen/ChatDetailScreen';
 import { PictureScreen } from '@screens/account/PictureScreen/PictureScreen';
 import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
@@ -20,6 +21,7 @@ import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/Delete
 import {
     AccountTitle,
     ChangePasswordTitle,
+    ChatOptions,
     CreateGroupHangoutTitle,
     DeleteAccountTitle,
     EventTitle,
@@ -80,6 +82,14 @@ export const AccountStackNavigator = (): JSX.Element => (
             name={AccountStackNavigatorEnum.ChatScreen}
             component={ChatScreen}
             options={NavigationScreenHeader}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.ChatDetailScreen}
+            component={ChatDetailScreen}
+            options={{
+                ...NavigationScreenHeader,
+                ...ChatOptions
+            }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.PictureScreen}

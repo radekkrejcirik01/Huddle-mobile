@@ -153,11 +153,15 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
     const onDoubleTap = useCallback(
         (event: TapGestureHandlerGestureEvent) => {
             // Trigger like event when there is no picture
-            if (!isImage && event.nativeEvent.state === State.ACTIVE) {
+            if (
+                !isOutbound &&
+                !isImage &&
+                event.nativeEvent.state === State.ACTIVE
+            ) {
                 performLike();
             }
         },
-        [isImage]
+        [isImage, isOutbound]
     );
 
     const animatableViewStyle = useMemo(

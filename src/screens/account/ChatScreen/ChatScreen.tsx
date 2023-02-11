@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { useNavigation } from '@react-navigation/native';
 import { ChatList } from '@components/chat/ChatList/ChatList';
@@ -28,10 +28,20 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
         );
     }, [image, navigation]);
 
+    const openConversationDetail = useCallback(() => {
+        navigation.navigate(
+            AccountStackNavigatorEnum.ChatDetailScreen as never
+        );
+    }, [navigation]);
+
     useEffect(
         () =>
             navigation.setOptions({
-                title,
+                headerTitle: () => (
+                    <TouchableOpacity onPress={openConversationDetail}>
+                        <Text style={ChatScreenStyle.headerTitle}>{title}</Text>
+                    </TouchableOpacity>
+                ),
                 headerRight: () => (
                     <TouchableOpacity onPress={onPhotoPress}>
                         <FastImage
@@ -41,7 +51,7 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
                     </TouchableOpacity>
                 )
             }),
-        [image, navigation, onPhotoPress, title]
+        [image, navigation, onPhotoPress, openConversationDetail, title]
     );
 
     const createConversation = useCallback(() => {
