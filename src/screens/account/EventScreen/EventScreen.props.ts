@@ -5,8 +5,9 @@ export interface EventScreenProps {
     route: RouteProp<
         {
             params: {
-                hangoutId: number;
                 confirmed: number;
+                hangoutId: number;
+                hangoutType: string;
                 username: string;
             };
         },

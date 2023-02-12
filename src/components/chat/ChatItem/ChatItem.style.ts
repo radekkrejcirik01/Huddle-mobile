@@ -13,6 +13,9 @@ export const ChatItemStyle = StyleSheet.create({
     alignFlexEnd: {
         alignSelf: 'flex-end'
     },
+    alignFlexStart: {
+        alignSelf: 'flex-start'
+    },
     lightBorder: {
         padding: 6.5,
         borderWidth: 1,

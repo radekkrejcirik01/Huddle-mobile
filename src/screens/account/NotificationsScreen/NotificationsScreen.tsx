@@ -85,8 +85,9 @@ export const NotificationsScreen = (): JSX.Element => {
     const onOpenHangout = useCallback(
         (item: NotificationsListProps) => {
             navigateTo(AccountStackNavigatorEnum.EventScreen, {
-                hangoutId: item.id,
                 confirmed: item.confirmed,
+                hangoutId: item.id,
+                hangoutType: item.type,
                 username: item.username
             });
         },

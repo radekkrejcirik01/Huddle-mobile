@@ -8,8 +8,10 @@ import { NotificationTypeEnum } from '@enums/notifications/NotificationType.enum
 import { NotificationsListItemProps } from '@components/notifícations/NotificationsListItem.props';
 import { NotificationsListItemStyle } from '@components/notifícations/NotificationsListItem.style';
 import {
+    ACCEPTED_GROUP_HANGOUT_TYPE_TEXT,
     ACCEPTED_HANGOUT_TYPE_TEXT,
     ACCEPTED_PEOPLE_TYPE_TEXT,
+    GROUP_HANGOUT_TYPE_TEXT,
     HANGOUT_TYPE_TEXT,
     PEOPLE_TYPE_TEXT
 } from '@screens/account/NotificationsScreen/NotificationsScreen.const';
@@ -43,6 +45,7 @@ export const NotificationsListItem = ({
         }
         if (
             item.type === NotificationTypeEnum.HANGOUT ||
+            item.type === NotificationTypeEnum.GROUP_HANGOUT ||
             item.type === NotificationTypeEnum.ACCEPTED_HANGOUT
         ) {
             onOpenHangout(item);
@@ -57,6 +60,7 @@ export const NotificationsListItem = ({
         }
         if (
             item.type === NotificationTypeEnum.HANGOUT ||
+            item.type === NotificationTypeEnum.GROUP_HANGOUT ||
             item.type === NotificationTypeEnum.ACCEPTED_HANGOUT
         ) {
             onOpenHangout(item);
@@ -70,7 +74,10 @@ export const NotificationsListItem = ({
             }
             return 'Accept';
         }
-        if (item.type === NotificationTypeEnum.HANGOUT) {
+        if (
+            item.type === NotificationTypeEnum.HANGOUT ||
+            item.type === NotificationTypeEnum.GROUP_HANGOUT
+        ) {
             return 'Open';
         }
         return null;
@@ -83,11 +90,17 @@ export const NotificationsListItem = ({
         if (item.type === NotificationTypeEnum.HANGOUT) {
             return HANGOUT_TYPE_TEXT;
         }
+        if (item.type === NotificationTypeEnum.GROUP_HANGOUT) {
+            return GROUP_HANGOUT_TYPE_TEXT;
+        }
         if (item.type === NotificationTypeEnum.ACCEPTED_PEOPLE) {
             return ACCEPTED_PEOPLE_TYPE_TEXT;
         }
         if (item.type === NotificationTypeEnum.ACCEPTED_HANGOUT) {
             return ACCEPTED_HANGOUT_TYPE_TEXT;
+        }
+        if (item.type === NotificationTypeEnum.ACCEPTED_GROUP_HANGOUT) {
+            return ACCEPTED_GROUP_HANGOUT_TYPE_TEXT;
         }
         return null;
     }, [item.type]);
@@ -127,6 +140,7 @@ export const NotificationsListItem = ({
                 </View>
             </View>
             {(item?.type === NotificationTypeEnum.HANGOUT ||
+                item?.type === NotificationTypeEnum.GROUP_HANGOUT ||
                 item?.type === NotificationTypeEnum.PEOPLE) && (
                 <TouchableOpacity
                     activeOpacity={1}

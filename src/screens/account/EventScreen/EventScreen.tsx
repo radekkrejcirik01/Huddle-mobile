@@ -23,9 +23,15 @@ import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/A
 import { ReducerProps } from '@store/index/index.props';
 import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
 import { formatDate } from '@functions/formatDate';
+import { HangoutPicker } from '@components/general/HangoutPicker/HangoutPicker';
 
 export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
-    const { confirmed = 1, hangoutId, username } = route.params;
+    const {
+        confirmed = 1,
+        hangoutId,
+        hangoutType = null,
+        username
+    } = route.params;
 
     const { firstname, username: user } = useSelector(
         (state: ReducerProps) => state.user.user
@@ -35,6 +41,10 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
 
     const [accepted, setAccepted] = useState<boolean>(confirmed === 1);
     const [data, setData] = useState<EventScreenDataInterface>();
+    const [suggestChanges, setSuggestChanges] = useState<boolean>(false);
+    const [isSuggestionSent, setIsSuggestionSent] = useState<boolean>(false);
+    const [dateTime, setDateTime] = useState<string>();
+    const [place, setPlace] = useState<string>();
 
     useEffect(() => {
         postRequest<ResponseHangoutGetInterface, HangoutGetInterface>(
@@ -62,6 +72,10 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
         [data?.picture]
     );
 
+    const pressSuggestChanges = useCallback(() => {
+        setSuggestChanges(true);
+    }, []);
+
     const accept = useCallback(() => {
         setAccepted(true);
         postRequest<ResponseInterface, AcceptHangoutInvitationInterface>(
@@ -71,10 +85,11 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
                 value: 1,
                 user,
                 username,
-                name: firstname
+                name: firstname,
+                type: hangoutType
             }
         ).subscribe();
-    }, [firstname, hangoutId, user, username]);
+    }, [firstname, hangoutId, hangoutType, user, username]);
 
     const onOpenChat = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.ChatScreen, {
@@ -83,6 +98,50 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
             image: data?.picture
         });
     }, [navigateTo, data?.title, data?.usernames, data?.picture]);
+
+    const ButtonsContent = useCallback((): JSX.Element => {
+        if (accepted) {
+            return (
+                <TouchableOpacity
+                    onPress={onOpenChat}
+                    style={EventScreenStyle.row}
+                >
+                    <Text style={EventScreenStyle.buttonText}>Open chat</Text>
+                </TouchableOpacity>
+            );
+        }
+        if (suggestChanges) {
+            return (
+                <HangoutPicker
+                    isVisible={isSuggestionSent}
+                    onDateTimeChange={setDateTime}
+                    onPlaceChange={setPlace}
+                />
+            );
+        }
+        return (
+            <View>
+                <TouchableOpacity
+                    onPress={pressSuggestChanges}
+                    style={EventScreenStyle.row}
+                >
+                    <Text style={EventScreenStyle.buttonText}>
+                        Suggest changes
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={accept} style={EventScreenStyle.row}>
+                    <Text style={EventScreenStyle.buttonText}>Accept</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }, [
+        accept,
+        accepted,
+        isSuggestionSent,
+        onOpenChat,
+        pressSuggestChanges,
+        suggestChanges
+    ]);
 
     return (
         <ScrollView contentContainerStyle={EventScreenStyle.contentContainer}>
@@ -99,31 +158,7 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
                     {formatDate(new Date(getLocalDateTimeFromUTC(data?.time)))}
                 </Text>
             </View>
-            {accepted ? (
-                <TouchableOpacity
-                    onPress={onOpenChat}
-                    style={EventScreenStyle.row}
-                >
-                    <Text style={EventScreenStyle.buttonText}>Open chat</Text>
-                </TouchableOpacity>
-            ) : (
-                <View>
-                    <TouchableOpacity
-                        onPress={accept}
-                        style={EventScreenStyle.row}
-                    >
-                        <Text style={EventScreenStyle.buttonText}>
-                            Suggest changes
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={accept}
-                        style={EventScreenStyle.row}
-                    >
-                        <Text style={EventScreenStyle.buttonText}>Accept</Text>
-                    </TouchableOpacity>
-                </View>
-            )}
+            <ButtonsContent />
         </ScrollView>
     );
 };

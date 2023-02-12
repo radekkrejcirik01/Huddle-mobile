@@ -13,9 +13,8 @@ export const PeopleOptions: StackNavigationOptions = {
     headerRight: () => <HeaderPlus />
 };
 
-export const ChatOptions: StackNavigationOptions = {
-    title: 'Details',
-    presentation: 'modal'
+export const ChatDetailOptions: StackNavigationOptions = {
+    title: 'Details'
 };
 
 export const PictureOptions: StackNavigationOptions = {

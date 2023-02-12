@@ -21,7 +21,7 @@ import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/Delete
 import {
     AccountTitle,
     ChangePasswordTitle,
-    ChatOptions,
+    ChatDetailOptions,
     CreateGroupHangoutTitle,
     DeleteAccountTitle,
     EventTitle,
@@ -88,7 +88,7 @@ export const AccountStackNavigator = (): JSX.Element => (
             component={ChatDetailScreen}
             options={{
                 ...NavigationScreenHeader,
-                ...ChatOptions
+                ...ChatDetailOptions
             }}
         />
         <Account.Screen

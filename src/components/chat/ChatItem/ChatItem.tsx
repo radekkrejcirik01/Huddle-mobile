@@ -291,7 +291,12 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
             )}
             <Animatable.Text
                 animation="bounceIn"
-                style={ChatItemStyle.reactionText}
+                style={[
+                    ChatItemStyle.reactionText,
+                    isOutbound
+                        ? ChatItemStyle.alignFlexEnd
+                        : ChatItemStyle.alignFlexStart
+                ]}
             >
                 {reactionsText}
             </Animatable.Text>

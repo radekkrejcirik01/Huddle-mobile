@@ -83,6 +83,7 @@ export interface AcceptHangoutInvitationInterface {
     user: string;
     username: string;
     name: string;
+    type: string;
 }
 
 export interface UpdateReadInterface {
