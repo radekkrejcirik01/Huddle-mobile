@@ -20,7 +20,6 @@ const App = () => {
             (nextAppState) => {
                 if (nextAppState === 'active') {
                     if (isiOS()) {
-                        console.log('active');
                         notifee.setBadgeCount(0);
                     }
                 }
