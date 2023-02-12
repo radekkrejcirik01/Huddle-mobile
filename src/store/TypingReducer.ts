@@ -10,23 +10,21 @@ export const TypingReducer = createSlice({
     initialState,
     reducers: {
         setIsTyping: (state, action) => {
-            if (state.isTyping?.length === 0) {
-                state.isTyping = [action.payload];
-                return;
+            for (let i = 0; i < state.isTyping.length; i += 1) {
+                if (
+                    state.isTyping[i].conversationId ===
+                        action.payload.conversationId &&
+                    state.isTyping[i].username === action.payload.username
+                ) {
+                    state.isTyping[i].value = action.payload.value;
+                    return;
+                }
             }
-            if (!state.isTyping.includes(action.payload)) {
-                state.isTyping = [action.payload, state.isTyping];
-            }
-        },
-        setIsNotTyping: (state, action) => {
-            const array = state.isTyping.filter(
-                (value: string) => value !== action.payload
-            );
-            state.isTyping = array;
+            state.isTyping = [...state.isTyping, action.payload];
         }
     }
 });
 
-export const { setIsTyping, setIsNotTyping } = TypingReducer.actions;
+export const { setIsTyping } = TypingReducer.actions;
 
 export default TypingReducer.reducer;

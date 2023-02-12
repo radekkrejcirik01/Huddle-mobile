@@ -11,9 +11,9 @@ export const MessagesItemStyle = StyleSheet.create({
         flexDirection: 'row'
     },
     image: {
-        borderRadius: 50,
         height: 55,
-        width: 55
+        width: 55,
+        borderRadius: 50
     },
     box: {
         flex: 1,

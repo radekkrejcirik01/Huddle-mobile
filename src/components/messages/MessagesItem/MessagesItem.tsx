@@ -8,6 +8,8 @@ import { MessagesItemStyle } from '@components/messages/MessagesItem/MessagesIte
 import COLORS from '@constants/COLORS';
 import { SwipeableView } from '@components/general/SwipeableView/SwipeableView';
 import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
+import { TypingIndicator } from '@components/general/TypingIndicator/TypingIndicator';
+import { TypingIndicatorEnum } from '@components/general/TypingIndicator/TypingIndicator.enum';
 
 export const MessagesItem = ({
     item,
@@ -55,6 +57,10 @@ export const MessagesItem = ({
                         <Text style={[MessagesItemStyle.message, opacityStyle]}>
                             {item.message}
                         </Text>
+                        <TypingIndicator
+                            conversationId={item?.id}
+                            type={TypingIndicatorEnum.Messages}
+                        />
                     </View>
                 </View>
             </TouchableOpacity>

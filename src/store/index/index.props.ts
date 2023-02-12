@@ -39,5 +39,9 @@ export interface Conversation {
 }
 
 export interface Typing {
-    isTyping: Array<string>;
+    isTyping: Array<{
+        conversationId: number;
+        username: string;
+        value: number;
+    }>;
 }

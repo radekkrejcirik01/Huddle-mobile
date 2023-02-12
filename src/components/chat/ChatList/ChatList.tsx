@@ -32,6 +32,7 @@ import {
 import { IconButton } from '@components/general/IconButton/IconButton';
 import { IconEnum } from '@components/icon/Icon.enum';
 import { TypingIndicator } from '@components/general/TypingIndicator/TypingIndicator';
+import { TypingIndicatorEnum } from '@components/general/TypingIndicator/TypingIndicator.enum';
 
 export const ChatList = ({
     conversationId,
@@ -245,7 +246,10 @@ export const ChatList = ({
                 onScrollBeginDrag={Keyboard.dismiss}
                 contentContainerStyle={ChatListStyle.contentContainer}
             />
-            <TypingIndicator />
+            <TypingIndicator
+                conversationId={conversationId}
+                type={TypingIndicatorEnum.Chat}
+            />
             <View style={ChatListStyle.bottomContainer}>
                 <IconButton
                     icon={IconEnum.PHOTO}

@@ -4,27 +4,29 @@ import { useSelector } from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import { ReducerProps } from '@store/index/index.props';
 import { TypingIndicatorStyle } from '@components/general/TypingIndicator/TypingIndicator.style';
+import { TypingIndicatorProps } from '@components/general/TypingIndicator/TypingIndicator.props';
+import { TypingIndicatorEnum } from '@components/general/TypingIndicator/TypingIndicator.enum';
 
-export const TypingIndicator = (): JSX.Element => {
+export const TypingIndicator = ({
+    conversationId,
+    type
+}: TypingIndicatorProps): JSX.Element => {
     const { isTyping } = useSelector((state: ReducerProps) => state.typing);
 
     const [typingText, setTypingText] = useState<string>();
 
     useEffect(() => {
-        if (isTyping.length) {
-            let people = '';
-            for (let i = 0; i < isTyping.length; i += 1) {
-                if (i === 0) {
-                    people = isTyping[i];
+        for (let i = 0; i < isTyping.length; i += 1) {
+            if (isTyping[i].conversationId === conversationId) {
+                if (isTyping[i].value) {
+                    setTypingText(`${isTyping[i].username} is typing..`);
                 } else {
-                    people += `, ${isTyping[i]}`;
+                    setTypingText(null);
                 }
+                return;
             }
-            setTypingText(`${people} is typing..`);
-        } else {
-            setTypingText(null);
         }
-    }, [isTyping]);
+    }, [conversationId, isTyping]);
 
     const animation = useMemo(
         (): string => (typingText ? 'fadeIn' : 'fadeOut'),
@@ -32,11 +34,20 @@ export const TypingIndicator = (): JSX.Element => {
     );
 
     return (
-        <View style={TypingIndicatorStyle.view}>
+        <View
+            style={
+                type === TypingIndicatorEnum.Chat &&
+                TypingIndicatorStyle.chatTypeView
+            }
+        >
             <Animatable.Text
                 animation={animation}
                 duration={300}
-                style={TypingIndicatorStyle.text}
+                style={
+                    type === TypingIndicatorEnum.Messages
+                        ? TypingIndicatorStyle.messageTypeText
+                        : TypingIndicatorStyle.chatTypeText
+                }
             >
                 {typingText}
             </Animatable.Text>
