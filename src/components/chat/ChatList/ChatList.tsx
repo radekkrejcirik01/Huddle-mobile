@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Keyboard, Text, TextInput, View, VirtualizedList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -19,6 +19,7 @@ import {
 import {
     MessagesGetInterface,
     SendMessageInterface,
+    SendTypingInterface,
     UpdateReadInterface
 } from '@interfaces/post/Post.inteface';
 import COLORS from '@constants/COLORS';
@@ -30,6 +31,7 @@ import {
 } from '@store/Conversation';
 import { IconButton } from '@components/general/IconButton/IconButton';
 import { IconEnum } from '@components/icon/Icon.enum';
+import { TypingIndicator } from '@components/general/TypingIndicator/TypingIndicator';
 
 export const ChatList = ({
     conversationId,
@@ -46,6 +48,10 @@ export const ChatList = ({
 
     const [data, setData] = useState<Array<ChatDataProps>>([]);
     const [messageValue, setMessageValue] = useState<string>();
+
+    const intervalRef = useRef(null);
+    const messageRef = useRef(null);
+    const [typingState, setTypingState] = useState<'typing' | 'finished'>();
 
     const { getItem, renderItem, getItemCount, keyExtractor } =
         useChatListRenders(data);
@@ -169,6 +175,61 @@ export const ChatList = ({
         setMessageValue(null);
     }, [sendMessage]);
 
+    const sendStartedTyping = useCallback(() => {
+        postRequest<ResponseInterface, SendTypingInterface>(
+            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/send/typing',
+            {
+                conversationId,
+                username,
+                value: 1
+            }
+        ).subscribe();
+    }, [conversationId, username]);
+
+    const sendFinishedTyping = useCallback(() => {
+        postRequest<ResponseInterface, SendTypingInterface>(
+            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/send/typing',
+            {
+                conversationId,
+                username,
+                value: 0
+            }
+        ).subscribe();
+    }, [conversationId, username]);
+
+    useEffect(() => {
+        if (typingState === 'typing') {
+            sendStartedTyping();
+        }
+        if (typingState === 'finished') {
+            sendFinishedTyping();
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+        }
+    }, [sendFinishedTyping, sendStartedTyping, typingState]);
+
+    const checkTyping = useCallback(() => {
+        if (messageRef.current !== messageValue) {
+            setTypingState('typing');
+        } else {
+            setTypingState('finished');
+        }
+        messageRef.current = messageValue;
+    }, [messageValue]);
+
+    const onChangeText = useCallback(
+        (value: string) => {
+            if (!intervalRef.current) {
+                intervalRef.current = setInterval(() => {
+                    checkTyping();
+                }, 1000);
+            }
+            messageRef.current = value;
+            setMessageValue(value);
+        },
+        [checkTyping]
+    );
+
     return (
         <>
             <VirtualizedList
@@ -184,6 +245,7 @@ export const ChatList = ({
                 onScrollBeginDrag={Keyboard.dismiss}
                 contentContainerStyle={ChatListStyle.contentContainer}
             />
+            <TypingIndicator />
             <View style={ChatListStyle.bottomContainer}>
                 <IconButton
                     icon={IconEnum.PHOTO}
@@ -201,7 +263,7 @@ export const ChatList = ({
                     <TextInput
                         placeholder="Message..."
                         placeholderTextColor={COLORS.WHITE}
-                        onChangeText={setMessageValue}
+                        onChangeText={onChangeText}
                         value={messageValue}
                         multiline
                         selectionColor={COLORS.WHITE}

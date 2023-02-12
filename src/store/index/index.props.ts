@@ -4,6 +4,7 @@ export interface ReducerProps {
     device: Device;
     navigationState: NavigationSate;
     conversation: Conversation;
+    typing: Typing;
 }
 
 export interface User {
@@ -35,4 +36,8 @@ export interface Conversation {
     conversationId: number;
     loadConversation: boolean;
     loadRead: boolean;
+}
+
+export interface Typing {
+    isTyping: Array<string>;
 }

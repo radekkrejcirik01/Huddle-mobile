@@ -11,6 +11,10 @@ export interface ChatDataProps {
         username: string;
         profilePicture: string;
     }>;
+    reactedBy: Array<{
+        username: string;
+        reaction: string;
+    }>;
     url: string;
 }
 

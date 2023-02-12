@@ -43,14 +43,16 @@ export const ChatItemStyle = StyleSheet.create({
         height: 175,
         borderRadius: 15
     },
-    positionAbsolute: {
-        position: 'absolute'
-    },
     senderText: {
         marginBottom: 4,
         fontSize: 10,
         color: COLORS.LIGHTGRAY_100,
         fontWeight: '600'
+    },
+    reactionText: {
+        fontSize: 12,
+        color: COLORS.WHITE,
+        fontWeight: '500'
     },
     readView: {
         alignItems: 'flex-end'

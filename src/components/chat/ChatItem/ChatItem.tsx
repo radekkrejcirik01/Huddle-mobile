@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
     Alert,
     StyleProp,
@@ -19,14 +19,23 @@ import {
     TapGestureHandlerGestureEvent
 } from 'react-native-gesture-handler';
 import COLORS from '@constants/COLORS';
-import { ChatItemProps } from '@components/chat/ChatItem/ChatItem.props';
+import {
+    ChatItemProps,
+    ReactionsInterface
+} from '@components/chat/ChatItem/ChatItem.props';
 import { ChatItemStyle } from '@components/chat/ChatItem/ChatItem.style';
 import { ReducerProps } from '@store/index/index.props';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { postRequest } from '@utils/Axios/Axios.service';
+import { ResponseInterface } from '@interfaces/response/Response.interface';
+import { MessageReactInterface } from '@interfaces/post/Post.inteface';
 
 export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
+    const { conversationId } = useSelector(
+        (state: ReducerProps) => state.conversation
+    );
 
     const navigation = useNavigation();
 
@@ -34,11 +43,56 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
 
     const isDarkMode = true;
 
-    const [liked, setLiked] = useState<boolean>(false);
+    const [reactions, setReactions] = useState<Array<ReactionsInterface>>();
+    const [reactionsText, setReactionsText] = useState<string>();
 
     const isImage = !!item?.url;
     const isOutbound = item.sender === username;
     const renderRight = useMemo(() => isOutbound, [isOutbound]);
+
+    useEffect(() => {
+        const reactionsValue = reactions || item.reactedBy || [];
+        setReactions(reactionsValue);
+
+        let numberOfLikes = 0;
+        let numberOfLoves = 0;
+        for (let i = 0; i < reactionsValue.length; i += 1) {
+            if (reactionsValue[i].reaction === '👍') {
+                numberOfLikes += 1;
+            } else {
+                numberOfLoves += 1;
+            }
+        }
+
+        if (!!numberOfLikes && !numberOfLoves) {
+            if (numberOfLikes > 1) {
+                setReactionsText(`${numberOfLikes}👍`);
+            } else {
+                setReactionsText('👍');
+            }
+        }
+        if (!numberOfLikes && !!numberOfLoves) {
+            if (numberOfLoves > 1) {
+                setReactionsText(`❤️${numberOfLoves}`);
+            } else {
+                setReactionsText('❤️');
+            }
+        }
+        if (!!numberOfLikes && !!numberOfLoves) {
+            if (numberOfLikes > 1 && numberOfLoves > 1) {
+                setReactionsText(`👍 ${numberOfLikes} ❤️ ${numberOfLoves}`);
+            }
+            if (numberOfLikes > 1 && numberOfLoves === 1) {
+                setReactionsText(`❤ ${numberOfLikes}👍️`);
+            }
+            if (numberOfLikes === 1 && numberOfLoves > 1) {
+                setReactionsText(`👍 ❤${numberOfLoves}️`);
+            }
+            if (numberOfLikes === 1 && numberOfLoves === 1) {
+                setReactionsText(`👍 ❤️`);
+            }
+        }
+    }, [item.reactedBy, reactions]);
 
     const leftContainer = useMemo(
         (): StyleProp<ViewStyle> => ({
@@ -85,9 +139,32 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
         [renderRight, textColor]
     );
 
-    const performLike = () => {
-        setLiked(true);
-    };
+    const performLike = useCallback(
+        (value = '❤️') => {
+            for (let i = 0; i < reactions.length; i += 1) {
+                if (
+                    reactions[i].username === username &&
+                    reactions[i].reaction === value.toString()
+                ) {
+                    return;
+                }
+            }
+            setReactions([
+                ...reactions,
+                { username, reaction: value.toString() }
+            ]);
+            postRequest<ResponseInterface, MessageReactInterface>(
+                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/react/message',
+                {
+                    username,
+                    conversationId,
+                    messageId: item?.id,
+                    reaction: value.toString()
+                }
+            ).subscribe();
+        },
+        [conversationId, item?.id, reactions, username]
+    );
 
     const showOutboundActionSheet = useCallback(() => {
         if (isImage) {
@@ -111,7 +188,8 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
 
     const showInboundActionSheet = useCallback(() => {
         const options = [
-            'Like ❤️',
+            'React ❤',
+            'React 👍',
             !isImage && 'Copy',
             'Report',
             'Cancel'
@@ -127,6 +205,9 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
                 if (selectedIndex === 0) {
                     performLike();
                 }
+                if (selectedIndex === 1) {
+                    performLike('👍');
+                }
                 if (selectedIndex === options.indexOf('Copy')) {
                     Clipboard.setString(item?.message);
                 }
@@ -137,7 +218,7 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
                 }
             }
         );
-    }, [isImage, item?.message, showActionSheetWithOptions]);
+    }, [isImage, item?.message, performLike, showActionSheetWithOptions]);
 
     const onPhotoPress = useCallback(() => {
         if (isImage) {
@@ -161,24 +242,7 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
                 performLike();
             }
         },
-        [isImage, isOutbound]
-    );
-
-    const animatableViewStyle = useMemo(
-        (): StyleProp<ViewStyle> => [
-            ChatItemStyle.positionAbsolute,
-            {
-                top: item?.url ? -5 : -10
-            },
-            isOutbound
-                ? {
-                      left: item?.url ? -5 : -15
-                  }
-                : {
-                      right: item?.url ? -5 : -15
-                  }
-        ],
-        [isOutbound, item?.url]
+        [isImage, isOutbound, performLike]
     );
 
     return (
@@ -217,14 +281,6 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
                                         {item.message}
                                     </Text>
                                 )}
-                                {liked && (
-                                    <Animatable.View
-                                        animation="bounceIn"
-                                        style={animatableViewStyle}
-                                    >
-                                        <Text>❤️</Text>
-                                    </Animatable.View>
-                                )}
                             </View>
                         </TapGestureHandler>
                     </TouchableOpacity>
@@ -233,6 +289,12 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
             {!isOutbound && (
                 <Text style={ChatItemStyle.senderText}>{item.sender}</Text>
             )}
+            <Animatable.Text
+                animation="bounceIn"
+                style={ChatItemStyle.reactionText}
+            >
+                {reactionsText}
+            </Animatable.Text>
             <View style={isOutbound && ChatItemStyle.readView}>
                 {!!item?.readBy?.length &&
                     item?.readBy?.map((value) => {

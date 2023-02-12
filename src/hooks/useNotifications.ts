@@ -12,6 +12,7 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { NavigationService } from '@utils/general/NavigationService';
 import { setLoadConversation, setLoadRead } from '@store/Conversation';
+import { setIsNotTyping, setIsTyping } from '@store/TypingReducer';
 
 export const useNotifications = (
     refreshUser: () => void,
@@ -86,6 +87,27 @@ export const useNotifications = (
                     const screen =
                         NavigationService.getNavigationRef().getCurrentRoute()
                             .name;
+
+                    if (remoteMessage?.data?.type === 'typing') {
+                        if (
+                            screen === 'ChatScreen' &&
+                            Number(remoteMessage?.data?.conversationId) ===
+                                chatId
+                        ) {
+                            if (Number(remoteMessage?.data?.value) === 1) {
+                                dispatch(
+                                    setIsTyping(remoteMessage?.data?.username)
+                                );
+                            } else {
+                                dispatch(
+                                    setIsNotTyping(
+                                        remoteMessage?.data?.username
+                                    )
+                                );
+                            }
+                        }
+                        return;
+                    }
 
                     if (
                         screen === 'ChatScreen' &&

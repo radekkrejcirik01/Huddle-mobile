@@ -26,6 +26,12 @@ export interface SendMessageInterface {
     fileName?: string;
 }
 
+export interface SendTypingInterface {
+    conversationId: number;
+    username: string;
+    value: number;
+}
+
 export interface HangoutCreateInterface {
     user: string;
     name: string;
@@ -83,6 +89,13 @@ export interface UpdateReadInterface {
     username: string;
     conversationId: number;
     messageId: number;
+}
+
+export interface MessageReactInterface {
+    username: string;
+    conversationId: number;
+    messageId: number;
+    reaction: string;
 }
 
 export interface DeviceInterface {
