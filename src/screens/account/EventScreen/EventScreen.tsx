@@ -69,7 +69,7 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
                 />
             </TouchableOpacity>
         ),
-        [data?.picture]
+        [data?.picture, openPhoto]
     );
 
     const accept = useCallback(() => {
