@@ -114,15 +114,17 @@ export const PersonAccountScreen = ({
                     PersonAccountScreenStyle.contentContainer
                 }
             >
-                <TouchableOpacity onPress={() => openPhoto(profilePicture)}>
-                    <FastImage
-                        source={{ uri: profilePicture }}
-                        style={PersonAccountScreenStyle.image}
-                    />
+                <View>
+                    <TouchableOpacity onPress={() => openPhoto(profilePicture)}>
+                        <FastImage
+                            source={{ uri: profilePicture }}
+                            style={PersonAccountScreenStyle.image}
+                        />
+                    </TouchableOpacity>
                     <Text style={PersonAccountScreenStyle.name}>
                         {firstname}
                     </Text>
-                </TouchableOpacity>
+                </View>
                 <HangoutPicker
                     isVisible={addDetails && !isHangoutSent}
                     onDateTimeChange={setDateTime}
