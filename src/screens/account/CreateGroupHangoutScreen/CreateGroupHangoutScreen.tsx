@@ -78,23 +78,27 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
     }, [username]);
 
     const sendGroupHangout = useCallback(() => {
-        postRequest<ResponseInterface, GroupHangoutCreateInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/create/hangout/group',
-            {
-                user: username,
-                name: firstname,
-                title,
-                usernames: users,
-                time: dateTime,
-                place,
-                picture: photoUrl?.current
-            }
-        ).subscribe((response: ResponseInterface) => {
-            if (response?.status) {
-                setIsHangoutSent(true);
-                dispatch(resetChoosePeopleState());
-            }
-        });
+        if (users?.length) {
+            postRequest<ResponseInterface, GroupHangoutCreateInterface>(
+                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/create/hangout/group',
+                {
+                    user: username,
+                    name: firstname,
+                    title,
+                    usernames: users,
+                    time: dateTime,
+                    place,
+                    picture: photoUrl?.current
+                }
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    setIsHangoutSent(true);
+                    dispatch(resetChoosePeopleState());
+                }
+            });
+        } else {
+            Alert.alert('Please add someone to create group hangout');
+        }
     }, [dateTime, dispatch, firstname, place, title, username, users]);
 
     const buttonText = useMemo((): string => {
