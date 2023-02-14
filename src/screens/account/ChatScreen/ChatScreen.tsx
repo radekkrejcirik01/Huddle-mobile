@@ -11,22 +11,20 @@ import { ResponseConversationCreateInterface } from '@interfaces/response/Respon
 import { ConversationsCreateInterface } from '@interfaces/post/Post.inteface';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { useOpenPhoto } from '@hooks/useOpenPhoto';
 
 export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
     const { conversationId = 0, image, usernames, title } = route.params;
 
+    const openPhoto = useOpenPhoto();
     const navigation = useNavigation();
 
     const [id, setId] = useState<number>(conversationId);
 
-    const onPhotoPress = useCallback(() => {
-        navigation.navigate(
-            AccountStackNavigatorEnum.PictureScreen as never,
-            {
-                picture: image
-            } as never
-        );
-    }, [image, navigation]);
+    const onPhotoPress = useCallback(
+        () => openPhoto(image),
+        [image, openPhoto]
+    );
 
     const openConversationDetail = useCallback(() => {
         navigation.navigate(

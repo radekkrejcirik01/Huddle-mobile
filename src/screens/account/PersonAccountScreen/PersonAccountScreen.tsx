@@ -15,6 +15,7 @@ import {
 import { ReducerProps } from '@store/index/index.props';
 import { HangoutPicker } from '@components/general/HangoutPicker/HangoutPicker';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
+import { useOpenPhoto } from '@hooks/useOpenPhoto';
 
 export const PersonAccountScreen = ({
     route
@@ -34,6 +35,7 @@ export const PersonAccountScreen = ({
     const [inviteAccepted, setInviteAccepted] = useState<boolean>(accepted);
     const [addDetails, setAddDetails] = useState<boolean>(false);
 
+    const openPhoto = useOpenPhoto();
     const navigation = useNavigation();
 
     const [isHangoutSent, setIsHangoutSent] = useState<boolean>(false);
@@ -112,7 +114,7 @@ export const PersonAccountScreen = ({
                     PersonAccountScreenStyle.contentContainer
                 }
             >
-                <View>
+                <TouchableOpacity onPress={() => openPhoto(profilePicture)}>
                     <FastImage
                         source={{ uri: profilePicture }}
                         style={PersonAccountScreenStyle.image}
@@ -120,7 +122,7 @@ export const PersonAccountScreen = ({
                     <Text style={PersonAccountScreenStyle.name}>
                         {firstname}
                     </Text>
-                </View>
+                </TouchableOpacity>
                 <HangoutPicker
                     isVisible={addDetails && !isHangoutSent}
                     onDateTimeChange={setDateTime}

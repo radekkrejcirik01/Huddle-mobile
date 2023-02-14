@@ -23,6 +23,7 @@ import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/A
 import { ReducerProps } from '@store/index/index.props';
 import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
 import { formatDate } from '@functions/formatDate';
+import { useOpenPhoto } from '@hooks/useOpenPhoto';
 
 export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
     const {
@@ -36,6 +37,7 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
         (state: ReducerProps) => state.user.user
     );
 
+    const openPhoto = useOpenPhoto();
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const [accepted, setAccepted] = useState<boolean>(confirmed === 1);
@@ -57,12 +59,15 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
 
     const pictures = useMemo(
         (): JSX.Element => (
-            <View style={EventScreenStyle.imageView}>
+            <TouchableOpacity
+                onPress={() => openPhoto(data?.picture)}
+                style={EventScreenStyle.imageView}
+            >
                 <FastImage
                     style={EventScreenStyle.image}
                     source={{ uri: data?.picture }}
                 />
-            </View>
+            </TouchableOpacity>
         ),
         [data?.picture]
     );

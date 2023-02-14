@@ -8,7 +8,6 @@ import {
     ViewStyle
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import Clipboard from '@react-native-clipboard/clipboard';
 import FastImage from 'react-native-fast-image';
@@ -25,7 +24,6 @@ import {
 } from '@components/chat/ChatItem/ChatItem.props';
 import { ChatItemStyle } from '@components/chat/ChatItem/ChatItem.style';
 import { ReducerProps } from '@store/index/index.props';
-import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
@@ -33,15 +31,15 @@ import { MessageReactInterface } from '@interfaces/post/Post.inteface';
 import { useModal } from '@hooks/useModal';
 import { Modal } from '@components/general/Modal/Modal';
 import { ReactionsContent } from '@components/chat/ReactionsContent/ReactionsContent';
+import { useOpenPhoto } from '@hooks/useOpenPhoto';
 
 export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
     const { conversationId } = useSelector(
         (state: ReducerProps) => state.conversation
     );
-
-    const navigation = useNavigation();
     const { modalVisible, showModal, hideModal } = useModal();
+    const openPhoto = useOpenPhoto();
 
     const { showActionSheetWithOptions } = useActionSheet();
 
@@ -226,14 +224,9 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
 
     const onPhotoPress = useCallback(() => {
         if (isImage) {
-            navigation.navigate(
-                AccountStackNavigatorEnum.PictureScreen as never,
-                {
-                    picture: item?.url
-                } as never
-            );
+            openPhoto(item?.url);
         }
-    }, [isImage, item?.url, navigation]);
+    }, [isImage, item?.url, openPhoto]);
 
     const onDoubleTap = useCallback(
         (event: TapGestureHandlerGestureEvent) => {
