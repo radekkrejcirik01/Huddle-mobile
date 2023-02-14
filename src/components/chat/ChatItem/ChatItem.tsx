@@ -30,6 +30,9 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { MessageReactInterface } from '@interfaces/post/Post.inteface';
+import { useModal } from '@hooks/useModal';
+import { Modal } from '@components/general/Modal/Modal';
+import { ReactionsContent } from '@components/chat/ReactionsContent/ReactionsContent';
 
 export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -38,6 +41,7 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
     );
 
     const navigation = useNavigation();
+    const { modalVisible, showModal, hideModal } = useModal();
 
     const { showActionSheetWithOptions } = useActionSheet();
 
@@ -66,7 +70,7 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
 
         if (!!numberOfLikes && !numberOfLoves) {
             if (numberOfLikes > 1) {
-                setReactionsText(`${numberOfLikes}👍`);
+                setReactionsText(`👍${numberOfLikes}`);
             } else {
                 setReactionsText('👍');
             }
@@ -80,16 +84,16 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
         }
         if (!!numberOfLikes && !!numberOfLoves) {
             if (numberOfLikes > 1 && numberOfLoves > 1) {
-                setReactionsText(`👍 ${numberOfLikes} ❤️ ${numberOfLoves}`);
+                setReactionsText(`❤️${numberOfLoves} 👍${numberOfLikes}`);
             }
             if (numberOfLikes > 1 && numberOfLoves === 1) {
-                setReactionsText(`❤ ${numberOfLikes}👍️`);
+                setReactionsText(`❤ 👍${numberOfLikes}️`);
             }
             if (numberOfLikes === 1 && numberOfLoves > 1) {
-                setReactionsText(`👍 ❤${numberOfLoves}️`);
+                setReactionsText(`❤${numberOfLoves} 👍️`);
             }
             if (numberOfLikes === 1 && numberOfLoves === 1) {
-                setReactionsText(`👍 ❤️`);
+                setReactionsText(`❤️ 👍`);
             }
         }
     }, [item.reactedBy, reactions]);
@@ -289,17 +293,23 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
             {!isOutbound && (
                 <Text style={ChatItemStyle.senderText}>{item.sender}</Text>
             )}
-            <Animatable.Text
-                animation="bounceIn"
-                style={[
-                    ChatItemStyle.reactionText,
-                    isOutbound
-                        ? ChatItemStyle.alignFlexEnd
-                        : ChatItemStyle.alignFlexStart
-                ]}
-            >
-                {reactionsText}
-            </Animatable.Text>
+            {!!reactionsText && (
+                <TouchableOpacity
+                    onPress={showModal}
+                    style={[
+                        isOutbound
+                            ? ChatItemStyle.alignFlexEnd
+                            : ChatItemStyle.alignFlexStart
+                    ]}
+                >
+                    <Animatable.Text
+                        animation="bounceIn"
+                        style={ChatItemStyle.reactionText}
+                    >
+                        {reactionsText}
+                    </Animatable.Text>
+                </TouchableOpacity>
+            )}
             <View style={isOutbound && ChatItemStyle.readView}>
                 {!!item?.readBy?.length &&
                     item?.readBy?.map((value) => {
@@ -315,6 +325,12 @@ export const ChatItem = ({ item }: ChatItemProps): JSX.Element => {
                         return null;
                     })}
             </View>
+            <Modal
+                isVisible={modalVisible}
+                content={<ReactionsContent values={reactions} />}
+                style={ChatItemStyle.modal}
+                onClose={hideModal}
+            />
         </View>
     );
 };

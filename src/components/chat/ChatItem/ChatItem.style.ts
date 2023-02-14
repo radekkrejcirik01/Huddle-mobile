@@ -64,5 +64,10 @@ export const ChatItemStyle = StyleSheet.create({
         width: 15,
         height: 15,
         borderRadius: 10
+    },
+    modal: {
+        marginHorizontal: 0,
+        marginBottom: 0,
+        justifyContent: 'flex-end'
     }
 });
