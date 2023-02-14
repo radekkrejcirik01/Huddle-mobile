@@ -46,7 +46,8 @@ export const NotificationsListItem = ({
         if (
             item.type === NotificationTypeEnum.HANGOUT ||
             item.type === NotificationTypeEnum.GROUP_HANGOUT ||
-            item.type === NotificationTypeEnum.ACCEPTED_HANGOUT
+            item.type === NotificationTypeEnum.ACCEPTED_HANGOUT ||
+            item.type === NotificationTypeEnum.ACCEPTED_GROUP_HANGOUT
         ) {
             onOpenHangout(item);
         }
@@ -60,8 +61,7 @@ export const NotificationsListItem = ({
         }
         if (
             item.type === NotificationTypeEnum.HANGOUT ||
-            item.type === NotificationTypeEnum.GROUP_HANGOUT ||
-            item.type === NotificationTypeEnum.ACCEPTED_HANGOUT
+            item.type === NotificationTypeEnum.GROUP_HANGOUT
         ) {
             onOpenHangout(item);
         }
