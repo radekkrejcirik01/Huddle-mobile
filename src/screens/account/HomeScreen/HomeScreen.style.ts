@@ -50,7 +50,8 @@ export const HomeScreenStyle = StyleSheet.create({
     image: {
         width: 50,
         height: 50,
-        borderRadius: 20
+        borderRadius: 20,
+        backgroundColor: COLORS.GRAY_100
     },
     comingsUpContainer: {
         flex: 1,

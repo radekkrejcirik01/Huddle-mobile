@@ -15,6 +15,7 @@ export const ChatScreenStyle = StyleSheet.create({
         width: 35,
         height: 35,
         marginRight: 15,
-        borderRadius: 20
+        borderRadius: 20,
+        backgroundColor: COLORS.GRAY_100
     }
 });

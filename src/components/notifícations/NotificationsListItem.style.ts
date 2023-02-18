@@ -15,7 +15,8 @@ export const NotificationsListItemStyle = StyleSheet.create({
         width: 32,
         height: 32,
         marginRight: 12,
-        borderRadius: 25
+        borderRadius: 25,
+        backgroundColor: COLORS.GRAY_100
     },
     itemTextContainer: {
         flex: 1

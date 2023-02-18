@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
@@ -57,21 +57,6 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
         });
     }, [hangoutId, user]);
 
-    const pictures = useMemo(
-        (): JSX.Element => (
-            <TouchableOpacity
-                onPress={() => openPhoto(data?.picture)}
-                style={EventScreenStyle.imageView}
-            >
-                <FastImage
-                    style={EventScreenStyle.image}
-                    source={{ uri: data?.picture }}
-                />
-            </TouchableOpacity>
-        ),
-        [data?.picture, openPhoto]
-    );
-
     const accept = useCallback(() => {
         setAccepted(true);
         postRequest<ResponseInterface, AcceptHangoutInvitationInterface>(
@@ -97,20 +82,24 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
 
     return (
         <ScrollView contentContainerStyle={EventScreenStyle.contentContainer}>
-            <View>
-                <View style={EventScreenStyle.picturesView}>{pictures}</View>
-                <Text style={EventScreenStyle.nameText}>{data?.title}</Text>
-                <Text style={EventScreenStyle.nameText}>{data?.place}</Text>
-                <Text
-                    style={[
-                        EventScreenStyle.nameText,
-                        EventScreenStyle.timeText
-                    ]}
+            <View style={EventScreenStyle.alignItemsCenter}>
+                <TouchableOpacity
+                    disabled={!data?.picture}
+                    onPress={() => openPhoto(data?.picture)}
+                    style={EventScreenStyle.imageView}
                 >
+                    <FastImage
+                        source={{ uri: data?.picture }}
+                        style={EventScreenStyle.image}
+                    />
+                </TouchableOpacity>
+                <Text style={EventScreenStyle.text}>{data?.title}</Text>
+                <Text style={EventScreenStyle.text}>{data?.place}</Text>
+                <Text style={[EventScreenStyle.text, EventScreenStyle.time]}>
                     {formatDate(new Date(getLocalDateTimeFromUTC(data?.time)))}
                 </Text>
             </View>
-            <View>
+            <View style={EventScreenStyle.alignItemsCenter}>
                 <TouchableOpacity
                     onPress={onOpenChat}
                     style={EventScreenStyle.row}

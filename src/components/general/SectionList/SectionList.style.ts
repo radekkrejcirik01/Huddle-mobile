@@ -31,6 +31,16 @@ export const SectionListStyle = StyleSheet.create({
         width: 35,
         height: 35,
         marginLeft: 10,
-        borderRadius: 20
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    border: {
+        borderWidth: 1,
+        borderColor: COLORS.WHITE
+    },
+    text: {
+        fontSize: 18,
+        color: COLORS.WHITE
     }
 });

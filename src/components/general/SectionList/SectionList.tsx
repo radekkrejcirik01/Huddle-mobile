@@ -125,12 +125,26 @@ export const SectionList = forwardRef(
                                         {getLocalHourFromUTC(value.time)}
                                     </Text>
                                 </View>
-                                <FastImage
-                                    style={SectionListStyle.itemImage}
-                                    source={{
-                                        uri: value.picture
-                                    }}
-                                />
+                                {value?.picture ? (
+                                    <FastImage
+                                        source={{
+                                            uri: value.picture
+                                        }}
+                                        style={SectionListStyle.itemImage}
+                                    />
+                                ) : (
+                                    <View
+                                        style={[
+                                            SectionListStyle.itemImage,
+                                            !value?.picture &&
+                                                SectionListStyle.border
+                                        ]}
+                                    >
+                                        <Text style={SectionListStyle.text}>
+                                            {value.title.substring(0, 1)}
+                                        </Text>
+                                    </View>
+                                )}
                             </View>
                         </TouchableOpacity>
                     ))}

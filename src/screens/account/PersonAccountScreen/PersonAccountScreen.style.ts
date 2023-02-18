@@ -8,23 +8,27 @@ export const PersonAccountScreenStyle = StyleSheet.create({
     contentContainer: {
         flex: 1,
         paddingTop: 30,
+        paddingBottom: 75, // 125 - addDetailsButtonView height
         justifyContent: 'space-between'
+    },
+    alignItemsCenter: {
+        alignItems: 'center'
+    },
+    imageView: {
+        margin: 10,
+        borderRadius: 65,
+        overflow: 'hidden'
     },
     image: {
         width: 140,
         height: 140,
-        borderRadius: 65,
-        alignSelf: 'center'
+        backgroundColor: COLORS.GRAY_100
     },
     name: {
         marginTop: 15,
         fontSize: 15,
         color: COLORS.WHITE,
-        alignSelf: 'center',
         fontWeight: '500'
-    },
-    actionsButtonsView: {
-        marginBottom: 75
     },
     mainButtonTouchableOpacity: {
         width: 120,
@@ -32,7 +36,6 @@ export const PersonAccountScreenStyle = StyleSheet.create({
         padding: 12,
         borderRadius: 20,
         backgroundColor: COLORS.MAIN_BLUE,
-        alignSelf: 'center',
         alignItems: 'center'
     },
     text: {
@@ -40,12 +43,8 @@ export const PersonAccountScreenStyle = StyleSheet.create({
         color: COLORS.WHITE,
         fontWeight: '500'
     },
-    secondaryButtonTouchableOpacity: {
-        alignSelf: 'center'
-    },
     addDetailsButtonView: {
         height: 50,
-        width: '100%',
         marginTop: 35
     }
 });

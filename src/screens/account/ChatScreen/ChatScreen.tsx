@@ -41,7 +41,7 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
                     </TouchableOpacity>
                 ),
                 headerRight: () => (
-                    <TouchableOpacity onPress={onPhotoPress}>
+                    <TouchableOpacity disabled={!image} onPress={onPhotoPress}>
                         <FastImage
                             source={{ uri: image }}
                             style={ChatScreenStyle.image}
@@ -70,10 +70,7 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
         }
     }, [conversationId, usernames]);
 
-    useEffect(() => {
-        createConversation();
-        return createConversation();
-    }, [createConversation]);
+    useEffect(() => createConversation(), [createConversation]);
 
     return (
         <SafeAreaView>

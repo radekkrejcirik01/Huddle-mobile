@@ -39,12 +39,14 @@ export const ChatItemStyle = StyleSheet.create({
         marginRight: 5,
         marginBottom: 8,
         borderRadius: 10,
+        backgroundColor: COLORS.GRAY_100,
         alignSelf: 'flex-end'
     },
     image: {
         width: 175,
         height: 175,
-        borderRadius: 15
+        borderRadius: 15,
+        backgroundColor: COLORS.GRAY_100
     },
     senderText: {
         marginBottom: 4,
@@ -63,7 +65,8 @@ export const ChatItemStyle = StyleSheet.create({
     readImage: {
         width: 15,
         height: 15,
-        borderRadius: 10
+        borderRadius: 10,
+        backgroundColor: COLORS.GRAY_100
     },
     modal: {
         marginHorizontal: 0,

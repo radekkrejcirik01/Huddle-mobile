@@ -14,7 +14,8 @@ export const ProfileScreenStyle = StyleSheet.create({
     image: {
         width: 100,
         height: 100,
-        borderRadius: 45
+        borderRadius: 45,
+        backgroundColor: COLORS.GRAY_100
     },
     firstname: {
         marginTop: 15,

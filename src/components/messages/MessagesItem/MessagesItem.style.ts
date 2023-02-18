@@ -13,7 +13,8 @@ export const MessagesItemStyle = StyleSheet.create({
     image: {
         height: 55,
         width: 55,
-        borderRadius: 50
+        borderRadius: 50,
+        backgroundColor: COLORS.GRAY_100
     },
     box: {
         flex: 1,

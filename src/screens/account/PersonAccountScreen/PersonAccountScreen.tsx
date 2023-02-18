@@ -114,8 +114,12 @@ export const PersonAccountScreen = ({
                     PersonAccountScreenStyle.contentContainer
                 }
             >
-                <View>
-                    <TouchableOpacity onPress={() => openPhoto(profilePicture)}>
+                <View style={PersonAccountScreenStyle.alignItemsCenter}>
+                    <TouchableOpacity
+                        disabled={!profilePicture}
+                        onPress={() => openPhoto(profilePicture)}
+                        style={PersonAccountScreenStyle.imageView}
+                    >
                         <FastImage
                             source={{ uri: profilePicture }}
                             style={PersonAccountScreenStyle.image}
@@ -130,7 +134,7 @@ export const PersonAccountScreen = ({
                     onDateTimeChange={setDateTime}
                     onPlaceChange={setPlace}
                 />
-                <View style={PersonAccountScreenStyle.actionsButtonsView}>
+                <View style={PersonAccountScreenStyle.alignItemsCenter}>
                     <TouchableOpacity
                         onPress={onPress}
                         style={
@@ -145,9 +149,6 @@ export const PersonAccountScreen = ({
                         {inviteAccepted && !addDetails && (
                             <TouchableOpacity
                                 onPress={() => setAddDetails(true)}
-                                style={
-                                    PersonAccountScreenStyle.secondaryButtonTouchableOpacity
-                                }
                             >
                                 <Text style={PersonAccountScreenStyle.text}>
                                     Add details
