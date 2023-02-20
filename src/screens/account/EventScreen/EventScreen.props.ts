@@ -21,5 +21,8 @@ export interface EventScreenDataInterface {
     time: Moment;
     place: string;
     picture: string;
-    usernames: Array<string>;
+    usernames: Array<{
+        username: string;
+        confirmed: 1;
+    }>;
 }

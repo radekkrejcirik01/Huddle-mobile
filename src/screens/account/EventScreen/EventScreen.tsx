@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
+import { useNavigation as useDefaultNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import {
@@ -24,6 +25,7 @@ import { ReducerProps } from '@store/index/index.props';
 import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
 import { formatDate } from '@functions/formatDate';
 import { useOpenPhoto } from '@hooks/useOpenPhoto';
+import { HangoutActions } from '@components/general/HangoutActions/HangoutActions';
 
 export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
     const {
@@ -37,13 +39,11 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
         (state: ReducerProps) => state.user.user
     );
 
-    const openPhoto = useOpenPhoto();
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
-
     const [accepted, setAccepted] = useState<boolean>(confirmed === 1);
     const [data, setData] = useState<EventScreenDataInterface>();
+    const [usernames, setUsernames] = useState<Array<string>>([]);
 
-    useEffect(() => {
+    const loadHangout = useCallback(() => {
         postRequest<ResponseHangoutGetInterface, HangoutGetInterface>(
             'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/hangout',
             {
@@ -56,6 +56,53 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
             }
         });
     }, [hangoutId, user]);
+
+    const { navigateTo } = useNavigation(
+        RootStackNavigatorEnum.AccountStack,
+        loadHangout
+    );
+    const navigation = useDefaultNavigation();
+    const openPhoto = useOpenPhoto();
+
+    const openHangoutDetail = useCallback(() => {
+        navigateTo(AccountStackNavigatorEnum.HangoutDetailScreen);
+    }, [navigateTo]);
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerTitle: () => (
+                <TouchableOpacity onPress={openHangoutDetail}>
+                    <Text style={EventScreenStyle.headerTitle}>Hangout</Text>
+                </TouchableOpacity>
+            ),
+            ...(data?.createdBy === user && {
+                headerRight: () => (
+                    <HangoutActions
+                        hangoutId={hangoutId}
+                        usernames={usernames}
+                    />
+                )
+            })
+        });
+    }, [
+        data?.createdBy,
+        hangoutId,
+        hangoutType,
+        navigation,
+        openHangoutDetail,
+        user,
+        usernames
+    ]);
+
+    useEffect(() => {
+        if (data?.usernames?.length) {
+            const usernamesArray = [];
+            for (let i = 0; i < data?.usernames?.length; i += 1) {
+                usernamesArray.push(data?.usernames[i].username);
+            }
+            setUsernames(usernamesArray);
+        }
+    }, [data?.usernames]);
 
     const accept = useCallback(() => {
         setAccepted(true);
@@ -75,10 +122,10 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
     const onOpenChat = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.ChatScreen, {
             title: data?.title,
-            usernames: data?.usernames,
+            usernames,
             image: data?.picture
         });
-    }, [navigateTo, data?.title, data?.usernames, data?.picture]);
+    }, [navigateTo, data?.title, data?.picture, usernames]);
 
     return (
         <ScrollView contentContainerStyle={EventScreenStyle.contentContainer}>

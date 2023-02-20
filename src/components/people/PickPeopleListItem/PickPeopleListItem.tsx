@@ -27,7 +27,7 @@ export const PickPeopleListItem = ({
             }}
             style={[
                 PickPeopleListItemStyle.itemView,
-                chosen && { borderColor: COLORS.MAIN_BLUE }
+                chosen && { borderColor: COLORS.LIGHTGRAY_100 }
             ]}
         >
             <View>

@@ -31,6 +31,7 @@ export interface ComingsUpListItem {
     time: Moment;
     place: string;
     picture: string;
+    type: string;
 }
 
 export interface SectionHeaderInterface {

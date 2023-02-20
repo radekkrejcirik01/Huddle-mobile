@@ -26,8 +26,12 @@ import {
     UploadImageInterface
 } from '@interfaces/post/Post.inteface';
 import { HangoutPickerEnum } from '@components/general/HangoutPicker/HangoutPicker.enum';
-import { resetChoosePeopleState } from '@store/ChoosePeopleReducer';
+import {
+    resetChoosePeopleState,
+    setUsersAction
+} from '@store/ChoosePeopleReducer';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
+import { useNavigation } from '@react-navigation/native';
 
 export const CreateGroupHangoutScreen = (): JSX.Element => {
     const { firstname, username } = useSelector(
@@ -35,6 +39,7 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
     );
     const { users } = useSelector((state: ReducerProps) => state.choosePeople);
     const dispatch = useDispatch();
+    const navigation = useNavigation();
 
     const [title, setTitle] = useState<string>();
     const [dateTime, setDateTime] = useState<string>();
@@ -46,9 +51,15 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
 
     const [isHangoutSent, setIsHangoutSent] = useState<boolean>(false);
 
-    useEffect(() => {
-        dispatch(resetChoosePeopleState());
-    }, [dispatch]);
+    useEffect(
+        () =>
+            navigation.addListener('beforeRemove', () => {
+                setTimeout(() => {
+                    dispatch(setUsersAction([]));
+                }, 1000);
+            }),
+        [dispatch, navigation]
+    );
 
     const choosePhoto = useCallback(() => {
         ImagePicker.openPicker({

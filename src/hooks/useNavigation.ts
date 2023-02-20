@@ -18,15 +18,16 @@ export const useNavigation = (
 } => {
     const navigation = useNavigationModule();
 
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            if (onFocus) onFocus();
-        });
-        return unsubscribe;
-    }, [onFocus, navigation]);
+    useEffect(
+        () =>
+            navigation.addListener('focus', () => {
+                if (onFocus) onFocus();
+            }),
+        [onFocus, navigation]
+    );
 
     const navigateTo = useCallback(
-        (screen: ScreenProp, params: object) => {
+        (screen: ScreenProp, params: object = {}) => {
             navigation.navigate(
                 stack as never,
                 {

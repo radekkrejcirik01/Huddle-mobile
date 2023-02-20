@@ -32,12 +32,12 @@ export const NotificationsTitle: StackNavigationOptions = {
     headerTitle: 'Notifications'
 };
 
-export const MessagesTitle: StackNavigationOptions = {
-    headerTitle: 'Messages'
+export const HangoutDetailTitle: StackNavigationOptions = {
+    headerTitle: 'Detail'
 };
 
-export const EventTitle: StackNavigationOptions = {
-    headerTitle: 'Details'
+export const MessagesTitle: StackNavigationOptions = {
+    headerTitle: 'Messages'
 };
 
 export const AccountTitle: StackNavigationOptions = {

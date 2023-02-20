@@ -22,5 +22,18 @@ export const HangoutPickerStyle = StyleSheet.create({
         width: '100%',
         height: '100%',
         marginTop: 10
+    },
+    sendButton: {
+        paddingVertical: 12,
+        paddingHorizontal: 30,
+        borderRadius: 20,
+        backgroundColor: COLORS.MAIN_BLUE,
+        position: 'absolute',
+        alignSelf: 'center',
+        alignItems: 'center'
+    },
+    sendText: {
+        color: COLORS.WHITE,
+        fontWeight: '500'
     }
 });

@@ -133,15 +133,11 @@ export const SectionList = forwardRef(
                                         style={SectionListStyle.itemImage}
                                     />
                                 ) : (
-                                    <View
-                                        style={[
-                                            SectionListStyle.itemImage,
-                                            !value?.picture &&
-                                                SectionListStyle.border
-                                        ]}
-                                    >
+                                    <View style={SectionListStyle.itemImage}>
                                         <Text style={SectionListStyle.text}>
-                                            {value.title.substring(0, 1)}
+                                            {value?.type === 'hangout'
+                                                ? '🙂'
+                                                : '👨‍👩‍👧‍👦'}
                                         </Text>
                                     </View>
                                 )}

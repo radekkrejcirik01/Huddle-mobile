@@ -24,7 +24,7 @@ import {
     ChatDetailOptions,
     CreateGroupHangoutTitle,
     DeleteAccountTitle,
-    EventTitle,
+    HangoutDetailTitle,
     HangoutsTitle,
     MessagesTitle,
     NotificationsTitle,
@@ -33,6 +33,7 @@ import {
     PictureOptions,
     ProfileTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
+import { HangoutDetailScreen } from '@screens/account/HangoutDetailScreen/HangoutDetailScreen';
 
 const Account = createStackNavigator<ParamListBase>();
 
@@ -99,7 +100,12 @@ export const AccountStackNavigator = (): JSX.Element => (
         <Account.Screen
             name={AccountStackNavigatorEnum.EventScreen}
             component={EventScreen}
-            options={{ ...NavigationScreenHeader, ...EventTitle }}
+            options={NavigationScreenHeader}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.HangoutDetailScreen}
+            component={HangoutDetailScreen}
+            options={{ ...NavigationScreenHeader, ...HangoutDetailTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.AccountScreen}

@@ -16,6 +16,7 @@ import Heart from '@assets/webp/Heart.webp';
 import Lock from '@assets/webp/Lock.webp';
 import LockPurple from '@assets/webp/LockPurple.webp';
 import Microphone from '@assets/webp/Microphone.webp';
+import More from '@assets/webp/More.webp';
 import Movie from '@assets/webp/Movie.webp';
 import Photo from '@assets/webp/Photo.webp';
 import Plus from '@assets/webp/Plus.webp';
@@ -48,6 +49,7 @@ export enum IconEnum {
     LOCK = 'Lock',
     LOCK_PURPLE = 'LockPurple',
     MICROPHONE = 'Microphone',
+    MORE = 'More',
     MOVIE = 'Movie',
     PHOTO = 'Photo',
     PLUS = 'PLUS',
@@ -81,6 +83,7 @@ export const ICONS = {
     [IconEnum.LOCK]: Lock,
     [IconEnum.LOCK_PURPLE]: LockPurple,
     [IconEnum.MICROPHONE]: Microphone,
+    [IconEnum.MORE]: More,
     [IconEnum.MOVIE]: Movie,
     [IconEnum.PHOTO]: Photo,
     [IconEnum.PLUS]: Plus,

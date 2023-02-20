@@ -60,6 +60,13 @@ export interface GroupHangoutCreateInterface {
     picture: string;
 }
 
+export interface SendHangoutInvitation {
+    hangoutId: number;
+    user: string;
+    name: string;
+    usernames: Array<string>;
+}
+
 export interface ConversationsCreateInterface {
     usernames: Array<string>;
 }

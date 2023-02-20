@@ -8,6 +8,11 @@ export const EventScreenStyle = StyleSheet.create({
         paddingBottom: 125,
         justifyContent: 'space-between'
     },
+    headerTitle: {
+        fontSize: 18,
+        color: COLORS.WHITE,
+        fontWeight: '600'
+    },
     alignItemsCenter: {
         alignItems: 'center'
     },

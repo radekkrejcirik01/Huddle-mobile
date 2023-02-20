@@ -35,12 +35,8 @@ export const SectionListStyle = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    border: {
-        borderWidth: 1,
-        borderColor: COLORS.WHITE
-    },
     text: {
-        fontSize: 18,
+        fontSize: 25,
         color: COLORS.WHITE
     }
 });
