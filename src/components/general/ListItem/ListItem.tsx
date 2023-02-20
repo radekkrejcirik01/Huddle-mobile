@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Switch, Text, View } from 'react-native';
 import {
-    ListItemProps,
-    ListItemDefaultProps
+    ListItemDefaultProps,
+    ListItemProps
 } from '@components/general/ListItem/ListItem.props';
 import { ListItemStyle } from '@components/general/ListItem/ListItem.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
@@ -40,7 +40,14 @@ export const ListItem = ({
                 style={ListItemStyle.touchableOpacity}
             >
                 {icon}
-                <Text style={ListItemStyle.title}>{title}</Text>
+                <Text
+                    style={[
+                        ListItemStyle.title,
+                        hasArrow && ListItemStyle.flex
+                    ]}
+                >
+                    {title}
+                </Text>
                 <View style={ListItemStyle.containerRight}>
                     <Text style={ListItemStyle.description}>{description}</Text>
                     {hasSwitch && (

@@ -2,7 +2,6 @@ import React, {
     ForwardedRef,
     forwardRef,
     useCallback,
-    useEffect,
     useImperativeHandle,
     useMemo,
     useState
@@ -71,13 +70,8 @@ export const SectionList = forwardRef(
             }
         }, [showAll, username]);
 
-        useEffect(() => {
-            loadHangouts();
-            return loadHangouts();
-        }, [loadHangouts, username]);
-
         useImperativeHandle(reference, () => ({
-            refresh: loadHangouts
+            loadHangouts
         }));
 
         const refresh = useCallback(() => {

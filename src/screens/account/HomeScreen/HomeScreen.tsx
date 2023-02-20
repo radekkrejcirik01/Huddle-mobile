@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
@@ -42,14 +42,20 @@ export const HomeScreen = (): JSX.Element => {
         });
     }, [dispatch, user?.username]);
 
-    useNotifications(refreshUser, sectionListRef?.current?.refresh);
+    useNotifications(refreshUser, sectionListRef?.current?.loadHangouts);
 
     const onFocus = useCallback(() => {
         if (user?.username) {
             refreshUser();
-            sectionListRef.current.refresh();
+            sectionListRef.current.loadHangouts();
         }
     }, [refreshUser, user?.username]);
+
+    useEffect(() => {
+        if (user?.username) {
+            sectionListRef.current.loadHangouts();
+        }
+    }, [user?.username]);
 
     const { navigateTo } = useNavigation(
         RootStackNavigatorEnum.AccountStack,

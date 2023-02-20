@@ -44,17 +44,19 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
     const [usernames, setUsernames] = useState<Array<string>>([]);
 
     const loadHangout = useCallback(() => {
-        postRequest<ResponseHangoutGetInterface, HangoutGetInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/hangout',
-            {
-                id: hangoutId,
-                username: user
-            }
-        ).subscribe((response: ResponseHangoutGetInterface) => {
-            if (response?.status) {
-                setData(response.data);
-            }
-        });
+        if (hangoutId) {
+            postRequest<ResponseHangoutGetInterface, HangoutGetInterface>(
+                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/hangout',
+                {
+                    id: hangoutId,
+                    username: user
+                }
+            ).subscribe((response: ResponseHangoutGetInterface) => {
+                if (response?.status) {
+                    setData(response.data);
+                }
+            });
+        }
     }, [hangoutId, user]);
 
     const { navigateTo } = useNavigation(
@@ -65,8 +67,11 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
     const openPhoto = useOpenPhoto();
 
     const openHangoutDetail = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.HangoutDetailScreen);
-    }, [navigateTo]);
+        navigateTo(AccountStackNavigatorEnum.HangoutDetailScreen, {
+            createdByUser: data?.createdBy === user,
+            hangoutId
+        });
+    }, [data?.createdBy, hangoutId, navigateTo, user]);
 
     useEffect(() => {
         navigation.setOptions({

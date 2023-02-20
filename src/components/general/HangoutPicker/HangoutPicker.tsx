@@ -237,7 +237,7 @@ export const HangoutPicker = ({
                                 style={HangoutPickerStyle.tagsItem}
                             >
                                 <Text style={HangoutPickerStyle.tagText}>
-                                    Add a friend
+                                    Add people
                                 </Text>
                             </TouchableOpacity>
                         )}

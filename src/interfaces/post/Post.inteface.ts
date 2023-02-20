@@ -50,6 +50,10 @@ export interface HangoutGetInterface {
     username: string;
 }
 
+export interface HangoutDeleteInterface {
+    id: number;
+}
+
 export interface GroupHangoutCreateInterface {
     user: string;
     name: string;

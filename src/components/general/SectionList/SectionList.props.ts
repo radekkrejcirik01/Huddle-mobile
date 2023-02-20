@@ -2,7 +2,7 @@ import { SectionListData, StyleProp, ViewStyle } from 'react-native';
 import { Moment } from 'moment';
 
 export interface SectionListForwardRefProps {
-    refresh: () => void;
+    loadHangouts: () => void;
 }
 
 export interface SectionListProps {
