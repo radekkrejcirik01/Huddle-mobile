@@ -28,13 +28,36 @@ export const EventScreenStyle = StyleSheet.create({
     },
     text: {
         marginTop: 15,
-        fontSize: 15,
+        fontSize: 18,
         color: COLORS.WHITE,
         alignSelf: 'center',
         fontWeight: '500'
     },
-    time: {
-        fontSize: 25
+    usersContainer: {
+        width: '75%',
+        marginTop: 50,
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        flexDirection: 'row'
+    },
+    userView: {
+        padding: 15,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    opacity: {
+        opacity: 0.7
+    },
+    userText: {
+        marginLeft: 10,
+        color: COLORS.WHITE,
+        fontWeight: '600'
+    },
+    userPhoto: {
+        height: 25,
+        width: 25,
+        borderRadius: 20,
+        backgroundColor: COLORS.GRAY_100
     },
     row: {
         width: 200,

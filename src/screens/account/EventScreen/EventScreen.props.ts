@@ -23,6 +23,8 @@ export interface EventScreenDataInterface {
     picture: string;
     usernames: Array<{
         username: string;
+        name: string;
+        profilePicture: string;
         confirmed: 1;
     }>;
 }

@@ -33,7 +33,7 @@ export const NotificationsTitle: StackNavigationOptions = {
 };
 
 export const HangoutDetailTitle: StackNavigationOptions = {
-    headerTitle: 'Detail'
+    headerTitle: 'Edit'
 };
 
 export const MessagesTitle: StackNavigationOptions = {

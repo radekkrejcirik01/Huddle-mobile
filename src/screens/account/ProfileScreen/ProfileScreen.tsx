@@ -21,7 +21,7 @@ import {
 } from '@interfaces/response/Response.interface';
 import {
     DeviceInterface,
-    UploadImageInterface
+    UploadProfileImageInterface
 } from '@interfaces/post/Post.inteface';
 
 export const ProfileScreen = (): JSX.Element => {
@@ -43,12 +43,15 @@ export const ProfileScreen = (): JSX.Element => {
             const base64 = await fs.readFile(image?.path, 'base64');
             dispatch(setProfilePictureAction(image?.path));
 
-            postRequest<ResponseUploadImageInterface, UploadImageInterface>(
+            postRequest<
+                ResponseUploadImageInterface,
+                UploadProfileImageInterface
+            >(
                 'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/upload/photo',
                 {
                     username,
-                    key: `profile-images/${username}/${image.filename}`,
-                    buffer: base64
+                    buffer: base64,
+                    fileName: image.filename
                 }
             ).subscribe((response: ResponseUploadImageInterface) => {
                 if (!response?.status) {

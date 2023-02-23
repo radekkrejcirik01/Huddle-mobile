@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { Alert, Keyboard, ScrollView, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
 import fs from 'react-native-fs';
 import FastImage from 'react-native-fast-image';
@@ -17,21 +18,14 @@ import { ReducerProps } from '@store/index/index.props';
 import { HangoutPicker } from '@components/general/HangoutPicker/HangoutPicker';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { postRequest } from '@utils/Axios/Axios.service';
-import {
-    ResponseInterface,
-    ResponseUploadImageInterface
-} from '@interfaces/response/Response.interface';
-import {
-    GroupHangoutCreateInterface,
-    UploadImageInterface
-} from '@interfaces/post/Post.inteface';
+import { ResponseInterface } from '@interfaces/response/Response.interface';
+import { GroupHangoutCreateInterface } from '@interfaces/post/Post.inteface';
 import { HangoutPickerEnum } from '@components/general/HangoutPicker/HangoutPicker.enum';
 import {
     resetChoosePeopleState,
     setUsersAction
 } from '@store/ChoosePeopleReducer';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
-import { useNavigation } from '@react-navigation/native';
 
 export const CreateGroupHangoutScreen = (): JSX.Element => {
     const { firstname, username } = useSelector(
@@ -47,7 +41,10 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
     const [isPlaceFocused, setIsPlaceFocused] = useState<boolean>(false);
     const [picture, setPicture] = useState<string>();
 
-    const photoUrl = useRef<string>();
+    const photoRef = useRef<{ buffer: string; fileName: string }>({
+        buffer: null,
+        fileName: null
+    });
 
     const [isHangoutSent, setIsHangoutSent] = useState<boolean>(false);
 
@@ -68,25 +65,12 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
             cropping: true,
             waitAnimationEnd: false
         }).then(async (image) => {
-            const base64 = await fs.readFile(image?.path, 'base64');
-            setPicture(image?.sourceURL);
+            photoRef.current.buffer = await fs.readFile(image?.path, 'base64');
+            photoRef.current.fileName = image.filename;
 
-            postRequest<ResponseUploadImageInterface, UploadImageInterface>(
-                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/upload/photo',
-                {
-                    key: `hangout-images/${username}/${image.filename}`,
-                    buffer: base64,
-                    isHangout: true
-                }
-            ).subscribe((response: ResponseUploadImageInterface) => {
-                if (!response?.status) {
-                    Alert.alert("Sorry, we couldn't upload this image 😔");
-                } else {
-                    photoUrl.current = response?.imageUrl;
-                }
-            });
+            setPicture(image?.sourceURL);
         });
-    }, [username]);
+    }, []);
 
     const sendGroupHangout = useCallback(() => {
         if (users?.length) {
@@ -99,7 +83,8 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
                     usernames: users,
                     time: dateTime,
                     place,
-                    picture: photoUrl?.current
+                    buffer: photoRef?.current?.buffer,
+                    fileName: photoRef?.current?.fileName
                 }
             ).subscribe((response: ResponseInterface) => {
                 if (response?.status) {

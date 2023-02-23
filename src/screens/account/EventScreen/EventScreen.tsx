@@ -69,15 +69,30 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
     const openHangoutDetail = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.HangoutDetailScreen, {
             createdByUser: data?.createdBy === user,
-            hangoutId
+            hangoutId,
+            photo: data?.picture,
+            title: data?.title,
+            time: data?.time,
+            plan: data?.place
         });
-    }, [data?.createdBy, hangoutId, navigateTo, user]);
+    }, [
+        data?.createdBy,
+        data?.picture,
+        data?.place,
+        data?.time,
+        data?.title,
+        hangoutId,
+        navigateTo,
+        user
+    ]);
 
     useEffect(() => {
         navigation.setOptions({
             headerTitle: () => (
                 <TouchableOpacity onPress={openHangoutDetail}>
-                    <Text style={EventScreenStyle.headerTitle}>Hangout</Text>
+                    <Text style={EventScreenStyle.headerTitle}>
+                        {data?.title}
+                    </Text>
                 </TouchableOpacity>
             ),
             ...(data?.createdBy === user && {
@@ -91,8 +106,8 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
         });
     }, [
         data?.createdBy,
+        data?.title,
         hangoutId,
-        hangoutType,
         navigation,
         openHangoutDetail,
         user,
@@ -145,11 +160,34 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
                         style={EventScreenStyle.image}
                     />
                 </TouchableOpacity>
-                <Text style={EventScreenStyle.text}>{data?.title}</Text>
                 <Text style={EventScreenStyle.text}>{data?.place}</Text>
-                <Text style={[EventScreenStyle.text, EventScreenStyle.time]}>
+                <Text style={EventScreenStyle.text}>
                     {formatDate(new Date(getLocalDateTimeFromUTC(data?.time)))}
                 </Text>
+                <View style={EventScreenStyle.usersContainer}>
+                    {data?.usernames?.map((value) => (
+                        <View
+                            key={value.username}
+                            style={EventScreenStyle.userView}
+                        >
+                            <FastImage
+                                source={{ uri: value?.profilePicture }}
+                                style={[
+                                    EventScreenStyle.userPhoto,
+                                    !value.confirmed && EventScreenStyle.opacity
+                                ]}
+                            />
+                            <Text
+                                style={[
+                                    EventScreenStyle.userText,
+                                    !value.confirmed && EventScreenStyle.opacity
+                                ]}
+                            >
+                                {value.name}
+                            </Text>
+                        </View>
+                    ))}
+                </View>
             </View>
             <View style={EventScreenStyle.alignItemsCenter}>
                 <TouchableOpacity

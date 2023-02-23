@@ -50,6 +50,15 @@ export interface HangoutGetInterface {
     username: string;
 }
 
+export interface HangoutUpdateInterface {
+    id: number;
+    buffer: string;
+    fileName: string;
+    title: string;
+    time: string;
+    plan: string;
+}
+
 export interface HangoutDeleteInterface {
     id: number;
 }
@@ -61,7 +70,8 @@ export interface GroupHangoutCreateInterface {
     usernames: Array<string>;
     time: string;
     place: string;
-    picture: string;
+    buffer: string;
+    fileName: string;
 }
 
 export interface SendHangoutInvitation {
@@ -115,9 +125,8 @@ export interface DeviceInterface {
     deviceToken: string;
 }
 
-export interface UploadImageInterface {
-    username?: string;
-    key: string;
+export interface UploadProfileImageInterface {
+    username: string;
     buffer: string;
-    isHangout?: boolean;
+    fileName: string;
 }
