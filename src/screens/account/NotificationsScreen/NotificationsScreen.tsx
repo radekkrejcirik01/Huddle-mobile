@@ -70,13 +70,12 @@ export const NotificationsScreen = (): JSX.Element => {
     );
 
     const onOpenAccount = useCallback(
-        (item: NotificationsListProps, accepted: boolean) => {
+        (item: NotificationsListProps) => {
             navigateTo(AccountStackNavigatorEnum.PersonAccountScreen, {
                 id: item.id,
                 firstname: item.name,
                 username: item.username,
-                profilePicture: item.profilePicture,
-                inviteAccepted: accepted
+                profilePicture: item.profilePicture
             });
         },
         [navigateTo]
@@ -88,7 +87,7 @@ export const NotificationsScreen = (): JSX.Element => {
                 confirmed: item.confirmed,
                 hangoutId: item.id,
                 hangoutType: item.type,
-                username: item.username
+                invitedBy: item.username
             });
         },
         [navigateTo]

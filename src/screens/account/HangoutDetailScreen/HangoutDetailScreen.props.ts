@@ -1,16 +1,12 @@
 import { RouteProp } from '@react-navigation/native';
-import { Moment } from 'moment';
+import { EventScreenDataInterface } from '@screens/account/EventScreen/EventScreen.props';
 
 export interface HangoutDetailScreenProps {
     route: RouteProp<
         {
             params: {
-                createdByUser: boolean;
                 hangoutId: number;
-                photo: string;
-                title: string;
-                time: Moment;
-                plan: string;
+                hangout: EventScreenDataInterface;
             };
         },
         'params'

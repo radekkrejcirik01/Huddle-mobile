@@ -98,6 +98,11 @@ export interface AcceptPeopleInvitationInterface {
     name: string;
 }
 
+export interface CheckPeopleInvitationInterface {
+    user: string;
+    username: string;
+}
+
 export interface AcceptHangoutInvitationInterface {
     id: number;
     value: number;

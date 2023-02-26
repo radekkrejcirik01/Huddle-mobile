@@ -12,6 +12,7 @@ import {
     Text,
     View
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import FastImage, { Source } from 'react-native-fast-image';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -35,11 +36,22 @@ import { Input } from '@components/general/Input/Input';
 import { formatDate } from '@functions/formatDate';
 import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
 import { getUTCDateTime } from '@functions/getUTCDateTime';
+import { ReducerProps } from '@store/index/index.props';
 
 export const HangoutDetailScreen = ({
     route
 }: HangoutDetailScreenProps): JSX.Element => {
-    const { createdByUser, hangoutId, photo, title, time, plan } = route.params;
+    const { hangoutId, hangout } = route.params;
+    const {
+        createdBy,
+        picture: photo,
+        usernames,
+        title,
+        time,
+        place: plan
+    } = hangout;
+
+    const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const navigation = useNavigation();
 
@@ -213,15 +225,34 @@ export const HangoutDetailScreen = ({
                     inputType={InputTypeEnum.TEXT}
                     viewStyle={HangoutDetailScreenStyle.inputView}
                 />
-                <Text style={HangoutDetailScreenStyle.text}>Plan 👨‍👩‍👧‍👦</Text>
+                <Text style={HangoutDetailScreenStyle.text}>Place 🗺</Text>
                 <Input
                     value={planValue}
                     inputType={InputTypeEnum.TEXT}
                     onChange={setPlanValue}
                     viewStyle={HangoutDetailScreenStyle.inputView}
                 />
+                <Text style={HangoutDetailScreenStyle.text}>People 👨‍👩‍👧‍👦</Text>
+                <View style={HangoutDetailScreenStyle.row}>
+                    {usernames.map((value) => (
+                        <TouchableOpacity
+                            key={value.username}
+                            style={
+                                HangoutDetailScreenStyle.peopleTouchableOpacity
+                            }
+                        >
+                            <FastImage
+                                style={HangoutDetailScreenStyle.peopleImage}
+                                source={{ uri: value.profilePicture }}
+                            />
+                            <Text style={HangoutDetailScreenStyle.peopleText}>
+                                {value.name}
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
             </View>
-            {createdByUser ? (
+            {createdBy === username ? (
                 <ListItem
                     title="Delete hangout"
                     onPress={onDeleteHangoutPress}

@@ -41,7 +41,7 @@ export const NotificationsListItem = ({
             item.type === NotificationTypeEnum.PEOPLE ||
             item.type === NotificationTypeEnum.ACCEPTED_PEOPLE
         ) {
-            onOpenAccount(item, accepted);
+            onOpenAccount(item);
         }
         if (
             item.type === NotificationTypeEnum.HANGOUT ||
@@ -51,7 +51,7 @@ export const NotificationsListItem = ({
         ) {
             onOpenHangout(item);
         }
-    }, [accepted, item, onOpenAccount, onOpenHangout]);
+    }, [item, onOpenAccount, onOpenHangout]);
 
     const onButtonPress = useCallback(() => {
         if (item.type === NotificationTypeEnum.PEOPLE) {

@@ -31,7 +31,7 @@ export const PersonAccountScreenStyle = StyleSheet.create({
         fontWeight: '500'
     },
     mainButtonTouchableOpacity: {
-        width: 120,
+        minWidth: 100,
         marginTop: 25,
         padding: 12,
         borderRadius: 20,

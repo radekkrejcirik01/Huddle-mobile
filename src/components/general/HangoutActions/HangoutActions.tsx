@@ -10,35 +10,52 @@ import { HangoutActionsProps } from '@components/general/HangoutActions/HangoutA
 
 export const HangoutActions = ({
     hangoutId,
-    usernames
+    hangout
 }: HangoutActionsProps): JSX.Element => {
     const { showActionSheetWithOptions } = useActionSheet();
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const openPeopleScreen = useCallback(() => {
+        const usernames = [];
+        for (let i = 0; i < hangout.usernames.length; i += 1) {
+            usernames.push(hangout.usernames[i].username);
+        }
         navigateTo(AccountStackNavigatorEnum.PickPeopleScreen, {
             hangoutId,
             usernames
         });
-    }, [hangoutId, navigateTo, usernames]);
+    }, [hangout.usernames, hangoutId, navigateTo]);
+
+    const openHangoutEdit = useCallback(() => {
+        navigateTo(AccountStackNavigatorEnum.HangoutDetailScreen, {
+            hangoutId,
+            hangout
+        });
+    }, [hangoutId, hangout, navigateTo]);
 
     const openActions = useCallback(() => {
-        const options = ['Add people', 'Cancel'].filter(Boolean);
+        const options = ['Add people', 'Edit hangout', 'Cancel'].filter(
+            Boolean
+        );
 
         showActionSheetWithOptions(
             {
                 options,
-                cancelButtonIndex: 1,
+                cancelButtonIndex: 2,
                 userInterfaceStyle: 'dark'
             },
             (selectedIndex: number) => {
                 if (selectedIndex === 0) {
                     openPeopleScreen();
                 }
+
+                if (selectedIndex === 1) {
+                    openHangoutEdit();
+                }
             }
         );
-    }, [openPeopleScreen, showActionSheetWithOptions]);
+    }, [openHangoutEdit, openPeopleScreen, showActionSheetWithOptions]);
 
     return (
         <IconButton

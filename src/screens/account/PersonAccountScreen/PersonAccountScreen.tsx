@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { Alert, Keyboard, ScrollView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -7,23 +13,29 @@ import { PersonAccountScreenStyle } from '@screens/account/PersonAccountScreen/P
 import { PersonAccountScreenProps } from '@screens/account/PersonAccountScreen/PersonAccountScreen.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { postRequest } from '@utils/Axios/Axios.service';
-import { ResponseInterface } from '@interfaces/response/Response.interface';
+import {
+    ResponseCheckInvitationsInterface,
+    ResponseInterface
+} from '@interfaces/response/Response.interface';
 import {
     AcceptPeopleInvitationInterface,
-    HangoutCreateInterface
+    CheckPeopleInvitationInterface,
+    HangoutCreateInterface,
+    PeopleCreateInvitationPostInterface
 } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { HangoutPicker } from '@components/general/HangoutPicker/HangoutPicker';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import { useOpenPhoto } from '@hooks/useOpenPhoto';
+import { PersonStateEnum } from '@screens/account/PersonAccountScreen/PersonAccountScreen.enum';
 
 export const PersonAccountScreen = ({
     route
 }: PersonAccountScreenProps): JSX.Element => {
     const {
+        checkInvitation = true,
         firstname,
         id,
-        inviteAccepted: accepted = true,
         username,
         profilePicture
     } = route.params;
@@ -32,13 +44,16 @@ export const PersonAccountScreen = ({
         (state: ReducerProps) => state.user.user
     );
 
-    const [inviteAccepted, setInviteAccepted] = useState<boolean>(accepted);
-    const [addDetails, setAddDetails] = useState<boolean>(false);
+    const [personState, setPersonState] = useState<PersonStateEnum>(
+        checkInvitation ? PersonStateEnum.NotInvited : PersonStateEnum.Friends
+    );
+
+    const [detailsVisible, setDetailsVisible] = useState<boolean>(false);
+
+    const invitationId = useRef<number>(id);
 
     const openPhoto = useOpenPhoto();
     const navigation = useNavigation();
-
-    const [isHangoutSent, setIsHangoutSent] = useState<boolean>(false);
 
     const [dateTime, setDateTime] = useState<string>();
     const [place, setPlace] = useState<string>();
@@ -49,21 +64,71 @@ export const PersonAccountScreen = ({
         });
     }, [navigation, username]);
 
+    useEffect(() => {
+        if (checkInvitation) {
+            postRequest<
+                ResponseCheckInvitationsInterface,
+                CheckPeopleInvitationInterface
+            >(
+                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/check/people/invitations',
+                {
+                    user,
+                    username
+                }
+            ).subscribe((response) => {
+                if (response?.status) {
+                    if (!response?.data) {
+                        setPersonState(PersonStateEnum.NotInvited);
+                        return;
+                    }
+
+                    invitationId.current = response?.data?.id;
+
+                    if (
+                        response?.data?.user !== user &&
+                        !response?.data?.confirmed
+                    ) {
+                        setPersonState(PersonStateEnum.AcceptFriendInvitation);
+                    }
+
+                    if (
+                        response?.data?.user === user &&
+                        !response?.data?.confirmed
+                    ) {
+                        setPersonState(
+                            PersonStateEnum.WaitingForFriendInviteAccept
+                        );
+                    }
+
+                    if (response?.data?.confirmed) {
+                        setPersonState(PersonStateEnum.Friends);
+                    }
+                }
+            });
+        }
+    }, [checkInvitation, user, username]);
+
     const buttonText = useMemo((): string => {
-        if (!inviteAccepted) {
-            return 'Accept';
+        if (personState === PersonStateEnum.NotInvited) {
+            return 'Send friend invitation';
         }
-        if (isHangoutSent) {
-            return 'Sent ✅';
+        if (personState === PersonStateEnum.AcceptFriendInvitation) {
+            return 'Accept friend invite';
         }
-        return 'Send';
-    }, [inviteAccepted, isHangoutSent]);
+        if (personState === PersonStateEnum.Friends) {
+            return 'Send';
+        }
+        if (personState === PersonStateEnum.WaitingForFriendInviteAccept) {
+            return null;
+        }
+        return 'Sent ✅'; // Hangout or friend invite sent
+    }, [personState]);
 
     const acceptFriendInvite = useCallback(() => {
         postRequest<ResponseInterface, AcceptPeopleInvitationInterface>(
             'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/accept/people/invitation',
             {
-                id,
+                id: invitationId.current,
                 value: 1,
                 user,
                 name,
@@ -71,12 +136,12 @@ export const PersonAccountScreen = ({
             }
         ).subscribe((response) => {
             if (response?.status) {
-                setInviteAccepted(true);
+                setPersonState(PersonStateEnum.Friends);
             } else {
                 Alert.alert("We apologize, invite couldn't be accepted");
             }
         });
-    }, [id, name, user, username]);
+    }, [name, user, username]);
 
     const sendHangout = useCallback(() => {
         postRequest<ResponseInterface, HangoutCreateInterface>(
@@ -90,18 +155,36 @@ export const PersonAccountScreen = ({
             }
         ).subscribe((response: ResponseInterface) => {
             if (response?.status) {
-                setIsHangoutSent(true);
+                setPersonState(PersonStateEnum.HangoutSent);
             }
         });
     }, [dateTime, name, place, user, username]);
 
+    const sendFriendInvitation = useCallback(() => {
+        postRequest<ResponseInterface, PeopleCreateInvitationPostInterface>(
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/create/people/invitation',
+            {
+                user,
+                username
+            }
+        ).subscribe((response: ResponseInterface) => {
+            if (response?.status) {
+                setPersonState(PersonStateEnum.FriendInviteSent);
+            }
+        });
+    }, [user, username]);
+
     const onPress = useCallback(() => {
-        if (inviteAccepted) {
-            sendHangout();
-        } else {
+        if (personState === PersonStateEnum.NotInvited) {
+            sendFriendInvitation();
+        }
+        if (personState === PersonStateEnum.AcceptFriendInvitation) {
             acceptFriendInvite();
         }
-    }, [acceptFriendInvite, inviteAccepted, sendHangout]);
+        if (personState === PersonStateEnum.Friends) {
+            sendHangout();
+        }
+    }, [acceptFriendInvite, personState, sendFriendInvitation, sendHangout]);
 
     return (
         <ScrollView
@@ -130,31 +213,42 @@ export const PersonAccountScreen = ({
                     </Text>
                 </View>
                 <HangoutPicker
-                    isVisible={addDetails && !isHangoutSent}
+                    isVisible={
+                        detailsVisible &&
+                        personState !== PersonStateEnum.HangoutSent
+                    }
                     onDateTimeChange={setDateTime}
                     onPlaceChange={setPlace}
                 />
                 <View style={PersonAccountScreenStyle.alignItemsCenter}>
-                    <TouchableOpacity
-                        onPress={onPress}
-                        style={
-                            PersonAccountScreenStyle.mainButtonTouchableOpacity
-                        }
-                    >
+                    {personState ===
+                    PersonStateEnum.WaitingForFriendInviteAccept ? (
                         <Text style={PersonAccountScreenStyle.text}>
-                            {buttonText}
+                            Friend invite sent
                         </Text>
-                    </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity
+                            onPress={onPress}
+                            style={
+                                PersonAccountScreenStyle.mainButtonTouchableOpacity
+                            }
+                        >
+                            <Text style={PersonAccountScreenStyle.text}>
+                                {buttonText}
+                            </Text>
+                        </TouchableOpacity>
+                    )}
                     <View style={PersonAccountScreenStyle.addDetailsButtonView}>
-                        {inviteAccepted && !addDetails && (
-                            <TouchableOpacity
-                                onPress={() => setAddDetails(true)}
-                            >
-                                <Text style={PersonAccountScreenStyle.text}>
-                                    Add details
-                                </Text>
-                            </TouchableOpacity>
-                        )}
+                        {personState === PersonStateEnum.Friends &&
+                            !detailsVisible && (
+                                <TouchableOpacity
+                                    onPress={() => setDetailsVisible(true)}
+                                >
+                                    <Text style={PersonAccountScreenStyle.text}>
+                                        Add details
+                                    </Text>
+                                </TouchableOpacity>
+                            )}
                     </View>
                 </View>
             </KeyboardAvoidingView>

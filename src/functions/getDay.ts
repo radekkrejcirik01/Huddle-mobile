@@ -1,5 +1,19 @@
 import moment from 'moment';
 
+const getDateEnding = (day: string): string => {
+    const value = day.slice(-1);
+    if (value === '1') {
+        return `${day}st`;
+    }
+    if (value === '2') {
+        return `${day}nd`;
+    }
+    if (value === '3') {
+        return `${day}rd`;
+    }
+    return `${day}th`;
+};
+
 export const getDay = (date: string): string => {
     const today = moment().toISOString();
 
@@ -21,5 +35,24 @@ export const getDay = (date: string): string => {
     if (yesterdayString.includes(date)) {
         return 'Yesterday';
     }
-    return date;
+
+    const monthNames = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ];
+
+    const month = monthNames[moment(date).month()];
+    const day = moment(date).date().toString();
+
+    return `${month} ${getDateEnding(day)}`;
 };

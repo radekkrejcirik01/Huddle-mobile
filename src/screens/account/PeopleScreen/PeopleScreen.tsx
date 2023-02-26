@@ -66,6 +66,7 @@ export const PeopleScreen = (): JSX.Element => {
     const onItemPress = useCallback(
         (item: PeopleListItemProps) => {
             navigateTo(AccountStackNavigatorEnum.PersonAccountScreen, {
+                checkInvitation: false,
                 firstname: item.firstname,
                 username: item.username,
                 profilePicture: item.profilePicture

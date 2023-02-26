@@ -30,6 +30,17 @@ export interface ResponsePeopleGetInterface {
     data?: Array<PeopleListItemProps>;
 }
 
+export interface ResponseCheckInvitationsInterface {
+    status: string;
+    message: string;
+    data?: {
+        id: number;
+        user: string;
+        username: string;
+        confirmed: number;
+    };
+}
+
 export interface ResponseConversationsGetInterface {
     status: string;
     message: string;

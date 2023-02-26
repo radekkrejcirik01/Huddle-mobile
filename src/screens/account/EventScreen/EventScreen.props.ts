@@ -8,7 +8,7 @@ export interface EventScreenProps {
                 confirmed: number;
                 hangoutId: number;
                 hangoutType: string;
-                username: string;
+                invitedBy: string;
             };
         },
         'params'
@@ -21,10 +21,12 @@ export interface EventScreenDataInterface {
     time: Moment;
     place: string;
     picture: string;
-    usernames: Array<{
-        username: string;
-        name: string;
-        profilePicture: string;
-        confirmed: 1;
-    }>;
+    usernames: Array<EventUsersInterface>;
+}
+
+export interface EventUsersInterface {
+    username: string;
+    name: string;
+    profilePicture: string;
+    confirmed: number;
 }

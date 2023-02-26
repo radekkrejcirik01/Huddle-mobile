@@ -34,14 +34,14 @@ export const EventScreenStyle = StyleSheet.create({
         fontWeight: '500'
     },
     usersContainer: {
-        width: '75%',
+        width: '70%',
         marginTop: 50,
         justifyContent: 'center',
         flexWrap: 'wrap',
         flexDirection: 'row'
     },
     userView: {
-        padding: 15,
+        padding: 12,
         flexDirection: 'row',
         alignItems: 'center'
     },

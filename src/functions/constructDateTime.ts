@@ -1,4 +1,4 @@
-import { format } from '@functions/getDateAndTime';
+import { format } from '@functions/format';
 
 export const constructDateTime = (date: Date): string => {
     const year = date.getFullYear();
