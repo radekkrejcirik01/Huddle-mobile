@@ -69,10 +69,9 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
 
     const openHangoutDetail = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.HangoutDetailScreen, {
-            hangoutId,
-            hangout: data
+            hangoutId
         });
-    }, [data, hangoutId, navigateTo]);
+    }, [hangoutId, navigateTo]);
 
     useEffect(() => {
         navigation.setOptions({
