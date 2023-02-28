@@ -10,6 +10,7 @@ module.exports = {
                     '@app': './src/app',
                     '@assets': './src/assets',
                     '@constants': './src/constants',
+                    '@enums': './src/enums',
                     '@components': './src/components',
                     '@store': './src/store',
                     '@screens': './src/screens',

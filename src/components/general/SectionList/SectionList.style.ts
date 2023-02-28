@@ -2,9 +2,6 @@ import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
 export const SectionListStyle = StyleSheet.create({
-    contentContainer: {
-        paddingTop: 10
-    },
     sectionHeader: {
         paddingBottom: 5,
         fontSize: 15,
@@ -18,7 +15,7 @@ export const SectionListStyle = StyleSheet.create({
         flexWrap: 'wrap'
     },
     itemView: {
-        marginRight: 10,
+        marginRight: 5,
         marginBottom: 5,
         padding: 10,
         borderRadius: 15,
@@ -33,7 +30,13 @@ export const SectionListStyle = StyleSheet.create({
     itemImage: {
         width: 35,
         height: 35,
-        marginLeft: 5,
-        borderRadius: 20
+        marginLeft: 10,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    text: {
+        fontSize: 25,
+        color: COLORS.WHITE
     }
 });

@@ -42,11 +42,17 @@ export const LoginScreen = (): JSX.Element => {
                     viewStyle={LoginScreenStyle.inputView}
                 />
             </View>
-            <TouchableOpacity onPress={loginPressed}>
-                <Text style={LoginScreenStyle.loginText}>Log In 👉</Text>
+            <TouchableOpacity
+                onPress={loginPressed}
+                style={LoginScreenStyle.loginButtonView}
+            >
+                <Text style={LoginScreenStyle.loginButtonText}>Log In 👉</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={registerPressed}>
-                <Text style={LoginScreenStyle.registerText}>
+            <TouchableOpacity
+                onPress={registerPressed}
+                style={LoginScreenStyle.registerButtonView}
+            >
+                <Text style={LoginScreenStyle.registerButtonText}>
                     No account yet? Create one!
                 </Text>
             </TouchableOpacity>

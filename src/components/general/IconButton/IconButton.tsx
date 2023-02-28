@@ -12,7 +12,11 @@ export const IconButton = ({
     size,
     style
 }: IconButtonProps): JSX.Element => (
-    <TouchableOpacity onPress={onPress} style={style}>
+    <TouchableOpacity
+        onPress={onPress}
+        style={style}
+        hitSlop={{ top: 10, left: 10, bottom: 10, right: 10 }}
+    >
         <Icon name={icon} size={size} />
     </TouchableOpacity>
 );

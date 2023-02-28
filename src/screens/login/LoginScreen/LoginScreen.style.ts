@@ -9,17 +9,21 @@ export const LoginScreenStyle = StyleSheet.create({
     inputView: {
         marginTop: 15
     },
-    loginText: {
+    loginButtonView: {
         marginTop: '20%',
+        alignSelf: 'center'
+    },
+    loginButtonText: {
         color: COLORS.WHITE,
-        alignSelf: 'center',
         fontSize: 20,
         fontWeight: 'bold'
     },
-    registerText: {
+    registerButtonView: {
         marginTop: 100,
+        alignSelf: 'center'
+    },
+    registerButtonText: {
         color: COLORS.WHITE,
-        alignSelf: 'center',
         fontSize: 18,
         fontWeight: 'bold'
     }

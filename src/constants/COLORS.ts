@@ -1,4 +1,5 @@
 export default {
+    RED: '#FF0000',
     MAIN_RED: '#ff5555',
     MAIN_BLUE: '#634bed',
     MAIN_BLUE_100: '#735def',

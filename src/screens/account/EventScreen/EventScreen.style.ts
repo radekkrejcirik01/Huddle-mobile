@@ -4,46 +4,67 @@ import COLORS from '@constants/COLORS';
 export const EventScreenStyle = StyleSheet.create({
     contentContainer: {
         flex: 1,
-        paddingTop: 15,
+        paddingTop: 30,
         paddingBottom: 125,
-        alignItems: 'center',
         justifyContent: 'space-between'
     },
-    picturesView: {
-        marginTop: 15,
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        justifyContent: 'center'
+    headerTitle: {
+        fontSize: 18,
+        color: COLORS.WHITE,
+        fontWeight: '600'
+    },
+    alignItemsCenter: {
+        alignItems: 'center'
     },
     imageView: {
-        margin: 10
+        margin: 10,
+        borderRadius: 65,
+        overflow: 'hidden'
     },
     image: {
-        width: 115,
-        height: 115,
-        borderRadius: 65
+        width: 140,
+        height: 140,
+        backgroundColor: COLORS.GRAY_100
     },
-    nameText: {
+    text: {
         marginTop: 15,
-        fontSize: 15,
+        fontSize: 18,
         color: COLORS.WHITE,
         alignSelf: 'center',
         fontWeight: '500'
     },
-    timeText: {
-        fontSize: 25
-    },
-    buttonsRow: {
-        justifyContent: 'space-evenly',
+    usersContainer: {
+        width: '70%',
+        marginTop: 50,
+        justifyContent: 'center',
+        flexWrap: 'wrap',
         flexDirection: 'row'
     },
+    userView: {
+        padding: 12,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    opacity: {
+        opacity: 0.7
+    },
+    userText: {
+        marginLeft: 10,
+        color: COLORS.WHITE,
+        fontWeight: '600'
+    },
+    userPhoto: {
+        height: 25,
+        width: 25,
+        borderRadius: 20,
+        backgroundColor: COLORS.GRAY_100
+    },
     row: {
-        height: 40,
-        flex: 1,
-        marginHorizontal: 10,
-        borderRadius: 10,
+        width: 200,
+        marginTop: 35,
+        padding: 12,
+        borderRadius: 20,
         backgroundColor: COLORS.MAIN_BLUE,
-        justifyContent: 'center',
         alignItems: 'center'
     },
     buttonText: {

@@ -1,6 +1,32 @@
 import { RouteProp } from '@react-navigation/native';
-import { ComingsUpListItem } from '@screens/account/HomeScreen/HomeScreen.props';
+import { Moment } from 'moment';
 
 export interface EventScreenProps {
-    route: RouteProp<{ params: { item: ComingsUpListItem } }, 'params'>;
+    route: RouteProp<
+        {
+            params: {
+                confirmed: number;
+                hangoutId: number;
+                hangoutType: string;
+                invitedBy: string;
+            };
+        },
+        'params'
+    >;
+}
+
+export interface EventScreenDataInterface {
+    createdBy: string;
+    title: string;
+    time: Moment;
+    place: string;
+    picture: string;
+    usernames: Array<EventUsersInterface>;
+}
+
+export interface EventUsersInterface {
+    username: string;
+    name: string;
+    profilePicture: string;
+    confirmed: number;
 }

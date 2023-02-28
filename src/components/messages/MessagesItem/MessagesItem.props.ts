@@ -3,4 +3,5 @@ import { MessagesListDataProps } from '@screens/account/MessagesScreen/MessagesS
 export interface MessagesItemProps {
     item: MessagesListDataProps;
     onPress: (item: MessagesListDataProps) => void;
+    onDelete: (id: number) => void;
 }

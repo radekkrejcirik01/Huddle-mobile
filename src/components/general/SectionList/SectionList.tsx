@@ -1,172 +1,181 @@
-import React, { useCallback } from 'react';
-import { SectionList as SectionListComponent, Text, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import React, {
+    ForwardedRef,
+    forwardRef,
+    useCallback,
+    useImperativeHandle,
+    useMemo,
+    useState
+} from 'react';
 import {
-    ComingsUpDataInterface,
-    ComingsUpList,
-    ComingsUpListItem
-} from '@screens/account/HomeScreen/HomeScreen.props';
+    RefreshControl,
+    SectionList as SectionListComponent,
+    SectionListRenderItemInfo,
+    Text,
+    View
+} from 'react-native';
+import { useSelector } from 'react-redux';
+import FastImage from 'react-native-fast-image';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { SectionListStyle } from '@components/general/SectionList/SectionList.style';
 import {
+    ComingsUpDataInterface,
+    ComingsUpList,
+    ComingsUpListItem,
+    ItemDataInterface,
+    SectionHeaderInterface,
+    SectionInterface,
     SectionListDefaultProps,
+    SectionListForwardRefProps,
     SectionListProps
 } from '@components/general/SectionList/SectionList.props';
+import { postRequest } from '@utils/Axios/Axios.service';
+import { ResponseHangoutsGetInterface } from '@interfaces/response/Response.interface';
+import { HangoutsGetInterface } from '@interfaces/post/Post.inteface';
+import { ReducerProps } from '@store/index/index.props';
+import { getDay } from '@functions/getDay';
+import { getLocalHourFromUTC } from '@functions/getLocalHourFromUTC';
 
-export const SectionList = ({
-    data,
-    contentContainerStyle
-}: SectionListProps): JSX.Element => {
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
+export const SectionList = forwardRef(
+    (
+        { showAll, contentContainerStyle }: SectionListProps,
+        reference: ForwardedRef<SectionListForwardRefProps>
+    ): JSX.Element => {
+        const { username } = useSelector(
+            (state: ReducerProps) => state.user.user
+        );
 
-    const DATA: Array<ComingsUpDataInterface> = [
-        {
-            title: 'Today',
-            data: [
-                {
-                    list: [
-                        {
-                            id: 1,
-                            name: 'Radek',
-                            username: '@radek',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        },
-                        {
-                            id: 2,
-                            name: 'Tom',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        },
-                        {
-                            id: 3,
-                            name: 'Zuzka',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            title: 'Tomorrow',
-            data: [
-                {
-                    list: [
-                        {
-                            id: 4,
-                            name: 'Zuzka',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            title: '13. 1.',
-            data: [
-                {
-                    list: [
-                        {
-                            id: 5,
-                            name: 'Dominika + Tom + Radek',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1',
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1',
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        },
-                        {
-                            id: 6,
-                            name: 'Tom',
-                            username: '@',
-                            time: '12:25',
-                            place: 'Coffee shop at Krymska',
-                            profilePictures: [
-                                'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d5/ba/cd/great-paintings-of-bruges.jpg?w=1200&h=-1&s=1'
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    ];
+        const { navigateTo } = useNavigation(
+            RootStackNavigatorEnum.AccountStack
+        );
 
-    const SectionHeader = ({ title }: { title: string }): JSX.Element => (
-        <Text style={SectionListStyle.sectionHeader}>{title}</Text>
-    );
+        const [data, setData] = useState<Array<ComingsUpDataInterface>>();
+        const [refreshing, setRefreshing] = useState(false);
 
-    const onItemPress = useCallback(
-        (item: ComingsUpListItem) => {
-            navigateTo(AccountStackNavigatorEnum.EventScreen, { item });
-        },
-        [navigateTo]
-    );
-
-    const Item = ({ data }: { data: ComingsUpList }) => (
-        <View style={SectionListStyle.itemContainer}>
-            {data.list.map((value: ComingsUpListItem) => (
-                <TouchableOpacity
-                    key={value.id}
-                    onPress={() => onItemPress(value)}
-                    style={SectionListStyle.itemView}
-                >
-                    <View style={SectionListStyle.itemRow}>
-                        <View>
-                            <Text style={SectionListStyle.itemText}>
-                                {value.name}
-                            </Text>
-                            <Text style={SectionListStyle.itemText}>
-                                {value.time}
-                            </Text>
-                        </View>
-                        <FastImage
-                            style={SectionListStyle.itemImage}
-                            source={{ uri: value.profilePictures[0] }}
-                        />
-                    </View>
-                </TouchableOpacity>
-            ))}
-        </View>
-    );
-    return (
-        <SectionListComponent
-            sections={DATA}
-            renderSectionHeader={({ section: { title } }) => (
-                <SectionHeader title={title} />
-            )}
-            renderItem={({ item }) => <Item data={item} />}
-            keyExtractor={(item, index: number) =>
-                item.list[0].profilePictures[0] + index
+        const loadHangouts = useCallback(() => {
+            if (username) {
+                postRequest<ResponseHangoutsGetInterface, HangoutsGetInterface>(
+                    'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/hangouts',
+                    {
+                        username,
+                        showAll
+                    }
+                ).subscribe((response: ResponseHangoutsGetInterface) => {
+                    if (response?.status) {
+                        setData(response?.data);
+                    }
+                });
             }
-            contentContainerStyle={[
-                SectionListStyle.contentContainer,
-                contentContainerStyle
-            ]}
-        />
-    );
-};
+        }, [showAll, username]);
+
+        useImperativeHandle(reference, () => ({
+            loadHangouts
+        }));
+
+        const refresh = useCallback(() => {
+            setRefreshing(true);
+            setTimeout(() => {
+                loadHangouts();
+                setRefreshing(false);
+            }, 1000);
+        }, [loadHangouts]);
+
+        const SectionHeader = ({
+            title
+        }: SectionHeaderInterface): JSX.Element => (
+            <Text style={SectionListStyle.sectionHeader}>{getDay(title)}</Text>
+        );
+
+        const renderSectionHeader = ({
+            section: { title }
+        }: SectionInterface) => <SectionHeader title={title} />;
+
+        const onItemPress = useCallback(
+            (item: ComingsUpListItem) => {
+                navigateTo(AccountStackNavigatorEnum.EventScreen, {
+                    hangoutId: item.id
+                });
+            },
+            [navigateTo]
+        );
+
+        const Item = useCallback(
+            ({ itemData }: ItemDataInterface) => (
+                <View style={SectionListStyle.itemContainer}>
+                    {itemData.list.map((value: ComingsUpListItem) => (
+                        <TouchableOpacity
+                            key={value.id}
+                            onPress={() => onItemPress(value)}
+                            style={SectionListStyle.itemView}
+                        >
+                            <View style={SectionListStyle.itemRow}>
+                                <View>
+                                    <Text style={SectionListStyle.itemText}>
+                                        {value.title}
+                                    </Text>
+                                    <Text style={SectionListStyle.itemText}>
+                                        {getLocalHourFromUTC(value.time)}
+                                    </Text>
+                                </View>
+                                {value?.picture ? (
+                                    <FastImage
+                                        source={{
+                                            uri: value.picture
+                                        }}
+                                        style={SectionListStyle.itemImage}
+                                    />
+                                ) : (
+                                    <View style={SectionListStyle.itemImage}>
+                                        <Text style={SectionListStyle.text}>
+                                            {value?.type === 'hangout'
+                                                ? '🙂'
+                                                : '👨‍👩‍👧‍👦'}
+                                        </Text>
+                                    </View>
+                                )}
+                            </View>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            ),
+            [onItemPress]
+        );
+
+        const renderItem = useCallback(
+            ({ item }: SectionListRenderItemInfo<ComingsUpList>) => (
+                <Item itemData={item} />
+            ),
+            [Item]
+        );
+
+        const refreshControl = useMemo(
+            () => (
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={refresh}
+                    tintColor="white"
+                />
+            ),
+            [refresh, refreshing]
+        );
+
+        if (!data?.length) {
+            return null;
+        }
+
+        return (
+            <SectionListComponent
+                sections={data}
+                renderSectionHeader={renderSectionHeader}
+                renderItem={renderItem}
+                refreshControl={refreshControl}
+                initialNumToRender={20}
+                contentContainerStyle={contentContainerStyle}
+            />
+        );
+    }
+);
 
 SectionList.defaultProps = SectionListDefaultProps;

@@ -3,33 +3,48 @@ import COLORS from '@constants/COLORS';
 
 export const PersonAccountScreenStyle = StyleSheet.create({
     container: {
+        flex: 1
+    },
+    contentContainer: {
         flex: 1,
-        paddingTop: 50,
-        paddingBottom: 125,
-        alignItems: 'center',
+        paddingTop: 30,
+        paddingBottom: 75, // 125 - addDetailsButtonView height
         justifyContent: 'space-between'
+    },
+    alignItemsCenter: {
+        alignItems: 'center'
+    },
+    imageView: {
+        margin: 10,
+        borderRadius: 65,
+        overflow: 'hidden'
     },
     image: {
         width: 140,
         height: 140,
-        marginTop: 15,
-        borderRadius: 65
+        backgroundColor: COLORS.GRAY_100
     },
     name: {
         marginTop: 15,
         fontSize: 15,
         color: COLORS.WHITE,
-        alignSelf: 'center',
         fontWeight: '500'
     },
-    hangoutTouchableOpacity: {
-        padding: 10,
-        borderRadius: 10,
-        backgroundColor: COLORS.MAIN_BLUE
+    mainButtonTouchableOpacity: {
+        minWidth: 100,
+        marginTop: 25,
+        padding: 12,
+        borderRadius: 20,
+        backgroundColor: COLORS.MAIN_BLUE,
+        alignItems: 'center'
     },
-    hangoutText: {
+    text: {
         fontSize: 15,
         color: COLORS.WHITE,
         fontWeight: '500'
+    },
+    addDetailsButtonView: {
+        height: 50,
+        marginTop: 35
     }
 });

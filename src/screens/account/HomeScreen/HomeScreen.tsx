@@ -1,9 +1,8 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import { HomeScreenStyle } from '@screens/account/HomeScreen/HomeScreen.style';
-import { IconButton } from '@components/general/IconButton/IconButton';
 import { IconEnum } from '@components/icon/Icon.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { useNavigation } from '@hooks/useNavigation';
@@ -11,13 +10,57 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { SectionList } from '@components/general/SectionList/SectionList';
 import { ReducerProps } from '@store/index/index.props';
+import { Badge } from '@components/general/Badge/Badge';
+import { Icon } from '@components/icon/Icon';
+import { useMessaging } from '@hooks/useMessaging';
+import { postRequest } from '@utils/Axios/Axios.service';
+import { ResponseUserGetInterface } from '@interfaces/response/Response.interface';
+import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
+import { setUserStateAction } from '@store/UserReducer';
+import { SectionListForwardRefProps } from '@components/general/SectionList/SectionList.props';
+import { useNotifications } from '@hooks/useNotifications';
 
 export const HomeScreen = (): JSX.Element => {
-    const { people, hangouts } = useSelector(
-        (state: ReducerProps) => state.user
-    );
+    const { hangouts, notifications, people, unreadMessages, user } =
+        useSelector((state: ReducerProps) => state.user);
+    const dispatch = useDispatch();
 
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
+    useMessaging();
+
+    const sectionListRef = useRef<SectionListForwardRefProps>();
+
+    const refreshUser = useCallback(() => {
+        postRequest<ResponseUserGetInterface, UserGetPostInterface>(
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get',
+            {
+                username: user?.username
+            }
+        ).subscribe((response: ResponseUserGetInterface) => {
+            if (response?.status) {
+                dispatch(setUserStateAction(response?.data));
+            }
+        });
+    }, [dispatch, user?.username]);
+
+    useNotifications(refreshUser, sectionListRef?.current?.loadHangouts);
+
+    const onFocus = useCallback(() => {
+        if (user?.username) {
+            refreshUser();
+            sectionListRef.current.loadHangouts();
+        }
+    }, [refreshUser, user?.username]);
+
+    useEffect(() => {
+        if (user?.username) {
+            sectionListRef.current.loadHangouts();
+        }
+    }, [user?.username]);
+
+    const { navigateTo } = useNavigation(
+        RootStackNavigatorEnum.AccountStack,
+        onFocus
+    );
 
     const onProfileSettingsPress = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.ProfileScreen);
@@ -48,7 +91,9 @@ export const HomeScreen = (): JSX.Element => {
                 <View style={HomeScreenStyle.header}>
                     <TouchableOpacity onPress={onProfileSettingsPress}>
                         <FastImage
-                            source={require('@assets/images/profilovka.png')}
+                            source={{
+                                uri: user.profilePicture
+                            }}
                             style={HomeScreenStyle.image}
                         />
                     </TouchableOpacity>
@@ -75,17 +120,17 @@ export const HomeScreen = (): JSX.Element => {
                             </TouchableOpacity>
                         </View>
                         <View style={HomeScreenStyle.iconContainer}>
-                            <IconButton
-                                icon={IconEnum.BELL}
+                            <TouchableOpacity
                                 onPress={onNotificationsPress}
-                                size={25}
                                 style={HomeScreenStyle.bellIcon}
-                            />
-                            <IconButton
-                                icon={IconEnum.CHAT_FILLED}
-                                onPress={onMessagesPress}
-                                size={26}
-                            />
+                            >
+                                <Icon name={IconEnum.BELL} size={25} />
+                                <Badge value={notifications} />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={onMessagesPress}>
+                                <Icon name={IconEnum.CHAT_FILLED} size={26} />
+                                <Badge value={unreadMessages} />
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -93,7 +138,7 @@ export const HomeScreen = (): JSX.Element => {
                     <Text style={HomeScreenStyle.comingsUpTitle}>
                         Comings up
                     </Text>
-                    <SectionList />
+                    <SectionList ref={sectionListRef} />
                 </View>
             </View>
         </SafeAreaView>

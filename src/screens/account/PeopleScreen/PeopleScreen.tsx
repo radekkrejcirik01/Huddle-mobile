@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { RefreshControl, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import FastImage from 'react-native-fast-image';
@@ -19,31 +19,54 @@ import { ReducerProps } from '@store/index/index.props';
 export const PeopleScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const [inputValue, setInputValue] = useState<string>();
 
     const [data, setData] = useState<Array<PeopleListItemProps>>([]);
+    const [filteredData, setFilteredData] = useState<
+        Array<PeopleListItemProps>
+    >([]);
+    const [refreshing, setRefreshing] = useState(false);
 
-    const onInputChange = (value: string) => {
-        setInputValue(value);
-    };
-
-    useEffect(() => {
+    const loadPeople = useCallback(() => {
         postRequest<ResponsePeopleGetInterface, UserGetPostInterface>(
-            'https://yco94z0aqg.execute-api.eu-central-1.amazonaws.com/PingMeUser/get/people',
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/people',
             {
                 username
             }
         ).subscribe((response: ResponsePeopleGetInterface) => {
             if (response?.status) {
-                setData(response.data);
+                setData(response?.data);
+                setFilteredData(response?.data);
             }
         });
     }, [username]);
 
+    const { navigateTo } = useNavigation(
+        RootStackNavigatorEnum.AccountStack,
+        loadPeople
+    );
+
+    const filterData = (value: string) => {
+        setInputValue(value);
+        const text = value.toLowerCase();
+        const filteredName = data.filter((item: PeopleListItemProps) =>
+            item.username.toLowerCase().match(text)
+        );
+        setFilteredData(filteredName);
+    };
+
+    const refresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+            loadPeople();
+        }, 1000);
+    }, [loadPeople]);
+
     const onItemPress = useCallback(
         (item: PeopleListItemProps) => {
             navigateTo(AccountStackNavigatorEnum.PersonAccountScreen, {
+                checkInvitation: false,
                 firstname: item.firstname,
                 username: item.username,
                 profilePicture: item.profilePicture
@@ -75,24 +98,30 @@ export const PeopleScreen = (): JSX.Element => {
     );
 
     return (
-        <SafeAreaView style={PeopleScreenStyle.safeArea}>
-            <View style={PeopleScreenStyle.container}>
-                <Input
-                    iconLeft={<Text>🔍</Text>}
-                    placeholder="Who you looking for?..."
-                    onChange={onInputChange}
-                    inputType={InputTypeEnum.TEXT}
-                    viewStyle={PeopleScreenStyle.inputView}
-                    inputStyle={PeopleScreenStyle.input}
+        <View style={PeopleScreenStyle.container}>
+            <Input
+                iconLeft={<Text>🔍</Text>}
+                placeholder="Who you looking for?..."
+                value={inputValue}
+                onChange={filterData}
+                inputType={InputTypeEnum.TEXT}
+                viewStyle={PeopleScreenStyle.inputView}
+                inputStyle={PeopleScreenStyle.input}
+            />
+            <View style={PeopleScreenStyle.flashListView}>
+                <FlashList
+                    data={filteredData}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={refresh}
+                            tintColor="white"
+                        />
+                    }
+                    renderItem={renderItem}
+                    estimatedItemSize={68}
                 />
-                <View style={PeopleScreenStyle.flashListView}>
-                    <FlashList
-                        data={data}
-                        renderItem={renderItem}
-                        estimatedItemSize={68}
-                    />
-                </View>
             </View>
-        </SafeAreaView>
+        </View>
     );
 };

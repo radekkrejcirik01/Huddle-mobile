@@ -5,8 +5,8 @@ import COLORS from '@constants/COLORS';
 export interface InputProps extends Omit<TextInputProps, 'onChange'> {
     placeholder?: string;
     value?: string;
-    onChange: (value: string) => void;
-    inputType: InputTypeEnum;
+    onChange?: (value: string) => void;
+    inputType?: InputTypeEnum;
     viewStyle?: StyleProp<ViewStyle>;
     inputStyle?: StyleProp<TextStyle>;
     selectionColor?: string;
@@ -15,9 +15,11 @@ export interface InputProps extends Omit<TextInputProps, 'onChange'> {
     iconRight?: JSX.Element;
 }
 
-export const InputDefaultProps: Omit<InputProps, 'onChange' | 'inputType'> = {
+export const InputDefaultProps: InputProps = {
     placeholder: '',
     value: '',
+    onChange: () => {},
+    inputType: InputTypeEnum.TEXT,
     viewStyle: {},
     inputStyle: {},
     selectionColor: COLORS.WHITE,

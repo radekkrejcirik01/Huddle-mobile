@@ -44,18 +44,21 @@ export const HomeScreenStyle = StyleSheet.create({
         flexDirection: 'row'
     },
     bellIcon: {
-        marginRight: 20
+        marginRight: 20,
+        alignItems: 'flex-end'
     },
     image: {
         width: 50,
         height: 50,
-        borderRadius: 20
+        borderRadius: 20,
+        backgroundColor: COLORS.GRAY_100
     },
     comingsUpContainer: {
         flex: 1,
         paddingTop: 20
     },
     comingsUpTitle: {
+        marginBottom: 10,
         fontSize: 15,
         color: COLORS.WHITE,
         fontWeight: 'bold'

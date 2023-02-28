@@ -7,21 +7,28 @@ import {
     CognitoUserSession
 } from 'amazon-cognito-identity-js';
 import { useDispatch } from 'react-redux';
-import { setUserStateAction } from '@store/UserReducer';
+import { resetUserState, setUserStateAction } from '@store/UserReducer';
 import { postRequest } from '@utils/Axios/Axios.service';
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { UserPostInterface } from '@interfaces/post/Post.inteface';
+import { PreloadService } from '@utils/general/PreloadService';
 
 export const useCognito = (): {
     register: (firstname: string, username: string, password: string) => void;
     login: (username: string, password: string) => void;
+    changePassword: (
+        username: string,
+        oldPassword: string,
+        newPassword: string
+    ) => void;
+    deleteAccount: (username: string, password: string) => void;
 } => {
     const dispatch = useDispatch();
 
-    const USER_POOL_ID = 'eu-central-1_kaF0fBM87';
-    const CLIENT_ID = '213lat3j0sc0c1gcta8iqqtb4r';
+    const USER_POOL_ID = 'eu-central-1_vaEVNCc6v';
+    const CLIENT_ID = '1aav8kcrgq8esa6adht7rte79v';
 
     const cognitoPool = useMemo(
         () =>
@@ -57,25 +64,28 @@ export const useCognito = (): {
                                 'Sorry, this username already exists'
                             );
                         default:
-                            return Alert.alert(
-                                'Oop, sorry, something went wrong'
-                            );
+                            return Alert.alert(JSON.stringify(err));
                     }
                 } else {
                     return postRequest<ResponseInterface, UserPostInterface>(
-                        'https://yco94z0aqg.execute-api.eu-central-1.amazonaws.com/PingMeUser/create',
+                        'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/create',
                         { username, firstname }
                     ).subscribe((response: ResponseInterface) => {
                         if (response?.status) {
                             dispatch(
-                                setUserStateAction({ firstname, username })
+                                setUserStateAction({
+                                    user: {
+                                        firstname,
+                                        username
+                                    }
+                                })
                             );
                             PersistStorage.setItem(
                                 PersistStorageKeys.TOKEN,
                                 username
                             ).catch();
                         } else {
-                            Alert.alert('Oop, sorry, something went wrong');
+                            Alert.alert(JSON.stringify(response));
                         }
                     });
                 }
@@ -103,11 +113,92 @@ export const useCognito = (): {
             return user.authenticateUser(authDetails, {
                 onSuccess: (res: CognitoUserSession) => {
                     if (res) {
-                        dispatch(setUserStateAction({ username }));
                         PersistStorage.setItem(
                             PersistStorageKeys.TOKEN,
                             username
                         ).catch();
+                        PreloadService.loadUserObject(username);
+                    }
+                },
+                onFailure: (err) => {
+                    if (err) {
+                        Alert.alert('Sorry, username or password is incorrect');
+                    }
+                }
+            });
+        },
+        [cognitoPool]
+    );
+
+    const changePassword = useCallback(
+        (username: string, oldPassword: string, newPassword: string) => {
+            const user = new CognitoUser({
+                Username: username,
+                Pool: cognitoPool
+            });
+            const authDetails = new AuthenticationDetails({
+                Username: username,
+                Password: oldPassword
+            });
+
+            return user.authenticateUser(authDetails, {
+                onSuccess: (res: CognitoUserSession) => {
+                    if (res) {
+                        user.changePassword(
+                            oldPassword,
+                            newPassword,
+                            (e, r) => {
+                                if (r) {
+                                    Alert.alert(
+                                        'Successfully changed password 🎉'
+                                    );
+                                } else {
+                                    Alert.alert(
+                                        'Sorry, something went wrong 😔'
+                                    );
+                                }
+                            }
+                        );
+                    }
+                },
+                onFailure: (err) => {
+                    if (err) {
+                        Alert.alert('Sorry, password is incorrect');
+                    }
+                }
+            });
+        },
+        [cognitoPool]
+    );
+
+    const deleteAccount = useCallback(
+        (username: string, password: string) => {
+            const user = new CognitoUser({
+                Username: username,
+                Pool: cognitoPool
+            });
+            const authDetails = new AuthenticationDetails({
+                Username: username,
+                Password: password
+            });
+
+            return user.authenticateUser(authDetails, {
+                onSuccess: (res: CognitoUserSession) => {
+                    if (res) {
+                        user.deleteUser((e) => {
+                            if (e) {
+                                Alert.alert('Sorry, something went wrong 😔');
+                            } else {
+                                Alert.alert('Account successfully deleted');
+                                setTimeout(() => {
+                                    dispatch(resetUserState());
+                                    PersistStorage.setItem(
+                                        PersistStorageKeys.TOKEN,
+                                        ''
+                                    ).catch();
+                                }, 2000);
+                            }
+                        });
                     }
                 },
                 onFailure: (err) => {
@@ -120,5 +211,5 @@ export const useCognito = (): {
         [cognitoPool, dispatch]
     );
 
-    return { register, login };
+    return { register, login, changePassword, deleteAccount };
 };

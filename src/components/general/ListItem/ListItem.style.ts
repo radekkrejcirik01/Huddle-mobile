@@ -4,14 +4,16 @@ import COLORS from '@constants/COLORS';
 export const ListItemStyle = StyleSheet.create({
     touchableOpacity: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignSelf: 'flex-start'
     },
     title: {
-        flex: 1,
         paddingVertical: 14,
         fontSize: 17,
         color: COLORS.WHITE,
         fontWeight: '600'
+    },
+    flex: {
+        flex: 1
     },
     containerRight: {
         alignItems: 'center',

@@ -1,3 +1,4 @@
+import SplashScreen from 'react-native-splash-screen';
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import store from '@store/index/index';
@@ -15,19 +16,20 @@ class PreloadServiceSingleton {
         store.dispatch(setUserToken(token));
 
         if (token) {
-            this.loadUserObject();
+            this.loadUserObject(this.username);
         }
     };
 
-    private loadUserObject = () => {
+    public loadUserObject = (username: string) => {
         postRequest<ResponseUserGetInterface, UserGetPostInterface>(
-            'https://yco94z0aqg.execute-api.eu-central-1.amazonaws.com/PingMeUser/get',
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get',
             {
-                username: this.username
+                username
             }
         ).subscribe((response: ResponseUserGetInterface) => {
             if (response?.status) {
                 store.dispatch(setUserStateAction(response.data));
+                SplashScreen.hide();
             }
         });
     };
