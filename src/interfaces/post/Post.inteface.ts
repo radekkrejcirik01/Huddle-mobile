@@ -59,6 +59,11 @@ export interface HangoutUpdateInterface {
     plan: string;
 }
 
+export interface RemoveHangoutUserInterface {
+    id: number;
+    username: string;
+}
+
 export interface HangoutDeleteInterface {
     id: number;
 }

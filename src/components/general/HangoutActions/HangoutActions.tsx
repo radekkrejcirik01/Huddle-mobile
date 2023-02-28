@@ -35,9 +35,7 @@ export const HangoutActions = ({
     }, [hangoutId, hangout, navigateTo]);
 
     const openActions = useCallback(() => {
-        const options = ['Add people', 'Edit hangout', 'Cancel'].filter(
-            Boolean
-        );
+        const options = ['Add people', 'Edit hangout', 'Cancel'];
 
         showActionSheetWithOptions(
             {

@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import FastImage, { Source } from 'react-native-fast-image';
 import ImagePicker from 'react-native-image-crop-picker';
 import fs from 'react-native-fs';
@@ -25,7 +26,8 @@ import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import {
     HangoutDeleteInterface,
-    HangoutUpdateInterface
+    HangoutUpdateInterface,
+    RemoveHangoutUserInterface
 } from '@interfaces/post/Post.inteface';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
@@ -37,6 +39,9 @@ import { formatDate } from '@functions/formatDate';
 import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
 import { getUTCDateTime } from '@functions/getUTCDateTime';
 import { ReducerProps } from '@store/index/index.props';
+import { EventUsersInterface } from '@screens/account/EventScreen/EventScreen.props';
+import { IconButton } from '@components/general/IconButton/IconButton';
+import { IconEnum } from '@components/icon/Icon.enum';
 
 export const HangoutDetailScreen = ({
     route
@@ -54,6 +59,7 @@ export const HangoutDetailScreen = ({
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const navigation = useNavigation();
+    const { showActionSheetWithOptions } = useActionSheet();
 
     const [isSave, setIsSave] = useState<boolean>(false);
 
@@ -158,6 +164,58 @@ export const HangoutDetailScreen = ({
         setOpenDatePicker(true);
     };
 
+    const removeUserFromHangout = useCallback(
+        (usernameValue: string) => {
+            postRequest<ResponseInterface, RemoveHangoutUserInterface>(
+                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/remove/hangout/user',
+                {
+                    id: hangoutId,
+                    username: usernameValue
+                }
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    Alert.alert(response?.message);
+                }
+            });
+        },
+        [hangoutId]
+    );
+
+    const onPressUser = useCallback(
+        (value: EventUsersInterface) => {
+            const options = ['Remove from hangout', 'Cancel'];
+
+            showActionSheetWithOptions(
+                {
+                    cancelButtonIndex: 1,
+                    options,
+                    userInterfaceStyle: 'dark',
+                    title: value.username
+                },
+                (selectedIndex: number) => {
+                    if (selectedIndex === 0) {
+                        removeUserFromHangout(value.username);
+                    }
+                }
+            );
+        },
+        [removeUserFromHangout, showActionSheetWithOptions]
+    );
+
+    const openPeopleScreen = useCallback(() => {
+        const usernamesArray = [];
+        for (let i = 0; i < usernames.length; i += 1) {
+            usernamesArray.push(usernames[i].username);
+        }
+        navigation.navigate(
+            AccountStackNavigatorEnum.PickPeopleScreen as never,
+            {
+                hangoutId,
+                usernames: usernamesArray
+            } as never
+        );
+    }, [hangoutId, navigation, usernames]);
+
     const cancelConfirmation = () => {};
 
     const deleteHangout = useCallback(() => {
@@ -234,29 +292,44 @@ export const HangoutDetailScreen = ({
                 />
                 <Text style={HangoutDetailScreenStyle.text}>People 👨‍👩‍👧‍👦</Text>
                 <View style={HangoutDetailScreenStyle.row}>
-                    {usernames.map((value) => (
-                        <TouchableOpacity
-                            key={value.username}
-                            style={
-                                HangoutDetailScreenStyle.peopleTouchableOpacity
-                            }
-                        >
-                            <FastImage
-                                style={HangoutDetailScreenStyle.peopleImage}
-                                source={{ uri: value.profilePicture }}
-                            />
-                            <Text style={HangoutDetailScreenStyle.peopleText}>
-                                {value.name}
-                            </Text>
-                        </TouchableOpacity>
-                    ))}
+                    {usernames.map(
+                        (value: EventUsersInterface) =>
+                            value.username !== username && (
+                                <TouchableOpacity
+                                    key={value.username}
+                                    onPress={() => onPressUser(value)}
+                                    style={[
+                                        HangoutDetailScreenStyle.peopleTouchableOpacity,
+                                        !value.confirmed &&
+                                            HangoutDetailScreenStyle.opacity
+                                    ]}
+                                >
+                                    <FastImage
+                                        style={
+                                            HangoutDetailScreenStyle.peopleImage
+                                        }
+                                        source={{ uri: value.profilePicture }}
+                                    />
+                                    <Text
+                                        style={
+                                            HangoutDetailScreenStyle.peopleText
+                                        }
+                                    >
+                                        {value.name}
+                                    </Text>
+                                </TouchableOpacity>
+                            )
+                    )}
+                    <IconButton
+                        icon={IconEnum.PLUS}
+                        onPress={openPeopleScreen}
+                        size={18}
+                        style={HangoutDetailScreenStyle.plusButton}
+                    />
                 </View>
             </View>
             {createdBy === username ? (
-                <ListItem
-                    title="Delete hangout"
-                    onPress={onDeleteHangoutPress}
-                />
+                <ListItem title="Delete" onPress={onDeleteHangoutPress} />
             ) : (
                 <ListItem
                     title="Cancel confirmation"
