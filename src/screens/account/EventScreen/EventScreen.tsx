@@ -151,36 +151,40 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
                 <Text style={EventScreenStyle.text}>
                     {formatDate(new Date(getLocalDateTimeFromUTC(data?.time)))}
                 </Text>
-                <View style={EventScreenStyle.usersContainer}>
-                    {data?.usernames?.map(
-                        (value) =>
-                            value.username !== user && (
-                                <TouchableOpacity
-                                    key={value.username}
-                                    onPress={() => openUserAccount(value)}
-                                    style={EventScreenStyle.userView}
-                                >
-                                    <FastImage
-                                        source={{ uri: value?.profilePicture }}
-                                        style={[
-                                            EventScreenStyle.userPhoto,
-                                            !value.confirmed &&
-                                                EventScreenStyle.opacity
-                                        ]}
-                                    />
-                                    <Text
-                                        style={[
-                                            EventScreenStyle.userText,
-                                            !value.confirmed &&
-                                                EventScreenStyle.opacity
-                                        ]}
+                {data?.usernames?.length > 2 && (
+                    <View style={EventScreenStyle.usersContainer}>
+                        {data?.usernames?.map(
+                            (value) =>
+                                value.username !== user && (
+                                    <TouchableOpacity
+                                        key={value.username}
+                                        onPress={() => openUserAccount(value)}
+                                        style={EventScreenStyle.userView}
                                     >
-                                        {value.name}
-                                    </Text>
-                                </TouchableOpacity>
-                            )
-                    )}
-                </View>
+                                        <FastImage
+                                            source={{
+                                                uri: value?.profilePicture
+                                            }}
+                                            style={[
+                                                EventScreenStyle.userPhoto,
+                                                !value.confirmed &&
+                                                    EventScreenStyle.opacity
+                                            ]}
+                                        />
+                                        <Text
+                                            style={[
+                                                EventScreenStyle.userText,
+                                                !value.confirmed &&
+                                                    EventScreenStyle.opacity
+                                            ]}
+                                        >
+                                            {value.name}
+                                        </Text>
+                                    </TouchableOpacity>
+                                )
+                        )}
+                    </View>
+                )}
             </View>
             <View style={EventScreenStyle.alignItemsCenter}>
                 <TouchableOpacity

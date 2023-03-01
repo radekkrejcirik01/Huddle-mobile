@@ -21,7 +21,7 @@ export const ToastMessage = (): JSX.Element => {
         ) => (
             <TouchableOpacity
                 activeOpacity={1}
-                onPress={internalState.onPress}
+                onPress={internalState?.onPress}
                 style={[
                     ToastMessageStyle.touchableOpacity,
                     {
@@ -29,12 +29,16 @@ export const ToastMessage = (): JSX.Element => {
                     }
                 ]}
             >
-                <Text style={ToastMessageStyle.title}>
-                    {internalState.text1}
-                </Text>
-                <Text style={ToastMessageStyle.body}>
-                    {internalState.text2}
-                </Text>
+                {internalState?.text1 && (
+                    <Text style={ToastMessageStyle.title}>
+                        {internalState.text1}
+                    </Text>
+                )}
+                {internalState?.text2 && (
+                    <Text style={ToastMessageStyle.body}>
+                        {internalState.text2}
+                    </Text>
+                )}
             </TouchableOpacity>
         )
     };

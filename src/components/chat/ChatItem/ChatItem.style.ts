@@ -4,6 +4,7 @@ import SHADOW from '@constants/SHADOW';
 
 export const ChatItemStyle = StyleSheet.create({
     item: {
+        maxWidth: '75%',
         marginBottom: 5,
         padding: 7.5,
         paddingHorizontal: 10,

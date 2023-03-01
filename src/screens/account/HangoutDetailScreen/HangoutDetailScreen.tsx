@@ -331,34 +331,52 @@ export const HangoutDetailScreen = ({
                 />
                 <Text style={HangoutDetailScreenStyle.text}>People 👨‍👩‍👧‍👦</Text>
                 <View style={HangoutDetailScreenStyle.row}>
-                    {usernames?.map(
-                        (value: EventUsersInterface) =>
-                            value.username !== username && (
-                                <TouchableOpacity
-                                    key={value.username}
-                                    onPress={() => onPressUser(value)}
-                                    onLongPress={() => onPressUser(value)}
-                                    style={[
-                                        HangoutDetailScreenStyle.peopleTouchableOpacity,
-                                        !value.confirmed &&
-                                            HangoutDetailScreenStyle.opacity
-                                    ]}
-                                >
-                                    <FastImage
-                                        style={
-                                            HangoutDetailScreenStyle.peopleImage
-                                        }
-                                        source={{ uri: value.profilePicture }}
-                                    />
-                                    <Text
-                                        style={
-                                            HangoutDetailScreenStyle.peopleText
-                                        }
+                    {usernames?.length > 2 ? (
+                        usernames?.map(
+                            (value: EventUsersInterface) =>
+                                value.username !== username && (
+                                    <TouchableOpacity
+                                        key={value.username}
+                                        onPress={() => onPressUser(value)}
+                                        onLongPress={() => onPressUser(value)}
+                                        style={[
+                                            HangoutDetailScreenStyle.peopleTouchableOpacity,
+                                            !value?.confirmed &&
+                                                HangoutDetailScreenStyle.opacity
+                                        ]}
                                     >
-                                        {value.name}
-                                    </Text>
-                                </TouchableOpacity>
-                            )
+                                        <FastImage
+                                            style={
+                                                HangoutDetailScreenStyle.peopleImage
+                                            }
+                                            source={{
+                                                uri: value?.profilePicture
+                                            }}
+                                        />
+                                        <Text
+                                            style={
+                                                HangoutDetailScreenStyle.peopleText
+                                            }
+                                        >
+                                            {value?.name}
+                                        </Text>
+                                    </TouchableOpacity>
+                                )
+                        )
+                    ) : (
+                        <View
+                            style={
+                                HangoutDetailScreenStyle.peopleTouchableOpacity
+                            }
+                        >
+                            <FastImage
+                                style={HangoutDetailScreenStyle.peopleImage}
+                                source={{ uri: hangout?.picture }}
+                            />
+                            <Text style={HangoutDetailScreenStyle.peopleText}>
+                                {hangout?.title}
+                            </Text>
+                        </View>
                     )}
                     <IconButton
                         icon={IconEnum.PLUS}

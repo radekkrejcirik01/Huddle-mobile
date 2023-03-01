@@ -1,7 +1,10 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
-import { NavigationScreenHeader } from '@navigation/StackNavigators/StackNavigator.options';
+import {
+    NavigationScreenHeader,
+    NoTitle
+} from '@navigation/StackNavigators/StackNavigator.options';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { EventScreen } from '@screens/account/EventScreen/EventScreen';
 import { HangoutsScreen } from '@screens/account/HangoutsScreen/HangoutsScreen';
@@ -18,6 +21,7 @@ import { PictureScreen } from '@screens/account/PictureScreen/PictureScreen';
 import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
 import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/DeleteAccountScreen';
+import { HangoutDetailScreen } from '@screens/account/HangoutDetailScreen/HangoutDetailScreen';
 import {
     AccountTitle,
     ChangePasswordTitle,
@@ -30,10 +34,8 @@ import {
     NotificationsTitle,
     PeopleOptions,
     PickPeopleTitle,
-    PictureOptions,
     ProfileTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
-import { HangoutDetailScreen } from '@screens/account/HangoutDetailScreen/HangoutDetailScreen';
 
 const Account = createStackNavigator<ParamListBase>();
 
@@ -82,7 +84,7 @@ export const AccountStackNavigator = (): JSX.Element => (
         <Account.Screen
             name={AccountStackNavigatorEnum.ChatScreen}
             component={ChatScreen}
-            options={NavigationScreenHeader}
+            options={{ ...NavigationScreenHeader, ...NoTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.ChatDetailScreen}
@@ -95,7 +97,7 @@ export const AccountStackNavigator = (): JSX.Element => (
         <Account.Screen
             name={AccountStackNavigatorEnum.PictureScreen}
             component={PictureScreen}
-            options={PictureOptions}
+            options={{ ...NavigationScreenHeader, ...NoTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.EventScreen}

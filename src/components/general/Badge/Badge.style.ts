@@ -3,10 +3,11 @@ import COLORS from '@constants/COLORS';
 
 export const BadgeStyle = StyleSheet.create({
     view: {
-        width: 15,
-        height: 15,
+        minHeight: 15,
+        minWidth: 15,
         top: -5,
         right: -5,
+        paddingHorizontal: 2,
         borderRadius: 10,
         backgroundColor: COLORS.RED,
         position: 'absolute',

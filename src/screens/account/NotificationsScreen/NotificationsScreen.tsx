@@ -119,6 +119,10 @@ export const NotificationsScreen = (): JSX.Element => {
                     }
                     renderItem={renderItem}
                     estimatedItemSize={68}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={
+                        NotificationsScreenStyle.contentContainer
+                    }
                 />
             </View>
         </View>

@@ -12,7 +12,7 @@ export default {
     LIGHTGRAY_300: '#A9A9A9',
     LIGHTGRAY: 'lightgray',
     TRANSPARENT: 'transparent',
-    BLACK: '#000000',
+    BLACK: '#0d0d0d',
     BLACK_100: '#4d4d4d',
     BLACK_200: '#262626',
     BLACK_300: '#1a1a1a'

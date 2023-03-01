@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { useNavigation } from '@react-navigation/native';
+import * as Animatable from 'react-native-animatable';
 import { ChatList } from '@components/chat/ChatList/ChatList';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import { ChatScreenProps } from '@screens/account/ChatScreen/ChatScreen.props';
@@ -12,12 +13,16 @@ import { ConversationsCreateInterface } from '@interfaces/post/Post.inteface';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { useOpenPhoto } from '@hooks/useOpenPhoto';
+import { TypingIndicatorEnum } from '@components/general/TypingIndicator/TypingIndicator.enum';
+import { TypingIndicator } from '@components/general/TypingIndicator/TypingIndicator';
+import { useTypingIndicator } from '@hooks/useTypingIndicator';
 
 export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
     const { conversationId = 0, image, usernames, title } = route.params;
 
     const openPhoto = useOpenPhoto();
     const navigation = useNavigation();
+    const { isTyping } = useTypingIndicator(conversationId);
 
     const [id, setId] = useState<number>(conversationId);
 
@@ -32,24 +37,61 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
         );
     }, [navigation]);
 
+    const animation = useMemo(
+        (): string => (!isTyping ? 'fadeIn' : 'fadeOut'),
+        [isTyping]
+    );
+
     useEffect(
         () =>
             navigation.setOptions({
-                headerTitle: () => (
-                    <TouchableOpacity onPress={openConversationDetail}>
-                        <Text style={ChatScreenStyle.headerTitle}>{title}</Text>
-                    </TouchableOpacity>
-                ),
                 headerRight: () => (
-                    <TouchableOpacity disabled={!image} onPress={onPhotoPress}>
-                        <FastImage
-                            source={{ uri: image }}
-                            style={ChatScreenStyle.image}
-                        />
-                    </TouchableOpacity>
+                    <View style={ChatScreenStyle.headerRightView}>
+                        <View style={ChatScreenStyle.headerRightRow}>
+                            {isTyping ? (
+                                <TypingIndicator
+                                    conversationId={conversationId}
+                                    type={TypingIndicatorEnum.Chat}
+                                />
+                            ) : (
+                                <Animatable.Text
+                                    animation={animation}
+                                    duration={300}
+                                >
+                                    <TouchableOpacity
+                                        onPress={openConversationDetail}
+                                    >
+                                        <Text
+                                            style={ChatScreenStyle.headerTitle}
+                                        >
+                                            {title}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </Animatable.Text>
+                            )}
+                        </View>
+                        <TouchableOpacity
+                            disabled={!image}
+                            onPress={onPhotoPress}
+                        >
+                            <FastImage
+                                source={{ uri: image }}
+                                style={ChatScreenStyle.image}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 )
             }),
-        [image, navigation, onPhotoPress, openConversationDetail, title]
+        [
+            animation,
+            conversationId,
+            image,
+            isTyping,
+            navigation,
+            onPhotoPress,
+            openConversationDetail,
+            title
+        ]
     );
 
     const createConversation = useCallback(() => {
