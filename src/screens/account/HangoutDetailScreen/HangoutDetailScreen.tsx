@@ -74,10 +74,10 @@ export const HangoutDetailScreen = ({
 
     const [isSave, setIsSave] = useState<boolean>(false);
 
-    const [photoValue, setPhotoValue] = useState<string>(photo);
-    const [titleValue, setTitleValue] = useState<string>(title);
-    const [timeValue, setTimeValue] = useState<Moment>(time);
-    const [planValue, setPlanValue] = useState<string>(plan);
+    const [photoValue, setPhotoValue] = useState<string>();
+    const [titleValue, setTitleValue] = useState<string>();
+    const [timeValue, setTimeValue] = useState<Moment>();
+    const [planValue, setPlanValue] = useState<string>();
 
     const [openDatePicker, setOpenDatePicker] = useState(false);
     const minimumDate = new Date(moment().toString());
@@ -152,7 +152,7 @@ export const HangoutDetailScreen = ({
             planValue === plan
         ) {
             setIsSave(false);
-        } else {
+        } else if (typeof title === 'string') {
             setIsSave(true);
         }
     }, [

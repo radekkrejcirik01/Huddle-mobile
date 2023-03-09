@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert, Keyboard, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { IconEnum } from '@components/icon/Icon.enum';
@@ -31,6 +31,11 @@ export const HeaderPlus = (): JSX.Element => {
 
     const [username, setUsername] = useState<string>();
 
+    const hideKeyboardAndModal = useCallback(() => {
+        Keyboard.dismiss();
+        hideModal();
+    }, [hideModal]);
+
     const onSend = useCallback(() => {
         postRequest<ResponseInterface, PeopleCreateInvitationPostInterface>(
             'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/create/people/invitation',
@@ -45,7 +50,7 @@ export const HeaderPlus = (): JSX.Element => {
                         {
                             text: 'Go to noifications',
                             onPress: () => {
-                                hideModal();
+                                hideKeyboardAndModal();
                                 navigateTo(
                                     AccountStackNavigatorEnum.NotificationsScreen
                                 );
@@ -65,13 +70,14 @@ export const HeaderPlus = (): JSX.Element => {
                 }
             }
         });
-    }, [hideModal, navigateTo, user, username]);
+    }, [hideKeyboardAndModal, navigateTo, user, username]);
 
     const content = useMemo(
         (): JSX.Element => (
             <View style={HeaderPlusStyle.modalContainer}>
                 <Text style={HeaderPlusStyle.title}>Add a friend</Text>
                 <Input
+                    autoFocus
                     iconLeft={<Text>✉️</Text>}
                     placeholder="Username"
                     value={username}
@@ -125,7 +131,8 @@ export const HeaderPlus = (): JSX.Element => {
             <Modal
                 isVisible={modalVisible}
                 content={content}
-                onClose={hideModal}
+                backdropOpacity={0.7}
+                onClose={hideKeyboardAndModal}
             />
         </>
     );

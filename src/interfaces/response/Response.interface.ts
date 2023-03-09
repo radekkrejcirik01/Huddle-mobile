@@ -81,7 +81,33 @@ export interface ResponseNotificationsGetInterface {
 export interface ResponseConversationCreateInterface {
     status: string;
     message: string;
-    conversationId: number;
+    data?: {
+        id: number;
+        name: string;
+        picture: string;
+        users: Array<{
+            username: string;
+            firstname: string;
+            profilePicture: string;
+        }>;
+    };
+}
+
+export interface ConversationDetailsInterface {
+    id: number;
+    name: string;
+    picture: string;
+    users: Array<{
+        username: string;
+        firstname: string;
+        profilePicture: string;
+    }>;
+}
+
+export interface ResponseGetConversationDetailsInterface {
+    status: string;
+    message: string;
+    data?: ConversationDetailsInterface;
 }
 
 export interface ResponseUploadImageInterface {

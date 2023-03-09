@@ -1,30 +1,50 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation as useDefaultNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 import { ChatList } from '@components/chat/ChatList/ChatList';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import { ChatScreenProps } from '@screens/account/ChatScreen/ChatScreen.props';
 import { ChatScreenStyle } from '@screens/account/ChatScreen/ChatScreen.style';
 import { postRequest } from '@utils/Axios/Axios.service';
-import { ResponseConversationCreateInterface } from '@interfaces/response/Response.interface';
-import { ConversationsCreateInterface } from '@interfaces/post/Post.inteface';
+import {
+    ConversationDetailsInterface,
+    ResponseConversationCreateInterface,
+    ResponseGetConversationDetailsInterface
+} from '@interfaces/response/Response.interface';
+import {
+    ConversationsCreateInterface,
+    GetConversationsDetailsInterface
+} from '@interfaces/post/Post.inteface';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { useOpenPhoto } from '@hooks/useOpenPhoto';
 import { TypingIndicatorEnum } from '@components/general/TypingIndicator/TypingIndicator.enum';
 import { TypingIndicator } from '@components/general/TypingIndicator/TypingIndicator';
 import { useTypingIndicator } from '@hooks/useTypingIndicator';
+import { ReducerProps } from '@store/index/index.props';
+import { useNavigation } from '@hooks/useNavigation';
+import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
-    const { conversationId = 0, image, usernames, title } = route.params;
+    const { conversationId = 0, usernames } = route.params;
+
+    const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const openPhoto = useOpenPhoto();
-    const navigation = useNavigation();
+    const navigation = useDefaultNavigation();
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const { isTyping } = useTypingIndicator(conversationId);
 
     const [id, setId] = useState<number>(conversationId);
+    const [isGroup, setIsGroup] = useState<boolean>(false);
+    const [title, setTitle] = useState<string>();
+    const [image, setImage] = useState<string>();
+    const [conversationUsers, setConversationUsers] = useState<
+        ConversationDetailsInterface['users']
+    >([]);
 
     const onPhotoPress = useCallback(
         () => openPhoto(image),
@@ -32,15 +52,48 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
     );
 
     const openConversationDetail = useCallback(() => {
-        navigation.navigate(
-            AccountStackNavigatorEnum.ChatDetailScreen as never
-        );
-    }, [navigation]);
+        navigateTo(AccountStackNavigatorEnum.ChatDetailScreen, {
+            conversationId
+        });
+    }, [conversationId, navigateTo]);
 
     const animation = useMemo(
         (): string => (!isTyping ? 'fadeIn' : 'fadeOut'),
         [isTyping]
     );
+
+    const TitleComponent = useCallback((): JSX.Element => {
+        if (isGroup && !title) {
+            return (
+                <TouchableOpacity
+                    onPress={openConversationDetail}
+                    style={ChatScreenStyle.headerUsersView}
+                >
+                    {conversationUsers.map((value) => (
+                        <View
+                            key={value.username}
+                            style={ChatScreenStyle.headerUsersItemView}
+                        >
+                            <FastImage
+                                source={{ uri: value?.profilePicture }}
+                                style={ChatScreenStyle.headerUsersItemImage}
+                            />
+                            <Text style={ChatScreenStyle.headerUsersItemText}>
+                                {value.firstname}
+                            </Text>
+                        </View>
+                    ))}
+                </TouchableOpacity>
+            );
+        }
+        return (
+            <Animatable.Text animation={animation} duration={300}>
+                <TouchableOpacity onPress={openConversationDetail}>
+                    <Text style={ChatScreenStyle.headerTitle}>{title}</Text>
+                </TouchableOpacity>
+            </Animatable.Text>
+        );
+    }, [animation, conversationUsers, isGroup, openConversationDetail, title]);
 
     useEffect(
         () =>
@@ -54,20 +107,7 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
                                     type={TypingIndicatorEnum.Chat}
                                 />
                             ) : (
-                                <Animatable.Text
-                                    animation={animation}
-                                    duration={300}
-                                >
-                                    <TouchableOpacity
-                                        onPress={openConversationDetail}
-                                    >
-                                        <Text
-                                            style={ChatScreenStyle.headerTitle}
-                                        >
-                                            {title}
-                                        </Text>
-                                    </TouchableOpacity>
-                                </Animatable.Text>
+                                <TitleComponent />
                             )}
                         </View>
                         <TouchableOpacity
@@ -83,34 +123,55 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
                 )
             }),
         [
-            animation,
+            TitleComponent,
             conversationId,
             image,
             isTyping,
             navigation,
-            onPhotoPress,
-            openConversationDetail,
-            title
+            onPhotoPress
         ]
     );
 
     const createConversation = useCallback(() => {
-        if (!conversationId) {
+        if (conversationId) {
+            postRequest<
+                ResponseGetConversationDetailsInterface,
+                GetConversationsDetailsInterface
+            >(
+                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/get/conversation/details',
+                {
+                    conversationId,
+                    username
+                }
+            ).subscribe((response: ResponseGetConversationDetailsInterface) => {
+                if (response?.status) {
+                    setIsGroup(response?.data?.users?.length > 2);
+                    setTitle(response?.data?.name);
+                    setImage(response?.data?.picture);
+                    setConversationUsers(response?.data?.users);
+                }
+            });
+        } else {
             postRequest<
                 ResponseConversationCreateInterface,
                 ConversationsCreateInterface
             >(
                 'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/create/conversation',
                 {
-                    usernames
+                    usernames,
+                    username
                 }
             ).subscribe((response: ResponseConversationCreateInterface) => {
                 if (response?.status) {
-                    setId(response?.conversationId);
+                    setId(response?.data?.id);
+                    setIsGroup(response?.data?.users?.length > 2);
+                    setTitle(response?.data?.name);
+                    setImage(response?.data?.picture);
+                    setConversationUsers(response?.data?.users);
                 }
             });
         }
-    }, [conversationId, usernames]);
+    }, [conversationId, username, usernames]);
 
     useEffect(() => createConversation(), [createConversation]);
 

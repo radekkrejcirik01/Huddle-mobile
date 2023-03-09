@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { StyleProp, Text, View, ViewStyle } from 'react-native';
+import { StyleProp, Text, TextStyle, View, ViewStyle } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 import COLORS from '@constants/COLORS';
@@ -26,8 +26,15 @@ export const NotificationsListItem = ({
     const [accepted, setAccepted] = useState<boolean>();
 
     const acceptButtonColor = useMemo(
+        (): StyleProp<TextStyle> => ({
+            color: accepted ? COLORS.WHITE : COLORS.GRAY_100
+        }),
+        [accepted]
+    );
+
+    const acceptButtonBackgroundColor = useMemo(
         (): StyleProp<ViewStyle> => ({
-            backgroundColor: accepted ? COLORS.GRAY_100 : COLORS.MAIN_BLUE
+            backgroundColor: accepted ? COLORS.GRAY_100 : COLORS.MAIN_WHITE
         }),
         [accepted]
     );
@@ -147,10 +154,15 @@ export const NotificationsListItem = ({
                     onPress={onButtonPress}
                     style={[
                         NotificationsListItemStyle.acceptButton,
-                        acceptButtonColor
+                        acceptButtonBackgroundColor
                     ]}
                 >
-                    <Text style={NotificationsListItemStyle.acceptText}>
+                    <Text
+                        style={[
+                            NotificationsListItemStyle.acceptText,
+                            acceptButtonColor
+                        ]}
+                    >
                         {buttonText}
                     </Text>
                 </TouchableOpacity>

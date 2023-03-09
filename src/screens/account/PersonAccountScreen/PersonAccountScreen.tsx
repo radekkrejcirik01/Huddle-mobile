@@ -60,9 +60,9 @@ export const PersonAccountScreen = ({
 
     useEffect(() => {
         navigation.setOptions({
-            title: username
+            title: firstname
         });
-    }, [navigation, username]);
+    }, [firstname, navigation]);
 
     useEffect(() => {
         if (checkInvitation) {
@@ -116,7 +116,7 @@ export const PersonAccountScreen = ({
             return 'Accept friend invite';
         }
         if (personState === PersonStateEnum.Friends) {
-            return 'Send';
+            return '👋';
         }
         if (personState === PersonStateEnum.WaitingForFriendInviteAccept) {
             return null;
@@ -208,9 +208,6 @@ export const PersonAccountScreen = ({
                             style={PersonAccountScreenStyle.image}
                         />
                     </TouchableOpacity>
-                    <Text style={PersonAccountScreenStyle.name}>
-                        {firstname}
-                    </Text>
                 </View>
                 <HangoutPicker
                     isVisible={

@@ -19,7 +19,6 @@ export interface MessagesGetInterface {
 export interface SendMessageInterface {
     sender: string;
     name: string;
-    picture: string;
     conversationId: number;
     message: string;
     buffer?: string;
@@ -88,6 +87,12 @@ export interface SendHangoutInvitation {
 
 export interface ConversationsCreateInterface {
     usernames: Array<string>;
+    username: string;
+}
+
+export interface GetConversationsDetailsInterface {
+    conversationId: number;
+    username: string;
 }
 
 export interface ConversationDeleteInterface {

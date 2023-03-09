@@ -25,11 +25,16 @@ export const HangoutPickerStyle = StyleSheet.create({
         marginRight: 5,
         padding: 7,
         borderRadius: 15,
-        backgroundColor: COLORS.MAIN_BLUE
+        backgroundColor: COLORS.MAIN_WHITE
     },
     tagText: {
         fontSize: 15,
         color: COLORS.WHITE,
+        fontWeight: '500'
+    },
+    peopleText: {
+        fontSize: 15,
+        color: COLORS.GRAY_100,
         fontWeight: '500'
     },
     inputContainer: {

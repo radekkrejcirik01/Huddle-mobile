@@ -128,11 +128,9 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
 
     const onOpenChat = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.ChatScreen, {
-            title: data?.title,
-            usernames,
-            image: data?.picture
+            usernames
         });
-    }, [navigateTo, data?.title, data?.picture, usernames]);
+    }, [navigateTo, usernames]);
 
     return (
         <ScrollView contentContainerStyle={EventScreenStyle.contentContainer}>

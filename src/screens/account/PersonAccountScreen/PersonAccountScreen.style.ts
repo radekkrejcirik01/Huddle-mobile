@@ -31,11 +31,11 @@ export const PersonAccountScreenStyle = StyleSheet.create({
         fontWeight: '500'
     },
     mainButtonTouchableOpacity: {
-        minWidth: 100,
+        minWidth: 85,
         marginTop: 25,
         padding: 12,
         borderRadius: 20,
-        backgroundColor: COLORS.MAIN_BLUE,
+        backgroundColor: COLORS.MAIN_WHITE,
         alignItems: 'center'
     },
     text: {

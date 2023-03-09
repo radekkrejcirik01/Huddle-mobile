@@ -137,13 +137,21 @@ export const HangoutPicker = ({
                                             {
                                                 backgroundColor:
                                                     tappedWhen === value
-                                                        ? COLORS.MAIN_BLUE
+                                                        ? COLORS.MAIN_WHITE
                                                         : COLORS.BLACK
                                             }
                                         ]}
                                     >
                                         <Text
-                                            style={HangoutPickerStyle.tagText}
+                                            style={[
+                                                HangoutPickerStyle.tagText,
+                                                {
+                                                    color:
+                                                        tappedWhen === value
+                                                            ? COLORS.GRAY_100
+                                                            : COLORS.WHITE
+                                                }
+                                            ]}
                                         >
                                             {value}
                                         </Text>
@@ -187,12 +195,22 @@ export const HangoutPicker = ({
                                         {
                                             backgroundColor:
                                                 tappedTime === value
-                                                    ? COLORS.MAIN_BLUE
+                                                    ? COLORS.MAIN_WHITE
                                                     : COLORS.BLACK
                                         }
                                     ]}
                                 >
-                                    <Text style={HangoutPickerStyle.tagText}>
+                                    <Text
+                                        style={[
+                                            HangoutPickerStyle.tagText,
+                                            {
+                                                color:
+                                                    tappedTime === value
+                                                        ? COLORS.GRAY_100
+                                                        : COLORS.WHITE
+                                            }
+                                        ]}
+                                    >
                                         {value}
                                     </Text>
                                 </TouchableOpacity>
@@ -224,7 +242,9 @@ export const HangoutPicker = ({
                                         style={HangoutPickerStyle.peopleItem}
                                     >
                                         <Text
-                                            style={HangoutPickerStyle.tagText}
+                                            style={
+                                                HangoutPickerStyle.peopleText
+                                            }
                                         >
                                             {value}
                                         </Text>

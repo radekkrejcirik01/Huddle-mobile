@@ -19,13 +19,13 @@ export const SectionListStyle = StyleSheet.create({
         marginBottom: 5,
         padding: 10,
         borderRadius: 15,
-        backgroundColor: COLORS.MAIN_BLUE
+        backgroundColor: COLORS.MAIN_WHITE
     },
     itemRow: {
         flexDirection: 'row'
     },
     itemText: {
-        color: COLORS.WHITE
+        color: COLORS.GRAY_100
     },
     itemImage: {
         width: 35,

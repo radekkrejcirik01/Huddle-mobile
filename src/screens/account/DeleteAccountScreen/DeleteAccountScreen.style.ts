@@ -26,12 +26,12 @@ export const DeleteAccountScreenStyle = StyleSheet.create({
         marginTop: 30,
         padding: 10,
         borderRadius: 20,
-        backgroundColor: COLORS.MAIN_BLUE,
+        backgroundColor: COLORS.MAIN_WHITE,
         alignSelf: 'center'
     },
     notNow: {
         fontSize: 17,
-        color: COLORS.WHITE,
+        color: COLORS.GRAY_100,
         fontWeight: '600'
     }
 });

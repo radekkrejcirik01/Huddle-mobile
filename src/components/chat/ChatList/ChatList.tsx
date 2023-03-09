@@ -121,7 +121,6 @@ export const ChatList = ({
                 {
                     sender: username,
                     name: firstname,
-                    picture,
                     conversationId,
                     message: messageValue,
                     buffer,
@@ -133,14 +132,7 @@ export const ChatList = ({
                 }
             });
         },
-        [
-            conversationId,
-            firstname,
-            loadMessages,
-            messageValue,
-            picture,
-            username
-        ]
+        [conversationId, firstname, loadMessages, messageValue, username]
     );
 
     const openPhoto = useCallback(() => {

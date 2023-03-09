@@ -2,6 +2,7 @@ export default {
     RED: '#FF0000',
     MAIN_RED: '#ff5555',
     MAIN_BLUE: '#634bed',
+    MAIN_WHITE: '#ffd9b3',
     MAIN_BLUE_100: '#735def',
     MAIN_BLUE_200: '#755def',
     WHITE: '#ffffff',
