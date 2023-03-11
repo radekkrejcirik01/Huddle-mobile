@@ -5,8 +5,7 @@ export const SectionListStyle = StyleSheet.create({
     sectionHeader: {
         paddingBottom: 5,
         fontSize: 15,
-        color: COLORS.WHITE,
-        backgroundColor: COLORS.BLACK,
+        color: COLORS.MAIN_WHITE,
         fontWeight: 'bold'
     },
     itemContainer: {

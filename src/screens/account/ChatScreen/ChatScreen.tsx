@@ -35,7 +35,6 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
 
     const openPhoto = useOpenPhoto();
     const navigation = useDefaultNavigation();
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const { isTyping } = useTypingIndicator(conversationId);
 
     const [id, setId] = useState<number>(conversationId);
@@ -46,6 +45,58 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
         ConversationDetailsInterface['users']
     >([]);
 
+    const getConversationDetails = useCallback(() => {
+        if (conversationId) {
+            postRequest<
+                ResponseGetConversationDetailsInterface,
+                GetConversationsDetailsInterface
+            >(
+                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/get/conversation/details',
+                {
+                    conversationId,
+                    username
+                }
+            ).subscribe((response: ResponseGetConversationDetailsInterface) => {
+                if (response?.status) {
+                    setIsGroup(response?.data?.users?.length > 2);
+                    setTitle(response?.data?.name);
+                    setImage(response?.data?.picture);
+                    setConversationUsers(response?.data?.users);
+                }
+            });
+        }
+    }, [conversationId, username]);
+
+    const { navigateTo } = useNavigation(
+        RootStackNavigatorEnum.AccountStack,
+        getConversationDetails
+    );
+
+    const createConversation = useCallback(() => {
+        if (!conversationId) {
+            postRequest<
+                ResponseConversationCreateInterface,
+                ConversationsCreateInterface
+            >(
+                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/create/conversation',
+                {
+                    usernames,
+                    username
+                }
+            ).subscribe((response: ResponseConversationCreateInterface) => {
+                if (response?.status) {
+                    setId(response?.data?.id);
+                    setIsGroup(response?.data?.users?.length > 2);
+                    setTitle(response?.data?.name);
+                    setImage(response?.data?.picture);
+                    setConversationUsers(response?.data?.users);
+                }
+            });
+        }
+    }, [conversationId, username, usernames]);
+
+    useEffect(() => createConversation(), [createConversation]);
+
     const onPhotoPress = useCallback(
         () => openPhoto(image),
         [image, openPhoto]
@@ -53,9 +104,9 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
 
     const openConversationDetail = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.ChatDetailScreen, {
-            conversationId
+            conversationId: id
         });
-    }, [conversationId, navigateTo]);
+    }, [id, navigateTo]);
 
     const animation = useMemo(
         (): string => (!isTyping ? 'fadeIn' : 'fadeOut'),
@@ -103,7 +154,7 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
                         <View style={ChatScreenStyle.headerRightRow}>
                             {isTyping ? (
                                 <TypingIndicator
-                                    conversationId={conversationId}
+                                    conversationId={id}
                                     type={TypingIndicatorEnum.Chat}
                                 />
                             ) : (
@@ -122,58 +173,8 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
                     </View>
                 )
             }),
-        [
-            TitleComponent,
-            conversationId,
-            image,
-            isTyping,
-            navigation,
-            onPhotoPress
-        ]
+        [TitleComponent, id, image, isTyping, navigation, onPhotoPress]
     );
-
-    const createConversation = useCallback(() => {
-        if (conversationId) {
-            postRequest<
-                ResponseGetConversationDetailsInterface,
-                GetConversationsDetailsInterface
-            >(
-                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/get/conversation/details',
-                {
-                    conversationId,
-                    username
-                }
-            ).subscribe((response: ResponseGetConversationDetailsInterface) => {
-                if (response?.status) {
-                    setIsGroup(response?.data?.users?.length > 2);
-                    setTitle(response?.data?.name);
-                    setImage(response?.data?.picture);
-                    setConversationUsers(response?.data?.users);
-                }
-            });
-        } else {
-            postRequest<
-                ResponseConversationCreateInterface,
-                ConversationsCreateInterface
-            >(
-                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/create/conversation',
-                {
-                    usernames,
-                    username
-                }
-            ).subscribe((response: ResponseConversationCreateInterface) => {
-                if (response?.status) {
-                    setId(response?.data?.id);
-                    setIsGroup(response?.data?.users?.length > 2);
-                    setTitle(response?.data?.name);
-                    setImage(response?.data?.picture);
-                    setConversationUsers(response?.data?.users);
-                }
-            });
-        }
-    }, [conversationId, username, usernames]);
-
-    useEffect(() => createConversation(), [createConversation]);
 
     return (
         <SafeAreaView>

@@ -1,9 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { ImageRequireSource, ScrollView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import FastImage, { Source } from 'react-native-fast-image';
+import ImagePicker from 'react-native-image-crop-picker';
+import fs from 'react-native-fs';
 import { ChatDetailScreenStyle } from '@screens/account/ChatDetailScreen/ChatDetailScreen.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { useOpenPhoto } from '@hooks/useOpenPhoto';
@@ -12,9 +20,13 @@ import { ReducerProps } from '@store/index/index.props';
 import { postRequest } from '@utils/Axios/Axios.service';
 import {
     ConversationDetailsInterface,
-    ResponseGetConversationDetailsInterface
+    ResponseGetConversationDetailsInterface,
+    ResponseInterface
 } from '@interfaces/response/Response.interface';
-import { GetConversationsDetailsInterface } from '@interfaces/post/Post.inteface';
+import {
+    ConversationUpdateInterface,
+    GetConversationsDetailsInterface
+} from '@interfaces/post/Post.inteface';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import { ListItem } from '@components/general/ListItem/ListItem';
@@ -43,6 +55,11 @@ export const ChatDetailScreen = ({
         ConversationDetailsInterface['users']
     >([]);
 
+    const photoRef = useRef<{ buffer: string; fileName: string }>({
+        buffer: null,
+        fileName: null
+    });
+
     useEffect(() => {
         postRequest<
             ResponseGetConversationDetailsInterface,
@@ -64,7 +81,33 @@ export const ChatDetailScreen = ({
         });
     }, [conversationId, username]);
 
-    const save = useCallback(() => {}, []);
+    const save = useCallback(() => {
+        postRequest<ResponseInterface, ConversationUpdateInterface>(
+            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/update/conversation',
+            {
+                id: conversationId,
+                buffer:
+                    conversationDetails?.picture === photo
+                        ? null
+                        : photoRef?.current?.buffer,
+                fileName:
+                    conversationDetails?.picture === photo
+                        ? null
+                        : photoRef?.current?.fileName,
+                name: conversationDetails?.name === title ? null : title
+            }
+        ).subscribe((response: ResponseInterface) => {
+            if (response?.status) {
+                setIsSave(false);
+            }
+        });
+    }, [
+        conversationDetails?.name,
+        conversationDetails?.picture,
+        conversationId,
+        photo,
+        title
+    ]);
 
     useEffect(() => {
         if (
@@ -89,7 +132,19 @@ export const ChatDetailScreen = ({
         });
     }, [isSave, navigation, save]);
 
-    const changePhotoPress = useCallback(() => {}, []);
+    const changePhotoPress = () => {
+        ImagePicker.openPicker({
+            width: 500,
+            height: 500,
+            cropping: true,
+            waitAnimationEnd: false
+        }).then(async (image) => {
+            photoRef.current.buffer = await fs.readFile(image?.path, 'base64');
+            photoRef.current.fileName = image.filename;
+
+            setPhoto(image.path);
+        });
+    };
 
     const onPhotoPress = useCallback(
         () => openPhoto(photo),

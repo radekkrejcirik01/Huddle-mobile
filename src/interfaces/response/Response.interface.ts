@@ -1,9 +1,9 @@
-import { Moment } from 'moment';
 import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { ChatDataProps } from '@components/chat/ChatList/ChatList.props';
 import { ComingsUpDataInterface } from '@components/general/SectionList/SectionList.props';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
 import { EventScreenDataInterface } from '@screens/account/EventScreen/EventScreen.props';
+import { MessagesListDataProps } from '@screens/account/MessagesScreen/MessagesScreen.props';
 
 export interface ResponseInterface {
     status: string;
@@ -44,14 +44,7 @@ export interface ResponseCheckInvitationsInterface {
 export interface ResponseConversationsGetInterface {
     status: string;
     message: string;
-    data?: Array<{
-        id: number;
-        name: string;
-        picture: string;
-        message: string;
-        time: Moment;
-        isRead: number;
-    }>;
+    data?: Array<MessagesListDataProps>;
 }
 
 export interface MessagesResponseInterface {

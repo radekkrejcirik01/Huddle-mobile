@@ -27,6 +27,30 @@ export const MessagesItem = ({
         [item.isRead]
     );
 
+    const Title = useCallback((): JSX.Element => {
+        if (!item?.name && item?.usernames.length > 2) {
+            return (
+                <View style={MessagesItemStyle.titleRow}>
+                    {item?.usernames.map((value) => (
+                        <View
+                            key={value.username}
+                            style={MessagesItemStyle.row}
+                        >
+                            <FastImage
+                                source={{ uri: value?.profilePicture }}
+                                style={MessagesItemStyle.titleImage}
+                            />
+                            <Text style={MessagesItemStyle.titleText}>
+                                {value?.firstname}
+                            </Text>
+                        </View>
+                    ))}
+                </View>
+            );
+        }
+        return <Text style={MessagesItemStyle.text}>{item?.name}</Text>;
+    }, [item?.name, item.usernames]);
+
     return (
         <SwipeableView onDelete={() => onDelete(item.id)}>
             <TouchableOpacity
@@ -43,9 +67,7 @@ export const MessagesItem = ({
                     </View>
                     <View style={MessagesItemStyle.box}>
                         <View style={MessagesItemStyle.firstRow}>
-                            <Text style={MessagesItemStyle.text}>
-                                {item.name}
-                            </Text>
+                            <Title />
                             <Text
                                 style={[MessagesItemStyle.text, opacityStyle]}
                             >

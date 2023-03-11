@@ -145,3 +145,10 @@ export interface UploadProfileImageInterface {
     buffer: string;
     fileName: string;
 }
+
+export interface ConversationUpdateInterface {
+    id: number;
+    buffer: string;
+    fileName: string;
+    name: string;
+}
