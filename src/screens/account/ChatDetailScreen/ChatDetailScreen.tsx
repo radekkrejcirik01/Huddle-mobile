@@ -32,6 +32,7 @@ import {
 import {
     ConversationDeleteInterface,
     ConversationUpdateInterface,
+    ConversationUserRemoveInterface,
     GetConversationsDetailsInterface
 } from '@interfaces/post/Post.inteface';
 import { Input } from '@components/general/Input/Input';
@@ -225,7 +226,34 @@ export const ChatDetailScreen = ({
         );
     }, [deleteChat]);
 
-    const leaveChat = useCallback(() => {}, []);
+    const leaveChat = useCallback(() => {
+        postRequest<ResponseInterface, ConversationUserRemoveInterface>(
+            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/remove/conversation/user',
+            {
+                conversationId,
+                username
+            }
+        ).subscribe((response: ResponseInterface) => {
+            if (response?.status) {
+                navigateTo(AccountStackNavigatorEnum.ChatScreen);
+                navigateBack();
+            }
+        });
+    }, [conversationId, navigateBack, navigateTo, username]);
+
+    const onLeaveChatPress = useCallback(() => {
+        Alert.alert('Are you sure?', '', [
+            {
+                text: 'Cancel',
+                style: 'cancel'
+            },
+            {
+                text: 'Yes',
+                onPress: leaveChat,
+                style: 'destructive'
+            }
+        ]);
+    }, [leaveChat]);
 
     return (
         <ScrollView
@@ -299,7 +327,7 @@ export const ChatDetailScreen = ({
                 ) : (
                     <ListItem
                         title="Leave chat"
-                        onPress={leaveChat}
+                        onPress={onLeaveChatPress}
                         textStyle={ChatDetailScreenStyle.listItemText}
                     />
                 )}

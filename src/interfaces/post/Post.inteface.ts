@@ -100,6 +100,11 @@ export interface ConversationRemoveInterface {
     username: string;
 }
 
+export interface ConversationUserRemoveInterface {
+    conversationId: number;
+    username: string;
+}
+
 export interface ConversationDeleteInterface {
     conversationId: number;
 }
