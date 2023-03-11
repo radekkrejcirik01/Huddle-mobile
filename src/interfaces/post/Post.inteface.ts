@@ -95,9 +95,13 @@ export interface GetConversationsDetailsInterface {
     username: string;
 }
 
-export interface ConversationDeleteInterface {
+export interface ConversationRemoveInterface {
     conversationId: number;
     username: string;
+}
+
+export interface ConversationDeleteInterface {
+    conversationId: number;
 }
 
 export interface AcceptPeopleInvitationInterface {

@@ -5,9 +5,15 @@ import React, {
     useRef,
     useState
 } from 'react';
-import { ImageRequireSource, ScrollView, Text, View } from 'react-native';
+import {
+    Alert,
+    ImageRequireSource,
+    ScrollView,
+    Text,
+    View
+} from 'react-native';
 import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation as useDefaultNavigation } from '@react-navigation/native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import FastImage, { Source } from 'react-native-fast-image';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -24,12 +30,16 @@ import {
     ResponseInterface
 } from '@interfaces/response/Response.interface';
 import {
+    ConversationDeleteInterface,
     ConversationUpdateInterface,
     GetConversationsDetailsInterface
 } from '@interfaces/post/Post.inteface';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import { ListItem } from '@components/general/ListItem/ListItem';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { useNavigation } from '@hooks/useNavigation';
+import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const ChatDetailScreen = ({
     route
@@ -37,10 +47,12 @@ export const ChatDetailScreen = ({
     const { conversationId } = route.params;
 
     const { username } = useSelector((state: ReducerProps) => state.user.user);
-    const createdBy = username;
 
     const openPhoto = useOpenPhoto();
-    const navigation = useNavigation();
+    const navigation = useDefaultNavigation();
+    const { navigateBack, navigateTo } = useNavigation(
+        RootStackNavigatorEnum.AccountStack
+    );
     const { showActionSheetWithOptions } = useActionSheet();
 
     const [isSave, setIsSave] = useState<boolean>(false);
@@ -54,6 +66,7 @@ export const ChatDetailScreen = ({
     const [conversationUsers, setConversationUsers] = useState<
         ConversationDetailsInterface['users']
     >([]);
+    const [createdBy, setCreatedBy] = useState<string>();
 
     const photoRef = useRef<{ buffer: string; fileName: string }>({
         buffer: null,
@@ -76,6 +89,7 @@ export const ChatDetailScreen = ({
                 setTitle(response?.data?.name);
                 setPhoto(response?.data?.picture);
                 setConversationUsers(response?.data?.users);
+                setCreatedBy(response?.data.createdBy);
                 setConversationDetails(response?.data);
             }
         });
@@ -179,7 +193,37 @@ export const ChatDetailScreen = ({
         [removeUserFromChat, showActionSheetWithOptions]
     );
 
-    const deleteChat = useCallback(() => {}, []);
+    const deleteChat = useCallback(() => {
+        postRequest<ResponseInterface, ConversationDeleteInterface>(
+            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/delete/conversation',
+            {
+                conversationId
+            }
+        ).subscribe((response: ResponseInterface) => {
+            if (response?.status) {
+                navigateTo(AccountStackNavigatorEnum.ChatScreen);
+                navigateBack();
+            }
+        });
+    }, [conversationId, navigateBack, navigateTo]);
+
+    const onDeleteChatPress = useCallback(() => {
+        Alert.alert(
+            'Are you sure you want to delete this conversation?',
+            'Alle messages and photos will be permanently deleted',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Confirm',
+                    onPress: deleteChat,
+                    style: 'destructive'
+                }
+            ]
+        );
+    }, [deleteChat]);
 
     const leaveChat = useCallback(() => {}, []);
 
@@ -213,50 +257,56 @@ export const ChatDetailScreen = ({
                             People 👨‍👩‍👧‍👦
                         </Text>
                         <View style={ChatDetailScreenStyle.row}>
-                            {conversationUsers?.map(
-                                (value) =>
-                                    value.username !== username && (
-                                        <TouchableOpacity
-                                            key={value.username}
-                                            onPress={() =>
-                                                onPressUser(value.username)
-                                            }
-                                            onLongPress={() =>
-                                                onPressUser(value.username)
-                                            }
-                                            style={
-                                                ChatDetailScreenStyle.peopleTouchableOpacity
-                                            }
-                                        >
-                                            <FastImage
-                                                style={
-                                                    ChatDetailScreenStyle.peopleImage
-                                                }
-                                                source={{
-                                                    uri: value?.profilePicture
-                                                }}
-                                            />
-                                            <Text
-                                                style={
-                                                    ChatDetailScreenStyle.peopleText
-                                                }
-                                            >
-                                                {value?.firstname}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    )
-                            )}
+                            {conversationUsers?.map((value) => (
+                                <TouchableOpacity
+                                    key={value.username}
+                                    onPress={() => onPressUser(value.username)}
+                                    onLongPress={() =>
+                                        onPressUser(value.username)
+                                    }
+                                    style={
+                                        ChatDetailScreenStyle.peopleTouchableOpacity
+                                    }
+                                >
+                                    <FastImage
+                                        style={
+                                            ChatDetailScreenStyle.peopleImage
+                                        }
+                                        source={{
+                                            uri: value?.profilePicture
+                                        }}
+                                    />
+                                    <Text
+                                        style={ChatDetailScreenStyle.peopleText}
+                                    >
+                                        {value?.firstname}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))}
                         </View>
                     </>
                 ) : (
                     <Text style={ChatDetailScreenStyle.title}>{title}</Text>
                 )}
             </View>
-            {createdBy === username ? (
-                <ListItem title="Delete chat" onPress={deleteChat} />
-            ) : (
-                <ListItem title="Leave chat" onPress={leaveChat} />
-            )}
+            <View>
+                {createdBy === username ? (
+                    <ListItem
+                        title="Delete chat"
+                        onPress={onDeleteChatPress}
+                        textStyle={ChatDetailScreenStyle.listItemText}
+                    />
+                ) : (
+                    <ListItem
+                        title="Leave chat"
+                        onPress={leaveChat}
+                        textStyle={ChatDetailScreenStyle.listItemText}
+                    />
+                )}
+                <Text style={ChatDetailScreenStyle.createdByText}>
+                    Crated by {createdBy}
+                </Text>
+            </View>
         </ScrollView>
     );
 };

@@ -71,21 +71,6 @@ export interface ResponseNotificationsGetInterface {
     data?: Array<NotificationsListProps>;
 }
 
-export interface ResponseConversationCreateInterface {
-    status: string;
-    message: string;
-    data?: {
-        id: number;
-        name: string;
-        picture: string;
-        users: Array<{
-            username: string;
-            firstname: string;
-            profilePicture: string;
-        }>;
-    };
-}
-
 export interface ConversationDetailsInterface {
     id: number;
     name: string;
@@ -95,6 +80,13 @@ export interface ConversationDetailsInterface {
         firstname: string;
         profilePicture: string;
     }>;
+    createdBy: string;
+}
+
+export interface ResponseConversationCreateInterface {
+    status: string;
+    message: string;
+    data?: ConversationDetailsInterface;
 }
 
 export interface ResponseGetConversationDetailsInterface {

@@ -19,7 +19,8 @@ export const ListItem = ({
     switchValue,
     hasArrow,
     onPress,
-    style
+    style,
+    textStyle
 }: ListItemProps): JSX.Element => {
     const [valueSwitch, setValueSwitch] = useState<boolean>(switchValue);
 
@@ -43,7 +44,8 @@ export const ListItem = ({
                 <Text
                     style={[
                         ListItemStyle.title,
-                        hasArrow && ListItemStyle.flex
+                        hasArrow && ListItemStyle.flex,
+                        textStyle
                     ]}
                 >
                     {title}

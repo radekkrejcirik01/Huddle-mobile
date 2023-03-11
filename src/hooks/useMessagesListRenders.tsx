@@ -6,7 +6,7 @@ import { MessagesItem } from '@components/messages/MessagesItem/MessagesItem';
 import { MessagesListDataProps } from '@screens/account/MessagesScreen/MessagesScreen.props';
 import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
-import { ConversationDeleteInterface } from '@interfaces/post/Post.inteface';
+import { ConversationRemoveInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 
 export const useMessagesListRenders = (
@@ -38,8 +38,8 @@ export const useMessagesListRenders = (
 
     const deleteConversation = useCallback(
         (id: number) => {
-            postRequest<ResponseInterface, ConversationDeleteInterface>(
-                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/delete/conversation',
+            postRequest<ResponseInterface, ConversationRemoveInterface>(
+                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/remove/conversation',
                 {
                     conversationId: id,
                     username

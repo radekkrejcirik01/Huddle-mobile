@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { Alert, SafeAreaView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import { useNavigation as useDefaultNavigation } from '@react-navigation/native';
@@ -29,7 +29,11 @@ import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
-    const { conversationId = 0, usernames } = route.params;
+    const {
+        createNewConversation = false,
+        conversationId = 0,
+        usernames
+    } = route.params;
 
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
@@ -46,14 +50,14 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
     >([]);
 
     const getConversationDetails = useCallback(() => {
-        if (conversationId) {
+        if (conversationId && id) {
             postRequest<
                 ResponseGetConversationDetailsInterface,
                 GetConversationsDetailsInterface
             >(
                 'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/get/conversation/details',
                 {
-                    conversationId,
+                    conversationId: id,
                     username
                 }
             ).subscribe((response: ResponseGetConversationDetailsInterface) => {
@@ -65,7 +69,7 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
                 }
             });
         }
-    }, [conversationId, username]);
+    }, [conversationId, id, username]);
 
     const { navigateTo } = useNavigation(
         RootStackNavigatorEnum.AccountStack,
@@ -73,7 +77,8 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
     );
 
     const createConversation = useCallback(() => {
-        if (!conversationId) {
+        if (createNewConversation) {
+            Alert.alert('B');
             postRequest<
                 ResponseConversationCreateInterface,
                 ConversationsCreateInterface
@@ -93,7 +98,7 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
                 }
             });
         }
-    }, [conversationId, username, usernames]);
+    }, [createNewConversation, username, usernames]);
 
     useEffect(() => createConversation(), [createConversation]);
 

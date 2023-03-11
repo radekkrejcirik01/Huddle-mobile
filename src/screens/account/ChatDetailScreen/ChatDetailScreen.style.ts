@@ -60,5 +60,14 @@ export const ChatDetailScreenStyle = StyleSheet.create({
         marginLeft: 7,
         color: COLORS.WHITE,
         fontWeight: '600'
+    },
+    listItemText: {
+        fontSize: 16
+    },
+    createdByText: {
+        marginTop: 10,
+        fontSize: 12,
+        color: COLORS.WHITE,
+        fontWeight: '500'
     }
 });

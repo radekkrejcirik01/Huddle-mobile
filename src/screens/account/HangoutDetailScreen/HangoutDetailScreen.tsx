@@ -107,7 +107,7 @@ export const HangoutDetailScreen = ({
         }
     }, [hangoutId, username]);
 
-    const { navigateTo } = useNavigation(
+    const { navigateBack, navigateTo } = useNavigation(
         RootStackNavigatorEnum.AccountStack,
         loadHangout
     );
@@ -238,14 +238,13 @@ export const HangoutDetailScreen = ({
             }
         ).subscribe((response: ResponseInterface) => {
             if (response?.status) {
-                navigateTo(RootStackNavigatorEnum.AccountStack, {
-                    screen: AccountStackNavigatorEnum.EventScreen,
-                    params: { hangoutId: 0 }
+                navigateTo(AccountStackNavigatorEnum.EventScreen, {
+                    hangoutId: 0
                 });
-                navigation.goBack();
+                navigateBack();
             }
         });
-    }, [hangoutId, navigateTo, navigation]);
+    }, [hangoutId, navigateBack, navigateTo]);
 
     const onDeleteHangoutPress = useCallback(() => {
         Alert.alert('Are you sure you want to delete this hangout?', '', [
@@ -331,52 +330,36 @@ export const HangoutDetailScreen = ({
                 />
                 <Text style={HangoutDetailScreenStyle.text}>People 👨‍👩‍👧‍👦</Text>
                 <View style={HangoutDetailScreenStyle.row}>
-                    {usernames?.length > 2 ? (
-                        usernames?.map(
-                            (value: EventUsersInterface) =>
-                                value.username !== username && (
-                                    <TouchableOpacity
-                                        key={value.username}
-                                        onPress={() => onPressUser(value)}
-                                        onLongPress={() => onPressUser(value)}
-                                        style={[
-                                            HangoutDetailScreenStyle.peopleTouchableOpacity,
-                                            !value?.confirmed &&
-                                                HangoutDetailScreenStyle.opacity
-                                        ]}
+                    {usernames?.map(
+                        (value: EventUsersInterface) =>
+                            value.username !== username && (
+                                <TouchableOpacity
+                                    key={value.username}
+                                    onPress={() => onPressUser(value)}
+                                    onLongPress={() => onPressUser(value)}
+                                    style={[
+                                        HangoutDetailScreenStyle.peopleTouchableOpacity,
+                                        !value?.confirmed &&
+                                            HangoutDetailScreenStyle.opacity
+                                    ]}
+                                >
+                                    <FastImage
+                                        style={
+                                            HangoutDetailScreenStyle.peopleImage
+                                        }
+                                        source={{
+                                            uri: value?.profilePicture
+                                        }}
+                                    />
+                                    <Text
+                                        style={
+                                            HangoutDetailScreenStyle.peopleText
+                                        }
                                     >
-                                        <FastImage
-                                            style={
-                                                HangoutDetailScreenStyle.peopleImage
-                                            }
-                                            source={{
-                                                uri: value?.profilePicture
-                                            }}
-                                        />
-                                        <Text
-                                            style={
-                                                HangoutDetailScreenStyle.peopleText
-                                            }
-                                        >
-                                            {value?.name}
-                                        </Text>
-                                    </TouchableOpacity>
-                                )
-                        )
-                    ) : (
-                        <View
-                            style={
-                                HangoutDetailScreenStyle.peopleTouchableOpacity
-                            }
-                        >
-                            <FastImage
-                                style={HangoutDetailScreenStyle.peopleImage}
-                                source={{ uri: hangout?.picture }}
-                            />
-                            <Text style={HangoutDetailScreenStyle.peopleText}>
-                                {hangout?.title}
-                            </Text>
-                        </View>
+                                        {value?.name}
+                                    </Text>
+                                </TouchableOpacity>
+                            )
                     )}
                     <IconButton
                         icon={IconEnum.PLUS}

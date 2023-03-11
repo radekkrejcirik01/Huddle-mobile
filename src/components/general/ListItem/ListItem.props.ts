@@ -1,4 +1,4 @@
-import { StyleProp, ViewStyle } from 'react-native';
+import { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 export interface ListItemProps {
     icon?: JSX.Element;
@@ -10,6 +10,7 @@ export interface ListItemProps {
     hasArrow?: boolean;
     onPress?: () => void;
     style?: StyleProp<ViewStyle>;
+    textStyle?: StyleProp<TextStyle>;
 }
 
 export const ListItemDefaultProps: Omit<ListItemProps, 'title'> = {
@@ -19,5 +20,7 @@ export const ListItemDefaultProps: Omit<ListItemProps, 'title'> = {
     toggleSwitch: (value: boolean) => {},
     switchValue: false,
     hasArrow: false,
-    onPress: () => {}
+    onPress: () => {},
+    style: {},
+    textStyle: {}
 };

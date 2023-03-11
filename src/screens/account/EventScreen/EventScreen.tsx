@@ -128,6 +128,7 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
 
     const onOpenChat = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.ChatScreen, {
+            createNewConversation: true,
             usernames
         });
     }, [navigateTo, usernames]);
