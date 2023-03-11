@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, SafeAreaView, Text, View } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import { useNavigation as useDefaultNavigation } from '@react-navigation/native';
@@ -78,7 +78,6 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
 
     const createConversation = useCallback(() => {
         if (createNewConversation) {
-            Alert.alert('B');
             postRequest<
                 ResponseConversationCreateInterface,
                 ConversationsCreateInterface

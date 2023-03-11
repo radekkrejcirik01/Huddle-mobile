@@ -209,8 +209,8 @@ export const ChatDetailScreen = ({
 
     const onDeleteChatPress = useCallback(() => {
         Alert.alert(
-            'Are you sure you want to delete this conversation?',
-            'Alle messages and photos will be permanently deleted',
+            'Are you sure?',
+            'All messages and photos will be deleted',
             [
                 {
                     text: 'Cancel',
