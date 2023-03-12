@@ -2,6 +2,13 @@ import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
 export const PersonAccountScreenStyle = StyleSheet.create({
+    row: {
+        flexDirection: 'row'
+    },
+    friendStatus: {
+        color: COLORS.WHITE,
+        fontWeight: 'bold'
+    },
     container: {
         flex: 1
     },

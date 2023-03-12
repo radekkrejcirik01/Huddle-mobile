@@ -122,6 +122,11 @@ export interface CheckPeopleInvitationInterface {
     username: string;
 }
 
+export interface RemoveFriendInterface {
+    user: string;
+    username: string;
+}
+
 export interface AcceptHangoutInvitationInterface {
     id: number;
     value: number;

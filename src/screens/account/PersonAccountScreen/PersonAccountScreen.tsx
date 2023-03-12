@@ -8,6 +8,7 @@ import React, {
 import { Alert, Keyboard, ScrollView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import FastImage from 'react-native-fast-image';
 import { PersonAccountScreenStyle } from '@screens/account/PersonAccountScreen/PersonAccountScreen.style';
 import { PersonAccountScreenProps } from '@screens/account/PersonAccountScreen/PersonAccountScreen.props';
@@ -21,7 +22,8 @@ import {
     AcceptPeopleInvitationInterface,
     CheckPeopleInvitationInterface,
     HangoutCreateInterface,
-    PeopleCreateInvitationPostInterface
+    PeopleCreateInvitationPostInterface,
+    RemoveFriendInterface
 } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { HangoutPicker } from '@components/general/HangoutPicker/HangoutPicker';
@@ -44,6 +46,11 @@ export const PersonAccountScreen = ({
         (state: ReducerProps) => state.user.user
     );
 
+    const openPhoto = useOpenPhoto();
+    const navigation = useNavigation();
+
+    const { showActionSheetWithOptions } = useActionSheet();
+
     const [personState, setPersonState] = useState<PersonStateEnum>(
         checkInvitation ? PersonStateEnum.NotInvited : PersonStateEnum.Friends
     );
@@ -52,17 +59,56 @@ export const PersonAccountScreen = ({
 
     const invitationId = useRef<number>(id);
 
-    const openPhoto = useOpenPhoto();
-    const navigation = useNavigation();
-
     const [dateTime, setDateTime] = useState<string>();
     const [place, setPlace] = useState<string>();
 
+    const removeFriend = useCallback(() => {
+        postRequest<ResponseInterface, RemoveFriendInterface>(
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/remove/friend',
+            {
+                user,
+                username
+            }
+        ).subscribe((response: ResponseInterface) => {
+            if (response?.status) {
+                navigation.goBack();
+            }
+        });
+    }, [navigation, user, username]);
+
+    const openFriendStatus = useCallback(() => {
+        const options = ['Unfriend', 'Cancel'];
+
+        showActionSheetWithOptions(
+            {
+                cancelButtonIndex: 1,
+                options,
+                userInterfaceStyle: 'dark',
+                title: username
+            },
+            (selectedIndex: number) => {
+                if (selectedIndex === 0) {
+                    removeFriend();
+                }
+            }
+        );
+    }, [removeFriend, showActionSheetWithOptions, username]);
+
     useEffect(() => {
         navigation.setOptions({
-            title: firstname
+            title: firstname,
+            headerRight: () => (
+                <View style={PersonAccountScreenStyle.row}>
+                    <TouchableOpacity onPress={openFriendStatus}>
+                        <Text style={PersonAccountScreenStyle.friendStatus}>
+                            Friends
+                        </Text>
+                    </TouchableOpacity>
+                    <Text> ✅</Text>
+                </View>
+            )
         });
-    }, [firstname, navigation]);
+    }, [firstname, navigation, openFriendStatus]);
 
     useEffect(() => {
         if (checkInvitation) {
