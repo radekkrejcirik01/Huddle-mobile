@@ -173,27 +173,6 @@ export const ChatDetailScreen = ({
 
     const removeUserFromChat = useCallback(() => {}, []);
 
-    const onPressUser = useCallback(
-        (value: string) => {
-            const options = ['Remove from chat', 'Cancel'];
-
-            showActionSheetWithOptions(
-                {
-                    cancelButtonIndex: 1,
-                    options,
-                    userInterfaceStyle: 'dark',
-                    title: value
-                },
-                (selectedIndex: number) => {
-                    if (selectedIndex === 0) {
-                        removeUserFromChat();
-                    }
-                }
-            );
-        },
-        [removeUserFromChat, showActionSheetWithOptions]
-    );
-
     const deleteChat = useCallback(() => {
         postRequest<ResponseInterface, ConversationDeleteInterface>(
             'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/delete/conversation',
@@ -255,6 +234,41 @@ export const ChatDetailScreen = ({
         ]);
     }, [leaveChat]);
 
+    const onPressUser = useCallback(
+        (usernameValue: string, firstname: string) => {
+            const options = [
+                usernameValue === username
+                    ? 'Leave chat'
+                    : `Remove ${firstname} from chat`,
+                'Cancel'
+            ];
+
+            showActionSheetWithOptions(
+                {
+                    cancelButtonIndex: 1,
+                    options,
+                    userInterfaceStyle: 'dark',
+                    title: usernameValue
+                },
+                (selectedIndex: number) => {
+                    if (selectedIndex === 0) {
+                        if (usernameValue === username) {
+                            onLeaveChatPress();
+                        } else {
+                            removeUserFromChat();
+                        }
+                    }
+                }
+            );
+        },
+        [
+            onLeaveChatPress,
+            removeUserFromChat,
+            showActionSheetWithOptions,
+            username
+        ]
+    );
+
     return (
         <ScrollView
             contentContainerStyle={ChatDetailScreenStyle.contentContainer}
@@ -288,9 +302,17 @@ export const ChatDetailScreen = ({
                             {conversationUsers?.map((value) => (
                                 <TouchableOpacity
                                     key={value.username}
-                                    onPress={() => onPressUser(value.username)}
+                                    onPress={() =>
+                                        onPressUser(
+                                            value.username,
+                                            value.firstname
+                                        )
+                                    }
                                     onLongPress={() =>
-                                        onPressUser(value.username)
+                                        onPressUser(
+                                            value.username,
+                                            value.firstname
+                                        )
                                     }
                                     style={
                                         ChatDetailScreenStyle.peopleTouchableOpacity
@@ -332,7 +354,7 @@ export const ChatDetailScreen = ({
                     />
                 )}
                 <Text style={ChatDetailScreenStyle.createdByText}>
-                    Crated by {createdBy}
+                    Crated by {createdBy === username ? 'you' : createdBy}
                 </Text>
             </View>
         </ScrollView>
