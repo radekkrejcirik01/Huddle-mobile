@@ -74,7 +74,7 @@ export const ChatDetailScreen = ({
         fileName: null
     });
 
-    useEffect(() => {
+    const loadConversationDetails = useCallback(() => {
         postRequest<
             ResponseGetConversationDetailsInterface,
             GetConversationsDetailsInterface
@@ -86,7 +86,7 @@ export const ChatDetailScreen = ({
             }
         ).subscribe((response: ResponseGetConversationDetailsInterface) => {
             if (response?.status) {
-                setIsGroup(response?.data?.users?.length > 2);
+                setIsGroup(response?.data?.type === 'group');
                 setTitle(response?.data?.name);
                 setPhoto(response?.data?.picture);
                 setConversationUsers(response?.data?.users);
@@ -95,6 +95,8 @@ export const ChatDetailScreen = ({
             }
         });
     }, [conversationId, username]);
+
+    useEffect(() => loadConversationDetails(), [loadConversationDetails]);
 
     const save = useCallback(() => {
         postRequest<ResponseInterface, ConversationUpdateInterface>(
@@ -127,14 +129,13 @@ export const ChatDetailScreen = ({
     useEffect(() => {
         if (
             conversationDetails?.picture === photo &&
-            conversationDetails?.name === title &&
-            conversationDetails?.users === conversationUsers
+            conversationDetails?.name === title
         ) {
             setIsSave(false);
         } else if (conversationDetails) {
             setIsSave(true);
         }
-    }, [conversationDetails, conversationUsers, isGroup, photo, title]);
+    }, [conversationDetails, isGroup, photo, title]);
 
     useEffect(() => {
         navigation.setOptions({
@@ -171,7 +172,22 @@ export const ChatDetailScreen = ({
         [photo]
     );
 
-    const removeUserFromChat = useCallback(() => {}, []);
+    const removeUserFromChat = useCallback(
+        (removeUsername: string) => {
+            postRequest<ResponseInterface, ConversationUserRemoveInterface>(
+                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/remove/conversation/user',
+                {
+                    conversationId,
+                    username: removeUsername
+                }
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    loadConversationDetails();
+                }
+            });
+        },
+        [conversationId, loadConversationDetails]
+    );
 
     const deleteChat = useCallback(() => {
         postRequest<ResponseInterface, ConversationDeleteInterface>(
@@ -255,7 +271,7 @@ export const ChatDetailScreen = ({
                         if (usernameValue === username) {
                             onLeaveChatPress();
                         } else {
-                            removeUserFromChat();
+                            removeUserFromChat(usernameValue);
                         }
                     }
                 }

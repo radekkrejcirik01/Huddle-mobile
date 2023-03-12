@@ -28,7 +28,7 @@ export const MessagesItem = ({
     );
 
     const Title = useCallback((): JSX.Element => {
-        if (!item?.name && item?.usernames.length > 2) {
+        if (item?.type === 'group' && !item?.name) {
             return (
                 <View style={MessagesItemStyle.titleRow}>
                     {item?.usernames.map((value) => (
@@ -49,7 +49,7 @@ export const MessagesItem = ({
             );
         }
         return <Text style={MessagesItemStyle.text}>{item?.name}</Text>;
-    }, [item?.name, item.usernames]);
+    }, [item?.name, item?.type, item?.usernames]);
 
     return (
         <SwipeableView onDelete={() => onDelete(item.id)}>

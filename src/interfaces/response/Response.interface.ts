@@ -81,6 +81,7 @@ export interface ConversationDetailsInterface {
         profilePicture: string;
     }>;
     createdBy: string;
+    type: string;
 }
 
 export interface ResponseConversationCreateInterface {

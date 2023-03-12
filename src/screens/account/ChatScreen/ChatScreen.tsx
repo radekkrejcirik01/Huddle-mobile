@@ -62,7 +62,7 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
                 }
             ).subscribe((response: ResponseGetConversationDetailsInterface) => {
                 if (response?.status) {
-                    setIsGroup(response?.data?.users?.length > 2);
+                    setIsGroup(response?.data?.type === 'group');
                     setTitle(response?.data?.name);
                     setImage(response?.data?.picture);
                     setConversationUsers(response?.data?.users);
@@ -90,7 +90,7 @@ export const ChatScreen = ({ route }: ChatScreenProps): JSX.Element => {
             ).subscribe((response: ResponseConversationCreateInterface) => {
                 if (response?.status) {
                     setId(response?.data?.id);
-                    setIsGroup(response?.data?.users?.length > 2);
+                    setIsGroup(response?.data?.type === 'group');
                     setTitle(response?.data?.name);
                     setImage(response?.data?.picture);
                     setConversationUsers(response?.data?.users);

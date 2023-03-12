@@ -12,4 +12,5 @@ export interface MessagesListDataProps {
     message: string;
     time: Moment;
     isRead: number;
+    type: string;
 }
