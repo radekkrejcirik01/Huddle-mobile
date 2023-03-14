@@ -96,6 +96,12 @@ export interface ResponseGetConversationDetailsInterface {
     data?: ConversationDetailsInterface;
 }
 
+export interface ResponseGetConversationUsersInterface {
+    status: string;
+    message: string;
+    data: Array<string>;
+}
+
 export interface ResponseUploadImageInterface {
     status: string;
     message: string;

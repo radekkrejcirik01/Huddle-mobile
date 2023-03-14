@@ -95,6 +95,15 @@ export interface GetConversationsDetailsInterface {
     username: string;
 }
 
+export interface GetConversationsUsersInterface {
+    conversationId: number;
+}
+
+export interface AddConversationsUsersInterface {
+    conversationId: number;
+    usernames: Array<string>;
+}
+
 export interface ConversationRemoveInterface {
     conversationId: number;
     username: string;

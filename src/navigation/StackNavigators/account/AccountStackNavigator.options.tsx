@@ -2,6 +2,10 @@ import React from 'react';
 import { StackNavigationOptions } from '@react-navigation/stack';
 import { HeaderPlus } from '@components/general/HeaderPlus/HeaderPlus';
 
+export const AddConversationPeopleTitle: StackNavigationOptions = {
+    headerTitle: 'Add people'
+};
+
 export const ProfileTitle: StackNavigationOptions = {
     headerTitle: 'Profile'
 };

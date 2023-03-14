@@ -1,4 +1,5 @@
 export enum AccountStackNavigatorEnum {
+    AddConversationPeopleScreen = 'AddConversationPeopleScreen',
     ProfileScreen = 'ProfileScreen',
     PeopleScreen = 'PeopleScreen',
     PersonAccountScreen = 'PersonAccountScreen',

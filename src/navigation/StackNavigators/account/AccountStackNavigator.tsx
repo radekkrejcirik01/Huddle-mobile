@@ -6,6 +6,7 @@ import {
     NoTitle
 } from '@navigation/StackNavigators/StackNavigator.options';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { AddConversationPeopleScreen } from '@screens/account/AddConversationPeopleScreen/AddConversationPeopleScreen';
 import { EventScreen } from '@screens/account/EventScreen/EventScreen';
 import { HangoutsScreen } from '@screens/account/HangoutsScreen/HangoutsScreen';
 import { ProfileScreen } from '@screens/account/ProfileScreen/ProfileScreen';
@@ -24,6 +25,7 @@ import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/Delete
 import { HangoutDetailScreen } from '@screens/account/HangoutDetailScreen/HangoutDetailScreen';
 import {
     AccountTitle,
+    AddConversationPeopleTitle,
     ChangePasswordTitle,
     ChatDetailOptions,
     CreateGroupHangoutTitle,
@@ -41,6 +43,14 @@ const Account = createStackNavigator<ParamListBase>();
 
 export const AccountStackNavigator = (): JSX.Element => (
     <Account.Navigator>
+        <Account.Screen
+            name={AccountStackNavigatorEnum.AddConversationPeopleScreen}
+            component={AddConversationPeopleScreen}
+            options={{
+                ...NavigationScreenHeader,
+                ...AddConversationPeopleTitle
+            }}
+        />
         <Account.Screen
             name={AccountStackNavigatorEnum.ProfileScreen}
             component={ProfileScreen}

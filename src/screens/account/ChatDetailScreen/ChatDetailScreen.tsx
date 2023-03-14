@@ -41,6 +41,8 @@ import { ListItem } from '@components/general/ListItem/ListItem';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
+import { IconEnum } from '@components/icon/Icon.enum';
+import { IconButton } from '@components/general/IconButton/IconButton';
 
 export const ChatDetailScreen = ({
     route
@@ -51,9 +53,6 @@ export const ChatDetailScreen = ({
 
     const openPhoto = useOpenPhoto();
     const navigation = useDefaultNavigation();
-    const { navigateBack, navigateTo } = useNavigation(
-        RootStackNavigatorEnum.AccountStack
-    );
     const { showActionSheetWithOptions } = useActionSheet();
 
     const [isSave, setIsSave] = useState<boolean>(false);
@@ -96,7 +95,10 @@ export const ChatDetailScreen = ({
         });
     }, [conversationId, username]);
 
-    useEffect(() => loadConversationDetails(), [loadConversationDetails]);
+    const { navigateBack, navigateTo } = useNavigation(
+        RootStackNavigatorEnum.AccountStack,
+        loadConversationDetails
+    );
 
     const save = useCallback(() => {
         postRequest<ResponseInterface, ConversationUpdateInterface>(
@@ -189,38 +191,6 @@ export const ChatDetailScreen = ({
         [conversationId, loadConversationDetails]
     );
 
-    const deleteChat = useCallback(() => {
-        postRequest<ResponseInterface, ConversationDeleteInterface>(
-            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/delete/conversation',
-            {
-                conversationId
-            }
-        ).subscribe((response: ResponseInterface) => {
-            if (response?.status) {
-                navigateTo(AccountStackNavigatorEnum.ChatScreen);
-                navigateBack();
-            }
-        });
-    }, [conversationId, navigateBack, navigateTo]);
-
-    const onDeleteChatPress = useCallback(() => {
-        Alert.alert(
-            'Are you sure?',
-            'All messages and photos will be deleted',
-            [
-                {
-                    text: 'Cancel',
-                    style: 'cancel'
-                },
-                {
-                    text: 'Confirm',
-                    onPress: deleteChat,
-                    style: 'destructive'
-                }
-            ]
-        );
-    }, [deleteChat]);
-
     const leaveChat = useCallback(() => {
         postRequest<ResponseInterface, ConversationUserRemoveInterface>(
             'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/remove/conversation/user',
@@ -284,6 +254,44 @@ export const ChatDetailScreen = ({
             username
         ]
     );
+
+    const addUserPress = useCallback(() => {
+        navigateTo(AccountStackNavigatorEnum.AddConversationPeopleScreen, {
+            conversationId
+        });
+    }, [conversationId, navigateTo]);
+
+    const deleteChat = useCallback(() => {
+        postRequest<ResponseInterface, ConversationDeleteInterface>(
+            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/delete/conversation',
+            {
+                conversationId
+            }
+        ).subscribe((response: ResponseInterface) => {
+            if (response?.status) {
+                navigateTo(AccountStackNavigatorEnum.ChatScreen);
+                navigateBack();
+            }
+        });
+    }, [conversationId, navigateBack, navigateTo]);
+
+    const onDeleteChatPress = useCallback(() => {
+        Alert.alert(
+            'Are you sure?',
+            'All messages and photos will be deleted',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Confirm',
+                    onPress: deleteChat,
+                    style: 'destructive'
+                }
+            ]
+        );
+    }, [deleteChat]);
 
     return (
         <ScrollView
@@ -349,6 +357,12 @@ export const ChatDetailScreen = ({
                                     </Text>
                                 </TouchableOpacity>
                             ))}
+                            <IconButton
+                                icon={IconEnum.PLUS}
+                                onPress={addUserPress}
+                                size={18}
+                                style={ChatDetailScreenStyle.plusButton}
+                            />
                         </View>
                     </>
                 ) : (
