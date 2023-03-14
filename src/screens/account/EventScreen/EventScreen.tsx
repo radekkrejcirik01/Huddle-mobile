@@ -83,9 +83,7 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
                 </TouchableOpacity>
             ),
             ...(data?.createdBy === user && {
-                headerRight: () => (
-                    <HangoutActions hangoutId={hangoutId} hangout={data} />
-                )
+                headerRight: () => <HangoutActions hangoutId={hangoutId} />
             })
         });
     }, [data, hangoutId, navigation, openHangoutDetail, user]);

@@ -6,6 +6,10 @@ export const AddConversationPeopleTitle: StackNavigationOptions = {
     headerTitle: 'Add people'
 };
 
+export const AddHangoutInvitationsTitle: StackNavigationOptions = {
+    headerTitle: 'Add people'
+};
+
 export const ProfileTitle: StackNavigationOptions = {
     headerTitle: 'Profile'
 };

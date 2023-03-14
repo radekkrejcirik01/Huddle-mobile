@@ -217,16 +217,11 @@ export const HangoutDetailScreen = ({
         [hangoutId, loadHangout]
     );
 
-    const openPeopleScreen = useCallback(() => {
-        const usernamesArray = [];
-        for (let i = 0; i < usernames.length; i += 1) {
-            usernamesArray.push(usernames[i].username);
-        }
-        navigateTo(AccountStackNavigatorEnum.PickPeopleScreen, {
-            hangoutId,
-            usernames: usernamesArray
+    const openAddHangoutInvitationsScreen = useCallback(() => {
+        navigateTo(AccountStackNavigatorEnum.AddHangoutInvitationsScreen, {
+            hangoutId
         });
-    }, [hangoutId, navigateTo, usernames]);
+    }, [hangoutId, navigateTo]);
 
     const cancelConfirmation = () => {};
 
@@ -363,7 +358,7 @@ export const HangoutDetailScreen = ({
                     )}
                     <IconButton
                         icon={IconEnum.PLUS}
-                        onPress={openPeopleScreen}
+                        onPress={openAddHangoutInvitationsScreen}
                         size={18}
                         style={HangoutDetailScreenStyle.plusButton}
                     />

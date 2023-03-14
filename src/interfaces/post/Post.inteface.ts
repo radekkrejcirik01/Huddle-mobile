@@ -78,6 +78,10 @@ export interface GroupHangoutCreateInterface {
     fileName: string;
 }
 
+export interface GetHangoutUsernamesInterface {
+    hangoutId: number;
+}
+
 export interface SendHangoutInvitation {
     hangoutId: number;
     user: string;

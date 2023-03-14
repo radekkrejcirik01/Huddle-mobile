@@ -16,34 +16,35 @@ import { PickPeopleListItem } from '@components/people/PickPeopleListItem/PickPe
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { postRequest } from '@utils/Axios/Axios.service';
 import {
-    ResponseGetConversationUsersInterface,
+    ResponseGetHangoutUsernamesInterface,
     ResponseInterface,
     ResponsePeopleGetInterface
 } from '@interfaces/response/Response.interface';
 import {
-    AddConversationsUsersInterface,
-    GetConversationsUsersInterface,
+    GetHangoutUsernamesInterface,
+    SendHangoutInvitation,
     UserGetPostInterface
 } from '@interfaces/post/Post.inteface';
-import { AddConversationPeopleScreenProps } from '@screens/account/AddConversationPeopleScreen/AddConversationPeopleScreen.props';
 import { ReducerProps } from '@store/index/index.props';
 import { useRefresh } from '@hooks/useRefresh';
-import { AddConversationPeopleScreenStyle } from '@screens/account/AddConversationPeopleScreen/AddConversationPeopleScreen.style';
+import { AddHangoutInvitationsScreenProps } from '@screens/account/AddHangoutInvitationsScreen/AddHangoutInvitationsScreen.props';
+import { AddHangoutInvitationsScreenStyle } from '@screens/account/AddHangoutInvitationsScreen/AddHangoutInvitationsScreen.style';
 
-export const AddConversationPeopleScreen = ({
+export const AddHangoutInvitationsScreen = ({
     route
-}: AddConversationPeopleScreenProps): JSX.Element => {
-    const { conversationId } = route.params;
+}: AddHangoutInvitationsScreenProps): JSX.Element => {
+    const { hangoutId } = route.params;
 
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
+    const { firstname, username } = useSelector(
+        (state: ReducerProps) => state.user.user
+    );
 
     const { bottom } = useSafeAreaInsets();
 
     const [people, setPeople] = useState<ResponsePeopleGetInterface['data']>(
         []
     );
-    const [conversationUsernames, setConversationUsernames] =
-        useState<Array<string>>();
+    const [hangoutUsernames, setHangoutUsernames] = useState<Array<string>>();
 
     const [inputValue, setInputValue] = useState<string>();
     const [filteredData, setFilteredData] = useState<
@@ -69,26 +70,26 @@ export const AddConversationPeopleScreen = ({
         });
     }, [username]);
 
-    const loadConversationUsers = useCallback(() => {
+    const getHangoutUsernames = useCallback(() => {
         postRequest<
-            ResponseGetConversationUsersInterface,
-            GetConversationsUsersInterface
+            ResponseGetHangoutUsernamesInterface,
+            GetHangoutUsernamesInterface
         >(
-            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/get/conversation/usernames',
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/hangout/usernames',
             {
-                conversationId
+                hangoutId
             }
-        ).subscribe((response: ResponseGetConversationUsersInterface) => {
+        ).subscribe((response: ResponseGetHangoutUsernamesInterface) => {
             if (response?.status) {
-                setConversationUsernames(response?.data);
+                setHangoutUsernames(response?.data);
             }
         });
-    }, [conversationId]);
+    }, [hangoutId]);
 
     const load = useCallback(() => {
         loadPeople();
-        loadConversationUsers();
-    }, [loadConversationUsers, loadPeople]);
+        getHangoutUsernames();
+    }, [getHangoutUsernames, loadPeople]);
 
     useEffect(() => load(), [load]);
 
@@ -121,13 +122,15 @@ export const AddConversationPeopleScreen = ({
 
     const sendInvite = useCallback(() => {
         const newUsernames = pickedUsernames.current.filter(
-            (value: string) => !conversationUsernames.includes(value)
+            (value: string) => !hangoutUsernames.includes(value)
         );
         if (newUsernames.length) {
-            postRequest<ResponseInterface, AddConversationsUsersInterface>(
-                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/add/conversation/users',
+            postRequest<ResponseInterface, SendHangoutInvitation>(
+                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/send/hangout/invitation',
                 {
-                    conversationId,
+                    hangoutId,
+                    user: username,
+                    name: firstname,
                     usernames: newUsernames
                 }
             ).subscribe((response: ResponseInterface) => {
@@ -139,7 +142,7 @@ export const AddConversationPeopleScreen = ({
         } else {
             Alert.alert('Please add new invited people');
         }
-    }, [conversationId, conversationUsernames, load]);
+    }, [firstname, hangoutId, hangoutUsernames, load, username]);
 
     const sendInviteText = useMemo(() => {
         if (isInviteSent) {
@@ -149,17 +152,17 @@ export const AddConversationPeopleScreen = ({
     }, [isInviteSent]);
 
     return (
-        <View style={AddConversationPeopleScreenStyle.container}>
+        <View style={AddHangoutInvitationsScreenStyle.container}>
             <Input
                 iconLeft={<Text>🔍</Text>}
                 placeholder="Who you looking for?..."
                 value={inputValue}
                 onChange={filterData}
                 inputType={InputTypeEnum.TEXT}
-                viewStyle={AddConversationPeopleScreenStyle.inputView}
-                inputStyle={AddConversationPeopleScreenStyle.input}
+                viewStyle={AddHangoutInvitationsScreenStyle.inputView}
+                inputStyle={AddHangoutInvitationsScreenStyle.input}
             />
-            <View style={AddConversationPeopleScreenStyle.flashListView}>
+            <View style={AddHangoutInvitationsScreenStyle.flashListView}>
                 <FlashList
                     data={filteredData}
                     refreshControl={
@@ -184,13 +187,13 @@ export const AddConversationPeopleScreen = ({
                 <TouchableOpacity
                     onPress={sendInvite}
                     style={[
-                        AddConversationPeopleScreenStyle.sendButton,
+                        AddHangoutInvitationsScreenStyle.sendButton,
                         {
                             bottom: bottom + 10
                         }
                     ]}
                 >
-                    <Text style={AddConversationPeopleScreenStyle.sendText}>
+                    <Text style={AddHangoutInvitationsScreenStyle.sendText}>
                         {sendInviteText}
                     </Text>
                 </TouchableOpacity>

@@ -65,6 +65,12 @@ export interface ResponseHangoutGetInterface {
     data?: EventScreenDataInterface;
 }
 
+export interface ResponseGetHangoutUsernamesInterface {
+    status: string;
+    message?: string;
+    data?: Array<string>;
+}
+
 export interface ResponseNotificationsGetInterface {
     status: string;
     message: string;
