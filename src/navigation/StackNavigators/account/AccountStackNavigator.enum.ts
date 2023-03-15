@@ -16,5 +16,6 @@ export enum AccountStackNavigatorEnum {
     HangoutDetailScreen = 'HangoutDetailScreen',
     AccountScreen = 'AccountScreen',
     ChangePasswordScreen = 'ChangePasswordScreen',
-    DeleteAccountScreen = 'DeleteAccountScreen'
+    DeleteAccountScreen = 'DeleteAccountScreen',
+    SelectGroupHangoutUsersScreen = 'SelectGroupHangoutUsersScreen'
 }

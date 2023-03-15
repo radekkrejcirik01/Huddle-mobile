@@ -55,6 +55,6 @@ export const CreateGroupHangoutTitle: StackNavigationOptions = {
     headerTitle: 'Group hangout'
 };
 
-export const PickPeopleTitle: StackNavigationOptions = {
+export const SelectGroupHangoutUsersTitle: StackNavigationOptions = {
     headerTitle: 'Add people'
 };

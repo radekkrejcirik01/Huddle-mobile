@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const HangoutPickerStyle = StyleSheet.create({
+export const SelectGroupHangoutUsersScreenStyle = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 5

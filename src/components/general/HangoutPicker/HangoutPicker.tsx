@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
 import { useSelector } from 'react-redux';
+import FastImage from 'react-native-fast-image';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import COLORS from '@constants/COLORS';
 import { Input } from '@components/general/Input/Input';
@@ -21,6 +22,9 @@ import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/A
 import { HangoutPickerEnum } from '@components/general/HangoutPicker/HangoutPicker.enum';
 import { ReducerProps } from '@store/index/index.props';
 import { getUTCDateTime } from '@functions/getUTCDateTime';
+import { IconEnum } from '@components/icon/Icon.enum';
+import { HangoutDetailScreenStyle } from '@screens/account/HangoutDetailScreen/HangoutDetailScreen.style';
+import { IconButton } from '@components/general/IconButton/IconButton';
 
 export const HangoutPicker = ({
     isVisible,
@@ -29,7 +33,9 @@ export const HangoutPicker = ({
     onPlaceInputFocusChanged,
     type
 }: HangoutPickerProps): JSX.Element => {
-    const { users } = useSelector((state: ReducerProps) => state.choosePeople);
+    const { selectedUsers } = useSelector(
+        (state: ReducerProps) => state.selectUsers
+    );
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const [suggestedWhen, setSuggestedWhen] = useState<Array<string>>([]);
@@ -94,8 +100,8 @@ export const HangoutPicker = ({
         setTappedTime(times[0]);
     }, []);
 
-    const openPeopleScreen = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.PickPeopleScreen);
+    const openSelectGroupHangoutPeople = useCallback(() => {
+        navigateTo(AccountStackNavigatorEnum.SelectGroupHangoutUsersScreen);
     }, [navigateTo]);
 
     return (
@@ -233,27 +239,41 @@ export const HangoutPicker = ({
                 {type === HangoutPickerEnum.GROUP && (
                     <View style={HangoutPickerStyle.inputContainer}>
                         <Text style={HangoutPickerStyle.title}>People</Text>
-                        {users?.length ? (
+                        {selectedUsers?.length ? (
                             <View style={HangoutPickerStyle.tagsRow}>
-                                {users.map((value: string) => (
+                                {selectedUsers.map((value) => (
                                     <TouchableOpacity
-                                        key={value}
-                                        onPress={openPeopleScreen}
+                                        key={value.username}
+                                        onPress={openSelectGroupHangoutPeople}
                                         style={HangoutPickerStyle.peopleItem}
                                     >
+                                        <FastImage
+                                            style={
+                                                HangoutPickerStyle.peopleImage
+                                            }
+                                            source={{
+                                                uri: value?.profilePicture
+                                            }}
+                                        />
                                         <Text
                                             style={
                                                 HangoutPickerStyle.peopleText
                                             }
                                         >
-                                            {value}
+                                            {value?.firstname}
                                         </Text>
                                     </TouchableOpacity>
                                 ))}
+                                <IconButton
+                                    icon={IconEnum.PLUS}
+                                    onPress={openSelectGroupHangoutPeople}
+                                    size={18}
+                                    style={HangoutDetailScreenStyle.plusButton}
+                                />
                             </View>
                         ) : (
                             <TouchableOpacity
-                                onPress={openPeopleScreen}
+                                onPress={openSelectGroupHangoutPeople}
                                 style={HangoutPickerStyle.tagsItem}
                             >
                                 <Text style={HangoutPickerStyle.tagText}>

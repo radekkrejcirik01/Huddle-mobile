@@ -15,7 +15,6 @@ import { NotificationsScreen } from '@screens/account/NotificationsScreen/Notifi
 import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
 import { PersonAccountScreen } from '@screens/account/PersonAccountScreen/PersonAccountScreen';
 import { CreateGroupHangoutScreen } from '@screens/account/CreateGroupHangoutScreen/CreateGroupHangoutScreen';
-import { PickPeopleScreen } from '@screens/account/PickPeopleScreen/PickPeopleScreen';
 import { MessagesScreen } from '@screens/account/MessagesScreen/MessagesScreen';
 import { ChatScreen } from '@screens/account/ChatScreen/ChatScreen';
 import { ChatDetailScreen } from '@screens/account/ChatDetailScreen/ChatDetailScreen';
@@ -24,6 +23,7 @@ import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
 import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/DeleteAccountScreen';
 import { HangoutDetailScreen } from '@screens/account/HangoutDetailScreen/HangoutDetailScreen';
+import { SelectGroupHangoutUsersScreen } from '@screens/account/SelectGroupHangoutUsersScreen/SelectGroupHangoutUsersScreen';
 import {
     AccountTitle,
     AddConversationPeopleTitle,
@@ -37,8 +37,8 @@ import {
     MessagesTitle,
     NotificationsTitle,
     PeopleOptions,
-    PickPeopleTitle,
-    ProfileTitle
+    ProfileTitle,
+    SelectGroupHangoutUsersTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
 
 const Account = createStackNavigator<ParamListBase>();
@@ -80,11 +80,6 @@ export const AccountStackNavigator = (): JSX.Element => (
             name={AccountStackNavigatorEnum.CreateGroupHangoutScreen}
             component={CreateGroupHangoutScreen}
             options={{ ...NavigationScreenHeader, ...CreateGroupHangoutTitle }}
-        />
-        <Account.Screen
-            name={AccountStackNavigatorEnum.PickPeopleScreen}
-            component={PickPeopleScreen}
-            options={{ ...NavigationScreenHeader, ...PickPeopleTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.HangoutsScreen}
@@ -143,6 +138,14 @@ export const AccountStackNavigator = (): JSX.Element => (
             name={AccountStackNavigatorEnum.DeleteAccountScreen}
             component={DeleteAccountScreen}
             options={{ ...NavigationScreenHeader, ...DeleteAccountTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.SelectGroupHangoutUsersScreen}
+            component={SelectGroupHangoutUsersScreen}
+            options={{
+                ...NavigationScreenHeader,
+                ...SelectGroupHangoutUsersTitle
+            }}
         />
     </Account.Navigator>
 );
