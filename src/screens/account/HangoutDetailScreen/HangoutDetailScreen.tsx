@@ -257,7 +257,7 @@ export const HangoutDetailScreen = ({
 
     const onPressUser = useCallback(
         (value: EventUsersInterface) => {
-            const options = ['Remove from hangout', 'Cancel'];
+            const options = [`Remove from hangout`, 'Cancel'];
 
             showActionSheetWithOptions(
                 {
@@ -325,37 +325,28 @@ export const HangoutDetailScreen = ({
                 />
                 <Text style={HangoutDetailScreenStyle.text}>People 👨‍👩‍👧‍👦</Text>
                 <View style={HangoutDetailScreenStyle.row}>
-                    {usernames?.map(
-                        (value: EventUsersInterface) =>
-                            value.username !== username && (
-                                <TouchableOpacity
-                                    key={value.username}
-                                    onPress={() => onPressUser(value)}
-                                    onLongPress={() => onPressUser(value)}
-                                    style={[
-                                        HangoutDetailScreenStyle.peopleTouchableOpacity,
-                                        !value?.confirmed &&
-                                            HangoutDetailScreenStyle.opacity
-                                    ]}
-                                >
-                                    <FastImage
-                                        style={
-                                            HangoutDetailScreenStyle.peopleImage
-                                        }
-                                        source={{
-                                            uri: value?.profilePicture
-                                        }}
-                                    />
-                                    <Text
-                                        style={
-                                            HangoutDetailScreenStyle.peopleText
-                                        }
-                                    >
-                                        {value?.name}
-                                    </Text>
-                                </TouchableOpacity>
-                            )
-                    )}
+                    {usernames?.map((value: EventUsersInterface) => (
+                        <TouchableOpacity
+                            key={value.username}
+                            onPress={() => onPressUser(value)}
+                            onLongPress={() => onPressUser(value)}
+                            style={[
+                                HangoutDetailScreenStyle.peopleTouchableOpacity,
+                                !value?.confirmed &&
+                                    HangoutDetailScreenStyle.opacity
+                            ]}
+                        >
+                            <FastImage
+                                style={HangoutDetailScreenStyle.peopleImage}
+                                source={{
+                                    uri: value?.profilePicture
+                                }}
+                            />
+                            <Text style={HangoutDetailScreenStyle.peopleText}>
+                                {value?.name}
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
                     <IconButton
                         icon={IconEnum.PLUS}
                         onPress={openAddHangoutInvitationsScreen}
