@@ -1,8 +1,13 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ParamListBase } from '@react-navigation/native';
-import { NavigationScreenHeader } from '@navigation/StackNavigators/StackNavigator.options';
+import {
+    NavigationScreenHeader,
+    NoTitle
+} from '@navigation/StackNavigators/StackNavigator.options';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { AddConversationPeopleScreen } from '@screens/account/AddConversationPeopleScreen/AddConversationPeopleScreen';
+import { AddHangoutInvitationsScreen } from '@screens/account/AddHangoutInvitationsScreen/AddHangoutInvitationsScreen';
 import { EventScreen } from '@screens/account/EventScreen/EventScreen';
 import { HangoutsScreen } from '@screens/account/HangoutsScreen/HangoutsScreen';
 import { ProfileScreen } from '@screens/account/ProfileScreen/ProfileScreen';
@@ -10,7 +15,6 @@ import { NotificationsScreen } from '@screens/account/NotificationsScreen/Notifi
 import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
 import { PersonAccountScreen } from '@screens/account/PersonAccountScreen/PersonAccountScreen';
 import { CreateGroupHangoutScreen } from '@screens/account/CreateGroupHangoutScreen/CreateGroupHangoutScreen';
-import { PickPeopleScreen } from '@screens/account/PickPeopleScreen/PickPeopleScreen';
 import { MessagesScreen } from '@screens/account/MessagesScreen/MessagesScreen';
 import { ChatScreen } from '@screens/account/ChatScreen/ChatScreen';
 import { ChatDetailScreen } from '@screens/account/ChatDetailScreen/ChatDetailScreen';
@@ -18,8 +22,12 @@ import { PictureScreen } from '@screens/account/PictureScreen/PictureScreen';
 import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
 import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/DeleteAccountScreen';
+import { HangoutDetailScreen } from '@screens/account/HangoutDetailScreen/HangoutDetailScreen';
+import { SelectGroupHangoutUsersScreen } from '@screens/account/SelectGroupHangoutUsersScreen/SelectGroupHangoutUsersScreen';
 import {
     AccountTitle,
+    AddConversationPeopleTitle,
+    AddHangoutInvitationsTitle,
     ChangePasswordTitle,
     ChatDetailOptions,
     CreateGroupHangoutTitle,
@@ -29,16 +37,30 @@ import {
     MessagesTitle,
     NotificationsTitle,
     PeopleOptions,
-    PickPeopleTitle,
-    PictureOptions,
-    ProfileTitle
+    ProfileTitle,
+    SelectGroupHangoutUsersTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
-import { HangoutDetailScreen } from '@screens/account/HangoutDetailScreen/HangoutDetailScreen';
 
 const Account = createStackNavigator<ParamListBase>();
 
 export const AccountStackNavigator = (): JSX.Element => (
     <Account.Navigator>
+        <Account.Screen
+            name={AccountStackNavigatorEnum.AddConversationPeopleScreen}
+            component={AddConversationPeopleScreen}
+            options={{
+                ...NavigationScreenHeader,
+                ...AddConversationPeopleTitle
+            }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.AddHangoutInvitationsScreen}
+            component={AddHangoutInvitationsScreen}
+            options={{
+                ...NavigationScreenHeader,
+                ...AddHangoutInvitationsTitle
+            }}
+        />
         <Account.Screen
             name={AccountStackNavigatorEnum.ProfileScreen}
             component={ProfileScreen}
@@ -60,11 +82,6 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...CreateGroupHangoutTitle }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.PickPeopleScreen}
-            component={PickPeopleScreen}
-            options={{ ...NavigationScreenHeader, ...PickPeopleTitle }}
-        />
-        <Account.Screen
             name={AccountStackNavigatorEnum.HangoutsScreen}
             component={HangoutsScreen}
             options={{ ...NavigationScreenHeader, ...HangoutsTitle }}
@@ -82,7 +99,7 @@ export const AccountStackNavigator = (): JSX.Element => (
         <Account.Screen
             name={AccountStackNavigatorEnum.ChatScreen}
             component={ChatScreen}
-            options={NavigationScreenHeader}
+            options={{ ...NavigationScreenHeader, ...NoTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.ChatDetailScreen}
@@ -95,7 +112,7 @@ export const AccountStackNavigator = (): JSX.Element => (
         <Account.Screen
             name={AccountStackNavigatorEnum.PictureScreen}
             component={PictureScreen}
-            options={PictureOptions}
+            options={{ ...NavigationScreenHeader, ...NoTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.EventScreen}
@@ -121,6 +138,14 @@ export const AccountStackNavigator = (): JSX.Element => (
             name={AccountStackNavigatorEnum.DeleteAccountScreen}
             component={DeleteAccountScreen}
             options={{ ...NavigationScreenHeader, ...DeleteAccountTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.SelectGroupHangoutUsersScreen}
+            component={SelectGroupHangoutUsersScreen}
+            options={{
+                ...NavigationScreenHeader,
+                ...SelectGroupHangoutUsersTitle
+            }}
         />
     </Account.Navigator>
 );

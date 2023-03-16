@@ -69,10 +69,9 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
 
     const openHangoutDetail = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.HangoutDetailScreen, {
-            hangoutId,
-            hangout: data
+            hangoutId
         });
-    }, [data, hangoutId, navigateTo]);
+    }, [hangoutId, navigateTo]);
 
     useEffect(() => {
         navigation.setOptions({
@@ -84,9 +83,7 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
                 </TouchableOpacity>
             ),
             ...(data?.createdBy === user && {
-                headerRight: () => (
-                    <HangoutActions hangoutId={hangoutId} hangout={data} />
-                )
+                headerRight: () => <HangoutActions hangoutId={hangoutId} />
             })
         });
     }, [data, hangoutId, navigation, openHangoutDetail, user]);
@@ -124,16 +121,17 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
                 name: firstname,
                 type: hangoutType
             }
-        ).subscribe();
-    }, [firstname, hangoutId, hangoutType, invitedBy, user]);
+        ).subscribe(() => {
+            loadHangout();
+        });
+    }, [firstname, hangoutId, hangoutType, invitedBy, loadHangout, user]);
 
     const onOpenChat = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.ChatScreen, {
-            title: data?.title,
-            usernames,
-            image: data?.picture
+            createNewConversation: true,
+            usernames
         });
-    }, [navigateTo, data?.title, data?.picture, usernames]);
+    }, [navigateTo, usernames]);
 
     return (
         <ScrollView contentContainerStyle={EventScreenStyle.contentContainer}>
@@ -152,36 +150,37 @@ export const EventScreen = ({ route }: EventScreenProps): JSX.Element => {
                 <Text style={EventScreenStyle.text}>
                     {formatDate(new Date(getLocalDateTimeFromUTC(data?.time)))}
                 </Text>
-                <View style={EventScreenStyle.usersContainer}>
-                    {data?.usernames?.map(
-                        (value) =>
-                            value.username !== user && (
-                                <TouchableOpacity
-                                    key={value.username}
-                                    onPress={() => openUserAccount(value)}
-                                    style={EventScreenStyle.userView}
+                {data?.type === 'group_hangout' && (
+                    <View style={EventScreenStyle.usersContainer}>
+                        {data?.usernames?.map((value: EventUsersInterface) => (
+                            <TouchableOpacity
+                                key={value.username}
+                                onPress={() => openUserAccount(value)}
+                                style={EventScreenStyle.userView}
+                            >
+                                <FastImage
+                                    source={{
+                                        uri: value?.profilePicture
+                                    }}
+                                    style={[
+                                        EventScreenStyle.userPhoto,
+                                        !value.confirmed &&
+                                            EventScreenStyle.opacity
+                                    ]}
+                                />
+                                <Text
+                                    style={[
+                                        EventScreenStyle.userText,
+                                        !value.confirmed &&
+                                            EventScreenStyle.opacity
+                                    ]}
                                 >
-                                    <FastImage
-                                        source={{ uri: value?.profilePicture }}
-                                        style={[
-                                            EventScreenStyle.userPhoto,
-                                            !value.confirmed &&
-                                                EventScreenStyle.opacity
-                                        ]}
-                                    />
-                                    <Text
-                                        style={[
-                                            EventScreenStyle.userText,
-                                            !value.confirmed &&
-                                                EventScreenStyle.opacity
-                                        ]}
-                                    >
-                                        {value.name}
-                                    </Text>
-                                </TouchableOpacity>
-                            )
-                    )}
-                </View>
+                                    {value.name}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                )}
             </View>
             <View style={EventScreenStyle.alignItemsCenter}>
                 <TouchableOpacity

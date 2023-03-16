@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const HangoutPickerStyle = StyleSheet.create({
+export const AddConversationPeopleScreenStyle = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 5
@@ -27,13 +27,13 @@ export const HangoutPickerStyle = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 30,
         borderRadius: 20,
-        backgroundColor: COLORS.MAIN_BLUE,
+        backgroundColor: COLORS.MAIN_WHITE,
         position: 'absolute',
         alignSelf: 'center',
         alignItems: 'center'
     },
     sendText: {
-        color: COLORS.WHITE,
+        color: COLORS.GRAY_100,
         fontWeight: '500'
     }
 });

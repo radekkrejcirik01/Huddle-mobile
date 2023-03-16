@@ -9,12 +9,19 @@ export const ChatListStyle = StyleSheet.create({
     },
     bottomContainer: {
         marginHorizontal: 10,
-        flexDirection: 'row',
-        alignItems: 'center'
+        flexDirection: 'row'
+    },
+    iconsButtonsView: {
+        paddingBottom: 6,
+        flexDirection: 'row'
+    },
+    photoIcon: {
+        marginBottom: -2, // The icon is not properly sized
+        justifyContent: 'flex-end'
     },
     iconButton: {
         marginRight: 12,
-        paddingBottom: 5
+        justifyContent: 'flex-end'
     },
     inputContainer: {
         flex: 1,

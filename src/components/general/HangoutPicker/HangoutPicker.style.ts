@@ -20,13 +20,6 @@ export const HangoutPickerStyle = StyleSheet.create({
         padding: 7,
         borderRadius: 15
     },
-    peopleItem: {
-        marginBottom: 5,
-        marginRight: 5,
-        padding: 7,
-        borderRadius: 15,
-        backgroundColor: COLORS.MAIN_BLUE
-    },
     tagText: {
         fontSize: 15,
         color: COLORS.WHITE,
@@ -46,5 +39,25 @@ export const HangoutPickerStyle = StyleSheet.create({
         height: 40,
         borderWidth: 0,
         backgroundColor: COLORS.GRAY_100
+    },
+    peopleItem: {
+        marginRight: 15,
+        marginTop: 10,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    peopleImage: {
+        width: 25,
+        height: 25,
+        borderRadius: 20
+    },
+    peopleText: {
+        marginLeft: 7,
+        color: COLORS.WHITE,
+        fontWeight: '600'
+    },
+    plusButton: {
+        marginTop: 10,
+        justifyContent: 'center'
     }
 });

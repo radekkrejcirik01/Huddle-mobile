@@ -29,13 +29,13 @@ export const CreateGroupHangoutScreenStyle = StyleSheet.create({
         marginTop: 50,
         padding: 12,
         borderRadius: 20,
-        backgroundColor: COLORS.MAIN_BLUE,
+        backgroundColor: COLORS.MAIN_WHITE,
         alignSelf: 'center',
         alignItems: 'center'
     },
     hangoutText: {
         fontSize: 15,
-        color: COLORS.WHITE,
+        color: COLORS.GRAY_100,
         fontWeight: '500'
     }
 });

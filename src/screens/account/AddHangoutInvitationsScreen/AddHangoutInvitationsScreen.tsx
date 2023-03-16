@@ -6,55 +6,55 @@ import React, {
     useState
 } from 'react';
 import { Alert, RefreshControl, Text, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Input } from '@components/general/Input/Input';
+import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
-import { ReducerProps } from '@store/index/index.props';
 import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
+import { PickPeopleListItem } from '@components/people/PickPeopleListItem/PickPeopleListItem';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { postRequest } from '@utils/Axios/Axios.service';
 import {
+    ResponseGetHangoutUsernamesInterface,
     ResponseInterface,
     ResponsePeopleGetInterface
 } from '@interfaces/response/Response.interface';
 import {
+    GetHangoutUsernamesInterface,
     SendHangoutInvitation,
     UserGetPostInterface
 } from '@interfaces/post/Post.inteface';
-import { Input } from '@components/general/Input/Input';
-import { InputTypeEnum } from '@components/general/Input/Input.enum';
-import { PickPeopleListItem } from '@components/people/PickPeopleListItem/PickPeopleListItem';
-import { setUsersAction } from '@store/ChoosePeopleReducer';
-import { HangoutPickerStyle } from '@screens/account/PickPeopleScreen/PickPeopleScreen.style';
-import { PickPeopleScreenProps } from '@screens/account/PickPeopleScreen/PickPeopleScreen.props';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { ReducerProps } from '@store/index/index.props';
+import { useRefresh } from '@hooks/useRefresh';
+import { AddHangoutInvitationsScreenProps } from '@screens/account/AddHangoutInvitationsScreen/AddHangoutInvitationsScreen.props';
+import { AddHangoutInvitationsScreenStyle } from '@screens/account/AddHangoutInvitationsScreen/AddHangoutInvitationsScreen.style';
 
-export const PickPeopleScreen = ({
+export const AddHangoutInvitationsScreen = ({
     route
-}: PickPeopleScreenProps): JSX.Element => {
-    const { hangoutId = 0, usernames } = route.params;
+}: AddHangoutInvitationsScreenProps): JSX.Element => {
+    const { hangoutId } = route.params;
 
     const { firstname, username } = useSelector(
         (state: ReducerProps) => state.user.user
     );
-    const { users } = useSelector((state: ReducerProps) => state.choosePeople);
-
-    const navigation = useNavigation();
-    const dispatch = useDispatch();
 
     const { bottom } = useSafeAreaInsets();
 
-    const [inputValue, setInputValue] = useState<string>();
-    const [data, setData] = useState<Array<PeopleListItemProps>>([]);
-    const [showButton, setShowButton] = useState<boolean>(false);
-    const [isInviteSent, setIsInviteSent] = useState<boolean>(false);
+    const [people, setPeople] = useState<ResponsePeopleGetInterface['data']>(
+        []
+    );
+    const [hangoutUsernames, setHangoutUsernames] = useState<Array<string>>();
 
+    const [inputValue, setInputValue] = useState<string>();
     const [filteredData, setFilteredData] = useState<
         Array<PeopleListItemProps>
     >([]);
-    const [refreshing, setRefreshing] = useState(false);
 
-    const people = useRef(users);
+    const pickedUsernames = useRef<Array<string>>([]);
+
+    const [showButton, setShowButton] = useState<boolean>(false);
+    const [isInviteSent, setIsInviteSent] = useState<boolean>(false);
 
     const loadPeople = useCallback(() => {
         postRequest<ResponsePeopleGetInterface, UserGetPostInterface>(
@@ -64,65 +64,65 @@ export const PickPeopleScreen = ({
             }
         ).subscribe((response: ResponsePeopleGetInterface) => {
             if (response?.status) {
-                setData(response?.data);
+                setPeople(response?.data);
                 setFilteredData(response?.data);
             }
         });
     }, [username]);
 
-    useEffect(
-        () =>
-            navigation.addListener('beforeRemove', () => {
-                if (!hangoutId) {
-                    dispatch(setUsersAction(people.current));
-                }
-            }),
-        [dispatch, hangoutId, navigation]
-    );
+    const getHangoutUsernames = useCallback(() => {
+        postRequest<
+            ResponseGetHangoutUsernamesInterface,
+            GetHangoutUsernamesInterface
+        >(
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/hangout/usernames',
+            {
+                hangoutId
+            }
+        ).subscribe((response: ResponseGetHangoutUsernamesInterface) => {
+            if (response?.status) {
+                setHangoutUsernames(response?.data);
+            }
+        });
+    }, [hangoutId]);
 
-    useEffect(() => {
+    const load = useCallback(() => {
         loadPeople();
-    }, [loadPeople]);
+        getHangoutUsernames();
+    }, [getHangoutUsernames, loadPeople]);
+
+    useEffect(() => load(), [load]);
+
+    const { onRefresh, refreshing } = useRefresh(load);
 
     const filterData = useCallback(
         (value: string) => {
             setInputValue(value);
             const text = value.toLowerCase();
-            const filteredName = data.filter((item: PeopleListItemProps) =>
+            const filteredName = people.filter((item) =>
                 item.username.toLowerCase().match(text)
             );
             setFilteredData(filteredName);
         },
-        [data]
-    );
-
-    const refresh = useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            loadPeople();
-            setRefreshing(false);
-        }, 1000);
-    }, [loadPeople]);
-
-    const onPressPerson = useCallback(
-        (user: string) => {
-            const array = people.current;
-            if (array.includes(user)) {
-                people.current = array.filter(
-                    (value: string) => value !== user
-                );
-            } else {
-                people.current = [...array, user];
-            }
-            setShowButton(!!people.current.length);
-            setIsInviteSent(false);
-        },
         [people]
     );
 
+    const onPressPerson = (user: string) => {
+        const array = pickedUsernames.current;
+        if (array.includes(user)) {
+            pickedUsernames.current = array.filter(
+                (value: string) => value !== user
+            );
+        } else {
+            pickedUsernames.current = [...array, user];
+        }
+        setShowButton(!!pickedUsernames.current.length);
+        setIsInviteSent(false);
+    };
+
     const sendInvite = useCallback(() => {
-        const newUsernames = people.current.filter(
-            (value) => !usernames.includes(value)
+        const newUsernames = pickedUsernames.current.filter(
+            (value: string) => !hangoutUsernames.includes(value)
         );
         if (newUsernames.length) {
             postRequest<ResponseInterface, SendHangoutInvitation>(
@@ -135,17 +135,14 @@ export const PickPeopleScreen = ({
                 }
             ).subscribe((response: ResponseInterface) => {
                 if (response?.status) {
-                    navigation.setParams({
-                        hangoutId,
-                        usernames: [...usernames, ...newUsernames]
-                    } as never);
                     setIsInviteSent(true);
+                    load();
                 }
             });
         } else {
             Alert.alert('Please add new invited people');
         }
-    }, [firstname, hangoutId, navigation, username, usernames]);
+    }, [firstname, hangoutId, hangoutUsernames, load, username]);
 
     const sendInviteText = useMemo(() => {
         if (isInviteSent) {
@@ -155,23 +152,23 @@ export const PickPeopleScreen = ({
     }, [isInviteSent]);
 
     return (
-        <View style={HangoutPickerStyle.container}>
+        <View style={AddHangoutInvitationsScreenStyle.container}>
             <Input
                 iconLeft={<Text>🔍</Text>}
                 placeholder="Who you looking for?..."
                 value={inputValue}
                 onChange={filterData}
                 inputType={InputTypeEnum.TEXT}
-                viewStyle={HangoutPickerStyle.inputView}
-                inputStyle={HangoutPickerStyle.input}
+                viewStyle={AddHangoutInvitationsScreenStyle.inputView}
+                inputStyle={AddHangoutInvitationsScreenStyle.input}
             />
-            <View style={HangoutPickerStyle.flashListView}>
+            <View style={AddHangoutInvitationsScreenStyle.flashListView}>
                 <FlashList
                     data={filteredData}
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
-                            onRefresh={refresh}
+                            onRefresh={onRefresh}
                             tintColor="white"
                         />
                     }
@@ -186,17 +183,17 @@ export const PickPeopleScreen = ({
                     estimatedItemSize={68}
                 />
             </View>
-            {!!hangoutId && showButton && (
+            {showButton && (
                 <TouchableOpacity
                     onPress={sendInvite}
                     style={[
-                        HangoutPickerStyle.sendButton,
+                        AddHangoutInvitationsScreenStyle.sendButton,
                         {
                             bottom: bottom + 10
                         }
                     ]}
                 >
-                    <Text style={HangoutPickerStyle.sendText}>
+                    <Text style={AddHangoutInvitationsScreenStyle.sendText}>
                         {sendInviteText}
                     </Text>
                 </TouchableOpacity>

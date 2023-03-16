@@ -41,7 +41,6 @@ export const NotificationsListItemStyle = StyleSheet.create({
     },
     acceptText: {
         fontSize: 14,
-        color: COLORS.WHITE,
         fontWeight: '500'
     }
 });

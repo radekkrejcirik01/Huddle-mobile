@@ -31,8 +31,6 @@ import {
 } from '@store/Conversation';
 import { IconButton } from '@components/general/IconButton/IconButton';
 import { IconEnum } from '@components/icon/Icon.enum';
-import { TypingIndicator } from '@components/general/TypingIndicator/TypingIndicator';
-import { TypingIndicatorEnum } from '@components/general/TypingIndicator/TypingIndicator.enum';
 
 export const ChatList = ({
     conversationId,
@@ -123,7 +121,6 @@ export const ChatList = ({
                 {
                     sender: username,
                     name: firstname,
-                    picture,
                     conversationId,
                     message: messageValue,
                     buffer,
@@ -135,14 +132,7 @@ export const ChatList = ({
                 }
             });
         },
-        [
-            conversationId,
-            firstname,
-            loadMessages,
-            messageValue,
-            picture,
-            username
-        ]
+        [conversationId, firstname, loadMessages, messageValue, username]
     );
 
     const openPhoto = useCallback(() => {
@@ -181,22 +171,22 @@ export const ChatList = ({
             'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/send/typing',
             {
                 conversationId,
-                username,
+                username: firstname,
                 value: 1
             }
         ).subscribe();
-    }, [conversationId, username]);
+    }, [conversationId, firstname]);
 
     const sendFinishedTyping = useCallback(() => {
         postRequest<ResponseInterface, SendTypingInterface>(
             'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/send/typing',
             {
                 conversationId,
-                username,
+                username: firstname,
                 value: 0
             }
         ).subscribe();
-    }, [conversationId, username]);
+    }, [conversationId, firstname]);
 
     useEffect(() => {
         if (typingState === 'typing') {
@@ -246,24 +236,25 @@ export const ChatList = ({
                 onScrollBeginDrag={Keyboard.dismiss}
                 contentContainerStyle={ChatListStyle.contentContainer}
             />
-            <TypingIndicator
-                conversationId={conversationId}
-                type={TypingIndicatorEnum.Chat}
-            />
             <View style={ChatListStyle.bottomContainer}>
-                <IconButton
-                    icon={IconEnum.PHOTO}
-                    onPress={openPhoto}
-                    size={25}
-                    style={ChatListStyle.iconButton}
-                />
-                <IconButton
-                    icon={IconEnum.GALLERY}
-                    onPress={openGallery}
-                    size={20}
-                    style={ChatListStyle.iconButton}
-                />
                 <View style={ChatListStyle.inputContainer}>
+                    <View style={[ChatListStyle.iconsButtonsView]}>
+                        <IconButton
+                            icon={IconEnum.PHOTO}
+                            onPress={openPhoto}
+                            size={24}
+                            style={[
+                                ChatListStyle.photoIcon,
+                                ChatListStyle.iconButton
+                            ]}
+                        />
+                        <IconButton
+                            icon={IconEnum.GALLERY}
+                            onPress={openGallery}
+                            size={20}
+                            style={ChatListStyle.iconButton}
+                        />
+                    </View>
                     <TextInput
                         placeholder="Message..."
                         placeholderTextColor={COLORS.WHITE}

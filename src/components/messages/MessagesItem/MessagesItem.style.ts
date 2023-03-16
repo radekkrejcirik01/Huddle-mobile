@@ -25,6 +25,22 @@ export const MessagesItemStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
+    titleRow: {
+        maxWidth: '65%',
+        paddingBottom: 5,
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+    },
+    titleImage: {
+        height: 15,
+        width: 15,
+        borderRadius: 10
+    },
+    titleText: {
+        marginLeft: 2,
+        color: COLORS.WHITE,
+        fontWeight: '500'
+    },
     text: {
         maxWidth: '65%',
         paddingBottom: 5,

@@ -3,22 +3,21 @@ import COLORS from '@constants/COLORS';
 
 export const ToastMessageStyle = StyleSheet.create({
     touchableOpacity: {
-        height: 60,
-        paddingLeft: 15,
-        justifyContent: 'center',
         width: '95%',
+        padding: 15,
         borderRadius: 15,
-        alignSelf: 'center',
-        backgroundColor: COLORS.GRAY_100
+        backgroundColor: COLORS.MAIN_WHITE,
+        justifyContent: 'center',
+        alignSelf: 'center'
     },
     title: {
-        color: COLORS.WHITE,
         fontSize: 15,
-        fontWeight: '500'
+        color: COLORS.GRAY_100,
+        fontWeight: '600'
     },
     body: {
-        color: COLORS.WHITE,
         fontSize: 12,
-        fontWeight: '500'
+        color: COLORS.GRAY_100,
+        fontWeight: '600'
     }
 });

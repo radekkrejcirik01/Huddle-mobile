@@ -22,6 +22,7 @@ export interface EventScreenDataInterface {
     place: string;
     picture: string;
     usernames: Array<EventUsersInterface>;
+    type: string;
 }
 
 export interface EventUsersInterface {

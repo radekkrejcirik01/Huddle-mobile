@@ -21,17 +21,16 @@ import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { GroupHangoutCreateInterface } from '@interfaces/post/Post.inteface';
 import { HangoutPickerEnum } from '@components/general/HangoutPicker/HangoutPicker.enum';
-import {
-    resetChoosePeopleState,
-    setUsersAction
-} from '@store/ChoosePeopleReducer';
+import { resetSelectedState } from '@store/SelectUsersReducer';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 
 export const CreateGroupHangoutScreen = (): JSX.Element => {
     const { firstname, username } = useSelector(
         (state: ReducerProps) => state.user.user
     );
-    const { users } = useSelector((state: ReducerProps) => state.choosePeople);
+    const { selectedUsernames } = useSelector(
+        (state: ReducerProps) => state.selectUsers
+    );
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
@@ -52,7 +51,7 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
         () =>
             navigation.addListener('beforeRemove', () => {
                 setTimeout(() => {
-                    dispatch(setUsersAction([]));
+                    dispatch(resetSelectedState());
                 }, 1000);
             }),
         [dispatch, navigation]
@@ -73,14 +72,14 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
     }, []);
 
     const sendGroupHangout = useCallback(() => {
-        if (users?.length) {
+        if (selectedUsernames?.length) {
             postRequest<ResponseInterface, GroupHangoutCreateInterface>(
                 'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/create/hangout/group',
                 {
                     user: username,
                     name: firstname,
                     title,
-                    usernames: users,
+                    usernames: selectedUsernames,
                     time: dateTime,
                     place,
                     buffer: photoRef?.current?.buffer,
@@ -89,13 +88,21 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
             ).subscribe((response: ResponseInterface) => {
                 if (response?.status) {
                     setIsHangoutSent(true);
-                    dispatch(resetChoosePeopleState());
+                    dispatch(resetSelectedState());
                 }
             });
         } else {
             Alert.alert('Please add someone to create group hangout');
         }
-    }, [dateTime, dispatch, firstname, place, title, username, users]);
+    }, [
+        dateTime,
+        dispatch,
+        firstname,
+        place,
+        selectedUsernames,
+        title,
+        username
+    ]);
 
     const buttonText = useMemo((): string => {
         if (isHangoutSent) {

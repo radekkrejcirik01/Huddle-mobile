@@ -29,12 +29,10 @@ export const useNotifications = (
     const { showToast } = useToastMessage();
 
     const openChat = useCallback(
-        (conversationId: string, sender: string, picture) => {
+        (conversationId: string) => {
             if (isReady && username) {
                 navigateTo(AccountStackNavigatorEnum.ChatScreen, {
-                    conversationId: Number(conversationId),
-                    title: sender,
-                    image: picture
+                    conversationId: Number(conversationId)
                 });
             }
         },
@@ -47,11 +45,7 @@ export const useNotifications = (
             .getInitialNotification()
             .then((remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
                 if (remoteMessage && remoteMessage.data.type === 'message') {
-                    openChat(
-                        remoteMessage?.data?.conversationId,
-                        remoteMessage?.data?.sender,
-                        remoteMessage?.data?.picture
-                    );
+                    openChat(remoteMessage?.data?.conversationId);
                 }
             });
     }, [openChat]);
@@ -61,11 +55,7 @@ export const useNotifications = (
         messaging().onNotificationOpenedApp(
             (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
                 if (remoteMessage && remoteMessage.data.type === 'message') {
-                    openChat(
-                        remoteMessage?.data?.conversationId,
-                        remoteMessage?.data?.sender,
-                        remoteMessage?.data?.picture
-                    );
+                    openChat(remoteMessage?.data?.conversationId);
                 }
             }
         );
@@ -119,12 +109,7 @@ export const useNotifications = (
                         showToast(
                             remoteMessage?.notification?.title,
                             remoteMessage?.notification?.body,
-                            () =>
-                                openChat(
-                                    remoteMessage?.data?.conversationId,
-                                    remoteMessage?.data?.sender,
-                                    remoteMessage?.data?.picture
-                                )
+                            () => openChat(remoteMessage?.data?.conversationId)
                         );
                     }
                 }

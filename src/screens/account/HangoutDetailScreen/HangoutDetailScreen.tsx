@@ -13,7 +13,7 @@ import {
     View
 } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation as useDefaultNavigation } from '@react-navigation/native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import FastImage, { Source } from 'react-native-fast-image';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -23,9 +23,13 @@ import moment, { Moment } from 'moment';
 import { ListItem } from '@components/general/ListItem/ListItem';
 import { HangoutDetailScreenProps } from '@screens/account/HangoutDetailScreen/HangoutDetailScreen.props';
 import { postRequest } from '@utils/Axios/Axios.service';
-import { ResponseInterface } from '@interfaces/response/Response.interface';
+import {
+    ResponseHangoutGetInterface,
+    ResponseInterface
+} from '@interfaces/response/Response.interface';
 import {
     HangoutDeleteInterface,
+    HangoutGetInterface,
     HangoutUpdateInterface,
     RemoveHangoutUserInterface
 } from '@interfaces/post/Post.inteface';
@@ -39,14 +43,26 @@ import { formatDate } from '@functions/formatDate';
 import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
 import { getUTCDateTime } from '@functions/getUTCDateTime';
 import { ReducerProps } from '@store/index/index.props';
-import { EventUsersInterface } from '@screens/account/EventScreen/EventScreen.props';
+import {
+    EventScreenDataInterface,
+    EventUsersInterface
+} from '@screens/account/EventScreen/EventScreen.props';
 import { IconButton } from '@components/general/IconButton/IconButton';
 import { IconEnum } from '@components/icon/Icon.enum';
+import { useNavigation } from '@hooks/useNavigation';
 
 export const HangoutDetailScreen = ({
     route
 }: HangoutDetailScreenProps): JSX.Element => {
-    const { hangoutId, hangout } = route.params;
+    const { hangoutId } = route.params;
+
+    const { username } = useSelector((state: ReducerProps) => state.user.user);
+
+    const navigation = useDefaultNavigation();
+    const { showActionSheetWithOptions } = useActionSheet();
+
+    const [hangout, setHangout] = useState<EventScreenDataInterface>();
+
     const {
         createdBy,
         picture: photo,
@@ -54,19 +70,14 @@ export const HangoutDetailScreen = ({
         title,
         time,
         place: plan
-    } = hangout;
-
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-
-    const navigation = useNavigation();
-    const { showActionSheetWithOptions } = useActionSheet();
+    } = useMemo(() => !!hangout && hangout, [hangout]);
 
     const [isSave, setIsSave] = useState<boolean>(false);
 
-    const [photoValue, setPhotoValue] = useState<string>(photo);
-    const [titleValue, setTitleValue] = useState<string>(title);
-    const [timeValue, setTimeValue] = useState<Moment>(time);
-    const [planValue, setPlanValue] = useState<string>(plan);
+    const [photoValue, setPhotoValue] = useState<string>();
+    const [titleValue, setTitleValue] = useState<string>();
+    const [timeValue, setTimeValue] = useState<Moment>();
+    const [planValue, setPlanValue] = useState<string>();
 
     const [openDatePicker, setOpenDatePicker] = useState(false);
     const minimumDate = new Date(moment().toString());
@@ -75,6 +86,31 @@ export const HangoutDetailScreen = ({
         buffer: null,
         fileName: null
     });
+
+    const loadHangout = useCallback(() => {
+        if (hangoutId) {
+            postRequest<ResponseHangoutGetInterface, HangoutGetInterface>(
+                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/hangout',
+                {
+                    id: hangoutId,
+                    username
+                }
+            ).subscribe((response: ResponseHangoutGetInterface) => {
+                if (response?.status) {
+                    setPhotoValue(response.data.picture);
+                    setTitleValue(response.data.title);
+                    setTimeValue(response.data.time);
+                    setPlanValue(response.data.place);
+                    setHangout(response.data);
+                }
+            });
+        }
+    }, [hangoutId, username]);
+
+    const { navigateBack, navigateTo } = useNavigation(
+        RootStackNavigatorEnum.AccountStack,
+        loadHangout
+    );
 
     const save = useCallback(() => {
         postRequest<ResponseInterface, HangoutUpdateInterface>(
@@ -116,7 +152,7 @@ export const HangoutDetailScreen = ({
             planValue === plan
         ) {
             setIsSave(false);
-        } else {
+        } else if (typeof title === 'string') {
             setIsSave(true);
         }
     }, [
@@ -174,47 +210,18 @@ export const HangoutDetailScreen = ({
                 }
             ).subscribe((response: ResponseInterface) => {
                 if (response?.status) {
-                    Alert.alert(response?.message);
+                    loadHangout();
                 }
             });
         },
-        [hangoutId]
+        [hangoutId, loadHangout]
     );
 
-    const onPressUser = useCallback(
-        (value: EventUsersInterface) => {
-            const options = ['Remove from hangout', 'Cancel'];
-
-            showActionSheetWithOptions(
-                {
-                    cancelButtonIndex: 1,
-                    options,
-                    userInterfaceStyle: 'dark',
-                    title: value.username
-                },
-                (selectedIndex: number) => {
-                    if (selectedIndex === 0) {
-                        removeUserFromHangout(value.username);
-                    }
-                }
-            );
-        },
-        [removeUserFromHangout, showActionSheetWithOptions]
-    );
-
-    const openPeopleScreen = useCallback(() => {
-        const usernamesArray = [];
-        for (let i = 0; i < usernames.length; i += 1) {
-            usernamesArray.push(usernames[i].username);
-        }
-        navigation.navigate(
-            AccountStackNavigatorEnum.PickPeopleScreen as never,
-            {
-                hangoutId,
-                usernames: usernamesArray
-            } as never
-        );
-    }, [hangoutId, navigation, usernames]);
+    const openAddHangoutInvitationsScreen = useCallback(() => {
+        navigateTo(AccountStackNavigatorEnum.AddHangoutInvitationsScreen, {
+            hangoutId
+        });
+    }, [hangoutId, navigateTo]);
 
     const cancelConfirmation = () => {};
 
@@ -226,17 +233,13 @@ export const HangoutDetailScreen = ({
             }
         ).subscribe((response: ResponseInterface) => {
             if (response?.status) {
-                navigation.navigate(
-                    RootStackNavigatorEnum.AccountStack as never,
-                    {
-                        screen: AccountStackNavigatorEnum.EventScreen,
-                        params: { hangoutId: 0 }
-                    } as never
-                );
-                navigation.goBack();
+                navigateTo(AccountStackNavigatorEnum.EventScreen, {
+                    hangoutId: 0
+                });
+                navigateBack();
             }
         });
-    }, [hangoutId, navigation]);
+    }, [hangoutId, navigateBack, navigateTo]);
 
     const onDeleteHangoutPress = useCallback(() => {
         Alert.alert('Are you sure you want to delete this hangout?', '', [
@@ -251,6 +254,36 @@ export const HangoutDetailScreen = ({
             }
         ]);
     }, [deleteHangout]);
+
+    const onPressUser = useCallback(
+        (value: EventUsersInterface) => {
+            const options = [`Remove from hangout`, 'Cancel'];
+
+            showActionSheetWithOptions(
+                {
+                    cancelButtonIndex: 1,
+                    options,
+                    userInterfaceStyle: 'dark',
+                    title: value.username
+                },
+                (selectedIndex: number) => {
+                    if (selectedIndex === 0) {
+                        if (usernames?.length === 2) {
+                            onDeleteHangoutPress();
+                        } else {
+                            removeUserFromHangout(value.username);
+                        }
+                    }
+                }
+            );
+        },
+        [
+            onDeleteHangoutPress,
+            removeUserFromHangout,
+            showActionSheetWithOptions,
+            usernames?.length
+        ]
+    );
 
     return (
         <ScrollView
@@ -292,37 +325,31 @@ export const HangoutDetailScreen = ({
                 />
                 <Text style={HangoutDetailScreenStyle.text}>People 👨‍👩‍👧‍👦</Text>
                 <View style={HangoutDetailScreenStyle.row}>
-                    {usernames.map(
-                        (value: EventUsersInterface) =>
-                            value.username !== username && (
-                                <TouchableOpacity
-                                    key={value.username}
-                                    onPress={() => onPressUser(value)}
-                                    style={[
-                                        HangoutDetailScreenStyle.peopleTouchableOpacity,
-                                        !value.confirmed &&
-                                            HangoutDetailScreenStyle.opacity
-                                    ]}
-                                >
-                                    <FastImage
-                                        style={
-                                            HangoutDetailScreenStyle.peopleImage
-                                        }
-                                        source={{ uri: value.profilePicture }}
-                                    />
-                                    <Text
-                                        style={
-                                            HangoutDetailScreenStyle.peopleText
-                                        }
-                                    >
-                                        {value.name}
-                                    </Text>
-                                </TouchableOpacity>
-                            )
-                    )}
+                    {usernames?.map((value: EventUsersInterface) => (
+                        <TouchableOpacity
+                            key={value.username}
+                            onPress={() => onPressUser(value)}
+                            onLongPress={() => onPressUser(value)}
+                            style={[
+                                HangoutDetailScreenStyle.peopleTouchableOpacity,
+                                !value?.confirmed &&
+                                    HangoutDetailScreenStyle.opacity
+                            ]}
+                        >
+                            <FastImage
+                                style={HangoutDetailScreenStyle.peopleImage}
+                                source={{
+                                    uri: value?.profilePicture
+                                }}
+                            />
+                            <Text style={HangoutDetailScreenStyle.peopleText}>
+                                {value?.name}
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
                     <IconButton
                         icon={IconEnum.PLUS}
-                        onPress={openPeopleScreen}
+                        onPress={openAddHangoutInvitationsScreen}
                         size={18}
                         style={HangoutDetailScreenStyle.plusButton}
                     />

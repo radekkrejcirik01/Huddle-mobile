@@ -4,10 +4,9 @@ export interface ChatScreenProps {
     route: RouteProp<
         {
             params: {
-                title: string;
+                createNewConversation: boolean;
                 conversationId: number;
                 usernames?: Array<string>;
-                image?: string;
             };
         },
         'params'

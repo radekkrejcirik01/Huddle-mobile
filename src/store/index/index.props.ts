@@ -1,6 +1,6 @@
 export interface ReducerProps {
     user: User;
-    choosePeople: ChoosePeople;
+    selectUsers: SelectUsers;
     device: Device;
     navigationState: NavigationSate;
     conversation: Conversation;
@@ -20,8 +20,13 @@ export interface User {
     unreadMessages: number;
 }
 
-export interface ChoosePeople {
-    users: Array<string>;
+export interface SelectUsers {
+    selectedUsernames: Array<string>;
+    selectedUsers: Array<{
+        username: string;
+        firstname: string;
+        profilePicture: string;
+    }>;
 }
 
 export interface Device {

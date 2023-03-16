@@ -2,6 +2,13 @@ import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
 export const PersonAccountScreenStyle = StyleSheet.create({
+    row: {
+        flexDirection: 'row'
+    },
+    friendStatus: {
+        color: COLORS.WHITE,
+        fontWeight: 'bold'
+    },
     container: {
         flex: 1
     },
@@ -31,11 +38,11 @@ export const PersonAccountScreenStyle = StyleSheet.create({
         fontWeight: '500'
     },
     mainButtonTouchableOpacity: {
-        minWidth: 100,
+        minWidth: 85,
         marginTop: 25,
         padding: 12,
         borderRadius: 20,
-        backgroundColor: COLORS.MAIN_BLUE,
+        backgroundColor: COLORS.MAIN_WHITE,
         alignItems: 'center'
     },
     text: {

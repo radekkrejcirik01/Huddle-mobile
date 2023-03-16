@@ -1,11 +1,10 @@
 import { RouteProp } from '@react-navigation/native';
 
-export interface PickPeopleScreenProps {
+export interface AddHangoutInvitationsScreenProps {
     route: RouteProp<
         {
             params: {
                 hangoutId: number;
-                usernames?: Array<string>;
             };
         },
         'params'

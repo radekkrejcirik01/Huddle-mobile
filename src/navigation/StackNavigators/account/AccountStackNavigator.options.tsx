@@ -1,8 +1,14 @@
 import React from 'react';
 import { StackNavigationOptions } from '@react-navigation/stack';
 import { HeaderPlus } from '@components/general/HeaderPlus/HeaderPlus';
-import { StackNavigatorStyle } from '@navigation/StackNavigators/StackNavigator.style';
-import DIMENSIONS from '@constants/DIMENSIONS';
+
+export const AddConversationPeopleTitle: StackNavigationOptions = {
+    headerTitle: 'Add people'
+};
+
+export const AddHangoutInvitationsTitle: StackNavigationOptions = {
+    headerTitle: 'Add people'
+};
 
 export const ProfileTitle: StackNavigationOptions = {
     headerTitle: 'Profile'
@@ -15,13 +21,6 @@ export const PeopleOptions: StackNavigationOptions = {
 
 export const ChatDetailOptions: StackNavigationOptions = {
     title: 'Details'
-};
-
-export const PictureOptions: StackNavigationOptions = {
-    headerLeft: null,
-    headerStyle: StackNavigatorStyle.navigationScreen,
-    gestureResponseDistance: DIMENSIONS.width,
-    headerTitle: ''
 };
 
 export const HangoutsTitle: StackNavigationOptions = {
@@ -56,6 +55,6 @@ export const CreateGroupHangoutTitle: StackNavigationOptions = {
     headerTitle: 'Group hangout'
 };
 
-export const PickPeopleTitle: StackNavigationOptions = {
+export const SelectGroupHangoutUsersTitle: StackNavigationOptions = {
     headerTitle: 'Add people'
 };

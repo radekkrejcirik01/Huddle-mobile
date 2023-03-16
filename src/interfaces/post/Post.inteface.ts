@@ -19,7 +19,6 @@ export interface MessagesGetInterface {
 export interface SendMessageInterface {
     sender: string;
     name: string;
-    picture: string;
     conversationId: number;
     message: string;
     buffer?: string;
@@ -79,6 +78,10 @@ export interface GroupHangoutCreateInterface {
     fileName: string;
 }
 
+export interface GetHangoutUsernamesInterface {
+    hangoutId: number;
+}
+
 export interface SendHangoutInvitation {
     hangoutId: number;
     user: string;
@@ -88,11 +91,35 @@ export interface SendHangoutInvitation {
 
 export interface ConversationsCreateInterface {
     usernames: Array<string>;
+    username: string;
+}
+
+export interface GetConversationsDetailsInterface {
+    conversationId: number;
+    username: string;
+}
+
+export interface GetConversationsUsersInterface {
+    conversationId: number;
+}
+
+export interface AddConversationsUsersInterface {
+    conversationId: number;
+    usernames: Array<string>;
+}
+
+export interface ConversationRemoveInterface {
+    conversationId: number;
+    username: string;
+}
+
+export interface ConversationUserRemoveInterface {
+    conversationId: number;
+    username: string;
 }
 
 export interface ConversationDeleteInterface {
     conversationId: number;
-    username: string;
 }
 
 export interface AcceptPeopleInvitationInterface {
@@ -104,6 +131,11 @@ export interface AcceptPeopleInvitationInterface {
 }
 
 export interface CheckPeopleInvitationInterface {
+    user: string;
+    username: string;
+}
+
+export interface RemoveFriendInterface {
     user: string;
     username: string;
 }
@@ -139,4 +171,11 @@ export interface UploadProfileImageInterface {
     username: string;
     buffer: string;
     fileName: string;
+}
+
+export interface ConversationUpdateInterface {
+    id: number;
+    buffer: string;
+    fileName: string;
+    name: string;
 }

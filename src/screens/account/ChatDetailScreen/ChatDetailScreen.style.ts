@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const HangoutDetailScreenStyle = StyleSheet.create({
+export const ChatDetailScreenStyle = StyleSheet.create({
     save: {
         marginRight: 15,
         color: COLORS.WHITE,
@@ -25,7 +25,14 @@ export const HangoutDetailScreenStyle = StyleSheet.create({
         height: 140,
         backgroundColor: COLORS.GRAY_100
     },
-    text: {
+    title: {
+        marginTop: 10,
+        fontSize: 20,
+        color: COLORS.WHITE,
+        alignSelf: 'center',
+        fontWeight: '500'
+    },
+    inputTitle: {
         marginTop: 15,
         fontSize: 15,
         color: COLORS.WHITE,
@@ -36,17 +43,13 @@ export const HangoutDetailScreenStyle = StyleSheet.create({
     },
     row: {
         paddingTop: 5,
-        flexDirection: 'row',
-        flexWrap: 'wrap'
+        flexDirection: 'row'
     },
     peopleTouchableOpacity: {
         marginRight: 15,
         marginTop: 10,
         flexDirection: 'row',
         alignItems: 'center'
-    },
-    opacity: {
-        opacity: 0.7
     },
     peopleImage: {
         width: 25,
@@ -61,5 +64,14 @@ export const HangoutDetailScreenStyle = StyleSheet.create({
     plusButton: {
         marginTop: 10,
         justifyContent: 'center'
+    },
+    listItemText: {
+        fontSize: 16
+    },
+    createdByText: {
+        marginTop: 10,
+        fontSize: 12,
+        color: COLORS.WHITE,
+        fontWeight: '500'
     }
 });

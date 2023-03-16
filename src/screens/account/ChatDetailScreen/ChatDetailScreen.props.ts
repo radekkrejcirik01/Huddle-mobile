@@ -1,10 +1,10 @@
 import { RouteProp } from '@react-navigation/native';
 
-export interface HangoutDetailScreenProps {
+export interface ChatDetailScreenProps {
     route: RouteProp<
         {
             params: {
-                hangoutId: number;
+                conversationId?: number;
             };
         },
         'params'

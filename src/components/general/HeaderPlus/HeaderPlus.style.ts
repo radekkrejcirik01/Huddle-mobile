@@ -9,8 +9,8 @@ export const HeaderPlusStyle = StyleSheet.create({
         marginHorizontal: 15,
         padding: 15,
         borderRadius: 20,
-        backgroundColor: COLORS.MAIN_BLUE,
-        justifyContent: 'space-between'
+        backgroundColor: COLORS.GRAY_100,
+        justifyContent: 'space-evenly'
     },
     title: {
         paddingLeft: 2,
@@ -27,11 +27,11 @@ export const HeaderPlusStyle = StyleSheet.create({
     inputView: {
         height: 40,
         marginTop: 15,
-        borderWidth: 0,
-        backgroundColor: COLORS.MAIN_BLUE_200
+        paddingHorizontal: 5
     },
     touchableOpacity: {
-        marginTop: 20,
+        marginTop: 10,
+        marginBottom: 5,
         alignSelf: 'center'
     },
     sendButton: {

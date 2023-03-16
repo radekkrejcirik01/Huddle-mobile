@@ -12,10 +12,12 @@ export const PickPeopleListItem = ({
     data,
     onPressPerson
 }: PickPeopleListItemProps): JSX.Element => {
-    const { users } = useSelector((state: ReducerProps) => state.choosePeople);
+    const { selectedUsernames } = useSelector(
+        (state: ReducerProps) => state.selectUsers
+    );
 
     const [chosen, setChosen] = useState<boolean>(
-        users.includes(data.item.username)
+        selectedUsernames.includes(data.item.username)
     );
 
     return (

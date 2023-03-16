@@ -1,4 +1,6 @@
 export enum AccountStackNavigatorEnum {
+    AddConversationPeopleScreen = 'AddConversationPeopleScreen',
+    AddHangoutInvitationsScreen = 'AddHangoutInvitationsScreen',
     ProfileScreen = 'ProfileScreen',
     PeopleScreen = 'PeopleScreen',
     PersonAccountScreen = 'PersonAccountScreen',
@@ -14,5 +16,6 @@ export enum AccountStackNavigatorEnum {
     HangoutDetailScreen = 'HangoutDetailScreen',
     AccountScreen = 'AccountScreen',
     ChangePasswordScreen = 'ChangePasswordScreen',
-    DeleteAccountScreen = 'DeleteAccountScreen'
+    DeleteAccountScreen = 'DeleteAccountScreen',
+    SelectGroupHangoutUsersScreen = 'SelectGroupHangoutUsersScreen'
 }
