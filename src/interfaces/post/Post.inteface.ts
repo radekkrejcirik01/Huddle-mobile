@@ -41,7 +41,6 @@ export interface HangoutCreateInterface {
 
 export interface HangoutsGetInterface {
     username: string;
-    showAll: boolean;
 }
 
 export interface HangoutGetInterface {

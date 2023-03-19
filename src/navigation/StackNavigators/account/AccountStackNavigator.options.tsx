@@ -24,7 +24,7 @@ export const ChatDetailOptions: StackNavigationOptions = {
 };
 
 export const HangoutsTitle: StackNavigationOptions = {
-    headerTitle: 'History'
+    headerTitle: 'Hangouts history'
 };
 
 export const NotificationsTitle: StackNavigationOptions = {

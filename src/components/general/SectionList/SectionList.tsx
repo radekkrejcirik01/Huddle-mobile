@@ -40,7 +40,7 @@ import { getLocalHourFromUTC } from '@functions/getLocalHourFromUTC';
 
 export const SectionList = forwardRef(
     (
-        { showAll, contentContainerStyle }: SectionListProps,
+        { isHistory, contentContainerStyle }: SectionListProps,
         reference: ForwardedRef<SectionListForwardRefProps>
     ): JSX.Element => {
         const { username } = useSelector(
@@ -56,11 +56,15 @@ export const SectionList = forwardRef(
 
         const loadHangouts = useCallback(() => {
             if (username) {
+                let endpoint =
+                    'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/hangouts';
+                if (isHistory) {
+                    endpoint += '/history';
+                }
                 postRequest<ResponseHangoutsGetInterface, HangoutsGetInterface>(
-                    'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/hangouts',
+                    endpoint,
                     {
-                        username,
-                        showAll
+                        username
                     }
                 ).subscribe((response: ResponseHangoutsGetInterface) => {
                     if (response?.status) {
@@ -68,7 +72,7 @@ export const SectionList = forwardRef(
                     }
                 });
             }
-        }, [showAll, username]);
+        }, [isHistory, username]);
 
         useImperativeHandle(reference, () => ({
             loadHangouts

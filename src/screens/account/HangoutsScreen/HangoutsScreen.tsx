@@ -15,7 +15,7 @@ export const HangoutsScreen = (): JSX.Element => {
     return (
         <SectionList
             ref={sectionListRef}
-            showAll
+            isHistory
             contentContainerStyle={HangoutsScreenStyle.contentContainer}
         />
     );
