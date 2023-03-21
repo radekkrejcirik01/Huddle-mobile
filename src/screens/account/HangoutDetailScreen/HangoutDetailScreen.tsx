@@ -50,6 +50,7 @@ import {
 import { IconButton } from '@components/general/IconButton/IconButton';
 import { IconEnum } from '@components/icon/Icon.enum';
 import { useNavigation } from '@hooks/useNavigation';
+import { useOpenPhoto } from '@hooks/useOpenPhoto';
 
 export const HangoutDetailScreen = ({
     route
@@ -60,17 +61,22 @@ export const HangoutDetailScreen = ({
 
     const navigation = useDefaultNavigation();
     const { showActionSheetWithOptions } = useActionSheet();
+    const openPhoto = useOpenPhoto();
 
     const [hangout, setHangout] = useState<EventScreenDataInterface>();
 
     const {
         createdBy,
+        creatorConfirmed,
         picture: photo,
         usernames,
         title,
         time,
         place: plan
-    } = useMemo(() => !!hangout && hangout, [hangout]);
+    } = useMemo(
+        (): EventScreenDataInterface => !!hangout && hangout,
+        [hangout]
+    );
 
     const [isSave, setIsSave] = useState<boolean>(false);
 
@@ -86,6 +92,21 @@ export const HangoutDetailScreen = ({
         buffer: null,
         fileName: null
     });
+
+    const isUserAdmin = useMemo((): boolean => {
+        if (createdBy === username) {
+            return true;
+        }
+        return !creatorConfirmed;
+    }, [createdBy, creatorConfirmed, username]);
+
+    useEffect(() => {
+        navigation.setOptions({
+            ...(!isUserAdmin && {
+                headerTitle: 'Details'
+            })
+        });
+    }, [hangoutId, isUserAdmin, navigation]);
 
     const loadHangout = useCallback(() => {
         if (hangoutId) {
@@ -196,9 +217,11 @@ export const HangoutDetailScreen = ({
         });
     }, []);
 
-    const onEditTime = () => {
-        setOpenDatePicker(true);
-    };
+    const onEditTime = useCallback(() => {
+        if (isUserAdmin) {
+            setOpenDatePicker(true);
+        }
+    }, [isUserAdmin]);
 
     const removeUserFromHangout = useCallback(
         (usernameValue: string) => {
@@ -222,8 +245,6 @@ export const HangoutDetailScreen = ({
             hangoutId
         });
     }, [hangoutId, navigateTo]);
-
-    const cancelConfirmation = () => {};
 
     const deleteHangout = useCallback(() => {
         postRequest<ResponseInterface, HangoutDeleteInterface>(
@@ -255,33 +276,66 @@ export const HangoutDetailScreen = ({
         ]);
     }, [deleteHangout]);
 
+    const openUserAccount = useCallback(
+        (item: EventUsersInterface) => {
+            navigateTo(AccountStackNavigatorEnum.PersonAccountScreen, {
+                username: item.username,
+                firstname: item.name,
+                profilePicture: item.profilePicture
+            });
+        },
+        [navigateTo]
+    );
+
+    const cancelConfirmation = useCallback(() => {}, []);
+
     const onPressUser = useCallback(
         (value: EventUsersInterface) => {
-            const options = [`Remove from hangout`, 'Cancel'];
+            let options = ['Cancel'];
+            if (value.username === username) {
+                options = ['Cancel participation', ...options];
+            } else if (isUserAdmin) {
+                options = [
+                    `Open ${value.name}'s profile`,
+                    `Remove ${value.name}`,
+                    ...options
+                ];
+            } else {
+                options = [`Open ${value.name}'s profile`, ...options];
+            }
 
             showActionSheetWithOptions(
                 {
-                    cancelButtonIndex: 1,
+                    cancelButtonIndex: options.length - 1,
                     options,
                     userInterfaceStyle: 'dark',
                     title: value.username
                 },
                 (selectedIndex: number) => {
-                    if (selectedIndex === 0) {
-                        if (usernames?.length === 2) {
-                            onDeleteHangoutPress();
-                        } else {
+                    if (options.length > 2) {
+                        if (selectedIndex === 0) {
+                            openUserAccount(value);
+                        }
+                        if (selectedIndex === 1) {
                             removeUserFromHangout(value.username);
+                        }
+                    } else if (selectedIndex === 0) {
+                        if (value.username === username) {
+                            cancelConfirmation();
+                        } else {
+                            openUserAccount(value);
                         }
                     }
                 }
             );
         },
         [
-            onDeleteHangoutPress,
+            cancelConfirmation,
+            isUserAdmin,
+            openUserAccount,
             removeUserFromHangout,
             showActionSheetWithOptions,
-            usernames?.length
+            username
         ]
     );
 
@@ -291,7 +345,11 @@ export const HangoutDetailScreen = ({
         >
             <View>
                 <TouchableOpacity
-                    onPress={onPressChangePhoto}
+                    onPress={() =>
+                        isUserAdmin
+                            ? onPressChangePhoto()
+                            : openPhoto(photoValue)
+                    }
                     style={HangoutDetailScreenStyle.imageTouchableOpacity}
                 >
                     <FastImage
@@ -302,6 +360,7 @@ export const HangoutDetailScreen = ({
                 <Text style={HangoutDetailScreenStyle.text}>Title 🖋</Text>
                 <Input
                     value={titleValue}
+                    editable={isUserAdmin}
                     inputType={InputTypeEnum.TEXT}
                     onChange={setTitleValue}
                     viewStyle={HangoutDetailScreenStyle.inputView}
@@ -319,6 +378,7 @@ export const HangoutDetailScreen = ({
                 <Text style={HangoutDetailScreenStyle.text}>Place 🗺</Text>
                 <Input
                     value={planValue}
+                    editable={isUserAdmin}
                     inputType={InputTypeEnum.TEXT}
                     onChange={setPlanValue}
                     viewStyle={HangoutDetailScreenStyle.inputView}
@@ -347,22 +407,25 @@ export const HangoutDetailScreen = ({
                             </Text>
                         </TouchableOpacity>
                     ))}
-                    <IconButton
-                        icon={IconEnum.PLUS}
-                        onPress={openAddHangoutInvitationsScreen}
-                        size={18}
-                        style={HangoutDetailScreenStyle.plusButton}
-                    />
+                    {isUserAdmin && (
+                        <IconButton
+                            icon={IconEnum.PLUS}
+                            onPress={openAddHangoutInvitationsScreen}
+                            size={18}
+                            style={HangoutDetailScreenStyle.plusButton}
+                        />
+                    )}
                 </View>
             </View>
-            {createdBy === username ? (
-                <ListItem title="Delete" onPress={onDeleteHangoutPress} />
-            ) : (
+            <View>
+                {createdBy === username && (
+                    <ListItem title="Delete" onPress={onDeleteHangoutPress} />
+                )}
                 <ListItem
                     title="Cancel confirmation"
                     onPress={cancelConfirmation}
                 />
-            )}
+            </View>
             <DatePicker
                 modal
                 open={openDatePicker}

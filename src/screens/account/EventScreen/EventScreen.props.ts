@@ -23,6 +23,7 @@ export interface EventScreenDataInterface {
     picture: string;
     usernames: Array<EventUsersInterface>;
     type: string;
+    creatorConfirmed: number;
 }
 
 export interface EventUsersInterface {
