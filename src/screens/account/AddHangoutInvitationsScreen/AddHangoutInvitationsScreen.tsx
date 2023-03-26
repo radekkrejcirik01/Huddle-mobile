@@ -11,14 +11,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
-import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
-import { PickPeopleListItem } from '@components/people/PickPeopleListItem/PickPeopleListItem';
+import { FriendsListItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
+import { SelectFriendListItem } from '@components/general/SelectFriendListItem/SelectFriendListItem';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { postRequest } from '@utils/Axios/Axios.service';
 import {
+    ResponseFriendsGetInterface,
     ResponseGetHangoutUsernamesInterface,
-    ResponseInterface,
-    ResponsePeopleGetInterface
+    ResponseInterface
 } from '@interfaces/response/Response.interface';
 import {
     GetHangoutUsernamesInterface,
@@ -41,14 +41,14 @@ export const AddHangoutInvitationsScreen = ({
 
     const { bottom } = useSafeAreaInsets();
 
-    const [people, setPeople] = useState<ResponsePeopleGetInterface['data']>(
+    const [people, setPeople] = useState<ResponseFriendsGetInterface['data']>(
         []
     );
     const [hangoutUsernames, setHangoutUsernames] = useState<Array<string>>();
 
     const [inputValue, setInputValue] = useState<string>();
     const [filteredData, setFilteredData] = useState<
-        Array<PeopleListItemProps>
+        Array<FriendsListItemProps>
     >([]);
 
     const pickedUsernames = useRef<Array<string>>([]);
@@ -57,12 +57,12 @@ export const AddHangoutInvitationsScreen = ({
     const [isInviteSent, setIsInviteSent] = useState<boolean>(false);
 
     const loadPeople = useCallback(() => {
-        postRequest<ResponsePeopleGetInterface, UserGetPostInterface>(
+        postRequest<ResponseFriendsGetInterface, UserGetPostInterface>(
             'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/people',
             {
                 username
             }
-        ).subscribe((response: ResponsePeopleGetInterface) => {
+        ).subscribe((response: ResponseFriendsGetInterface) => {
             if (response?.status) {
                 setPeople(response?.data);
                 setFilteredData(response?.data);
@@ -173,11 +173,11 @@ export const AddHangoutInvitationsScreen = ({
                         />
                     }
                     renderItem={(
-                        item: ListRenderItemInfo<PeopleListItemProps>
+                        item: ListRenderItemInfo<FriendsListItemProps>
                     ) => (
-                        <PickPeopleListItem
+                        <SelectFriendListItem
                             data={item}
-                            onPressPerson={onPressPerson}
+                            onSelect={onPressPerson}
                         />
                     )}
                     estimatedItemSize={68}

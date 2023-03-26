@@ -8,35 +8,33 @@ import {
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { AddConversationPeopleScreen } from '@screens/account/AddConversationPeopleScreen/AddConversationPeopleScreen';
 import { AddHangoutInvitationsScreen } from '@screens/account/AddHangoutInvitationsScreen/AddHangoutInvitationsScreen';
-import { EventScreen } from '@screens/account/EventScreen/EventScreen';
-import { HangoutsScreen } from '@screens/account/HangoutsScreen/HangoutsScreen';
+import { HangoutScreen } from '@screens/account/HangoutScreen/HangoutScreen';
+import { HangoutsHistoryScreen } from '@screens/account/HangoutsHistoryScreen/HangoutsHistoryScreen';
 import { ProfileScreen } from '@screens/account/ProfileScreen/ProfileScreen';
 import { NotificationsScreen } from '@screens/account/NotificationsScreen/NotificationsScreen';
-import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
-import { PersonAccountScreen } from '@screens/account/PersonAccountScreen/PersonAccountScreen';
+import { FriendsScreen } from '@screens/account/FriendsScreen/FriendsScreen';
+import { FriendProfileScreen } from '@screens/account/FriendProfileScreen/FriendProfileScreen';
 import { CreateGroupHangoutScreen } from '@screens/account/CreateGroupHangoutScreen/CreateGroupHangoutScreen';
-import { MessagesScreen } from '@screens/account/MessagesScreen/MessagesScreen';
-import { ChatScreen } from '@screens/account/ChatScreen/ChatScreen';
-import { ChatDetailScreen } from '@screens/account/ChatDetailScreen/ChatDetailScreen';
+import { ConversationScreen } from '@screens/account/ConversationScreen/ConversationScreen';
+import { ConversationDetailsScreen } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen';
 import { PictureScreen } from '@screens/account/PictureScreen/PictureScreen';
 import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
 import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/DeleteAccountScreen';
-import { HangoutDetailScreen } from '@screens/account/HangoutDetailScreen/HangoutDetailScreen';
+import { HangoutDetailsScreen } from '@screens/account/HangoutDetailsScreen/HangoutDetailsScreen';
 import { SelectGroupHangoutUsersScreen } from '@screens/account/SelectGroupHangoutUsersScreen/SelectGroupHangoutUsersScreen';
 import {
     AccountTitle,
     AddConversationPeopleTitle,
     AddHangoutInvitationsTitle,
     ChangePasswordTitle,
-    ChatDetailOptions,
+    ConversationDetailsOptions,
     CreateGroupHangoutTitle,
     DeleteAccountTitle,
-    HangoutDetailTitle,
-    HangoutsTitle,
-    MessagesTitle,
+    FriendsOptions,
+    HangoutDetailsTitle,
+    HangoutsHistoryTitle,
     NotificationsTitle,
-    PeopleOptions,
     ProfileTitle,
     SelectGroupHangoutUsersTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
@@ -45,6 +43,11 @@ const Account = createStackNavigator<ParamListBase>();
 
 export const AccountStackNavigator = (): JSX.Element => (
     <Account.Navigator>
+        <Account.Screen
+            name={AccountStackNavigatorEnum.AccountScreen}
+            component={AccountScreen}
+            options={{ ...NavigationScreenHeader, ...AccountTitle }}
+        />
         <Account.Screen
             name={AccountStackNavigatorEnum.AddConversationPeopleScreen}
             component={AddConversationPeopleScreen}
@@ -62,19 +65,17 @@ export const AccountStackNavigator = (): JSX.Element => (
             }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.ProfileScreen}
-            component={ProfileScreen}
-            options={{ ...NavigationScreenHeader, ...ProfileTitle }}
+            name={AccountStackNavigatorEnum.ConversationScreen}
+            component={ConversationScreen}
+            options={{ ...NavigationScreenHeader, ...NoTitle }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.PeopleScreen}
-            component={PeopleScreen}
-            options={{ ...NavigationScreenHeader, ...PeopleOptions }}
-        />
-        <Account.Screen
-            name={AccountStackNavigatorEnum.PersonAccountScreen}
-            component={PersonAccountScreen}
-            options={NavigationScreenHeader}
+            name={AccountStackNavigatorEnum.ConversationDetailsScreen}
+            component={ConversationDetailsScreen}
+            options={{
+                ...NavigationScreenHeader,
+                ...ConversationDetailsOptions
+            }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.CreateGroupHangoutScreen}
@@ -82,52 +83,34 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...CreateGroupHangoutTitle }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.HangoutsScreen}
-            component={HangoutsScreen}
-            options={{ ...NavigationScreenHeader, ...HangoutsTitle }}
+            name={AccountStackNavigatorEnum.DeleteAccountScreen}
+            component={DeleteAccountScreen}
+            options={{ ...NavigationScreenHeader, ...DeleteAccountTitle }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.NotificationsScreen}
-            component={NotificationsScreen}
-            options={{ ...NavigationScreenHeader, ...NotificationsTitle }}
-        />
-        <Account.Screen
-            name={AccountStackNavigatorEnum.MessagesScreen}
-            component={MessagesScreen}
-            options={{ ...NavigationScreenHeader, ...MessagesTitle }}
-        />
-        <Account.Screen
-            name={AccountStackNavigatorEnum.ChatScreen}
-            component={ChatScreen}
-            options={{ ...NavigationScreenHeader, ...NoTitle }}
-        />
-        <Account.Screen
-            name={AccountStackNavigatorEnum.ChatDetailScreen}
-            component={ChatDetailScreen}
-            options={{
-                ...NavigationScreenHeader,
-                ...ChatDetailOptions
-            }}
-        />
-        <Account.Screen
-            name={AccountStackNavigatorEnum.PictureScreen}
-            component={PictureScreen}
-            options={{ ...NavigationScreenHeader, ...NoTitle }}
-        />
-        <Account.Screen
-            name={AccountStackNavigatorEnum.EventScreen}
-            component={EventScreen}
+            name={AccountStackNavigatorEnum.FriendProfileScreen}
+            component={FriendProfileScreen}
             options={NavigationScreenHeader}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.HangoutDetailScreen}
-            component={HangoutDetailScreen}
-            options={{ ...NavigationScreenHeader, ...HangoutDetailTitle }}
+            name={AccountStackNavigatorEnum.FriendsScreen}
+            component={FriendsScreen}
+            options={{ ...NavigationScreenHeader, ...FriendsOptions }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.AccountScreen}
-            component={AccountScreen}
-            options={{ ...NavigationScreenHeader, ...AccountTitle }}
+            name={AccountStackNavigatorEnum.HangoutDetailsScreen}
+            component={HangoutDetailsScreen}
+            options={{ ...NavigationScreenHeader, ...HangoutDetailsTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.HangoutScreen}
+            component={HangoutScreen}
+            options={NavigationScreenHeader}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.HangoutsHistoryScreen}
+            component={HangoutsHistoryScreen}
+            options={{ ...NavigationScreenHeader, ...HangoutsHistoryTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.ChangePasswordScreen}
@@ -135,9 +118,19 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...ChangePasswordTitle }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.DeleteAccountScreen}
-            component={DeleteAccountScreen}
-            options={{ ...NavigationScreenHeader, ...DeleteAccountTitle }}
+            name={AccountStackNavigatorEnum.NotificationsScreen}
+            component={NotificationsScreen}
+            options={{ ...NavigationScreenHeader, ...NotificationsTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.ProfileScreen}
+            component={ProfileScreen}
+            options={{ ...NavigationScreenHeader, ...ProfileTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.PictureScreen}
+            component={PictureScreen}
+            options={{ ...NavigationScreenHeader, ...NoTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.SelectGroupHangoutUsersScreen}

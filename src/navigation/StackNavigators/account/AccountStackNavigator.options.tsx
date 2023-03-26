@@ -1,6 +1,6 @@
 import React from 'react';
 import { StackNavigationOptions } from '@react-navigation/stack';
-import { HeaderPlus } from '@components/general/HeaderPlus/HeaderPlus';
+import { FriendsPlus } from '@components/general/FriendsPlus/FriendsPlus';
 
 export const AddConversationPeopleTitle: StackNavigationOptions = {
     headerTitle: 'Add people'
@@ -14,29 +14,25 @@ export const ProfileTitle: StackNavigationOptions = {
     headerTitle: 'Profile'
 };
 
-export const PeopleOptions: StackNavigationOptions = {
-    headerTitle: 'People',
-    headerRight: () => <HeaderPlus />
+export const FriendsOptions: StackNavigationOptions = {
+    headerTitle: 'Friends',
+    headerRight: () => <FriendsPlus />
 };
 
-export const ChatDetailOptions: StackNavigationOptions = {
+export const ConversationDetailsOptions: StackNavigationOptions = {
     title: 'Details'
 };
 
-export const HangoutsTitle: StackNavigationOptions = {
-    headerTitle: 'History'
+export const HangoutsHistoryTitle: StackNavigationOptions = {
+    headerTitle: 'Hangouts history'
 };
 
 export const NotificationsTitle: StackNavigationOptions = {
     headerTitle: 'Notifications'
 };
 
-export const HangoutDetailTitle: StackNavigationOptions = {
+export const HangoutDetailsTitle: StackNavigationOptions = {
     headerTitle: 'Edit'
-};
-
-export const MessagesTitle: StackNavigationOptions = {
-    headerTitle: 'Messages'
 };
 
 export const AccountTitle: StackNavigationOptions = {

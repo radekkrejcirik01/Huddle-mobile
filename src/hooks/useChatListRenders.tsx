@@ -1,30 +1,36 @@
 import React, { useCallback } from 'react';
 import { ListRenderItemInfo } from 'react-native';
-import { ChatDataProps } from '@components/chat/ChatList/ChatList.props';
-import { ChatItem } from '@components/chat/ChatItem/ChatItem';
+import { ConversationDataProps } from '@components/conversation/ConversationList/ConversationList.props';
+import { ConversationItem } from '@components/conversation/ConversationItem/ConversationItem';
 
 export const useChatListRenders = (
-    data: Array<ChatDataProps>
+    data: Array<ConversationDataProps>
 ): {
-    getItem: (listData: Array<ChatDataProps>, index: number) => ChatDataProps;
-    renderItem: ({ item }: ListRenderItemInfo<ChatDataProps>) => JSX.Element;
+    getItem: (
+        listData: Array<ConversationDataProps>,
+        index: number
+    ) => ConversationDataProps;
+    renderItem: ({
+        item
+    }: ListRenderItemInfo<ConversationDataProps>) => JSX.Element;
     getItemCount: () => number;
-    keyExtractor: (item: ChatDataProps, index: number) => string;
+    keyExtractor: (item: ConversationDataProps, index: number) => string;
 } => {
     const getItem = (
-        listData: Array<ChatDataProps>,
+        listData: Array<ConversationDataProps>,
         index: number
-    ): ChatDataProps => listData[index];
+    ): ConversationDataProps => listData[index];
 
     const renderItem = ({
         item
-    }: ListRenderItemInfo<ChatDataProps>): JSX.Element => (
-        <ChatItem item={item} />
+    }: ListRenderItemInfo<ConversationDataProps>): JSX.Element => (
+        <ConversationItem item={item} />
     );
 
     const getItemCount = useCallback((): number => data?.length, [data]);
 
-    const keyExtractor = (item: ChatDataProps): string => item?.id?.toString();
+    const keyExtractor = (item: ConversationDataProps): string =>
+        item?.id?.toString();
 
     return { getItem, renderItem, getItemCount, keyExtractor };
 };

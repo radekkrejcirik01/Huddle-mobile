@@ -12,8 +12,8 @@ import {
     InputProps
 } from '@components/general/Input/Input.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { Icon } from '@components/icon/Icon';
-import { IconEnum } from '@components/icon/Icon.enum';
+import { Icon } from '@components/general/Icon/Icon';
+import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { InputStyle } from '@components/general/Input/Input.style';
 
 export const Input = forwardRef(

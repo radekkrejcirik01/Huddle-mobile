@@ -7,7 +7,7 @@ export interface UserGetPostInterface {
     username: string;
 }
 
-export interface PeopleCreateInvitationPostInterface {
+export interface FriendCreateInvitationPostInterface {
     user: string;
     username: string;
 }
@@ -41,7 +41,6 @@ export interface HangoutCreateInterface {
 
 export interface HangoutsGetInterface {
     username: string;
-    showAll: boolean;
 }
 
 export interface HangoutGetInterface {
@@ -89,21 +88,21 @@ export interface SendHangoutInvitation {
     usernames: Array<string>;
 }
 
-export interface ConversationsCreateInterface {
+export interface ConversationCreateInterface {
     usernames: Array<string>;
     username: string;
 }
 
-export interface GetConversationsDetailsInterface {
+export interface GetConversationDetailsInterface {
     conversationId: number;
     username: string;
 }
 
-export interface GetConversationsUsersInterface {
+export interface GetConversationUsersInterface {
     conversationId: number;
 }
 
-export interface AddConversationsUsersInterface {
+export interface AddConversationUsersInterface {
     conversationId: number;
     usernames: Array<string>;
 }
@@ -122,7 +121,7 @@ export interface ConversationDeleteInterface {
     conversationId: number;
 }
 
-export interface AcceptPeopleInvitationInterface {
+export interface AcceptFriendInvitationInterface {
     id: number;
     value: number;
     user: string;
@@ -130,7 +129,7 @@ export interface AcceptPeopleInvitationInterface {
     name: string;
 }
 
-export interface CheckPeopleInvitationInterface {
+export interface CheckFriendInvitationInterface {
     user: string;
     username: string;
 }

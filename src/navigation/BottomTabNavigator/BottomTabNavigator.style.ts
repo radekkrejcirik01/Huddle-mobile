@@ -3,7 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const BottomTabNavigatorStyle = StyleSheet.create({
     tabBar: {
-        top: -5, // Lift the bottom bar
+        bottom: 5, // Lift the bottom bar
         marginTop: 10,
         paddingHorizontal: 15,
         borderTopWidth: 0,
@@ -17,17 +17,7 @@ export const BottomTabNavigatorStyle = StyleSheet.create({
     tabBarProfile: {
         backgroundColor: COLORS.BLACK
     },
-    peopleHeaderView: {
-        paddingTop: 10,
-        paddingLeft: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    },
-    peopleHeaderContent: {
-        fontSize: 26,
-        color: COLORS.WHITE,
-        alignSelf: 'center',
-        fontWeight: 'bold'
+    spacing: {
+        letterSpacing: -8 // Friends tab spacing
     }
 });

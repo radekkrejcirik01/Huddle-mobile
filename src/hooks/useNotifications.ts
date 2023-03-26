@@ -31,7 +31,7 @@ export const useNotifications = (
     const openChat = useCallback(
         (conversationId: string) => {
             if (isReady && username) {
-                navigateTo(AccountStackNavigatorEnum.ChatScreen, {
+                navigateTo(AccountStackNavigatorEnum.ConversationScreen, {
                     conversationId: Number(conversationId)
                 });
             }

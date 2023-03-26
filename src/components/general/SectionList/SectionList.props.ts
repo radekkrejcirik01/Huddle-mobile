@@ -6,12 +6,12 @@ export interface SectionListForwardRefProps {
 }
 
 export interface SectionListProps {
-    showAll?: boolean;
+    isHistory?: boolean;
     contentContainerStyle?: StyleProp<ViewStyle>;
 }
 
 export const SectionListDefaultProps: SectionListProps = {
-    showAll: false,
+    isHistory: false,
     contentContainerStyle: {}
 };
 
