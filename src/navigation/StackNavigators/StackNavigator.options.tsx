@@ -3,10 +3,10 @@ import { StackNavigationOptions } from '@react-navigation/stack';
 import COLORS from '@constants/COLORS';
 import { StackNavigatorStyle } from '@navigation/StackNavigators/StackNavigator.style';
 import DIMENSIONS from '@constants/DIMENSIONS';
-import { HeaderLeft } from '@components/general/HeaderLeft/HeaderLeft';
+import { Back } from '@components/general/Back/Back';
 
 export const NavigationScreenHeader: StackNavigationOptions = {
-    headerLeft: () => <HeaderLeft />,
+    headerLeft: () => <Back />,
     headerTintColor: COLORS.WHITE,
     headerStyle: StackNavigatorStyle.navigationScreen,
     gestureResponseDistance: DIMENSIONS.width

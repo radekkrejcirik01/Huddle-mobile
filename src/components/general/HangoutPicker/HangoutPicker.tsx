@@ -22,8 +22,8 @@ import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/A
 import { HangoutPickerEnum } from '@components/general/HangoutPicker/HangoutPicker.enum';
 import { ReducerProps } from '@store/index/index.props';
 import { getUTCDateTime } from '@functions/getUTCDateTime';
-import { IconEnum } from '@components/icon/Icon.enum';
-import { HangoutDetailScreenStyle } from '@screens/account/HangoutDetailScreen/HangoutDetailScreen.style';
+import { IconEnum } from '@components/general/Icon/Icon.enum';
+import { HangoutDetailsScreenStyle } from '@screens/account/HangoutDetailsScreen/HangoutDetailsScreen.style';
 import { IconButton } from '@components/general/IconButton/IconButton';
 
 export const HangoutPicker = ({
@@ -268,7 +268,7 @@ export const HangoutPicker = ({
                                     icon={IconEnum.PLUS}
                                     onPress={openSelectGroupHangoutPeople}
                                     size={18}
-                                    style={HangoutDetailScreenStyle.plusButton}
+                                    style={HangoutDetailsScreenStyle.plusButton}
                                 />
                             </View>
                         ) : (

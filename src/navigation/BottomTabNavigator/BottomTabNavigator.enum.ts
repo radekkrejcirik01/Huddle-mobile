@@ -1,4 +1,5 @@
 export enum BottomTabNavigatorEnum {
-    PeopleTab = 'PeopleTab',
-    HomeTab = 'HomeTab'
+    FriendsTab = 'PeopleTab',
+    HomeTab = 'HomeTab',
+    ChatsTab = 'ChatsTab'
 }

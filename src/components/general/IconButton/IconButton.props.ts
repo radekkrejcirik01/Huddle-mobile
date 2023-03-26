@@ -1,4 +1,4 @@
-import { IconEnum } from '@components/icon/Icon.enum';
+import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { StyleProp, ViewStyle } from 'react-native';
 
 export interface IconButtonProps {

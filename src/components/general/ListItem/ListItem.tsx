@@ -6,8 +6,8 @@ import {
 } from '@components/general/ListItem/ListItem.props';
 import { ListItemStyle } from '@components/general/ListItem/ListItem.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { IconEnum } from '@components/icon/Icon.enum';
-import { Icon } from '@components/icon/Icon';
+import { IconEnum } from '@components/general/Icon/Icon.enum';
+import { Icon } from '@components/general/Icon/Icon';
 import COLORS from '@constants/COLORS';
 
 export const ListItem = ({

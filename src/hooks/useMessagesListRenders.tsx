@@ -2,23 +2,23 @@ import React, { useCallback, useState } from 'react';
 import { RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
-import { MessagesItem } from '@components/messages/MessagesItem/MessagesItem';
-import { MessagesListDataProps } from '@screens/account/MessagesScreen/MessagesScreen.props';
+import { ChatsItem } from '@components/chats/ChatsItem/ChatsItem';
+import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
 import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { ConversationRemoveInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 
 export const useMessagesListRenders = (
-    data: Array<MessagesListDataProps>,
-    onItemPress: (item: MessagesListDataProps) => void,
+    data: Array<ChatsListDataProps>,
+    onItemPress: (item: ChatsListDataProps) => void,
     onRefresh: () => void
 ): {
-    getItemType: (item: MessagesListDataProps) => MessagesListDataProps;
+    getItemType: (item: ChatsListDataProps) => ChatsListDataProps;
     renderItem: ({
         item
-    }: ListRenderItemInfo<MessagesListDataProps>) => JSX.Element;
-    keyExtractor: (item: MessagesListDataProps, index: number) => string;
+    }: ListRenderItemInfo<ChatsListDataProps>) => JSX.Element;
+    keyExtractor: (item: ChatsListDataProps, index: number) => string;
     refreshControl: JSX.Element;
 } => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -33,8 +33,7 @@ export const useMessagesListRenders = (
         }, 1000);
     }, [onRefresh]);
 
-    const getItemType = (item: MessagesListDataProps): MessagesListDataProps =>
-        item;
+    const getItemType = (item: ChatsListDataProps): ChatsListDataProps => item;
 
     const deleteConversation = useCallback(
         (id: number) => {
@@ -53,8 +52,8 @@ export const useMessagesListRenders = (
 
     const renderItem = ({
         item
-    }: ListRenderItemInfo<MessagesListDataProps>): JSX.Element => (
-        <MessagesItem
+    }: ListRenderItemInfo<ChatsListDataProps>): JSX.Element => (
+        <ChatsItem
             key={item.id}
             item={item}
             onPress={onItemPress}
@@ -62,7 +61,7 @@ export const useMessagesListRenders = (
         />
     );
 
-    const keyExtractor = (item: MessagesListDataProps): string =>
+    const keyExtractor = (item: ChatsListDataProps): string =>
         item.id.toString();
 
     const refreshControl = (

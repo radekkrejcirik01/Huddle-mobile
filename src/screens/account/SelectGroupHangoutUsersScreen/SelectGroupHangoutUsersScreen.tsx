@@ -5,13 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { ReducerProps } from '@store/index/index.props';
-import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
+import { FriendsListItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
 import { postRequest } from '@utils/Axios/Axios.service';
-import { ResponsePeopleGetInterface } from '@interfaces/response/Response.interface';
+import { ResponseFriendsGetInterface } from '@interfaces/response/Response.interface';
 import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
-import { PickPeopleListItem } from '@components/people/PickPeopleListItem/PickPeopleListItem';
+import { SelectFriendListItem } from '@components/general/SelectFriendListItem/SelectFriendListItem';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import {
     setSelectedUsernamesAction,
@@ -33,22 +33,22 @@ export const SelectGroupHangoutUsersScreen = (): JSX.Element => {
 
     const [inputValue, setInputValue] = useState<string>();
     const [filteredData, setFilteredData] = useState<
-        Array<PeopleListItemProps>
+        Array<FriendsListItemProps>
     >([]);
 
-    const [people, setPeople] = useState<Array<PeopleListItemProps>>([]);
+    const [people, setPeople] = useState<Array<FriendsListItemProps>>([]);
 
     const selected = useRef<Array<string>>(selectedUsernames);
 
     const [showButton, setShowButton] = useState<boolean>(false);
 
     const loadPeople = useCallback(() => {
-        postRequest<ResponsePeopleGetInterface, UserGetPostInterface>(
+        postRequest<ResponseFriendsGetInterface, UserGetPostInterface>(
             'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/people',
             {
                 username
             }
-        ).subscribe((response: ResponsePeopleGetInterface) => {
+        ).subscribe((response: ResponseFriendsGetInterface) => {
             if (response?.status) {
                 setPeople(response?.data);
                 setFilteredData(response?.data);
@@ -64,7 +64,7 @@ export const SelectGroupHangoutUsersScreen = (): JSX.Element => {
         (value: string) => {
             setInputValue(value);
             const text = value.toLowerCase();
-            const filteredName = people.filter((item: PeopleListItemProps) =>
+            const filteredName = people.filter((item: FriendsListItemProps) =>
                 item.username.toLowerCase().match(text)
             );
             setFilteredData(filteredName);
@@ -100,7 +100,7 @@ export const SelectGroupHangoutUsersScreen = (): JSX.Element => {
         const usersArray = [];
         for (let i = 0; i < selected.current?.length; i += 1) {
             const user = people.find(
-                (value: PeopleListItemProps) =>
+                (value: FriendsListItemProps) =>
                     value.username === selected.current[i]
             );
             usersArray.push(user);
@@ -132,11 +132,11 @@ export const SelectGroupHangoutUsersScreen = (): JSX.Element => {
                         />
                     }
                     renderItem={(
-                        item: ListRenderItemInfo<PeopleListItemProps>
+                        item: ListRenderItemInfo<FriendsListItemProps>
                     ) => (
-                        <PickPeopleListItem
+                        <SelectFriendListItem
                             data={item}
-                            onPressPerson={onPressPerson}
+                            onSelect={onPressPerson}
                         />
                     )}
                     estimatedItemSize={68}

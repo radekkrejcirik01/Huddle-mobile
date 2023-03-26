@@ -7,14 +7,14 @@ import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { NotificationsScreenStyle } from '@screens/account/NotificationsScreen/NotificationsScreen.style';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
-import { NotificationsListItem } from '@components/notifícations/NotificationsListItem';
+import { NotificationsListItem } from '@components/notifícations/NotificationsistItem/NotificationsListItem';
 import { postRequest } from '@utils/Axios/Axios.service';
 import {
     ResponseInterface,
     ResponseNotificationsGetInterface
 } from '@interfaces/response/Response.interface';
 import {
-    AcceptPeopleInvitationInterface,
+    AcceptFriendInvitationInterface,
     UserGetPostInterface
 } from '@interfaces/post/Post.inteface';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
@@ -55,7 +55,7 @@ export const NotificationsScreen = (): JSX.Element => {
 
     const onAcceptPeopleInvite = useCallback(
         (item: NotificationsListProps) => {
-            postRequest<ResponseInterface, AcceptPeopleInvitationInterface>(
+            postRequest<ResponseInterface, AcceptFriendInvitationInterface>(
                 'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/accept/people/invitation',
                 {
                     id: item.id,
@@ -71,7 +71,7 @@ export const NotificationsScreen = (): JSX.Element => {
 
     const onOpenAccount = useCallback(
         (item: NotificationsListProps) => {
-            navigateTo(AccountStackNavigatorEnum.PersonAccountScreen, {
+            navigateTo(AccountStackNavigatorEnum.FriendProfileScreen, {
                 id: item.id,
                 firstname: item.name,
                 username: item.username,
@@ -83,7 +83,7 @@ export const NotificationsScreen = (): JSX.Element => {
 
     const onOpenHangout = useCallback(
         (item: NotificationsListProps) => {
-            navigateTo(AccountStackNavigatorEnum.EventScreen, {
+            navigateTo(AccountStackNavigatorEnum.HangoutScreen, {
                 confirmed: item.confirmed,
                 hangoutId: item.id,
                 hangoutType: item.type,

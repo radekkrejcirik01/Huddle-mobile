@@ -1,9 +1,9 @@
-import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
-import { ChatDataProps } from '@components/chat/ChatList/ChatList.props';
+import { FriendsListItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
+import { ConversationDataProps } from '@components/conversation/ConversationList/ConversationList.props';
 import { ComingsUpDataInterface } from '@components/general/SectionList/SectionList.props';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
-import { EventScreenDataInterface } from '@screens/account/EventScreen/EventScreen.props';
-import { MessagesListDataProps } from '@screens/account/MessagesScreen/MessagesScreen.props';
+import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
+import { HangoutScreenDataInterface } from '@screens/account/HangoutScreen/HangoutScreen.props';
 
 export interface ResponseInterface {
     status: string;
@@ -24,10 +24,10 @@ export interface ResponseUserGetInterface {
     };
 }
 
-export interface ResponsePeopleGetInterface {
+export interface ResponseFriendsGetInterface {
     status: string;
     message: string;
-    data?: Array<PeopleListItemProps>;
+    data?: Array<FriendsListItemProps>;
 }
 
 export interface ResponseCheckInvitationsInterface {
@@ -41,16 +41,16 @@ export interface ResponseCheckInvitationsInterface {
     };
 }
 
-export interface ResponseConversationsGetInterface {
+export interface ResponseChatsGetInterface {
     status: string;
     message: string;
-    data?: Array<MessagesListDataProps>;
+    data?: Array<ChatsListDataProps>;
 }
 
 export interface MessagesResponseInterface {
     status: string;
     message: string;
-    data?: Array<ChatDataProps>;
+    data?: Array<ConversationDataProps>;
 }
 
 export interface ResponseHangoutsGetInterface {
@@ -62,7 +62,7 @@ export interface ResponseHangoutsGetInterface {
 export interface ResponseHangoutGetInterface {
     status: string;
     message: string;
-    data?: EventScreenDataInterface;
+    data?: HangoutScreenDataInterface;
 }
 
 export interface ResponseGetHangoutUsernamesInterface {

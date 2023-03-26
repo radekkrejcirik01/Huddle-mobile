@@ -4,12 +4,12 @@ import {
     StackNavigationOptions
 } from '@react-navigation/stack';
 import { LoginStackNavigatorStyle } from '@navigation/StackNavigators/login/LoginStackNavigator.style';
-import { HeaderLeft } from '@components/general/HeaderLeft/HeaderLeft';
+import { Back } from '@components/general/Back/Back';
 import DIMENSIONS from '@constants/DIMENSIONS';
 
 export const RegistrationScreenOptions: StackNavigationOptions = {
     headerTitle: 'New account',
-    headerLeft: () => <HeaderLeft />,
+    headerLeft: () => <Back />,
     headerStyle: LoginStackNavigatorStyle.header,
     headerTitleStyle: LoginStackNavigatorStyle.headerTitle,
     headerLeftContainerStyle: LoginStackNavigatorStyle.headerLeft,

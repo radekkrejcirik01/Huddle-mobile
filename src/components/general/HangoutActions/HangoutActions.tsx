@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { IconButton } from '@components/general/IconButton/IconButton';
-import { IconEnum } from '@components/icon/Icon.enum';
+import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { HangoutActionsStyle } from '@components/general/HangoutActions/HangoutActions.style';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { useNavigation } from '@hooks/useNavigation';
@@ -22,7 +22,7 @@ export const HangoutActions = ({
     }, [hangoutId, navigateTo]);
 
     const openHangoutEdit = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.HangoutDetailScreen, {
+        navigateTo(AccountStackNavigatorEnum.HangoutDetailsScreen, {
             hangoutId
         });
     }, [hangoutId, navigateTo]);

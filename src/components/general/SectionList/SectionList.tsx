@@ -98,7 +98,7 @@ export const SectionList = forwardRef(
 
         const onItemPress = useCallback(
             (item: ComingsUpListItem) => {
-                navigateTo(AccountStackNavigatorEnum.EventScreen, {
+                navigateTo(AccountStackNavigatorEnum.HangoutScreen, {
                     hangoutId: item.id
                 });
             },

@@ -4,7 +4,7 @@ import {
     IconButtonProps
 } from '@components/general/IconButton/IconButton.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { Icon } from '@components/icon/Icon';
+import { Icon } from '@components/general/Icon/Icon';
 
 export const IconButton = ({
     icon,
