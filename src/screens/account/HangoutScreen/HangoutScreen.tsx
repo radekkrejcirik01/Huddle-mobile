@@ -6,7 +6,7 @@ import FastImage from 'react-native-fast-image';
 import {
     HangoutScreenDataInterface,
     HangoutScreenProps,
-    HangoutUsersInterface
+    HangoutUserInterface
 } from '@screens/account/HangoutScreen/HangoutScreen.props';
 import { HangoutScreenStyle } from '@screens/account/HangoutScreen/HangoutScreen.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
@@ -99,10 +99,10 @@ export const HangoutScreen = ({ route }: HangoutScreenProps): JSX.Element => {
     }, [data?.usernames]);
 
     const openUserAccount = useCallback(
-        (item: HangoutUsersInterface) => {
+        (item: HangoutUserInterface) => {
             navigateTo(AccountStackNavigatorEnum.FriendProfileScreen, {
                 username: item.username,
-                firstname: item.name,
+                firstname: item.firstname,
                 profilePicture: item.profilePicture
             });
         },
@@ -152,35 +152,33 @@ export const HangoutScreen = ({ route }: HangoutScreenProps): JSX.Element => {
                 </Text>
                 {data?.type === 'group_hangout' && (
                     <View style={HangoutScreenStyle.usersContainer}>
-                        {data?.usernames?.map(
-                            (value: HangoutUsersInterface) => (
-                                <TouchableOpacity
-                                    key={value.username}
-                                    onPress={() => openUserAccount(value)}
-                                    style={HangoutScreenStyle.userView}
+                        {data?.usernames?.map((value: HangoutUserInterface) => (
+                            <TouchableOpacity
+                                key={value.username}
+                                onPress={() => openUserAccount(value)}
+                                style={HangoutScreenStyle.userView}
+                            >
+                                <FastImage
+                                    source={{
+                                        uri: value?.profilePicture
+                                    }}
+                                    style={[
+                                        HangoutScreenStyle.userPhoto,
+                                        !value.confirmed &&
+                                            HangoutScreenStyle.opacity
+                                    ]}
+                                />
+                                <Text
+                                    style={[
+                                        HangoutScreenStyle.userText,
+                                        !value.confirmed &&
+                                            HangoutScreenStyle.opacity
+                                    ]}
                                 >
-                                    <FastImage
-                                        source={{
-                                            uri: value?.profilePicture
-                                        }}
-                                        style={[
-                                            HangoutScreenStyle.userPhoto,
-                                            !value.confirmed &&
-                                                HangoutScreenStyle.opacity
-                                        ]}
-                                    />
-                                    <Text
-                                        style={[
-                                            HangoutScreenStyle.userText,
-                                            !value.confirmed &&
-                                                HangoutScreenStyle.opacity
-                                        ]}
-                                    >
-                                        {value.name}
-                                    </Text>
-                                </TouchableOpacity>
-                            )
-                        )}
+                                    {value.firstname}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
                     </View>
                 )}
             </View>

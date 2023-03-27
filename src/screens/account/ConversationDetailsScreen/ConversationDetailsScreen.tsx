@@ -18,7 +18,7 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 import FastImage, { Source } from 'react-native-fast-image';
 import ImagePicker from 'react-native-image-crop-picker';
 import fs from 'react-native-fs';
-import { ConversationDetaislScreenStyle } from '@screens/account/ConversationDetailsScreen/ConversationDetaislScreen.style';
+import { ConversationDetailsScreenStyle } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { useOpenPhoto } from '@hooks/useOpenPhoto';
 import { ConversationDetailsScreenProps } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen.props';
@@ -43,6 +43,8 @@ import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { IconButton } from '@components/general/IconButton/IconButton';
+import { ParticipantsList } from '@components/general/ParticipantsList/ParticipantsList';
+import { Participant } from '@components/general/ParticipantsList/ParticipantsList.props';
 
 export const ConversationDetailsScreen = ({
     route
@@ -144,7 +146,7 @@ export const ConversationDetailsScreen = ({
             headerRight: () =>
                 isSave && (
                     <TouchableOpacity onPress={save}>
-                        <Text style={ConversationDetaislScreenStyle.save}>
+                        <Text style={ConversationDetailsScreenStyle.save}>
                             Save
                         </Text>
                     </TouchableOpacity>
@@ -223,11 +225,11 @@ export const ConversationDetailsScreen = ({
     }, [leaveChat]);
 
     const onPressUser = useCallback(
-        (usernameValue: string, firstname: string) => {
+        (value: Participant) => {
             const options = [
-                usernameValue === username
+                value.username === username
                     ? 'Leave chat'
-                    : `Remove ${firstname} from chat`,
+                    : `Remove ${value.firstname} from chat`,
                 'Cancel'
             ];
 
@@ -236,14 +238,14 @@ export const ConversationDetailsScreen = ({
                     cancelButtonIndex: 1,
                     options,
                     userInterfaceStyle: 'dark',
-                    title: usernameValue
+                    title: value.username
                 },
                 (selectedIndex: number) => {
                     if (selectedIndex === 0) {
-                        if (usernameValue === username) {
+                        if (value.username === username) {
                             onLeaveChatPress();
                         } else {
-                            removeUserFromChat(usernameValue);
+                            removeUserFromChat(value.username);
                         }
                     }
                 }
@@ -298,83 +300,51 @@ export const ConversationDetailsScreen = ({
     return (
         <ScrollView
             contentContainerStyle={
-                ConversationDetaislScreenStyle.contentContainer
+                ConversationDetailsScreenStyle.contentContainer
             }
         >
             <View>
                 <TouchableOpacity
                     disabled={isGroup ? false : !photo}
                     onPress={isGroup ? changePhotoPress : onPhotoPress}
-                    style={ConversationDetaislScreenStyle.imageTouchableOpacity}
+                    style={ConversationDetailsScreenStyle.imageTouchableOpacity}
                 >
                     <FastImage
                         source={source}
-                        style={ConversationDetaislScreenStyle.image}
+                        style={ConversationDetailsScreenStyle.image}
                     />
                 </TouchableOpacity>
                 {isGroup ? (
                     <>
-                        <Text style={ConversationDetaislScreenStyle.inputTitle}>
+                        <Text style={ConversationDetailsScreenStyle.inputTitle}>
                             Title 🖋
                         </Text>
                         <Input
                             value={title}
                             inputType={InputTypeEnum.TEXT}
                             onChange={setTitle}
-                            viewStyle={ConversationDetaislScreenStyle.inputView}
+                            viewStyle={ConversationDetailsScreenStyle.inputView}
                         />
-                        <Text style={ConversationDetaislScreenStyle.inputTitle}>
+                        <Text style={ConversationDetailsScreenStyle.inputTitle}>
                             People 👨‍👩‍👧‍👦
                         </Text>
-                        <View style={ConversationDetaislScreenStyle.row}>
-                            {conversationUsers?.map((value) => (
-                                <TouchableOpacity
-                                    key={value.username}
-                                    onPress={() =>
-                                        onPressUser(
-                                            value.username,
-                                            value.firstname
-                                        )
-                                    }
-                                    onLongPress={() =>
-                                        onPressUser(
-                                            value.username,
-                                            value.firstname
-                                        )
-                                    }
-                                    style={
-                                        ConversationDetaislScreenStyle.peopleTouchableOpacity
-                                    }
-                                >
-                                    <FastImage
-                                        style={
-                                            ConversationDetaislScreenStyle.peopleImage
-                                        }
-                                        source={{
-                                            uri: value?.profilePicture
-                                        }}
-                                    />
-                                    <Text
-                                        style={
-                                            ConversationDetaislScreenStyle.peopleText
-                                        }
-                                    >
-                                        {value?.firstname}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
+                        <View style={ConversationDetailsScreenStyle.row}>
+                            <ParticipantsList
+                                usernames={conversationUsers}
+                                onPressUser={onPressUser}
+                            />
                             <IconButton
                                 icon={IconEnum.PLUS}
                                 onPress={addUserPress}
                                 size={18}
                                 style={
-                                    ConversationDetaislScreenStyle.plusButton
+                                    ConversationDetailsScreenStyle.plusButton
                                 }
                             />
                         </View>
                     </>
                 ) : (
-                    <Text style={ConversationDetaislScreenStyle.title}>
+                    <Text style={ConversationDetailsScreenStyle.title}>
                         {title}
                     </Text>
                 )}
@@ -384,16 +354,16 @@ export const ConversationDetailsScreen = ({
                     <ListItem
                         title="Delete chat"
                         onPress={onDeleteChatPress}
-                        textStyle={ConversationDetaislScreenStyle.listItemText}
+                        textStyle={ConversationDetailsScreenStyle.listItemText}
                     />
                 ) : (
                     <ListItem
                         title="Leave chat"
                         onPress={onLeaveChatPress}
-                        textStyle={ConversationDetaislScreenStyle.listItemText}
+                        textStyle={ConversationDetailsScreenStyle.listItemText}
                     />
                 )}
-                <Text style={ConversationDetaislScreenStyle.createdByText}>
+                <Text style={ConversationDetailsScreenStyle.createdByText}>
                     Crated by {createdBy === username ? 'you' : createdBy}
                 </Text>
             </View>

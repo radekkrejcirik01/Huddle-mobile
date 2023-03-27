@@ -21,14 +21,14 @@ export interface HangoutScreenDataInterface {
     time: Moment;
     place: string;
     picture: string;
-    usernames: Array<HangoutUsersInterface>;
+    usernames: Array<HangoutUserInterface>;
     type: string;
     creatorConfirmed: number;
 }
 
-export interface HangoutUsersInterface {
+export interface HangoutUserInterface {
     username: string;
-    name: string;
+    firstname: string;
     profilePicture: string;
     confirmed: number;
 }

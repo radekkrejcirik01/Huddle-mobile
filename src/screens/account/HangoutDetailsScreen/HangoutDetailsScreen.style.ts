@@ -39,25 +39,6 @@ export const HangoutDetailsScreenStyle = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap'
     },
-    peopleTouchableOpacity: {
-        marginRight: 15,
-        marginTop: 10,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    opacity: {
-        opacity: 0.7
-    },
-    peopleImage: {
-        width: 25,
-        height: 25,
-        borderRadius: 20
-    },
-    peopleText: {
-        marginLeft: 7,
-        color: COLORS.WHITE,
-        fontWeight: '600'
-    },
     plusButton: {
         marginTop: 10,
         justifyContent: 'center'

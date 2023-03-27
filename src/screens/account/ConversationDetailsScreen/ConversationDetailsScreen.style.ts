@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const ConversationDetaislScreenStyle = StyleSheet.create({
+export const ConversationDetailsScreenStyle = StyleSheet.create({
     save: {
         marginRight: 15,
         color: COLORS.WHITE,

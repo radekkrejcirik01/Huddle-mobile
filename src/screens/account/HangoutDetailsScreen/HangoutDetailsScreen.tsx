@@ -45,12 +45,14 @@ import { getUTCDateTime } from '@functions/getUTCDateTime';
 import { ReducerProps } from '@store/index/index.props';
 import {
     HangoutScreenDataInterface,
-    HangoutUsersInterface
+    HangoutUserInterface
 } from '@screens/account/HangoutScreen/HangoutScreen.props';
 import { IconButton } from '@components/general/IconButton/IconButton';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { useNavigation } from '@hooks/useNavigation';
 import { useOpenPhoto } from '@hooks/useOpenPhoto';
+import { ParticipantsList } from '@components/general/ParticipantsList/ParticipantsList';
+import { ParticipantsListProps } from '@components/general/ParticipantsList/ParticipantsList.props';
 
 export const HangoutDetailsScreen = ({
     route
@@ -102,8 +104,8 @@ export const HangoutDetailsScreen = ({
 
     useEffect(() => {
         navigation.setOptions({
-            ...(!isUserAdmin && {
-                headerTitle: 'Details'
+            ...(isUserAdmin && {
+                headerTitle: 'Edit'
             })
         });
     }, [hangoutId, isUserAdmin, navigation]);
@@ -277,31 +279,43 @@ export const HangoutDetailsScreen = ({
     }, [deleteHangout]);
 
     const openUserAccount = useCallback(
-        (item: HangoutUsersInterface) => {
+        (item: HangoutUserInterface) => {
             navigateTo(AccountStackNavigatorEnum.FriendProfileScreen, {
                 username: item.username,
-                firstname: item.name,
+                firstname: item.firstname,
                 profilePicture: item.profilePicture
             });
         },
         [navigateTo]
     );
 
-    const cancelConfirmation = useCallback(() => {}, []);
+    const cancelParticipation = useCallback(() => {
+        postRequest<ResponseInterface, RemoveHangoutUserInterface>(
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/cancel/hangout/participation',
+            {
+                id: hangoutId,
+                username
+            }
+        ).subscribe((response: ResponseInterface) => {
+            if (response?.status) {
+                loadHangout();
+            }
+        });
+    }, [hangoutId, loadHangout, username]);
 
     const onPressUser = useCallback(
-        (value: HangoutUsersInterface) => {
+        (value: HangoutUserInterface) => {
             let options = ['Cancel'];
             if (value.username === username) {
                 options = ['Cancel participation', ...options];
             } else if (isUserAdmin) {
                 options = [
-                    `Open ${value.name}'s profile`,
-                    `Remove ${value.name}`,
+                    `Open ${value.firstname}'s profile`,
+                    `Remove ${value.firstname}`,
                     ...options
                 ];
             } else {
-                options = [`Open ${value.name}'s profile`, ...options];
+                options = [`Open ${value.firstname}'s profile`, ...options];
             }
 
             showActionSheetWithOptions(
@@ -321,7 +335,7 @@ export const HangoutDetailsScreen = ({
                         }
                     } else if (selectedIndex === 0) {
                         if (value.username === username) {
-                            cancelConfirmation();
+                            cancelParticipation();
                         } else {
                             openUserAccount(value);
                         }
@@ -330,7 +344,7 @@ export const HangoutDetailsScreen = ({
             );
         },
         [
-            cancelConfirmation,
+            cancelParticipation,
             isUserAdmin,
             openUserAccount,
             removeUserFromHangout,
@@ -385,28 +399,12 @@ export const HangoutDetailsScreen = ({
                 />
                 <Text style={HangoutDetailsScreenStyle.text}>People 👨‍👩‍👧‍👦</Text>
                 <View style={HangoutDetailsScreenStyle.row}>
-                    {usernames?.map((value: HangoutUsersInterface) => (
-                        <TouchableOpacity
-                            key={value.username}
-                            onPress={() => onPressUser(value)}
-                            onLongPress={() => onPressUser(value)}
-                            style={[
-                                HangoutDetailsScreenStyle.peopleTouchableOpacity,
-                                !value?.confirmed &&
-                                    HangoutDetailsScreenStyle.opacity
-                            ]}
-                        >
-                            <FastImage
-                                style={HangoutDetailsScreenStyle.peopleImage}
-                                source={{
-                                    uri: value?.profilePicture
-                                }}
-                            />
-                            <Text style={HangoutDetailsScreenStyle.peopleText}>
-                                {value?.name}
-                            </Text>
-                        </TouchableOpacity>
-                    ))}
+                    <ParticipantsList
+                        usernames={usernames}
+                        onPressUser={
+                            onPressUser as ParticipantsListProps['onPressUser']
+                        }
+                    />
                     {isUserAdmin && (
                         <IconButton
                             icon={IconEnum.PLUS}
@@ -423,7 +421,7 @@ export const HangoutDetailsScreen = ({
                 )}
                 <ListItem
                     title="Cancel confirmation"
-                    onPress={cancelConfirmation}
+                    onPress={cancelParticipation}
                 />
             </View>
             <DatePicker
