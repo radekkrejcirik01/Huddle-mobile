@@ -108,43 +108,67 @@ export const SectionList = forwardRef(
         const Item = useCallback(
             ({ itemData }: ItemDataInterface) => (
                 <View style={SectionListStyle.itemContainer}>
-                    {itemData.list.map((value: ComingsUpListItem) => (
-                        <TouchableOpacity
-                            key={value.id}
-                            onPress={() => onItemPress(value)}
-                            style={SectionListStyle.itemView}
-                        >
-                            <View style={SectionListStyle.itemRow}>
-                                <View>
-                                    <Text style={SectionListStyle.itemText}>
-                                        {value.title}
-                                    </Text>
-                                    <Text style={SectionListStyle.itemText}>
-                                        {getLocalHourFromUTC(value.time)}
-                                    </Text>
-                                </View>
-                                {value?.picture ? (
-                                    <FastImage
-                                        source={{
-                                            uri: value.picture
-                                        }}
-                                        style={SectionListStyle.itemImage}
-                                    />
-                                ) : (
-                                    <View style={SectionListStyle.itemImage}>
-                                        <Text style={SectionListStyle.text}>
-                                            {value?.type === 'hangout'
-                                                ? '🙂'
-                                                : '👨‍👩‍👧‍👦'}
+                    {itemData.list.map((value: ComingsUpListItem) => {
+                        const createdAndConfirmed =
+                            value.createdBy === username &&
+                            !value.creatorConfirmed;
+
+                        return (
+                            <TouchableOpacity
+                                key={value.id}
+                                onPress={() => onItemPress(value)}
+                                style={[
+                                    SectionListStyle.itemView,
+                                    createdAndConfirmed &&
+                                        SectionListStyle.blackBgColor
+                                ]}
+                            >
+                                <View style={SectionListStyle.itemRow}>
+                                    <View>
+                                        <Text
+                                            style={[
+                                                SectionListStyle.itemText,
+                                                createdAndConfirmed &&
+                                                    SectionListStyle.mainWhiteColor
+                                            ]}
+                                        >
+                                            {value.title}
+                                        </Text>
+                                        <Text
+                                            style={[
+                                                SectionListStyle.itemText,
+                                                createdAndConfirmed &&
+                                                    SectionListStyle.mainWhiteColor
+                                            ]}
+                                        >
+                                            {getLocalHourFromUTC(value.time)}
                                         </Text>
                                     </View>
-                                )}
-                            </View>
-                        </TouchableOpacity>
-                    ))}
+                                    {value?.picture ? (
+                                        <FastImage
+                                            source={{
+                                                uri: value.picture
+                                            }}
+                                            style={SectionListStyle.itemImage}
+                                        />
+                                    ) : (
+                                        <View
+                                            style={SectionListStyle.itemImage}
+                                        >
+                                            <Text style={SectionListStyle.text}>
+                                                {value?.type === 'hangout'
+                                                    ? '🙂'
+                                                    : '👨‍👩‍👧‍👦'}
+                                            </Text>
+                                        </View>
+                                    )}
+                                </View>
+                            </TouchableOpacity>
+                        );
+                    })}
                 </View>
             ),
-            [onItemPress]
+            [onItemPress, username]
         );
 
         const renderItem = useCallback(

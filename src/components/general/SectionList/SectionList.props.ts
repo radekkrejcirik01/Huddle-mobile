@@ -32,6 +32,7 @@ export interface ComingsUpListItem {
     place: string;
     picture: string;
     type: string;
+    creatorConfirmed: number;
 }
 
 export interface SectionHeaderInterface {

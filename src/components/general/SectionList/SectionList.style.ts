@@ -18,7 +18,15 @@ export const SectionListStyle = StyleSheet.create({
         marginBottom: 5,
         padding: 10,
         borderRadius: 15,
+        borderWidth: 1.5,
+        borderColor: COLORS.MAIN_WHITE,
         backgroundColor: COLORS.MAIN_WHITE
+    },
+    blackBgColor: {
+        backgroundColor: COLORS.BLACK
+    },
+    mainWhiteColor: {
+        color: COLORS.MAIN_WHITE
     },
     itemRow: {
         flexDirection: 'row'
