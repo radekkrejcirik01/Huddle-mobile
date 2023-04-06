@@ -17,7 +17,7 @@ export const BottomTabNavigatorStyle = StyleSheet.create({
     tabBarProfile: {
         backgroundColor: COLORS.BLACK
     },
-    spacing: {
-        letterSpacing: -8 // Friends tab spacing
+    right: {
+        right: 2
     }
 });

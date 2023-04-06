@@ -17,6 +17,20 @@ export const HomeTabOptions: BottomTabNavigationOptions = {
     )
 };
 
+export const HuddlesTabOptions: BottomTabNavigationOptions = {
+    tabBarLabel: 'Huddles',
+    tabBarIcon: ({ focused }) => (
+        <Text
+            style={[
+                { fontSize: focused ? 24 : 20 },
+                BottomTabNavigatorStyle.right
+            ]}
+        >
+            👋
+        </Text>
+    )
+};
+
 export const ChatsTabOptions: BottomTabNavigationOptions = {
     tabBarLabel: 'Chats',
     tabBarIcon: ({ focused }) => (
@@ -29,15 +43,6 @@ export const FriendsTabOptions: BottomTabNavigationOptions = {
     headerShown: true,
     tabBarLabel: 'Friends',
     tabBarIcon: ({ focused }) => (
-        <Text
-            style={[
-                {
-                    fontSize: focused ? 24 : 20
-                },
-                BottomTabNavigatorStyle.spacing
-            ]}
-        >
-            🙍‍♂️🙍‍♀️
-        </Text>
+        <Text style={{ fontSize: focused ? 24 : 20 }}>🔍</Text>
     )
 };
