@@ -39,9 +39,8 @@ import { HangoutDetailsScreenStyle } from '@screens/account/HangoutDetailsScreen
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import { Input } from '@components/general/Input/Input';
-import { formatDate } from '@functions/formatDate';
+import { formatDateTime } from '@functions/formatDateTime';
 import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
-import { getUTCDateTime } from '@functions/getUTCDateTime';
 import { ReducerProps } from '@store/index/index.props';
 import {
     HangoutScreenDataInterface,
@@ -136,20 +135,27 @@ export const HangoutDetailsScreen = ({
     );
 
     const save = useCallback(() => {
+        const data: HangoutUpdateInterface = {
+            id: hangoutId
+        };
+
+        if (photoValue !== photo) {
+            data.buffer = photoRef?.current?.buffer;
+            data.fileName = photoRef?.current?.fileName;
+        }
+        if (titleValue !== title) {
+            data.title = titleValue;
+        }
+        if (timeValue !== time) {
+            data.time = timeValue;
+        }
+        if (planValue !== plan) {
+            data.plan = planValue;
+        }
+
         postRequest<ResponseInterface, HangoutUpdateInterface>(
             'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/update/hangout',
-            {
-                id: hangoutId,
-                buffer: photoValue === photo ? null : photoRef?.current?.buffer,
-                fileName:
-                    photoValue === photo ? null : photoRef?.current?.fileName,
-                title: titleValue === title ? null : titleValue,
-                time:
-                    timeValue === time
-                        ? null
-                        : getUTCDateTime(timeValue.toISOString()),
-                plan: planValue === plan ? null : planValue
-            }
+            data
         ).subscribe((response: ResponseInterface) => {
             if (response?.status) {
                 setIsSave(false);
@@ -309,13 +315,9 @@ export const HangoutDetailsScreen = ({
             if (value.username === username) {
                 options = ['Cancel participation', ...options];
             } else if (isUserAdmin) {
-                options = [
-                    `Open ${value.firstname}'s profile`,
-                    `Remove ${value.firstname}`,
-                    ...options
-                ];
+                options = ['Open profile', 'Remove', ...options];
             } else {
-                options = [`Open ${value.firstname}'s profile`, ...options];
+                options = [`Open profile`, ...options];
             }
 
             showActionSheetWithOptions(
@@ -381,7 +383,7 @@ export const HangoutDetailsScreen = ({
                 />
                 <Text style={HangoutDetailsScreenStyle.text}>Time ⏳</Text>
                 <Input
-                    value={formatDate(
+                    value={formatDateTime(
                         new Date(getLocalDateTimeFromUTC(timeValue))
                     )}
                     onPressOut={onEditTime}
@@ -427,7 +429,7 @@ export const HangoutDetailsScreen = ({
             <DatePicker
                 modal
                 open={openDatePicker}
-                date={new Date(timeValue?.toString())}
+                date={moment(timeValue).toDate()}
                 minimumDate={minimumDate}
                 onConfirm={(date: Date) => {
                     setOpenDatePicker(false);

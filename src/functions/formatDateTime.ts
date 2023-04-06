@@ -1,6 +1,6 @@
 import { format } from '@functions/format';
 
-export const formatDate = (date: Date): string => {
+export const formatDateTime = (date: Date): string => {
     const monthNames = [
         'January',
         'February',

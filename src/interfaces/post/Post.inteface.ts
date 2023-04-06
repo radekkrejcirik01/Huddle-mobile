@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 export interface UserPostInterface {
     username: string;
     firstname: string;
@@ -35,7 +37,7 @@ export interface HangoutCreateInterface {
     user: string;
     name: string;
     username: string;
-    time: string;
+    time: Moment;
     place: string;
 }
 
@@ -50,11 +52,11 @@ export interface HangoutGetInterface {
 
 export interface HangoutUpdateInterface {
     id: number;
-    buffer: string;
-    fileName: string;
-    title: string;
-    time: string;
-    plan: string;
+    buffer?: string;
+    fileName?: string;
+    title?: string;
+    time?: Moment;
+    plan?: string;
 }
 
 export interface RemoveHangoutUserInterface {
@@ -71,7 +73,7 @@ export interface GroupHangoutCreateInterface {
     name: string;
     title: string;
     usernames: Array<string>;
-    time: string;
+    time: Moment;
     place: string;
     buffer: string;
     fileName: string;

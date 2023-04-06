@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
@@ -8,9 +8,6 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import COLORS from '@constants/COLORS';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
-import { getDate } from '@functions/getDate';
-import { formatDate } from '@functions/formatDate';
-import { constructDateTime } from '@functions/constructDateTime';
 import {
     HangoutPickerDefaultProps,
     HangoutPickerProps
@@ -21,10 +18,11 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { HangoutPickerEnum } from '@components/general/HangoutPicker/HangoutPicker.enum';
 import { ReducerProps } from '@store/index/index.props';
-import { getUTCDateTime } from '@functions/getUTCDateTime';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { HangoutDetailsScreenStyle } from '@screens/account/HangoutDetailsScreen/HangoutDetailsScreen.style';
 import { IconButton } from '@components/general/IconButton/IconButton';
+import { constructDateTime } from '@functions/constructDateTime';
+import { formatDateTime } from '@functions/formatDateTime';
 
 export const HangoutPicker = ({
     isVisible,
@@ -43,17 +41,15 @@ export const HangoutPicker = ({
     const [suggestedTimes, setSuggestedTimes] = useState<Array<string>>([]);
     const [tappedTime, setTappedTime] = useState<string>();
     const [place, setPlace] = useState<string>();
-    const [dateTimeText, setResultDateText] = useState<string>();
-    const [dateTime, setDateTime] = useState<string>();
-
-    const [date, setDate] = useState(new Date());
-    const [open, setOpen] = useState(false);
+    // Date format for DatePicker component
+    const [dateTime, setDateTime] = useState<Date>(new Date());
+    const [open, setOpen] = useState<boolean>(false);
+    const [dateTimeConfirmed, setDateTimeConfirmed] = useState<boolean>(false);
 
     const minimumDate = new Date(moment().toString());
 
     useEffect(() => {
-        // TODO: Assure datetime does not include undefined
-        onDateTimeChange(getUTCDateTime(dateTime));
+        onDateTimeChange(moment(dateTime));
     }, [dateTime, onDateTimeChange]);
 
     useEffect(() => {
@@ -61,7 +57,7 @@ export const HangoutPicker = ({
     }, [onPlaceChange, place]);
 
     useEffect(() => {
-        setDateTime(getDate(tappedWhen, tappedTime));
+        setDateTime(constructDateTime(tappedWhen, tappedTime));
     }, [tappedWhen, tappedTime]);
 
     useEffect(() => {
@@ -100,6 +96,11 @@ export const HangoutPicker = ({
         setTappedTime(times[0]);
     }, []);
 
+    const formattedDateTime = useMemo(
+        (): string => formatDateTime(dateTime),
+        [dateTime]
+    );
+
     const openSelectGroupHangoutPeople = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.SelectGroupHangoutUsersScreen);
     }, [navigateTo]);
@@ -110,14 +111,14 @@ export const HangoutPicker = ({
                 <View style={HangoutPickerStyle.inputContainer}>
                     <Text style={HangoutPickerStyle.title}>When</Text>
                     <View style={HangoutPickerStyle.tagsRow}>
-                        {dateTimeText ? (
+                        {dateTimeConfirmed ? (
                             <TouchableOpacity
                                 activeOpacity={1}
                                 onPress={() => setOpen(true)}
                                 style={HangoutPickerStyle.tagsItem}
                             >
                                 <Text style={HangoutPickerStyle.tagText}>
-                                    {dateTimeText}
+                                    {formattedDateTime}
                                 </Text>
                             </TouchableOpacity>
                         ) : (
@@ -126,12 +127,7 @@ export const HangoutPicker = ({
                                     <TouchableOpacity
                                         activeOpacity={1}
                                         onPress={() => {
-                                            if (
-                                                value ===
-                                                suggestedWhen[
-                                                    suggestedWhen.length - 1
-                                                ]
-                                            ) {
+                                            if (value === 'Choose a date') {
                                                 setOpen(true);
                                             } else {
                                                 setTappedWhen(value);
@@ -142,7 +138,7 @@ export const HangoutPicker = ({
                                             HangoutPickerStyle.tagsItem,
                                             {
                                                 backgroundColor:
-                                                    tappedWhen === value
+                                                    value === tappedWhen
                                                         ? COLORS.MAIN_WHITE
                                                         : COLORS.BLACK
                                             }
@@ -153,7 +149,7 @@ export const HangoutPicker = ({
                                                 HangoutPickerStyle.tagText,
                                                 {
                                                     color:
-                                                        tappedWhen === value
+                                                        value === tappedWhen
                                                             ? COLORS.GRAY_100
                                                             : COLORS.WHITE
                                                 }
@@ -167,7 +163,7 @@ export const HangoutPicker = ({
                         )}
                     </View>
                 </View>
-                {!dateTimeText && (
+                {!dateTimeConfirmed && (
                     <View style={HangoutPickerStyle.inputContainer}>
                         <Text style={HangoutPickerStyle.title}>Time</Text>
                         <View style={HangoutPickerStyle.tagsRow}>
@@ -175,22 +171,8 @@ export const HangoutPicker = ({
                                 <TouchableOpacity
                                     activeOpacity={1}
                                     onPress={() => {
-                                        if (
-                                            value ===
-                                            suggestedTimes[
-                                                suggestedTimes.length - 1
-                                            ]
-                                        ) {
+                                        if (value === 'Choose a time') {
                                             setOpen(true);
-                                            const currentDate = new Date(
-                                                moment().toString()
-                                            );
-                                            if (tappedWhen === 'Tomorrow') {
-                                                currentDate.setDate(
-                                                    currentDate.getDate() + 1
-                                                );
-                                            }
-                                            setDate(currentDate);
                                         } else {
                                             setTappedTime(value);
                                         }
@@ -200,7 +182,7 @@ export const HangoutPicker = ({
                                         HangoutPickerStyle.tagsItem,
                                         {
                                             backgroundColor:
-                                                tappedTime === value
+                                                value === tappedTime
                                                     ? COLORS.MAIN_WHITE
                                                     : COLORS.BLACK
                                         }
@@ -211,7 +193,7 @@ export const HangoutPicker = ({
                                             HangoutPickerStyle.tagText,
                                             {
                                                 color:
-                                                    tappedTime === value
+                                                    value === tappedTime
                                                         ? COLORS.GRAY_100
                                                         : COLORS.WHITE
                                             }
@@ -286,14 +268,12 @@ export const HangoutPicker = ({
                 <DatePicker
                     modal
                     open={open}
-                    date={dateTime ? new Date(dateTime) : date}
+                    date={dateTime}
                     minimumDate={minimumDate}
-                    onConfirm={(datum: Date) => {
+                    onConfirm={(value: Date) => {
+                        setDateTime(value);
                         setOpen(false);
-                        setDate(datum);
-                        setResultDateText(formatDate(datum));
-
-                        setDateTime(constructDateTime(datum));
+                        setDateTimeConfirmed(true);
                     }}
                     theme="dark"
                     locale="cz"

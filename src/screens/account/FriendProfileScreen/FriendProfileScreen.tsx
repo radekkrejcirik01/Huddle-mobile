@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { Alert, Keyboard, ScrollView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { Moment } from 'moment';
 import { useNavigation } from '@react-navigation/native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import FastImage from 'react-native-fast-image';
@@ -59,7 +60,7 @@ export const FriendProfileScreen = ({
 
     const invitationId = useRef<number>(id);
 
-    const [dateTime, setDateTime] = useState<string>();
+    const [time, setTime] = useState<Moment>();
     const [place, setPlace] = useState<string>();
 
     const removeFriend = useCallback(() => {
@@ -196,7 +197,7 @@ export const FriendProfileScreen = ({
                 user,
                 name,
                 username,
-                time: dateTime,
+                time,
                 place
             }
         ).subscribe((response: ResponseInterface) => {
@@ -204,7 +205,7 @@ export const FriendProfileScreen = ({
                 setPersonState(PersonStateEnum.HangoutSent);
             }
         });
-    }, [dateTime, name, place, user, username]);
+    }, [time, name, place, user, username]);
 
     const sendFriendInvitation = useCallback(() => {
         postRequest<ResponseInterface, FriendCreateInvitationPostInterface>(
@@ -260,7 +261,7 @@ export const FriendProfileScreen = ({
                         detailsVisible &&
                         personState !== PersonStateEnum.HangoutSent
                     }
-                    onDateTimeChange={setDateTime}
+                    onDateTimeChange={setTime}
                     onPlaceChange={setPlace}
                 />
                 <View style={FriendProfileScreenStyle.alignItemsCenter}>

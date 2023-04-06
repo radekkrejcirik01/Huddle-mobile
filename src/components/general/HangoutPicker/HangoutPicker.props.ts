@@ -1,8 +1,9 @@
+import { Moment } from 'moment';
 import { HangoutPickerEnum } from '@components/general/HangoutPicker/HangoutPicker.enum';
 
 export interface HangoutPickerProps {
     isVisible: boolean;
-    onDateTimeChange: (value: string) => void;
+    onDateTimeChange: (value: Moment) => void;
     onPlaceChange: (value: string) => void;
     onPlaceInputFocusChanged?: (focused: boolean) => void;
     type?: HangoutPickerEnum | null;

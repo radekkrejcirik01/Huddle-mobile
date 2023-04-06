@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { Alert, Keyboard, ScrollView, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { Moment } from 'moment';
 import { useNavigation } from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
 import fs from 'react-native-fs';
@@ -35,7 +36,7 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
     const navigation = useNavigation();
 
     const [title, setTitle] = useState<string>();
-    const [dateTime, setDateTime] = useState<string>();
+    const [time, setTime] = useState<Moment>();
     const [place, setPlace] = useState<string>();
     const [isPlaceFocused, setIsPlaceFocused] = useState<boolean>(false);
     const [picture, setPicture] = useState<string>();
@@ -80,7 +81,7 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
                     name: firstname,
                     title,
                     usernames: selectedUsernames,
-                    time: dateTime,
+                    time,
                     place,
                     buffer: photoRef?.current?.buffer,
                     fileName: photoRef?.current?.fileName
@@ -94,15 +95,7 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
         } else {
             Alert.alert('Please add someone to create group hangout');
         }
-    }, [
-        dateTime,
-        dispatch,
-        firstname,
-        place,
-        selectedUsernames,
-        title,
-        username
-    ]);
+    }, [time, dispatch, firstname, place, selectedUsernames, title, username]);
 
     const buttonText = useMemo((): string => {
         if (isHangoutSent) {
@@ -140,9 +133,9 @@ export const CreateGroupHangoutScreen = (): JSX.Element => {
                 </TouchableOpacity>
                 <HangoutPicker
                     isVisible
-                    onDateTimeChange={setDateTime}
+                    onDateTimeChange={setTime}
                     onPlaceChange={setPlace}
-                    onPlaceInputFocusChanged={(focused) =>
+                    onPlaceInputFocusChanged={(focused: boolean) =>
                         setIsPlaceFocused(focused)
                     }
                     type={HangoutPickerEnum.GROUP}

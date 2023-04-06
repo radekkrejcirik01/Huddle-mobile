@@ -24,7 +24,7 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { ReducerProps } from '@store/index/index.props';
 import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
-import { formatDate } from '@functions/formatDate';
+import { formatDateTime } from '@functions/formatDateTime';
 import { useOpenPhoto } from '@hooks/useOpenPhoto';
 import { HangoutActions } from '@components/general/HangoutActions/HangoutActions';
 
@@ -148,7 +148,9 @@ export const HangoutScreen = ({ route }: HangoutScreenProps): JSX.Element => {
                 </TouchableOpacity>
                 <Text style={HangoutScreenStyle.text}>{data?.place}</Text>
                 <Text style={HangoutScreenStyle.text}>
-                    {formatDate(new Date(getLocalDateTimeFromUTC(data?.time)))}
+                    {formatDateTime(
+                        new Date(getLocalDateTimeFromUTC(data?.time))
+                    )}
                 </Text>
                 {data?.type === 'group_hangout' && (
                     <View style={HangoutScreenStyle.usersContainer}>

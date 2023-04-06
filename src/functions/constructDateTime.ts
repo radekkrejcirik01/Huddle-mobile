@@ -1,12 +1,16 @@
-import { format } from '@functions/format';
+export const constructDateTime = (date: string, time: string): Date => {
+    const dateTime = new Date();
 
-export const constructDateTime = (date: Date): string => {
-    const year = date.getFullYear();
-    const month = format((date.getMonth() + 1).toString());
-    const day = format(date.getDate().toString());
+    if (date && time) {
+        const hour = Number(time.substring(0, 2));
+        const minute = Number(time.substring(3, 5));
 
-    const hour = format(date.getHours().toString());
-    const minute = format(date.getMinutes().toString());
+        if (date === 'Tomorrow') {
+            dateTime.setDate(dateTime.getDate() + 1);
+        }
 
-    return `${year}-${month}-${day} ${hour}:${minute}`;
+        dateTime.setHours(hour, minute);
+    }
+
+    return dateTime;
 };
