@@ -109,7 +109,7 @@ export const SectionList = forwardRef(
             ({ itemData }: ItemDataInterface) => (
                 <View style={SectionListStyle.itemContainer}>
                     {itemData.list.map((value: ComingsUpListItem) => {
-                        const createdAndConfirmed =
+                        const createdAndUnconfirmed =
                             value.createdBy === username &&
                             !value.creatorConfirmed;
 
@@ -119,7 +119,7 @@ export const SectionList = forwardRef(
                                 onPress={() => onItemPress(value)}
                                 style={[
                                     SectionListStyle.itemView,
-                                    createdAndConfirmed &&
+                                    createdAndUnconfirmed &&
                                         SectionListStyle.blackBgColor
                                 ]}
                             >
@@ -128,7 +128,7 @@ export const SectionList = forwardRef(
                                         <Text
                                             style={[
                                                 SectionListStyle.itemText,
-                                                createdAndConfirmed &&
+                                                createdAndUnconfirmed &&
                                                     SectionListStyle.mainWhiteColor
                                             ]}
                                         >
@@ -137,7 +137,7 @@ export const SectionList = forwardRef(
                                         <Text
                                             style={[
                                                 SectionListStyle.itemText,
-                                                createdAndConfirmed &&
+                                                createdAndUnconfirmed &&
                                                     SectionListStyle.mainWhiteColor
                                             ]}
                                         >
