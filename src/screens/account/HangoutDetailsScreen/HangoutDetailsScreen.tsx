@@ -286,7 +286,7 @@ export const HangoutDetailsScreen = ({
 
     const openUserAccount = useCallback(
         (item: HangoutUserInterface) => {
-            navigateTo(AccountStackNavigatorEnum.FriendProfileScreen, {
+            navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
                 username: item.username,
                 firstname: item.firstname,
                 profilePicture: item.profilePicture

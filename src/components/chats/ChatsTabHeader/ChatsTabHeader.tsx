@@ -1,5 +1,6 @@
 import React from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+import { SafeAreaView } from '@components/general/SafeAreaView/SafeAreaView';
 import { ChatsTabHeaderStyle } from '@components/chats/ChatsTabHeader/ChatsTabHeader.style';
 
 export const ChatsTabHeader = (): JSX.Element => (

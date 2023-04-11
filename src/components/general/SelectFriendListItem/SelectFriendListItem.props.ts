@@ -1,7 +1,7 @@
 import { ListRenderItemInfo } from '@shopify/flash-list';
-import { FriendsListItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
+import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 
 export interface SelectFriendListItemProps {
-    data: ListRenderItemInfo<FriendsListItemProps>;
+    data: ListRenderItemInfo<PeopleListItemProps>;
     onSelect: (value: string) => void;
 }

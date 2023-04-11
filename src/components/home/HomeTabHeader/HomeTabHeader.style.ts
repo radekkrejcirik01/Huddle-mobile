@@ -2,8 +2,8 @@ import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
 export const HomeTabHeaderStyle = StyleSheet.create({
-    header: {
-        paddingRight: 2,
+    container: {
+        paddingRight: 7,
         flexDirection: 'row'
     },
     buttonsContainer: {
@@ -19,8 +19,8 @@ export const HomeTabHeaderStyle = StyleSheet.create({
     number: {
         fontSize: 14,
         color: COLORS.LIGHTGRAY,
-        alignSelf: 'center',
-        fontWeight: '600'
+        fontWeight: '600',
+        alignSelf: 'center'
     },
     title: {
         fontSize: 14,

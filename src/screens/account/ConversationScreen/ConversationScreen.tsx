@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import { useNavigation as useDefaultNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
+import { SafeAreaView } from '@components/general/SafeAreaView/SafeAreaView';
 import { ConversationList } from '@components/conversation/ConversationList/ConversationList';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import { ConversationScreenProps } from '@screens/account/ConversationScreen/ConversationScreen.props';
@@ -191,7 +192,7 @@ export const ConversationScreen = ({
     );
 
     return (
-        <SafeAreaView>
+        <SafeAreaView edges={['top', 'bottom']}>
             <KeyboardAvoidingView keyboardVerticalOffset={55}>
                 <View style={ConversationScreenStyle.container}>
                     {!!id && <ConversationList conversationId={id} />}

@@ -5,8 +5,8 @@ import moment from 'moment';
 import COLORS from '@constants/COLORS';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { NotificationTypeEnum } from '@enums/notifications/NotificationType.enum';
-import { NotificationsListItemProps } from '@components/notifícations/NotificationsistItem/NotificationsListItem.props';
-import { NotificationsListItemStyle } from '@components/notifícations/NotificationsistItem/NotificationsListItem.style';
+import { NotificationsListItemProps } from '@components/notifícations/NotificationsListItem/NotificationsListItem.props';
+import { NotificationsListItemStyle } from '@components/notifícations/NotificationsListItem/NotificationsListItem.style';
 import {
     ACCEPTED_GROUP_HANGOUT_TYPE_TEXT,
     ACCEPTED_HANGOUT_TYPE_TEXT,

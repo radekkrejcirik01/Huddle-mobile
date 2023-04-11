@@ -11,7 +11,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
-import { FriendsListItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
+import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { SelectFriendListItem } from '@components/general/SelectFriendListItem/SelectFriendListItem';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { postRequest } from '@utils/Axios/Axios.service';
@@ -47,7 +47,7 @@ export const AddConversationPeopleScreen = ({
 
     const [inputValue, setInputValue] = useState<string>();
     const [filteredData, setFilteredData] = useState<
-        Array<FriendsListItemProps>
+        Array<PeopleListItemProps>
     >([]);
 
     const pickedUsernames = useRef<Array<string>>([]);
@@ -170,7 +170,7 @@ export const AddConversationPeopleScreen = ({
                         />
                     }
                     renderItem={(
-                        item: ListRenderItemInfo<FriendsListItemProps>
+                        item: ListRenderItemInfo<PeopleListItemProps>
                     ) => (
                         <SelectFriendListItem
                             data={item}

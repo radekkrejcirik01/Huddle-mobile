@@ -1,4 +1,4 @@
-import { FriendsListItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
+import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { ConversationDataProps } from '@components/conversation/ConversationList/ConversationList.props';
 import { ComingsUpDataInterface } from '@components/general/SectionList/SectionList.props';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
@@ -27,7 +27,7 @@ export interface ResponseUserGetInterface {
 export interface ResponseFriendsGetInterface {
     status: string;
     message: string;
-    data?: Array<FriendsListItemProps>;
+    data?: Array<PeopleListItemProps>;
 }
 
 export interface ResponseCheckInvitationsInterface {

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { HomeScreenStyle } from '@screens/account/HomeScreen/HomeScreen.style';
 import { useNavigation } from '@hooks/useNavigation';
@@ -54,16 +54,12 @@ export const HomeScreen = (): JSX.Element => {
     useNavigation(RootStackNavigatorEnum.AccountStack, onFocus);
 
     return (
-        <SafeAreaView style={HomeScreenStyle.safeArea}>
-            <View style={HomeScreenStyle.container}>
-                <HomeTabHeader />
-                <View style={HomeScreenStyle.comingsUpContainer}>
-                    <Text style={HomeScreenStyle.comingsUpTitle}>
-                        Comings up
-                    </Text>
-                    <SectionList ref={sectionListRef} />
-                </View>
+        <View style={HomeScreenStyle.container}>
+            <HomeTabHeader />
+            <View style={HomeScreenStyle.comingsUpContainer}>
+                <Text style={HomeScreenStyle.comingsUpTitle}>Comings up</Text>
+                <SectionList ref={sectionListRef} />
             </View>
-        </SafeAreaView>
+        </View>
     );
 };

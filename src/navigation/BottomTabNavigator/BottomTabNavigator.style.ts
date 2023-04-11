@@ -19,5 +19,10 @@ export const BottomTabNavigatorStyle = StyleSheet.create({
     },
     right: {
         right: 2
+    },
+    tabLabel: {
+        fontSize: 9,
+        color: COLORS.WHITE,
+        fontWeight: 'bold'
     }
 });

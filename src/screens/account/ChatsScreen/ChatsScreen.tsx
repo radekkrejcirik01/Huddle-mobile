@@ -50,15 +50,17 @@ export const ChatsScreen = (): JSX.Element => {
         loadConversations();
     }, [loadConversations]);
 
-    const { getItemType, renderItem, keyExtractor, refreshControl } =
-        useMessagesListRenders(data, onItemPress, onRefresh);
+    const { renderItem, keyExtractor, refreshControl } = useMessagesListRenders(
+        data,
+        onItemPress,
+        onRefresh
+    );
 
     return (
         <View style={ChatsScreenStyle.container}>
             <ChatsTabHeader />
             <FlashList
                 data={data}
-                getItemType={getItemType}
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}
                 refreshControl={refreshControl}

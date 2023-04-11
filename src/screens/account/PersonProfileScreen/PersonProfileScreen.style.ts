@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const FriendProfileScreenStyle = StyleSheet.create({
+export const PersonProfileScreenStyle = StyleSheet.create({
     row: {
         flexDirection: 'row'
     },

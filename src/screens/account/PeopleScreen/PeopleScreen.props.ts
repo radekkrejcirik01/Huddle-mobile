@@ -1,4 +1,4 @@
-export interface FriendsListItemProps {
+export interface PeopleListItemProps {
     id?: number;
     firstname: string;
     username: string;

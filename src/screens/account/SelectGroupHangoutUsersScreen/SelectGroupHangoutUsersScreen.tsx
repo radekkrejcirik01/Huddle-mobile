@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { ReducerProps } from '@store/index/index.props';
-import { FriendsListItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
+import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseFriendsGetInterface } from '@interfaces/response/Response.interface';
 import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
@@ -33,10 +33,10 @@ export const SelectGroupHangoutUsersScreen = (): JSX.Element => {
 
     const [inputValue, setInputValue] = useState<string>();
     const [filteredData, setFilteredData] = useState<
-        Array<FriendsListItemProps>
+        Array<PeopleListItemProps>
     >([]);
 
-    const [people, setPeople] = useState<Array<FriendsListItemProps>>([]);
+    const [people, setPeople] = useState<Array<PeopleListItemProps>>([]);
 
     const selected = useRef<Array<string>>(selectedUsernames);
 
@@ -64,7 +64,7 @@ export const SelectGroupHangoutUsersScreen = (): JSX.Element => {
         (value: string) => {
             setInputValue(value);
             const text = value.toLowerCase();
-            const filteredName = people.filter((item: FriendsListItemProps) =>
+            const filteredName = people.filter((item: PeopleListItemProps) =>
                 item.username.toLowerCase().match(text)
             );
             setFilteredData(filteredName);
@@ -100,7 +100,7 @@ export const SelectGroupHangoutUsersScreen = (): JSX.Element => {
         const usersArray = [];
         for (let i = 0; i < selected.current?.length; i += 1) {
             const user = people.find(
-                (value: FriendsListItemProps) =>
+                (value: PeopleListItemProps) =>
                     value.username === selected.current[i]
             );
             usersArray.push(user);
@@ -132,7 +132,7 @@ export const SelectGroupHangoutUsersScreen = (): JSX.Element => {
                         />
                     }
                     renderItem={(
-                        item: ListRenderItemInfo<FriendsListItemProps>
+                        item: ListRenderItemInfo<PeopleListItemProps>
                     ) => (
                         <SelectFriendListItem
                             data={item}

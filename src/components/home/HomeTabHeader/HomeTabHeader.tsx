@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
+import { SafeAreaView } from '@components/general/SafeAreaView/SafeAreaView';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { Icon } from '@components/general/Icon/Icon';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
@@ -26,20 +27,23 @@ export const HomeTabHeader = (): JSX.Element => {
     const peopleNumber = useMemo((): number => people, [people]);
     const hangoutsNumber = useMemo((): number => hangouts, [hangouts]);
 
-    const openPeople = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.FriendsScreen);
-    }, [navigateTo]);
+    const openPeople = useCallback(
+        () => navigateTo(AccountStackNavigatorEnum.PeopleScreen),
+        [navigateTo]
+    );
 
-    const openHangouts = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.HangoutsHistoryScreen);
-    }, [navigateTo]);
+    const openHangouts = useCallback(
+        () => navigateTo(AccountStackNavigatorEnum.HangoutsHistoryScreen),
+        [navigateTo]
+    );
 
-    const openNotifications = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.NotificationsScreen);
-    }, [navigateTo]);
+    const openNotifications = useCallback(
+        () => navigateTo(AccountStackNavigatorEnum.NotificationsScreen),
+        [navigateTo]
+    );
 
     return (
-        <View style={HomeTabHeaderStyle.header}>
+        <SafeAreaView style={HomeTabHeaderStyle.container}>
             <TouchableOpacity onPress={openProfile}>
                 <FastImage
                     source={{
@@ -54,7 +58,7 @@ export const HomeTabHeader = (): JSX.Element => {
                         <Text style={HomeTabHeaderStyle.number}>
                             {peopleNumber}
                         </Text>
-                        <Text style={HomeTabHeaderStyle.title}>Friends</Text>
+                        <Text style={HomeTabHeaderStyle.title}>People</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={openHangouts}
@@ -70,10 +74,10 @@ export const HomeTabHeader = (): JSX.Element => {
                     onPress={openNotifications}
                     style={HomeTabHeaderStyle.bellIcon}
                 >
-                    <Icon name={IconEnum.BELL} size={25} />
+                    <Icon name={IconEnum.PLUS} size={25} />
                     <Badge value={notifications} />
                 </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };

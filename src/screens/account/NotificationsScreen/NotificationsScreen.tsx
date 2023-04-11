@@ -7,7 +7,7 @@ import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { NotificationsScreenStyle } from '@screens/account/NotificationsScreen/NotificationsScreen.style';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
-import { NotificationsListItem } from '@components/notifícations/NotificationsistItem/NotificationsListItem';
+import { NotificationsListItem } from '@components/notifícations/NotificationsListItem/NotificationsListItem';
 import { postRequest } from '@utils/Axios/Axios.service';
 import {
     ResponseInterface,
@@ -18,6 +18,7 @@ import {
     UserGetPostInterface
 } from '@interfaces/post/Post.inteface';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { NotificationsTabHeader } from '@components/notifícations/NotificationsTabHeader/NotificationsTabHeader';
 
 export const NotificationsScreen = (): JSX.Element => {
     const { firstname, username } = useSelector(
@@ -71,7 +72,7 @@ export const NotificationsScreen = (): JSX.Element => {
 
     const onOpenAccount = useCallback(
         (item: NotificationsListProps) => {
-            navigateTo(AccountStackNavigatorEnum.FriendProfileScreen, {
+            navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
                 id: item.id,
                 firstname: item.name,
                 username: item.username,
@@ -107,24 +108,23 @@ export const NotificationsScreen = (): JSX.Element => {
 
     return (
         <View style={NotificationsScreenStyle.container}>
-            <View style={NotificationsScreenStyle.flashListView}>
-                <FlashList
-                    data={data}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={refresh}
-                            tintColor="white"
-                        />
-                    }
-                    renderItem={renderItem}
-                    estimatedItemSize={68}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={
-                        NotificationsScreenStyle.contentContainer
-                    }
-                />
-            </View>
+            <NotificationsTabHeader />
+            <FlashList
+                data={data}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={refresh}
+                        tintColor="white"
+                    />
+                }
+                renderItem={renderItem}
+                estimatedItemSize={68}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={
+                    NotificationsScreenStyle.contentContainer
+                }
+            />
         </View>
     );
 };

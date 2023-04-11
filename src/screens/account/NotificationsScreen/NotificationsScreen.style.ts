@@ -2,14 +2,10 @@ import { StyleSheet } from 'react-native';
 
 export const NotificationsScreenStyle = StyleSheet.create({
     container: {
-        paddingHorizontal: 5
-    },
-    flashListView: {
-        width: '100%',
-        height: '100%',
-        marginTop: 5
+        flex: 1
     },
     contentContainer: {
-        paddingBottom: 50
+        paddingTop: 15,
+        paddingHorizontal: 5
     }
 });

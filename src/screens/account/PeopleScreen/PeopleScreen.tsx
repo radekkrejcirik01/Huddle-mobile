@@ -3,10 +3,10 @@ import { RefreshControl, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import FastImage from 'react-native-fast-image';
-import { FriendsScreenStyle } from '@screens/account/FriendsScreen/FriendsScreen.style';
+import { PeopleScreenStyle } from '@screens/account/PeopleScreen/PeopleScreen.style';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
-import { FriendsListItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
+import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
@@ -16,14 +16,14 @@ import { ResponseFriendsGetInterface } from '@interfaces/response/Response.inter
 import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 
-export const FriendsScreen = (): JSX.Element => {
+export const PeopleScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const [inputValue, setInputValue] = useState<string>();
 
-    const [data, setData] = useState<Array<FriendsListItemProps>>([]);
+    const [data, setData] = useState<Array<PeopleListItemProps>>([]);
     const [filteredData, setFilteredData] = useState<
-        Array<FriendsListItemProps>
+        Array<PeopleListItemProps>
     >([]);
     const [refreshing, setRefreshing] = useState(false);
 
@@ -49,7 +49,7 @@ export const FriendsScreen = (): JSX.Element => {
     const filterData = (value: string) => {
         setInputValue(value);
         const text = value.toLowerCase();
-        const filteredName = data.filter((item: FriendsListItemProps) =>
+        const filteredName = data.filter((item: PeopleListItemProps) =>
             item.username.toLowerCase().match(text)
         );
         setFilteredData(filteredName);
@@ -64,8 +64,8 @@ export const FriendsScreen = (): JSX.Element => {
     }, [loadPeople]);
 
     const onItemPress = useCallback(
-        (item: FriendsListItemProps) => {
-            navigateTo(AccountStackNavigatorEnum.FriendProfileScreen, {
+        (item: PeopleListItemProps) => {
+            navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
                 checkInvitation: false,
                 firstname: item.firstname,
                 username: item.username,
@@ -77,51 +77,49 @@ export const FriendsScreen = (): JSX.Element => {
 
     const renderItem = ({
         item
-    }: ListRenderItemInfo<FriendsListItemProps>): JSX.Element => (
+    }: ListRenderItemInfo<PeopleListItemProps>): JSX.Element => (
         <TouchableOpacity
             onPress={() => onItemPress(item)}
-            style={FriendsScreenStyle.itemView}
+            style={PeopleScreenStyle.itemView}
         >
             <View>
-                <Text style={FriendsScreenStyle.itemTextName}>
+                <Text style={PeopleScreenStyle.itemTextName}>
                     {item.firstname}
                 </Text>
-                <Text style={FriendsScreenStyle.itemTextUsername}>
+                <Text style={PeopleScreenStyle.itemTextUsername}>
                     {item.username}
                 </Text>
             </View>
             <FastImage
                 source={{ uri: item.profilePicture }}
-                style={FriendsScreenStyle.itemImage}
+                style={PeopleScreenStyle.itemImage}
             />
         </TouchableOpacity>
     );
 
     return (
-        <View style={FriendsScreenStyle.container}>
+        <View style={PeopleScreenStyle.container}>
             <Input
                 iconLeft={<Text>🔍</Text>}
                 placeholder="Who you looking for?..."
                 value={inputValue}
                 onChange={filterData}
                 inputType={InputTypeEnum.TEXT}
-                viewStyle={FriendsScreenStyle.inputView}
-                inputStyle={FriendsScreenStyle.input}
+                inputStyle={PeopleScreenStyle.input}
             />
-            <View style={FriendsScreenStyle.flashListView}>
-                <FlashList
-                    data={filteredData}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={refresh}
-                            tintColor="white"
-                        />
-                    }
-                    renderItem={renderItem}
-                    estimatedItemSize={68}
-                />
-            </View>
+            <FlashList
+                data={filteredData}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={refresh}
+                        tintColor="white"
+                    />
+                }
+                renderItem={renderItem}
+                estimatedItemSize={68}
+                contentContainerStyle={PeopleScreenStyle.listContentContainer}
+            />
         </View>
     );
 };

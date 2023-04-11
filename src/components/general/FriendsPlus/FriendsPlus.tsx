@@ -124,7 +124,7 @@ export const FriendsPlus = (): JSX.Element => {
         <>
             <IconButton
                 icon={IconEnum.PLUS}
-                size={24}
+                size={25}
                 onPress={showActionSheet}
                 style={FriendsPlusStyle.iconButton}
             />

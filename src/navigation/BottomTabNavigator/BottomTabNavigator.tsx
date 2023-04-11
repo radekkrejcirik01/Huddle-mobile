@@ -4,13 +4,15 @@ import { BottomTabNavigatorEnum } from '@navigation/BottomTabNavigator/BottomTab
 import { HomeScreen } from '@screens/account/HomeScreen/HomeScreen';
 import { HuddlesScreen } from '@screens/account/HuddlesScreen/HuddlesScreen';
 import { ChatsScreen } from '@screens/account/ChatsScreen/ChatsScreen';
-import { FriendsScreen } from '@screens/account/FriendsScreen/FriendsScreen';
+import { NotificationsScreen } from '@screens/account/NotificationsScreen/NotificationsScreen';
+import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
 import {
     BottomTabNavigatorOptions,
     ChatsTabOptions,
-    FriendsTabOptions,
     HomeTabOptions,
-    HuddlesTabOptions
+    HuddlesTabOptions,
+    NotificationsTabOptions,
+    PeopleTabOptions
 } from '@navigation/BottomTabNavigator/BottomTabNavigator.options';
 
 export const BottomTabNavigator = (): JSX.Element => {
@@ -27,19 +29,24 @@ export const BottomTabNavigator = (): JSX.Element => {
                 options={HomeTabOptions}
             />
             <TabBar.Screen
-                name={BottomTabNavigatorEnum.HuddlesTab}
-                component={HuddlesScreen}
-                options={HuddlesTabOptions}
-            />
-            <TabBar.Screen
                 name={BottomTabNavigatorEnum.ChatsTab}
                 component={ChatsScreen}
                 options={ChatsTabOptions}
             />
             <TabBar.Screen
-                name={BottomTabNavigatorEnum.FriendsTab}
-                component={FriendsScreen}
-                options={FriendsTabOptions}
+                name={BottomTabNavigatorEnum.HuddlesTab}
+                component={HuddlesScreen}
+                options={HuddlesTabOptions}
+            />
+            <TabBar.Screen
+                name={BottomTabNavigatorEnum.NotificationsTab}
+                component={NotificationsScreen}
+                options={NotificationsTabOptions}
+            />
+            <TabBar.Screen
+                name={BottomTabNavigatorEnum.PeopleTab}
+                component={PeopleScreen}
+                options={PeopleTabOptions}
             />
         </TabBar.Navigator>
     );

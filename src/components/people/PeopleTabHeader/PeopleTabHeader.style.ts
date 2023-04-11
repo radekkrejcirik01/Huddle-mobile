@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const FriendsTabHeaderStyle = StyleSheet.create({
+export const PeopleTabHeaderStyle = StyleSheet.create({
     header: {
         height: 50, // height of image in HomeTabHeader
         paddingLeft: 10,

@@ -14,7 +14,6 @@ export const useMessagesListRenders = (
     onItemPress: (item: ChatsListDataProps) => void,
     onRefresh: () => void
 ): {
-    getItemType: (item: ChatsListDataProps) => ChatsListDataProps;
     renderItem: ({
         item
     }: ListRenderItemInfo<ChatsListDataProps>) => JSX.Element;
@@ -32,8 +31,6 @@ export const useMessagesListRenders = (
             onRefresh();
         }, 1000);
     }, [onRefresh]);
-
-    const getItemType = (item: ChatsListDataProps): ChatsListDataProps => item;
 
     const deleteConversation = useCallback(
         (id: number) => {
@@ -72,5 +69,5 @@ export const useMessagesListRenders = (
         />
     );
 
-    return { getItemType, renderItem, keyExtractor, refreshControl };
+    return { renderItem, keyExtractor, refreshControl };
 };

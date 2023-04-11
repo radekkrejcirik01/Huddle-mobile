@@ -11,8 +11,8 @@ import { Moment } from 'moment';
 import { useNavigation } from '@react-navigation/native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import FastImage from 'react-native-fast-image';
-import { FriendProfileScreenStyle } from '@screens/account/FriendProfileScreen/FriendProfileScreen.style';
-import { FriendProfileScreenProps } from '@screens/account/FriendProfileScreen/FriendProfileScreen.props';
+import { PersonProfileScreenStyle } from '@screens/account/PersonProfileScreen/PersonProfileScreen.style';
+import { PersonProfileScreenProps } from '@screens/account/PersonProfileScreen/PersonProfileScreen.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { postRequest } from '@utils/Axios/Axios.service';
 import {
@@ -30,11 +30,11 @@ import { ReducerProps } from '@store/index/index.props';
 import { HangoutPicker } from '@components/general/HangoutPicker/HangoutPicker';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import { useOpenPhoto } from '@hooks/useOpenPhoto';
-import { PersonStateEnum } from '@screens/account/FriendProfileScreen/FriendProfileScreen.enum';
+import { PersonStateEnum } from '@screens/account/PersonProfileScreen/PersonProfileScreen.enum';
 
-export const FriendProfileScreen = ({
+export const PersonProfileScreen = ({
     route
-}: FriendProfileScreenProps): JSX.Element => {
+}: PersonProfileScreenProps): JSX.Element => {
     const {
         checkInvitation = true,
         firstname,
@@ -99,9 +99,9 @@ export const FriendProfileScreen = ({
         navigation.setOptions({
             title: firstname,
             headerRight: () => (
-                <View style={FriendProfileScreenStyle.row}>
+                <View style={PersonProfileScreenStyle.row}>
                     <TouchableOpacity onPress={openFriendStatus}>
-                        <Text style={FriendProfileScreenStyle.friendStatus}>
+                        <Text style={PersonProfileScreenStyle.friendStatus}>
                             Friends
                         </Text>
                     </TouchableOpacity>
@@ -236,23 +236,23 @@ export const FriendProfileScreen = ({
     return (
         <ScrollView
             onScrollBeginDrag={Keyboard.dismiss}
-            contentContainerStyle={FriendProfileScreenStyle.container}
+            contentContainerStyle={PersonProfileScreenStyle.container}
         >
             <KeyboardAvoidingView
-                style={FriendProfileScreenStyle.container}
+                style={PersonProfileScreenStyle.container}
                 contentContainerStyle={
-                    FriendProfileScreenStyle.contentContainer
+                    PersonProfileScreenStyle.contentContainer
                 }
             >
-                <View style={FriendProfileScreenStyle.alignItemsCenter}>
+                <View style={PersonProfileScreenStyle.alignItemsCenter}>
                     <TouchableOpacity
                         disabled={!profilePicture}
                         onPress={() => openPhoto(profilePicture)}
-                        style={FriendProfileScreenStyle.imageView}
+                        style={PersonProfileScreenStyle.imageView}
                     >
                         <FastImage
                             source={{ uri: profilePicture }}
-                            style={FriendProfileScreenStyle.image}
+                            style={PersonProfileScreenStyle.image}
                         />
                     </TouchableOpacity>
                 </View>
@@ -264,31 +264,31 @@ export const FriendProfileScreen = ({
                     onDateTimeChange={setTime}
                     onPlaceChange={setPlace}
                 />
-                <View style={FriendProfileScreenStyle.alignItemsCenter}>
+                <View style={PersonProfileScreenStyle.alignItemsCenter}>
                     {personState ===
                     PersonStateEnum.WaitingForFriendInviteAccept ? (
-                        <Text style={FriendProfileScreenStyle.text}>
-                            Friend invite sent
+                        <Text style={PersonProfileScreenStyle.text}>
+                            Invite sent
                         </Text>
                     ) : (
                         <TouchableOpacity
                             onPress={onPress}
                             style={
-                                FriendProfileScreenStyle.mainButtonTouchableOpacity
+                                PersonProfileScreenStyle.mainButtonTouchableOpacity
                             }
                         >
-                            <Text style={FriendProfileScreenStyle.text}>
+                            <Text style={PersonProfileScreenStyle.text}>
                                 {buttonText}
                             </Text>
                         </TouchableOpacity>
                     )}
-                    <View style={FriendProfileScreenStyle.addDetailsButtonView}>
+                    <View style={PersonProfileScreenStyle.addDetailsButtonView}>
                         {personState === PersonStateEnum.Friends &&
                             !detailsVisible && (
                                 <TouchableOpacity
                                     onPress={() => setDetailsVisible(true)}
                                 >
-                                    <Text style={FriendProfileScreenStyle.text}>
+                                    <Text style={PersonProfileScreenStyle.text}>
                                         Add details
                                     </Text>
                                 </TouchableOpacity>
