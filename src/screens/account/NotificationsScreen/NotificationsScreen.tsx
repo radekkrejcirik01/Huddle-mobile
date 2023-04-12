@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { RefreshControl, View } from 'react-native';
+import { RefreshControl, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { ReducerProps } from '@store/index/index.props';
@@ -7,7 +7,6 @@ import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { NotificationsScreenStyle } from '@screens/account/NotificationsScreen/NotificationsScreen.style';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
-import { NotificationsListItem } from '@components/notifícations/NotificationsListItem/NotificationsListItem';
 import { postRequest } from '@utils/Axios/Axios.service';
 import {
     ResponseInterface,
@@ -18,7 +17,7 @@ import {
     UserGetPostInterface
 } from '@interfaces/post/Post.inteface';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { NotificationsTabHeader } from '@components/notifícations/NotificationsTabHeader/NotificationsTabHeader';
+import COLORS from '@constants/COLORS';
 
 export const NotificationsScreen = (): JSX.Element => {
     const { firstname, username } = useSelector(
@@ -82,9 +81,9 @@ export const NotificationsScreen = (): JSX.Element => {
         [navigateTo]
     );
 
-    const onOpenHangout = useCallback(
+    const openChat = useCallback(
         (item: NotificationsListProps) => {
-            navigateTo(AccountStackNavigatorEnum.HangoutScreen, {
+            navigateTo(AccountStackNavigatorEnum.ConversationScreen, {
                 confirmed: item.confirmed,
                 hangoutId: item.id,
                 hangoutType: item.type,
@@ -96,19 +95,13 @@ export const NotificationsScreen = (): JSX.Element => {
 
     const renderItem = useCallback(
         ({ item }: ListRenderItemInfo<NotificationsListProps>): JSX.Element => (
-            <NotificationsListItem
-                item={item}
-                onAcceptInvite={onAcceptPeopleInvite}
-                onOpenAccount={onOpenAccount}
-                onOpenHangout={onOpenHangout}
-            />
+            <Text style={{ color: COLORS.WHITE }}>{item.type}</Text>
         ),
-        [onAcceptPeopleInvite, onOpenAccount, onOpenHangout]
+        []
     );
 
     return (
         <View style={NotificationsScreenStyle.container}>
-            <NotificationsTabHeader />
             <FlashList
                 data={data}
                 refreshControl={

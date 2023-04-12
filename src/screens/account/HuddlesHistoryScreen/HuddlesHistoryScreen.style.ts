@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const HuddlesScreenStyle = StyleSheet.create({
+export const HuddlesHistoryScreenStyle = StyleSheet.create({
     container: {
         flex: 1
     }

@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import { Alert, Keyboard, ScrollView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { Moment } from 'moment';
 import { useNavigation } from '@react-navigation/native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import FastImage from 'react-native-fast-image';
@@ -27,7 +26,6 @@ import {
     RemoveFriendInterface
 } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
-import { HangoutPicker } from '@components/general/HangoutPicker/HangoutPicker';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import { useOpenPhoto } from '@hooks/useOpenPhoto';
 import { PersonStateEnum } from '@screens/account/PersonProfileScreen/PersonProfileScreen.enum';
@@ -56,12 +54,7 @@ export const PersonProfileScreen = ({
         checkInvitation ? PersonStateEnum.NotInvited : PersonStateEnum.Friends
     );
 
-    const [detailsVisible, setDetailsVisible] = useState<boolean>(false);
-
     const invitationId = useRef<number>(id);
-
-    const [time, setTime] = useState<Moment>();
-    const [place, setPlace] = useState<string>();
 
     const removeFriend = useCallback(() => {
         postRequest<ResponseInterface, RemoveFriendInterface>(
@@ -163,13 +156,13 @@ export const PersonProfileScreen = ({
             return 'Accept friend invite';
         }
         if (personState === PersonStateEnum.Friends) {
-            return '👋';
+            return `Let's hangout ${firstname}!`;
         }
         if (personState === PersonStateEnum.WaitingForFriendInviteAccept) {
             return null;
         }
         return 'Sent ✅'; // Hangout or friend invite sent
-    }, [personState]);
+    }, [firstname, personState]);
 
     const acceptFriendInvite = useCallback(() => {
         postRequest<ResponseInterface, AcceptFriendInvitationInterface>(
@@ -196,16 +189,14 @@ export const PersonProfileScreen = ({
             {
                 user,
                 name,
-                username,
-                time,
-                place
+                username
             }
         ).subscribe((response: ResponseInterface) => {
             if (response?.status) {
                 setPersonState(PersonStateEnum.HangoutSent);
             }
         });
-    }, [time, name, place, user, username]);
+    }, [name, user, username]);
 
     const sendFriendInvitation = useCallback(() => {
         postRequest<ResponseInterface, FriendCreateInvitationPostInterface>(
@@ -256,14 +247,6 @@ export const PersonProfileScreen = ({
                         />
                     </TouchableOpacity>
                 </View>
-                <HangoutPicker
-                    isVisible={
-                        detailsVisible &&
-                        personState !== PersonStateEnum.HangoutSent
-                    }
-                    onDateTimeChange={setTime}
-                    onPlaceChange={setPlace}
-                />
                 <View style={PersonProfileScreenStyle.alignItemsCenter}>
                     {personState ===
                     PersonStateEnum.WaitingForFriendInviteAccept ? (
@@ -282,18 +265,6 @@ export const PersonProfileScreen = ({
                             </Text>
                         </TouchableOpacity>
                     )}
-                    <View style={PersonProfileScreenStyle.addDetailsButtonView}>
-                        {personState === PersonStateEnum.Friends &&
-                            !detailsVisible && (
-                                <TouchableOpacity
-                                    onPress={() => setDetailsVisible(true)}
-                                >
-                                    <Text style={PersonProfileScreenStyle.text}>
-                                        Add details
-                                    </Text>
-                                </TouchableOpacity>
-                            )}
-                    </View>
                 </View>
             </KeyboardAvoidingView>
         </ScrollView>

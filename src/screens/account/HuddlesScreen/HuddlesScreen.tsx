@@ -4,7 +4,7 @@ import { HuddlesScreenStyle } from '@screens/account/HuddlesScreen/HuddlesScreen
 import { HuddlesTabHeader } from '@components/huddles/HuddlesTabHeader/HuddlesTabHeader';
 
 export const HuddlesScreen = (): JSX.Element => (
-    <View style={HuddlesScreenStyle.flex}>
+    <View style={HuddlesScreenStyle.container}>
         <HuddlesTabHeader />
     </View>
 );

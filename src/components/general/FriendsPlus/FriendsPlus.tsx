@@ -99,26 +99,21 @@ export const FriendsPlus = (): JSX.Element => {
     );
 
     const showActionSheet = useCallback(() => {
-        const options = ['Add a friend', 'Create a group hangout', 'Cancel'];
+        const options = ['Add a friend', 'Cancel'];
 
         showActionSheetWithOptions(
             {
                 options,
-                cancelButtonIndex: 2,
+                cancelButtonIndex: 1,
                 userInterfaceStyle: 'dark'
             },
             (selectedIndex: number) => {
                 if (selectedIndex === 0) {
                     showModal();
                 }
-                if (selectedIndex === 1) {
-                    navigateTo(
-                        AccountStackNavigatorEnum.CreateGroupHangoutScreen
-                    );
-                }
             }
         );
-    }, [navigateTo, showActionSheetWithOptions, showModal]);
+    }, [showActionSheetWithOptions, showModal]);
 
     return (
         <>

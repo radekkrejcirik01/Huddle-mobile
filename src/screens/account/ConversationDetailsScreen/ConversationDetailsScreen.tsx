@@ -41,8 +41,6 @@ import { ListItem } from '@components/general/ListItem/ListItem';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { IconEnum } from '@components/general/Icon/Icon.enum';
-import { IconButton } from '@components/general/IconButton/IconButton';
 import { ParticipantsList } from '@components/general/ParticipantsList/ParticipantsList';
 import { Participant } from '@components/general/ParticipantsList/ParticipantsList.props';
 
@@ -259,12 +257,6 @@ export const ConversationDetailsScreen = ({
         ]
     );
 
-    const addUserPress = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.AddConversationPeopleScreen, {
-            conversationId
-        });
-    }, [conversationId, navigateTo]);
-
     const deleteChat = useCallback(() => {
         postRequest<ResponseInterface, ConversationDeleteInterface>(
             'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/delete/conversation',
@@ -332,14 +324,6 @@ export const ConversationDetailsScreen = ({
                             <ParticipantsList
                                 usernames={conversationUsers}
                                 onPressUser={onPressUser}
-                            />
-                            <IconButton
-                                icon={IconEnum.PLUS}
-                                onPress={addUserPress}
-                                size={18}
-                                style={
-                                    ConversationDetailsScreenStyle.plusButton
-                                }
                             />
                         </View>
                     </>

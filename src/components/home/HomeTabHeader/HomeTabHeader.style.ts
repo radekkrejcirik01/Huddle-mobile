@@ -30,13 +30,16 @@ export const HomeTabHeaderStyle = StyleSheet.create({
     hangoutsContainer: {
         marginLeft: 10
     },
-    bellIcon: {
-        alignItems: 'flex-end'
-    },
     image: {
         width: 50,
         height: 50,
         borderRadius: 20,
         backgroundColor: COLORS.GRAY_100
+    },
+    row: {
+        flexDirection: 'row'
+    },
+    plus: {
+        marginRight: 12
     }
 });

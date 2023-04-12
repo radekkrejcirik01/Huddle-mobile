@@ -6,7 +6,7 @@ import { HuddlesTabHeaderStyle } from '@components/huddles/HuddlesTabHeader/Hudd
 export const HuddlesTabHeader = (): JSX.Element => (
     <SafeAreaView>
         <View style={HuddlesTabHeaderStyle.header}>
-            <Text style={HuddlesTabHeaderStyle.content}>Huddles</Text>
+            <Text style={HuddlesTabHeaderStyle.content}>Huddles 👋</Text>
         </View>
     </SafeAreaView>
 );

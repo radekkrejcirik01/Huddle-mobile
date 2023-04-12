@@ -67,7 +67,7 @@ export const ChatsTabOptions: BottomTabNavigationOptions = {
     )
 };
 
-export const NotificationsTabOptions: BottomTabNavigationOptions = {
+export const AroundTabOptions: BottomTabNavigationOptions = {
     tabBarLabel: ({ focused }) => (
         <Text
             style={[
@@ -75,13 +75,11 @@ export const NotificationsTabOptions: BottomTabNavigationOptions = {
                 { opacity: focused ? 1 : 0.7 }
             ]}
         >
-            Notifications
+            Around
         </Text>
     ),
     tabBarIcon: ({ focused }) => (
-        <Text style={{ letterSpacing: -5, fontSize: focused ? 24 : 20 }}>
-            {focused ? '📬' : '📫'}
-        </Text>
+        <Text style={{ fontSize: focused ? 24 : 20 }}>🚀</Text>
     )
 };
 

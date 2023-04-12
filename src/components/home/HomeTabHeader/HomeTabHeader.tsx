@@ -33,7 +33,7 @@ export const HomeTabHeader = (): JSX.Element => {
     );
 
     const openHangouts = useCallback(
-        () => navigateTo(AccountStackNavigatorEnum.HangoutsHistoryScreen),
+        () => navigateTo(AccountStackNavigatorEnum.HuddlesHistoryScreen),
         [navigateTo]
     );
 
@@ -41,6 +41,8 @@ export const HomeTabHeader = (): JSX.Element => {
         () => navigateTo(AccountStackNavigatorEnum.NotificationsScreen),
         [navigateTo]
     );
+
+    const plusPress = useCallback(() => {}, []);
 
     return (
         <SafeAreaView style={HomeTabHeaderStyle.container}>
@@ -67,16 +69,22 @@ export const HomeTabHeader = (): JSX.Element => {
                         <Text style={HomeTabHeaderStyle.number}>
                             {hangoutsNumber}
                         </Text>
-                        <Text style={HomeTabHeaderStyle.title}>Hangouts</Text>
+                        <Text style={HomeTabHeaderStyle.title}>Huddles</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity
-                    onPress={openNotifications}
-                    style={HomeTabHeaderStyle.bellIcon}
-                >
-                    <Icon name={IconEnum.PLUS} size={25} />
-                    <Badge value={notifications} />
-                </TouchableOpacity>
+                <View style={HomeTabHeaderStyle.row}>
+                    <TouchableOpacity onPress={plusPress}>
+                        <Icon
+                            name={IconEnum.PLUS}
+                            size={25}
+                            style={HomeTabHeaderStyle.plus}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={openNotifications}>
+                        <Icon name={IconEnum.BELL} size={25} />
+                        <Badge value={notifications} />
+                    </TouchableOpacity>
+                </View>
             </View>
         </SafeAreaView>
     );

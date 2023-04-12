@@ -1,9 +1,7 @@
 import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { ConversationDataProps } from '@components/conversation/ConversationList/ConversationList.props';
-import { ComingsUpDataInterface } from '@components/general/SectionList/SectionList.props';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
-import { HangoutScreenDataInterface } from '@screens/account/HangoutScreen/HangoutScreen.props';
 
 export interface ResponseInterface {
     status: string;
@@ -53,24 +51,6 @@ export interface MessagesResponseInterface {
     data?: Array<ConversationDataProps>;
 }
 
-export interface ResponseHangoutsGetInterface {
-    status: string;
-    message: string;
-    data?: Array<ComingsUpDataInterface>;
-}
-
-export interface ResponseHangoutGetInterface {
-    status: string;
-    message: string;
-    data?: HangoutScreenDataInterface;
-}
-
-export interface ResponseGetHangoutUsernamesInterface {
-    status: string;
-    message?: string;
-    data?: Array<string>;
-}
-
 export interface ResponseNotificationsGetInterface {
     status: string;
     message: string;
@@ -100,12 +80,6 @@ export interface ResponseGetConversationDetailsInterface {
     status: string;
     message: string;
     data?: ConversationDetailsInterface;
-}
-
-export interface ResponseGetConversationUsersInterface {
-    status: string;
-    message: string;
-    data: Array<string>;
 }
 
 export interface ResponseUploadImageInterface {

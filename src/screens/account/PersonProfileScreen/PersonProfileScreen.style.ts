@@ -47,11 +47,7 @@ export const PersonProfileScreenStyle = StyleSheet.create({
     },
     text: {
         fontSize: 15,
-        color: COLORS.WHITE,
+        color: COLORS.GRAY_100,
         fontWeight: '500'
-    },
-    addDetailsButtonView: {
-        height: 50,
-        marginTop: 35
     }
 });

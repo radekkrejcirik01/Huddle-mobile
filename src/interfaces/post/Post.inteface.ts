@@ -1,5 +1,3 @@
-import { Moment } from 'moment';
-
 export interface UserPostInterface {
     username: string;
     firstname: string;
@@ -37,57 +35,6 @@ export interface HangoutCreateInterface {
     user: string;
     name: string;
     username: string;
-    time: Moment;
-    place: string;
-}
-
-export interface HangoutsGetInterface {
-    username: string;
-}
-
-export interface HangoutGetInterface {
-    id: number;
-    username: string;
-}
-
-export interface HangoutUpdateInterface {
-    id: number;
-    buffer?: string;
-    fileName?: string;
-    title?: string;
-    time?: Moment;
-    plan?: string;
-}
-
-export interface RemoveHangoutUserInterface {
-    id: number;
-    username: string;
-}
-
-export interface HangoutDeleteInterface {
-    id: number;
-}
-
-export interface GroupHangoutCreateInterface {
-    user: string;
-    name: string;
-    title: string;
-    usernames: Array<string>;
-    time: Moment;
-    place: string;
-    buffer: string;
-    fileName: string;
-}
-
-export interface GetHangoutUsernamesInterface {
-    hangoutId: number;
-}
-
-export interface SendHangoutInvitation {
-    hangoutId: number;
-    user: string;
-    name: string;
-    usernames: Array<string>;
 }
 
 export interface ConversationCreateInterface {
@@ -98,15 +45,6 @@ export interface ConversationCreateInterface {
 export interface GetConversationDetailsInterface {
     conversationId: number;
     username: string;
-}
-
-export interface GetConversationUsersInterface {
-    conversationId: number;
-}
-
-export interface AddConversationUsersInterface {
-    conversationId: number;
-    usernames: Array<string>;
 }
 
 export interface ConversationRemoveInterface {
@@ -139,15 +77,6 @@ export interface CheckFriendInvitationInterface {
 export interface RemoveFriendInterface {
     user: string;
     username: string;
-}
-
-export interface AcceptHangoutInvitationInterface {
-    id: number;
-    value: number;
-    user: string;
-    username: string;
-    name: string;
-    type: string;
 }
 
 export interface UpdateReadInterface {
