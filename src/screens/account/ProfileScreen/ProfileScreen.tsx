@@ -47,7 +47,7 @@ export const ProfileScreen = (): JSX.Element => {
                 ResponseUploadImageInterface,
                 UploadProfileImageInterface
             >(
-                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/upload/photo',
+                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/photo',
                 {
                     username,
                     buffer: base64,
@@ -65,7 +65,7 @@ export const ProfileScreen = (): JSX.Element => {
         navigateTo(AccountStackNavigatorEnum.AccountScreen);
     }, [navigateTo]);
 
-    const logOut = useCallback(() => {
+    const logout = useCallback(() => {
         dispatch(resetUserState());
         PersistStorage.setItem(PersistStorageKeys.TOKEN, '').catch();
 
@@ -98,7 +98,7 @@ export const ProfileScreen = (): JSX.Element => {
                     hasArrow
                     onPress={openAccountScreen}
                 />
-                <ListItem title="Log Out" onPress={logOut} />
+                <ListItem title="Log Out" onPress={logout} />
             </View>
         </View>
     );

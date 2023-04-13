@@ -16,7 +16,7 @@ export const DeleteAccountScreen = (): JSX.Element => {
     const onPressDelete = useCallback(() => {
         Alert.prompt(
             'Delete account',
-            'Account cannot be restored',
+            'Type password to confirm',
             [
                 {
                     text: 'Cancel',

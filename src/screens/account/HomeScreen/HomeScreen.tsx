@@ -6,9 +6,8 @@ import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { ReducerProps } from '@store/index/index.props';
 import { useMessaging } from '@hooks/useMessaging';
-import { postRequest } from '@utils/Axios/Axios.service';
+import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseUserGetInterface } from '@interfaces/response/Response.interface';
-import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
 import { setUserStateAction } from '@store/UserReducer';
 import { useNotifications } from '@hooks/useNotifications';
 import { HomeTabHeader } from '@components/home/HomeTabHeader/HomeTabHeader';
@@ -21,11 +20,8 @@ export const HomeScreen = (): JSX.Element => {
     useMessaging();
 
     const refreshUser = useCallback(() => {
-        postRequest<ResponseUserGetInterface, UserGetPostInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get',
-            {
-                username: user?.username
-            }
+        getRequestUser<ResponseUserGetInterface>(
+            `user/${user?.username}`
         ).subscribe((response: ResponseUserGetInterface) => {
             if (response?.status) {
                 dispatch(setUserStateAction(response?.data));

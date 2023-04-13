@@ -11,9 +11,8 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { postRequest } from '@utils/Axios/Axios.service';
+import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseFriendsGetInterface } from '@interfaces/response/Response.interface';
-import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 
 export const PeopleScreen = (): JSX.Element => {
@@ -28,11 +27,8 @@ export const PeopleScreen = (): JSX.Element => {
     const [refreshing, setRefreshing] = useState(false);
 
     const loadPeople = useCallback(() => {
-        postRequest<ResponseFriendsGetInterface, UserGetPostInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/people',
-            {
-                username
-            }
+        getRequestUser<ResponseFriendsGetInterface>(
+            `people/${username}`
         ).subscribe((response: ResponseFriendsGetInterface) => {
             if (response?.status) {
                 setData(response?.data);
