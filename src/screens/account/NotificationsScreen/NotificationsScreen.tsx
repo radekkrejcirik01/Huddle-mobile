@@ -1,23 +1,21 @@
 import React, { useCallback, useState } from 'react';
-import { RefreshControl, Text, View } from 'react-native';
+import { Alert, RefreshControl, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { ReducerProps } from '@store/index/index.props';
 import { useNavigation } from '@hooks/useNavigation';
+import { useRefresh } from '@hooks/useRefresh';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { NotificationsScreenStyle } from '@screens/account/NotificationsScreen/NotificationsScreen.style';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
-import { postRequest } from '@utils/Axios/Axios.service';
+import { getRequestUser, postRequest } from '@utils/Axios/Axios.service';
 import {
     ResponseInterface,
     ResponseNotificationsGetInterface
 } from '@interfaces/response/Response.interface';
-import {
-    AcceptFriendInvitationInterface,
-    UserGetPostInterface
-} from '@interfaces/post/Post.inteface';
+import { AcceptFriendInvitationInterface } from '@interfaces/post/Post.inteface';
+import { NotificationListItem } from '@components/notifications/NotificationListItem/NotificationListItem';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import COLORS from '@constants/COLORS';
 
 export const NotificationsScreen = (): JSX.Element => {
     const { firstname, username } = useSelector(
@@ -25,14 +23,10 @@ export const NotificationsScreen = (): JSX.Element => {
     );
 
     const [data, setData] = useState<Array<NotificationsListProps>>([]);
-    const [refreshing, setRefreshing] = useState(false);
 
     const loadNotifications = useCallback(() => {
-        postRequest<ResponseNotificationsGetInterface, UserGetPostInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/notifications',
-            {
-                username
-            }
+        getRequestUser<ResponseNotificationsGetInterface>(
+            `notifications/${username}`
         ).subscribe((response: ResponseNotificationsGetInterface) => {
             if (response?.status) {
                 setData(response?.data);
@@ -44,16 +38,20 @@ export const NotificationsScreen = (): JSX.Element => {
         RootStackNavigatorEnum.AccountStack,
         loadNotifications
     );
+    const { refreshing, onRefresh } = useRefresh(loadNotifications);
 
-    const refresh = useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-            loadNotifications();
-        }, 1000);
-    }, [loadNotifications]);
+    const openAccount = useCallback(
+        (item: NotificationsListProps) => {
+            navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
+                firstname: item.senderName,
+                username: item.sender,
+                profilePicture: item.profilePicture
+            });
+        },
+        [navigateTo]
+    );
 
-    const onAcceptPeopleInvite = useCallback(
+    const acceptFriendInvite = useCallback(
         (item: NotificationsListProps) => {
             postRequest<ResponseInterface, AcceptFriendInvitationInterface>(
                 'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/accept/people/invitation',
@@ -62,42 +60,32 @@ export const NotificationsScreen = (): JSX.Element => {
                     value: item.confirmed,
                     user: username,
                     name: firstname,
-                    username: item.username
+                    username: item.sender
                 }
             ).subscribe();
         },
         [firstname, username]
     );
 
-    const onOpenAccount = useCallback(
-        (item: NotificationsListProps) => {
-            navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
-                id: item.id,
-                firstname: item.name,
-                username: item.username,
-                profilePicture: item.profilePicture
-            });
-        },
-        [navigateTo]
-    );
+    const openChat = useCallback((item: NotificationsListProps) => {
+        Alert.alert('Open chat');
+    }, []);
 
-    const openChat = useCallback(
-        (item: NotificationsListProps) => {
-            navigateTo(AccountStackNavigatorEnum.ConversationScreen, {
-                confirmed: item.confirmed,
-                hangoutId: item.id,
-                hangoutType: item.type,
-                invitedBy: item.username
-            });
-        },
-        [navigateTo]
-    );
+    const openHuddle = useCallback((item: NotificationsListProps) => {
+        Alert.alert('Open huddle');
+    }, []);
 
     const renderItem = useCallback(
         ({ item }: ListRenderItemInfo<NotificationsListProps>): JSX.Element => (
-            <Text style={{ color: COLORS.WHITE }}>{item.type}</Text>
+            <NotificationListItem
+                listItem={item}
+                onOpenAccount={openAccount}
+                onAcceptFriendInvite={acceptFriendInvite}
+                onOpenChat={openChat}
+                onOpenHuddle={openHuddle}
+            />
         ),
-        []
+        [acceptFriendInvite, openAccount, openChat, openHuddle]
     );
 
     return (
@@ -107,7 +95,7 @@ export const NotificationsScreen = (): JSX.Element => {
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
-                        onRefresh={refresh}
+                        onRefresh={onRefresh}
                         tintColor="white"
                     />
                 }
@@ -115,7 +103,7 @@ export const NotificationsScreen = (): JSX.Element => {
                 estimatedItemSize={68}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={
-                    NotificationsScreenStyle.contentContainer
+                    NotificationsScreenStyle.listContentContainer
                 }
             />
         </View>

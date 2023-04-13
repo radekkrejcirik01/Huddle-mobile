@@ -1,8 +1,7 @@
 export enum NotificationTypeEnum {
-    PEOPLE = 'people',
-    HANGOUT = 'hangout',
-    GROUP_HANGOUT = 'group_hangout',
-    ACCEPTED_PEOPLE = 'accepted_people',
-    ACCEPTED_HANGOUT = 'accepted_hangout',
-    ACCEPTED_GROUP_HANGOUT = 'accepted_group_hangout'
+    FRIEND_INVITE = 'friend_invite',
+    FRIEND_ACCEPTED = 'friend_accepted',
+    HANGOUT_NOTIFY = 'hangout_notify',
+    HUDDLE_INTERACTED = 'huddle_interacted',
+    HUDDLE_CONFIRMED = 'huddle_confirmed'
 }

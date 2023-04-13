@@ -1,8 +1,8 @@
 import moment, { Moment } from 'moment';
 
-export const getLocalDateTimeFromUTC = (time: Moment): string => {
+export const getLocalTimeFromUTC = (time: string): Moment => {
     const stillUtc = moment.utc(time);
     const local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
 
-    return local;
+    return moment(local);
 };

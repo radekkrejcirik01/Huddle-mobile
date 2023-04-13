@@ -185,11 +185,11 @@ export const PersonProfileScreen = ({
 
     const sendHangout = useCallback(() => {
         postRequest<ResponseInterface, HangoutCreateInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/create/hangout',
+            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/notify',
             {
-                user,
-                name,
-                username
+                sender: user,
+                senderName: name,
+                receiver: username
             }
         ).subscribe((response: ResponseInterface) => {
             if (response?.status) {

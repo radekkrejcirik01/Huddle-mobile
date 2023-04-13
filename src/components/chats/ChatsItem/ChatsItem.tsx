@@ -1,13 +1,12 @@
 import React, { useCallback, useMemo } from 'react';
 import { StyleProp, Text, TextStyle, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import moment from 'moment';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { ChatsItemProps } from '@components/chats/ChatsItem/ChatsItem.props';
 import { ChatsItemStyle } from '@components/chats/ChatsItem/ChatsItem.style';
 import COLORS from '@constants/COLORS';
 import { SwipeableView } from '@components/general/SwipeableView/SwipeableView';
-import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
+import { getLocalTimeFromUTC } from '@functions/getLocalTimeFromUTC';
 import { TypingIndicator } from '@components/general/TypingIndicator/TypingIndicator';
 import { TypingIndicatorEnum } from '@components/general/TypingIndicator/TypingIndicator.enum';
 
@@ -66,9 +65,7 @@ export const ChatsItem = ({
                         <View style={ChatsItemStyle.firstRow}>
                             <Title />
                             <Text style={[ChatsItemStyle.text, opacityStyle]}>
-                                {moment(
-                                    getLocalDateTimeFromUTC(item.time)
-                                ).fromNow()}
+                                {getLocalTimeFromUTC(item.time).fromNow()}
                             </Text>
                         </View>
                         <Text style={[ChatsItemStyle.message, opacityStyle]}>

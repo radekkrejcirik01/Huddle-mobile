@@ -32,9 +32,9 @@ export interface SendTypingInterface {
 }
 
 export interface HangoutCreateInterface {
-    user: string;
-    name: string;
-    username: string;
+    sender: string;
+    senderName: string;
+    receiver: string;
 }
 
 export interface ConversationCreateInterface {

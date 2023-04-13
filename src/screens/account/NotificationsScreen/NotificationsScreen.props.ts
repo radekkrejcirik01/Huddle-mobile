@@ -1,12 +1,11 @@
-import { Moment } from 'moment';
 import { NotificationTypeEnum } from '@enums/notifications/NotificationType.enum';
 
 export interface NotificationsListProps {
     id: number;
-    name: string;
-    username: string;
+    sender: string;
+    senderName: string;
+    created: string;
     profilePicture: string;
-    confirmed: number;
-    time: Moment;
+    confirmed?: number;
     type: NotificationTypeEnum;
 }

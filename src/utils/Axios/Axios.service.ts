@@ -7,14 +7,13 @@ const catchErrorFunction = (error: AxiosError) => {
     return of(null);
 };
 
-export const getRequest = <T>(
+export const getRequestUser = <T>(
     endpoint: string,
-    id: number,
     config?: AxiosRequestConfig
 ): Observable<T> =>
     defer(() =>
         axiosInstance.get(
-            `https://w2gdfxt8dc.execute-api.eu-central-1.amazonaws.com/${endpoint}${id}`,
+            `https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/${endpoint}`,
             config
         )
     ).pipe(

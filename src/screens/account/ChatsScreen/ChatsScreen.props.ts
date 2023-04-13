@@ -1,5 +1,3 @@
-import { Moment } from 'moment';
-
 export interface ChatsListDataProps {
     id: number;
     usernames: Array<{
@@ -10,7 +8,7 @@ export interface ChatsListDataProps {
     name: string;
     picture: string;
     message: string;
-    time: Moment;
+    time: string;
     isRead: number;
     type: string;
 }

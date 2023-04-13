@@ -16,5 +16,6 @@ export default {
     BLACK: '#0d0d0d',
     BLACK_100: '#4d4d4d',
     BLACK_200: '#262626',
-    BLACK_300: '#1a1a1a'
+    BLACK_300: '#1a1a1a',
+    BUTTON_BLUE: '#0099ff'
 };
