@@ -14,7 +14,7 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 import { HomeTabHeaderStyle } from '@components/home/HomeTabHeader/HomeTabHeader.style';
 
 export const HomeTabHeader = (): JSX.Element => {
-    const { hangouts, notifications, people, user } = useSelector(
+    const { huddles, notifications, people, user } = useSelector(
         (state: ReducerProps) => state.user
     );
 
@@ -25,7 +25,7 @@ export const HomeTabHeader = (): JSX.Element => {
     }, [navigateTo]);
 
     const peopleNumber = useMemo((): number => people, [people]);
-    const hangoutsNumber = useMemo((): number => hangouts, [hangouts]);
+    const huddlesNumber = useMemo((): number => huddles, [huddles]);
 
     const openPeople = useCallback(
         () => navigateTo(AccountStackNavigatorEnum.PeopleScreen),
@@ -64,10 +64,10 @@ export const HomeTabHeader = (): JSX.Element => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={openHangouts}
-                        style={HomeTabHeaderStyle.hangoutsContainer}
+                        style={HomeTabHeaderStyle.huddlesContainer}
                     >
                         <Text style={HomeTabHeaderStyle.number}>
-                            {hangoutsNumber}
+                            {huddlesNumber}
                         </Text>
                         <Text style={HomeTabHeaderStyle.title}>Huddles</Text>
                     </TouchableOpacity>

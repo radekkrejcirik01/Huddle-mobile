@@ -13,29 +13,32 @@ export interface ResponseUserGetInterface {
     message: string;
     data?: {
         user: {
+            id: number;
             username: string;
             firstname: string;
             profilePicture: string;
         };
         people: number;
-        hangouts: number;
+        huddles: number;
+        notifications: number;
+        unreadMessages: number;
     };
 }
 
-export interface ResponseFriendsGetInterface {
+export interface ResponsePeopleGetInterface {
     status: string;
     message: string;
     data?: Array<PeopleListItemProps>;
 }
 
-export interface ResponseCheckInvitationsInterface {
+export interface ResponseGetPersonInviteInterface {
     status: string;
     message: string;
     data?: {
-        id: number;
-        user: string;
-        username: string;
-        confirmed: number;
+        sender: string;
+        receiver: string;
+        type: string;
+        accepted: number;
     };
 }
 

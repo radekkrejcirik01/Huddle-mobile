@@ -11,15 +11,15 @@ import { NotificationListItemProps } from '@components/notifications/Notificatio
 export const NotificationListItem = ({
     listItem,
     onOpenAccount,
-    onAcceptFriendInvite,
+    onAcceptPersonInvite,
     onOpenChat,
     onOpenHuddle
 }: NotificationListItemProps): JSX.Element => {
     const getMessage = (item: NotificationsListProps): string => {
-        if (item.type === NotificationTypeEnum.FRIEND_INVITE) {
+        if (item.type === NotificationTypeEnum.PERSON_INVITE) {
             return `${item.senderName} sends a friend invite 🥳`;
         }
-        if (item.type === NotificationTypeEnum.FRIEND_ACCEPTED) {
+        if (item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPTED) {
             return `${item.senderName} accepted a friend invite 🥳`;
         }
         if (item.type === NotificationTypeEnum.HANGOUT_NOTIFY) {
@@ -36,14 +36,14 @@ export const NotificationListItem = ({
 
     const getAction = useCallback(
         (item: NotificationsListProps): void => {
-            if (item.type === NotificationTypeEnum.FRIEND_INVITE) {
-                if (item.confirmed) {
+            if (item.type === NotificationTypeEnum.PERSON_INVITE) {
+                if (item.accepted) {
                     return onOpenAccount(item);
                 }
-                return onAcceptFriendInvite(item);
+                return onAcceptPersonInvite(item);
             }
             if (
-                item.type === NotificationTypeEnum.FRIEND_ACCEPTED ||
+                item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPTED ||
                 item.type === NotificationTypeEnum.HANGOUT_NOTIFY
             ) {
                 return onOpenChat(item);
@@ -56,18 +56,18 @@ export const NotificationListItem = ({
             }
             return null;
         },
-        [onAcceptFriendInvite, onOpenAccount, onOpenChat, onOpenHuddle]
+        [onAcceptPersonInvite, onOpenAccount, onOpenChat, onOpenHuddle]
     );
 
     const getButtonText = (item: NotificationsListProps): string => {
-        if (item.type === NotificationTypeEnum.FRIEND_INVITE) {
-            if (item.confirmed) {
+        if (item.type === NotificationTypeEnum.PERSON_INVITE) {
+            if (item.accepted) {
                 return 'Accepted';
             }
             return `Accept`;
         }
         if (
-            item.type === NotificationTypeEnum.FRIEND_ACCEPTED ||
+            item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPTED ||
             item.type === NotificationTypeEnum.HANGOUT_NOTIFY
         ) {
             return 'Open chat';

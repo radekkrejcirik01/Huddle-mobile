@@ -12,7 +12,7 @@ import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { getRequestUser } from '@utils/Axios/Axios.service';
-import { ResponseFriendsGetInterface } from '@interfaces/response/Response.interface';
+import { ResponsePeopleGetInterface } from '@interfaces/response/Response.interface';
 import { ReducerProps } from '@store/index/index.props';
 
 export const PeopleScreen = (): JSX.Element => {
@@ -27,9 +27,9 @@ export const PeopleScreen = (): JSX.Element => {
     const [refreshing, setRefreshing] = useState(false);
 
     const loadPeople = useCallback(() => {
-        getRequestUser<ResponseFriendsGetInterface>(
+        getRequestUser<ResponsePeopleGetInterface>(
             `people/${username}`
-        ).subscribe((response: ResponseFriendsGetInterface) => {
+        ).subscribe((response: ResponsePeopleGetInterface) => {
             if (response?.status) {
                 setData(response?.data);
                 setFilteredData(response?.data);
@@ -62,10 +62,9 @@ export const PeopleScreen = (): JSX.Element => {
     const onItemPress = useCallback(
         (item: PeopleListItemProps) => {
             navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
-                checkInvitation: false,
-                firstname: item.firstname,
                 username: item.username,
-                profilePicture: item.profilePicture
+                name: item.firstname,
+                profilePhoto: item.profilePicture
             });
         },
         [navigateTo]

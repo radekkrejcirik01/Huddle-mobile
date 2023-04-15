@@ -21,6 +21,52 @@ export const getRequestUser = <T>(
         catchError((err: AxiosError) => catchErrorFunction(err))
     );
 
+export const postRequestUser = <T, B>(
+    endpoint: string,
+    data: B,
+    config?: AxiosRequestConfig
+): Observable<T> =>
+    defer(() =>
+        axiosInstance.post(
+            `https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/${endpoint}`,
+            data,
+            config
+        )
+    ).pipe(
+        map((result: AxiosResponse<T>) => result.data),
+        catchError((err: AxiosError) => catchErrorFunction(err))
+    );
+
+export const putRequestUser = <T, B>(
+    endpoint: string,
+    data: B,
+    config?: AxiosRequestConfig
+): Observable<T> =>
+    defer(() =>
+        axiosInstance.put(
+            `https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/${endpoint}`,
+            data,
+            config
+        )
+    ).pipe(
+        map((result: AxiosResponse<T>) => result.data),
+        catchError((err: AxiosError) => catchErrorFunction(err))
+    );
+
+export const deleteRequestUser = <T, B>(
+    endpoint: string,
+    config?: AxiosRequestConfig
+): Observable<T> =>
+    defer(() =>
+        axiosInstance.delete(
+            `https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/${endpoint}`,
+            config
+        )
+    ).pipe(
+        map((result: AxiosResponse<T>) => result.data),
+        catchError((err: AxiosError) => catchErrorFunction(err))
+    );
+
 export const postRequest = <T, B>(
     endpoint: string,
     data: B,

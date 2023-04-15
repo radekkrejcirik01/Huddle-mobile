@@ -7,9 +7,9 @@ export interface UserGetPostInterface {
     username: string;
 }
 
-export interface FriendCreateInvitationPostInterface {
-    user: string;
-    username: string;
+export interface AddPersonInvitePostInterface {
+    sender: string;
+    receiver: string;
 }
 
 export interface MessagesGetInterface {
@@ -31,7 +31,7 @@ export interface SendTypingInterface {
     value: number;
 }
 
-export interface HangoutCreateInterface {
+export interface NotifyInterface {
     sender: string;
     senderName: string;
     receiver: string;
@@ -61,20 +61,12 @@ export interface ConversationDeleteInterface {
     conversationId: number;
 }
 
-export interface AcceptFriendInvitationInterface {
-    id: number;
-    value: number;
-    user: string;
-    username: string;
-    name: string;
+export interface AcceptPeopleInvitationInterface {
+    sender: string;
+    receiver: string;
 }
 
-export interface CheckFriendInvitationInterface {
-    user: string;
-    username: string;
-}
-
-export interface RemoveFriendInterface {
+export interface RemovePersonInterface {
     user: string;
     username: string;
 }

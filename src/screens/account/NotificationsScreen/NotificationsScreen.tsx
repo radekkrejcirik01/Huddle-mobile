@@ -8,12 +8,12 @@ import { useRefresh } from '@hooks/useRefresh';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { NotificationsScreenStyle } from '@screens/account/NotificationsScreen/NotificationsScreen.style';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
-import { getRequestUser, postRequest } from '@utils/Axios/Axios.service';
+import { getRequestUser, putRequestUser } from '@utils/Axios/Axios.service';
 import {
     ResponseInterface,
     ResponseNotificationsGetInterface
 } from '@interfaces/response/Response.interface';
-import { AcceptFriendInvitationInterface } from '@interfaces/post/Post.inteface';
+import { AcceptPeopleInvitationInterface } from '@interfaces/post/Post.inteface';
 import { NotificationListItem } from '@components/notifications/NotificationListItem/NotificationListItem';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
@@ -43,21 +43,21 @@ export const NotificationsScreen = (): JSX.Element => {
     const openAccount = useCallback(
         (item: NotificationsListProps) => {
             navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
-                firstname: item.senderName,
                 username: item.sender,
-                profilePicture: item.profilePicture
+                name: item.senderName,
+                profilePhoto: item.profilePicture
             });
         },
         [navigateTo]
     );
 
-    const acceptFriendInvite = useCallback(
+    const acceptPersonInvite = useCallback(
         (item: NotificationsListProps) => {
-            postRequest<ResponseInterface, AcceptFriendInvitationInterface>(
-                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/accept/people/invitation',
+            putRequestUser<ResponseInterface, AcceptPeopleInvitationInterface>(
+                'person',
                 {
                     id: item.id,
-                    value: item.confirmed,
+                    value: item.accepted,
                     user: username,
                     name: firstname,
                     username: item.sender
@@ -80,12 +80,12 @@ export const NotificationsScreen = (): JSX.Element => {
             <NotificationListItem
                 listItem={item}
                 onOpenAccount={openAccount}
-                onAcceptFriendInvite={acceptFriendInvite}
+                onAcceptPersonInvite={acceptPersonInvite}
                 onOpenChat={openChat}
                 onOpenHuddle={openHuddle}
             />
         ),
-        [acceptFriendInvite, openAccount, openChat, openHuddle]
+        [acceptPersonInvite, openAccount, openChat, openHuddle]
     );
 
     return (

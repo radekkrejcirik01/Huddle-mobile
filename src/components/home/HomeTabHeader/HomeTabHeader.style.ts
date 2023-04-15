@@ -27,7 +27,7 @@ export const HomeTabHeaderStyle = StyleSheet.create({
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
-    hangoutsContainer: {
+    huddlesContainer: {
         marginLeft: 10
     },
     image: {

@@ -11,9 +11,9 @@ import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import COLORS from '@constants/COLORS';
 import { Modal } from '@components/general/Modal/Modal';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { postRequest } from '@utils/Axios/Axios.service';
+import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
-import { FriendCreateInvitationPostInterface } from '@interfaces/post/Post.inteface';
+import { AddPersonInvitePostInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
@@ -37,8 +37,8 @@ export const FriendsPlus = (): JSX.Element => {
     }, [hideModal]);
 
     const onSend = useCallback(() => {
-        postRequest<ResponseInterface, FriendCreateInvitationPostInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/create/people/invitation',
+        postRequestUser<ResponseInterface, AddPersonInvitePostInterface>(
+            '/person',
             {
                 user,
                 username

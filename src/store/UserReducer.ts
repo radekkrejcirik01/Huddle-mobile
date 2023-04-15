@@ -9,7 +9,7 @@ const initialState: User = {
         profilePicture: null
     },
     people: null,
-    hangouts: null,
+    huddles: null,
     notifications: null,
     unreadMessages: null
 };
@@ -33,8 +33,8 @@ export const UserReducer = createSlice({
         setPeopleAction: (state, action) => {
             state.people = action.payload;
         },
-        setHangoutsAction: (state, action) => {
-            state.hangouts = action.payload;
+        setHuddlesAction: (state, action) => {
+            state.huddles = action.payload;
         },
         setUnreadMessagesAction: (state, action) => {
             state.unreadMessages = action.payload;
@@ -53,7 +53,7 @@ export const {
     setUsernameAction,
     setProfilePictureAction,
     setPeopleAction,
-    setHangoutsAction,
+    setHuddlesAction,
     setUnreadMessagesAction,
     setUserStateAction,
     resetUserState

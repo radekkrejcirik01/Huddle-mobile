@@ -1,11 +1,5 @@
-import React, {
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState
-} from 'react';
-import { Alert, Keyboard, ScrollView, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Keyboard, ScrollView, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
@@ -13,17 +7,21 @@ import FastImage from 'react-native-fast-image';
 import { PersonProfileScreenStyle } from '@screens/account/PersonProfileScreen/PersonProfileScreen.style';
 import { PersonProfileScreenProps } from '@screens/account/PersonProfileScreen/PersonProfileScreen.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { postRequest } from '@utils/Axios/Axios.service';
 import {
-    ResponseCheckInvitationsInterface,
+    deleteRequestUser,
+    getRequestUser,
+    postRequestUser,
+    putRequestUser
+} from '@utils/Axios/Axios.service';
+import {
+    ResponseGetPersonInviteInterface,
     ResponseInterface
 } from '@interfaces/response/Response.interface';
 import {
-    AcceptFriendInvitationInterface,
-    CheckFriendInvitationInterface,
-    FriendCreateInvitationPostInterface,
-    HangoutCreateInterface,
-    RemoveFriendInterface
+    AcceptPeopleInvitationInterface,
+    AddPersonInvitePostInterface,
+    NotifyInterface,
+    RemovePersonInterface
 } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
@@ -33,42 +31,106 @@ import { PersonStateEnum } from '@screens/account/PersonProfileScreen/PersonProf
 export const PersonProfileScreen = ({
     route
 }: PersonProfileScreenProps): JSX.Element => {
-    const {
-        checkInvitation = true,
-        firstname,
-        id,
-        username,
-        profilePicture
-    } = route.params;
+    const { username, name, profilePhoto } = route.params;
 
-    const { firstname: name, username: user } = useSelector(
+    const { firstname, username: user } = useSelector(
         (state: ReducerProps) => state.user.user
     );
 
-    const openPhoto = useOpenPhoto();
     const navigation = useNavigation();
-
     const { showActionSheetWithOptions } = useActionSheet();
+    const openPhoto = useOpenPhoto();
 
-    const [personState, setPersonState] = useState<PersonStateEnum>(
-        checkInvitation ? PersonStateEnum.NotInvited : PersonStateEnum.Friends
-    );
+    const [personState, setPersonState] = useState<PersonStateEnum>();
 
-    const invitationId = useRef<number>(id);
+    const loadPerson = useCallback(() => {
+        getRequestUser<ResponseGetPersonInviteInterface>(
+            `person/${user}/${username}`
+        ).subscribe((response) => {
+            if (response?.status) {
+                if (!response?.data) {
+                    setPersonState(PersonStateEnum.NotInvited);
+                    return;
+                }
 
-    const removeFriend = useCallback(() => {
-        postRequest<ResponseInterface, RemoveFriendInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/remove/friend',
-            {
-                user,
-                username
+                if (response?.data?.accepted) {
+                    setPersonState(PersonStateEnum.Friends);
+                    return;
+                }
+
+                setPersonState(
+                    response?.data?.sender === user
+                        ? PersonStateEnum.WaitingForFriendInviteAccept
+                        : PersonStateEnum.AcceptFriendInvitation
+                );
             }
+        });
+    }, [user, username]);
+
+    const sendFriendInvite = useCallback(() => {
+        postRequestUser<ResponseInterface, AddPersonInvitePostInterface>(
+            'person',
+            {
+                sender: user,
+                receiver: username
+            }
+        ).subscribe((response: ResponseInterface) => {
+            if (response?.status) {
+                loadPerson();
+            }
+        });
+    }, [loadPerson, user, username]);
+
+    const acceptPersonInvite = useCallback(() => {
+        putRequestUser<ResponseInterface, AcceptPeopleInvitationInterface>(
+            'person',
+            {
+                sender: user,
+                receiver: username
+            }
+        ).subscribe((response) => {
+            if (response?.status) {
+                loadPerson();
+            }
+        });
+    }, [loadPerson, user, username]);
+
+    const notify = useCallback(() => {
+        postRequestUser<ResponseInterface, NotifyInterface>('notify', {
+            sender: user,
+            senderName: firstname,
+            receiver: username
+        }).subscribe((response: ResponseInterface) => {
+            if (response?.status) {
+                setPersonState(PersonStateEnum.NotifySent);
+            }
+        });
+    }, [firstname, user, username]);
+
+    const unfriend = useCallback(() => {
+        deleteRequestUser<ResponseInterface, RemovePersonInterface>(
+            `person/${user}/${username}`
         ).subscribe((response: ResponseInterface) => {
             if (response?.status) {
                 navigation.goBack();
             }
         });
     }, [navigation, user, username]);
+
+    useEffect(() => loadPerson(), [loadPerson]);
+
+    const statusText = useMemo((): string => {
+        if (personState === PersonStateEnum.Friends) {
+            return 'Friends';
+        }
+        if (personState === PersonStateEnum.WaitingForFriendInviteAccept) {
+            return 'Invited';
+        }
+        if (personState === PersonStateEnum.NotifySent) {
+            return 'Sent';
+        }
+        return null;
+    }, [personState]);
 
     const openFriendStatus = useCallback(() => {
         const options = ['Unfriend', 'Cancel'];
@@ -82,75 +144,32 @@ export const PersonProfileScreen = ({
             },
             (selectedIndex: number) => {
                 if (selectedIndex === 0) {
-                    removeFriend();
+                    unfriend();
                 }
             }
         );
-    }, [removeFriend, showActionSheetWithOptions, username]);
+    }, [showActionSheetWithOptions, unfriend, username]);
 
     useEffect(() => {
         navigation.setOptions({
-            title: firstname,
-            headerRight: () => (
-                <View style={PersonProfileScreenStyle.row}>
-                    <TouchableOpacity onPress={openFriendStatus}>
-                        <Text style={PersonProfileScreenStyle.friendStatus}>
-                            Friends
-                        </Text>
-                    </TouchableOpacity>
-                    <Text> ✅</Text>
-                </View>
-            )
+            title: name,
+            headerRight: () =>
+                !!statusText && (
+                    <View style={PersonProfileScreenStyle.row}>
+                        <TouchableOpacity onPress={openFriendStatus}>
+                            <Text style={PersonProfileScreenStyle.friendStatus}>
+                                {statusText}
+                            </Text>
+                        </TouchableOpacity>
+                        <Text> ✅</Text>
+                    </View>
+                )
         });
-    }, [firstname, navigation, openFriendStatus]);
-
-    useEffect(() => {
-        if (checkInvitation) {
-            postRequest<
-                ResponseCheckInvitationsInterface,
-                CheckFriendInvitationInterface
-            >(
-                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/check/people/invitations',
-                {
-                    user,
-                    username
-                }
-            ).subscribe((response) => {
-                if (response?.status) {
-                    if (!response?.data) {
-                        setPersonState(PersonStateEnum.NotInvited);
-                        return;
-                    }
-
-                    invitationId.current = response?.data?.id;
-
-                    if (
-                        response?.data?.user !== user &&
-                        !response?.data?.confirmed
-                    ) {
-                        setPersonState(PersonStateEnum.AcceptFriendInvitation);
-                    }
-
-                    if (
-                        response?.data?.user === user &&
-                        !response?.data?.confirmed
-                    ) {
-                        setPersonState(
-                            PersonStateEnum.WaitingForFriendInviteAccept
-                        );
-                    }
-
-                    if (response?.data?.confirmed) {
-                        setPersonState(PersonStateEnum.Friends);
-                    }
-                }
-            });
-        }
-    }, [checkInvitation, user, username]);
+    }, [name, navigation, openFriendStatus, personState, statusText]);
 
     const buttonText = useMemo((): string => {
         if (personState === PersonStateEnum.NotInvited) {
-            return 'Send friend invitation';
+            return 'Send a friend invite';
         }
         if (personState === PersonStateEnum.AcceptFriendInvitation) {
             return 'Accept friend invite';
@@ -158,71 +177,20 @@ export const PersonProfileScreen = ({
         if (personState === PersonStateEnum.Friends) {
             return `Let's hangout ${firstname}!`;
         }
-        if (personState === PersonStateEnum.WaitingForFriendInviteAccept) {
-            return null;
-        }
-        return 'Sent ✅'; // Hangout or friend invite sent
+        return null;
     }, [firstname, personState]);
 
-    const acceptFriendInvite = useCallback(() => {
-        postRequest<ResponseInterface, AcceptFriendInvitationInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/accept/people/invitation',
-            {
-                id: invitationId.current,
-                value: 1,
-                user,
-                name,
-                username
-            }
-        ).subscribe((response) => {
-            if (response?.status) {
-                setPersonState(PersonStateEnum.Friends);
-            } else {
-                Alert.alert("We apologize, invite couldn't be accepted");
-            }
-        });
-    }, [name, user, username]);
-
-    const sendHangout = useCallback(() => {
-        postRequest<ResponseInterface, HangoutCreateInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/notify',
-            {
-                sender: user,
-                senderName: name,
-                receiver: username
-            }
-        ).subscribe((response: ResponseInterface) => {
-            if (response?.status) {
-                setPersonState(PersonStateEnum.HangoutSent);
-            }
-        });
-    }, [name, user, username]);
-
-    const sendFriendInvitation = useCallback(() => {
-        postRequest<ResponseInterface, FriendCreateInvitationPostInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/create/people/invitation',
-            {
-                user,
-                username
-            }
-        ).subscribe((response: ResponseInterface) => {
-            if (response?.status) {
-                setPersonState(PersonStateEnum.FriendInviteSent);
-            }
-        });
-    }, [user, username]);
-
-    const onPress = useCallback(() => {
+    const action = useCallback(() => {
         if (personState === PersonStateEnum.NotInvited) {
-            sendFriendInvitation();
+            sendFriendInvite();
         }
         if (personState === PersonStateEnum.AcceptFriendInvitation) {
-            acceptFriendInvite();
+            acceptPersonInvite();
         }
         if (personState === PersonStateEnum.Friends) {
-            sendHangout();
+            notify();
         }
-    }, [acceptFriendInvite, personState, sendFriendInvitation, sendHangout]);
+    }, [acceptPersonInvite, notify, personState, sendFriendInvite]);
 
     return (
         <ScrollView
@@ -237,25 +205,20 @@ export const PersonProfileScreen = ({
             >
                 <View style={PersonProfileScreenStyle.alignItemsCenter}>
                     <TouchableOpacity
-                        disabled={!profilePicture}
-                        onPress={() => openPhoto(profilePicture)}
+                        disabled={!profilePhoto}
+                        onPress={() => openPhoto(profilePhoto)}
                         style={PersonProfileScreenStyle.imageView}
                     >
                         <FastImage
-                            source={{ uri: profilePicture }}
+                            source={{ uri: profilePhoto }}
                             style={PersonProfileScreenStyle.image}
                         />
                     </TouchableOpacity>
                 </View>
-                <View style={PersonProfileScreenStyle.alignItemsCenter}>
-                    {personState ===
-                    PersonStateEnum.WaitingForFriendInviteAccept ? (
-                        <Text style={PersonProfileScreenStyle.text}>
-                            Invite sent
-                        </Text>
-                    ) : (
+                {buttonText && (
+                    <View style={PersonProfileScreenStyle.alignItemsCenter}>
                         <TouchableOpacity
-                            onPress={onPress}
+                            onPress={action}
                             style={
                                 PersonProfileScreenStyle.mainButtonTouchableOpacity
                             }
@@ -264,8 +227,8 @@ export const PersonProfileScreen = ({
                                 {buttonText}
                             </Text>
                         </TouchableOpacity>
-                    )}
-                </View>
+                    </View>
+                )}
             </KeyboardAvoidingView>
         </ScrollView>
     );

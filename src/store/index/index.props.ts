@@ -15,7 +15,7 @@ export interface User {
         profilePicture: string;
     };
     people: number;
-    hangouts: number;
+    huddles: number;
     notifications: number;
     unreadMessages: number;
 }
