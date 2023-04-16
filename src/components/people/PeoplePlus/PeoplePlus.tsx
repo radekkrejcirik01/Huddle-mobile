@@ -1,13 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Alert, Keyboard, Text, View } from 'react-native';
+import { Alert, Keyboard, Text, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { IconButton } from '@components/general/IconButton/IconButton';
-import { FriendsPlusStyle } from '@components/general/FriendsPlus/FriendsPlus.style';
+import { PeoplePlusStyle } from '@components/people/PeoplePlus/PeoplePlus.style';
 import { useModal } from '@hooks/useModal';
-import { Input } from '@components/general/Input/Input';
-import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import COLORS from '@constants/COLORS';
 import { Modal } from '@components/general/Modal/Modal';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
@@ -19,7 +17,7 @@ import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
-export const FriendsPlus = (): JSX.Element => {
+export const PeoplePlus = (): JSX.Element => {
     const { username: user } = useSelector(
         (state: ReducerProps) => state.user.user
     );
@@ -32,6 +30,7 @@ export const FriendsPlus = (): JSX.Element => {
     const [username, setUsername] = useState<string>();
 
     const hideKeyboardAndModal = useCallback(() => {
+        setUsername('');
         Keyboard.dismiss();
         hideModal();
     }, [hideModal]);
@@ -40,8 +39,8 @@ export const FriendsPlus = (): JSX.Element => {
         postRequestUser<ResponseInterface, AddPersonInvitePostInterface>(
             '/person',
             {
-                user,
-                username
+                sender: user,
+                receiver: username
             }
         ).subscribe((response: ResponseInterface) => {
             if (response?.status) {
@@ -66,7 +65,7 @@ export const FriendsPlus = (): JSX.Element => {
                 }
 
                 if (response?.message?.includes('✅')) {
-                    setUsername(null);
+                    hideKeyboardAndModal();
                 }
             }
         });
@@ -74,24 +73,31 @@ export const FriendsPlus = (): JSX.Element => {
 
     const content = useMemo(
         (): JSX.Element => (
-            <View style={FriendsPlusStyle.modalContainer}>
-                <Text style={FriendsPlusStyle.title}>Add a friend</Text>
-                <Input
-                    autoFocus
-                    iconLeft={<Text>✉️</Text>}
-                    placeholder="Username"
-                    value={username}
-                    onChange={setUsername}
-                    inputType={InputTypeEnum.TEXT}
-                    inputStyle={FriendsPlusStyle.input}
-                    viewStyle={FriendsPlusStyle.inputView}
-                    placeholderTextColor={COLORS.LIGHTGRAY}
-                />
+            <View style={PeoplePlusStyle.modalContainer}>
+                <View style={PeoplePlusStyle.inputContainer}>
+                    <Text style={PeoplePlusStyle.title}>Username</Text>
+                    <View style={PeoplePlusStyle.inputView}>
+                        <Text>✉️</Text>
+                        <Text style={PeoplePlusStyle.hashtag}>@</Text>
+                        <TextInput
+                            autoFocus
+                            value={username}
+                            onChangeText={setUsername}
+                            autoCorrect={false}
+                            autoCapitalize="none"
+                            keyboardAppearance="light"
+                            selectionColor={COLORS.WHITE}
+                            style={PeoplePlusStyle.input}
+                        />
+                    </View>
+                </View>
                 <TouchableOpacity
                     onPress={onSend}
-                    style={FriendsPlusStyle.touchableOpacity}
+                    style={PeoplePlusStyle.sendButton}
                 >
-                    <Text style={FriendsPlusStyle.sendButton}>Send</Text>
+                    <Text style={PeoplePlusStyle.sendButtonText}>
+                        Send invite
+                    </Text>
                 </TouchableOpacity>
             </View>
         ),
@@ -121,7 +127,7 @@ export const FriendsPlus = (): JSX.Element => {
                 icon={IconEnum.PLUS}
                 size={25}
                 onPress={showActionSheet}
-                style={FriendsPlusStyle.iconButton}
+                style={PeoplePlusStyle.iconButton}
             />
             <Modal
                 isVisible={modalVisible}

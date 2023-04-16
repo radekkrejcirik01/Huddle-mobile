@@ -1,14 +1,14 @@
 import React from 'react';
 import { StackNavigationOptions } from '@react-navigation/stack';
-import { FriendsPlus } from '@components/general/FriendsPlus/FriendsPlus';
+import { PeoplePlus } from '@components/people/PeoplePlus/PeoplePlus';
 
 export const ProfileTitle: StackNavigationOptions = {
     headerTitle: 'Profile'
 };
 
 export const FriendsOptions: StackNavigationOptions = {
-    headerTitle: 'Friends',
-    headerRight: () => <FriendsPlus />
+    headerTitle: 'People',
+    headerRight: () => <PeoplePlus />
 };
 
 export const ConversationDetailsOptions: StackNavigationOptions = {
