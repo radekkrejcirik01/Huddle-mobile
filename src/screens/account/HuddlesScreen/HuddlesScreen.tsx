@@ -18,9 +18,14 @@ import {
     ResponseInterface
 } from '@interfaces/response/Response.interface';
 import { HuddleInteractPostInterface } from '@interfaces/post/Post.inteface';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { useNavigation } from '@hooks/useNavigation';
+import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const HuddlesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
+
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
 
@@ -40,7 +45,16 @@ export const HuddlesScreen = (): JSX.Element => {
 
     const onPressCard = useCallback(() => {}, []);
 
-    const onPressProfilePhoto = useCallback(() => {}, []);
+    const onPressProfilePhoto = useCallback(
+        (item: HuddleItemInterface) => {
+            navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
+                username: item.createdBy,
+                name: item.name,
+                profilePhoto: item.profilePhoto
+            });
+        },
+        [navigateTo]
+    );
 
     const interact = useCallback(
         (huddleId: number) => {

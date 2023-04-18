@@ -22,6 +22,11 @@ export const HuddlesListItem = ({
 
     useEffect(() => setInteracted(!!item.interacted), [item.interacted]);
 
+    const isCreateByUser = useMemo(
+        (): boolean => item?.createdBy === username,
+        [item?.createdBy, username]
+    );
+
     const interactAction = useCallback(() => {
         onInteract({ ...item, interacted: interacted ? 1 : 0 });
 
@@ -73,7 +78,8 @@ export const HuddlesListItem = ({
             </View>
             <View style={HuddlesListItemStyle.rightContainer}>
                 <TouchableOpacity
-                    activeOpacity={1}
+                    disabled={isCreateByUser}
+                    activeOpacity={0.9}
                     onPress={() => onPressProfilePhoto(item)}
                 >
                     <FastImage
@@ -81,7 +87,7 @@ export const HuddlesListItem = ({
                         style={HuddlesListItemStyle.image}
                     />
                 </TouchableOpacity>
-                {item?.createdBy !== username && (
+                {!isCreateByUser && (
                     <TouchableOpacity
                         onPress={interact}
                         style={HuddlesListItemStyle.handView}

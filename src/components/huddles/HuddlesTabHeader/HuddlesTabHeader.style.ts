@@ -13,5 +13,8 @@ export const HuddlesTabHeaderStyle = StyleSheet.create({
         fontSize: 26,
         color: COLORS.WHITE,
         fontWeight: 'bold'
+    },
+    iconButton: {
+        marginHorizontal: 12
     }
 });

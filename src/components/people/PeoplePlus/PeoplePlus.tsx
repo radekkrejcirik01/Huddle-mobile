@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Alert, Keyboard, Text, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useActionSheet } from '@expo/react-native-action-sheet';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { IconButton } from '@components/general/IconButton/IconButton';
 import { PeoplePlusStyle } from '@components/people/PeoplePlus/PeoplePlus.style';
@@ -21,8 +20,6 @@ export const PeoplePlus = (): JSX.Element => {
     const { username: user } = useSelector(
         (state: ReducerProps) => state.user.user
     );
-
-    const { showActionSheetWithOptions } = useActionSheet();
 
     const { modalVisible, showModal, hideModal } = useModal();
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
@@ -104,29 +101,12 @@ export const PeoplePlus = (): JSX.Element => {
         [onSend, username]
     );
 
-    const showActionSheet = useCallback(() => {
-        const options = ['Add a friend', 'Cancel'];
-
-        showActionSheetWithOptions(
-            {
-                options,
-                cancelButtonIndex: 1,
-                userInterfaceStyle: 'dark'
-            },
-            (selectedIndex: number) => {
-                if (selectedIndex === 0) {
-                    showModal();
-                }
-            }
-        );
-    }, [showActionSheetWithOptions, showModal]);
-
     return (
         <>
             <IconButton
                 icon={IconEnum.PLUS}
+                onPress={showModal}
                 size={25}
-                onPress={showActionSheet}
                 style={PeoplePlusStyle.iconButton}
             />
             <Modal
