@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { HuddlesListItemProps } from '@components/huddles/HuddlesListItem/HuddlesListItem.props';
 import { HuddlesListItemStyle } from '@components/huddles/HuddlesListItem/HuddlesListItem.style';
@@ -13,7 +14,41 @@ export const HuddlesListItem = ({
 }: HuddlesListItemProps): JSX.Element => {
     const [interacted, setInteracted] = useState<boolean>();
 
+    const { showActionSheetWithOptions } = useActionSheet();
+
     useEffect(() => setInteracted(!!item.interacted), [item.interacted]);
+
+    const interactAction = useCallback(() => {
+        onInteract({ ...item, interacted: interacted ? 1 : 0 });
+
+        setInteracted(!interacted);
+    }, [interacted, item, onInteract]);
+
+    const removeInteractionActionSheet = useCallback(() => {
+        const options = ['Remove', 'Cancel'];
+
+        showActionSheetWithOptions(
+            {
+                options,
+                cancelButtonIndex: 1,
+                userInterfaceStyle: 'dark',
+                title: 'Remove interaction?'
+            },
+            (selectedIndex: number) => {
+                if (selectedIndex === 0) {
+                    interactAction();
+                }
+            }
+        );
+    }, [interactAction, showActionSheetWithOptions]);
+
+    const interact = useCallback(() => {
+        if (interacted) {
+            removeInteractionActionSheet();
+        } else {
+            interactAction();
+        }
+    }, [interactAction, interacted, removeInteractionActionSheet]);
 
     const interactedText = useMemo(
         (): string => (interacted ? '✅' : '👋'),
@@ -38,15 +73,12 @@ export const HuddlesListItem = ({
                     onPress={() => onPressProfilePhoto(item)}
                 >
                     <FastImage
-                        source={{ uri: item.profilePhoto }}
+                        source={{ uri: item?.profilePhoto }}
                         style={HuddlesListItemStyle.image}
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => {
-                        onInteract(item);
-                        setInteracted(true);
-                    }}
+                    onPress={interact}
                     style={HuddlesListItemStyle.handView}
                 >
                     <Text style={HuddlesListItemStyle.handText}>

@@ -12,6 +12,11 @@ export interface AddPersonInvitePostInterface {
     receiver: string;
 }
 
+export interface HuddleInteractPostInterface {
+    username: string;
+    huddleId: number;
+}
+
 export interface MessagesGetInterface {
     conversationId: number;
 }

@@ -8,8 +8,16 @@ import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScree
 import { ReducerProps } from '@store/index/index.props';
 import { HuddlesListItem } from '@components/huddles/HuddlesListItem/HuddlesListItem';
 import { useRefresh } from '@hooks/useRefresh';
-import { getRequestUser } from '@utils/Axios/Axios.service';
-import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
+import {
+    deleteRequestUser,
+    getRequestUser,
+    postRequestUser
+} from '@utils/Axios/Axios.service';
+import {
+    ResponseHuddlesGetInterface,
+    ResponseInterface
+} from '@interfaces/response/Response.interface';
+import { HuddleInteractPostInterface } from '@interfaces/post/Post.inteface';
 
 export const HuddlesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -34,7 +42,38 @@ export const HuddlesScreen = (): JSX.Element => {
 
     const onPressProfilePhoto = useCallback(() => {}, []);
 
-    const onInteract = useCallback(() => {}, []);
+    const interact = useCallback(
+        (huddleId: number) => {
+            postRequestUser<ResponseInterface, HuddleInteractPostInterface>(
+                'huddle/interaction',
+                {
+                    username,
+                    huddleId
+                }
+            ).subscribe();
+        },
+        [username]
+    );
+
+    const removeInteraction = useCallback(
+        (huddleId: number) => {
+            deleteRequestUser<ResponseInterface>(
+                `huddle/interaction/${username}/${huddleId}`
+            ).subscribe();
+        },
+        [username]
+    );
+
+    const onInteract = useCallback(
+        (item: HuddleItemInterface) => {
+            if (item.interacted) {
+                removeInteraction(item.id);
+            } else {
+                interact(item.id);
+            }
+        },
+        [interact, removeInteraction]
+    );
 
     const renderItem = useCallback(
         ({ item }: ListRenderItemInfo<HuddleItemInterface>): JSX.Element => (

@@ -53,7 +53,7 @@ export const putRequestUser = <T, B>(
         catchError((err: AxiosError) => catchErrorFunction(err))
     );
 
-export const deleteRequestUser = <T, B>(
+export const deleteRequestUser = <T>(
     endpoint: string,
     config?: AxiosRequestConfig
 ): Observable<T> =>
