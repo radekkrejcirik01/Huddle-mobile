@@ -1,7 +1,8 @@
-import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { ConversationDataProps } from '@components/conversation/ConversationList/ConversationList.props';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
+import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
+import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 
 export interface ResponseInterface {
     status: string;
@@ -29,6 +30,12 @@ export interface ResponsePeopleGetInterface {
     status: string;
     message: string;
     data?: Array<PeopleListItemProps>;
+}
+
+export interface ResponseHuddlesGetInterface {
+    status: string;
+    message: string;
+    data?: Array<HuddleItemInterface>;
 }
 
 export interface ResponseGetPersonInviteInterface {

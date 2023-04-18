@@ -13,7 +13,7 @@ import {
     ResponseInterface,
     ResponseNotificationsGetInterface
 } from '@interfaces/response/Response.interface';
-import { AcceptPeopleInvitationInterface } from '@interfaces/post/Post.inteface';
+import { AcceptPersonInviteInterface } from '@interfaces/post/Post.inteface';
 import { NotificationListItem } from '@components/notifications/NotificationListItem/NotificationListItem';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
@@ -53,18 +53,19 @@ export const NotificationsScreen = (): JSX.Element => {
 
     const acceptPersonInvite = useCallback(
         (item: NotificationsListProps) => {
-            putRequestUser<ResponseInterface, AcceptPeopleInvitationInterface>(
+            putRequestUser<ResponseInterface, AcceptPersonInviteInterface>(
                 'person',
                 {
-                    id: item.id,
-                    value: item.accepted,
-                    user: username,
-                    name: firstname,
-                    username: item.sender
+                    sender: username,
+                    receiver: item.sender
                 }
-            ).subscribe();
+            ).subscribe((response) => {
+                if (response.status) {
+                    loadNotifications();
+                }
+            });
         },
-        [firstname, username]
+        [loadNotifications, username]
     );
 
     const openChat = useCallback((item: NotificationsListProps) => {
@@ -100,6 +101,9 @@ export const NotificationsScreen = (): JSX.Element => {
                     />
                 }
                 renderItem={renderItem}
+                keyExtractor={(item: NotificationsListProps) =>
+                    item?.id?.toString()
+                }
                 estimatedItemSize={68}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={

@@ -61,7 +61,7 @@ export interface ConversationDeleteInterface {
     conversationId: number;
 }
 
-export interface AcceptPeopleInvitationInterface {
+export interface AcceptPersonInviteInterface {
     sender: string;
     receiver: string;
 }

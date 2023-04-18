@@ -5,6 +5,7 @@ export default {
     MAIN_WHITE: '#ffd9b3',
     MAIN_BLUE_100: '#735def',
     MAIN_BLUE_200: '#755def',
+    MAIN_ORANGE: '#ff9933',
     WHITE: '#ffffff',
     GRAY_100: '#262626',
     GRAY_300: '#0d0d0d',

@@ -18,7 +18,7 @@ import {
     ResponseInterface
 } from '@interfaces/response/Response.interface';
 import {
-    AcceptPeopleInvitationInterface,
+    AcceptPersonInviteInterface,
     AddPersonInvitePostInterface,
     NotifyInterface,
     RemovePersonInterface
@@ -82,7 +82,7 @@ export const PersonProfileScreen = ({
     }, [loadPerson, user, username]);
 
     const acceptPersonInvite = useCallback(() => {
-        putRequestUser<ResponseInterface, AcceptPeopleInvitationInterface>(
+        putRequestUser<ResponseInterface, AcceptPersonInviteInterface>(
             'person',
             {
                 sender: user,

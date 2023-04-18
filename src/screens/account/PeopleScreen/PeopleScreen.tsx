@@ -112,6 +112,9 @@ export const PeopleScreen = (): JSX.Element => {
                     />
                 }
                 renderItem={renderItem}
+                keyExtractor={(item: PeopleListItemProps) =>
+                    item?.username?.toString()
+                }
                 estimatedItemSize={68}
                 contentContainerStyle={PeopleScreenStyle.listContentContainer}
             />

@@ -15,6 +15,7 @@ export const HomeTabOptions: BottomTabNavigationOptions = {
         <Text
             style={[
                 BottomTabNavigatorStyle.tabLabel,
+                // eslint-disable-next-line react-native/no-inline-styles
                 { opacity: focused ? 1 : 0.7 }
             ]}
         >
@@ -22,6 +23,7 @@ export const HomeTabOptions: BottomTabNavigationOptions = {
         </Text>
     ),
     tabBarIcon: ({ focused }) => (
+        // eslint-disable-next-line react-native/no-inline-styles
         <Text style={{ fontSize: focused ? 25 : 20 }}>🏠‍️</Text>
     )
 };
@@ -31,6 +33,7 @@ export const HuddlesTabOptions: BottomTabNavigationOptions = {
         <Text
             style={[
                 BottomTabNavigatorStyle.tabLabel,
+                // eslint-disable-next-line react-native/no-inline-styles
                 { opacity: focused ? 1 : 0.7 }
             ]}
         >
@@ -40,9 +43,8 @@ export const HuddlesTabOptions: BottomTabNavigationOptions = {
     tabBarIcon: ({ focused }) => (
         <Text
             style={[
-                {
-                    fontSize: focused ? 24 : 20
-                },
+                // eslint-disable-next-line react-native/no-inline-styles
+                { fontSize: focused ? 24 : 20 },
                 BottomTabNavigatorStyle.right
             ]}
         >
@@ -56,6 +58,7 @@ export const ChatsTabOptions: BottomTabNavigationOptions = {
         <Text
             style={[
                 BottomTabNavigatorStyle.tabLabel,
+                // eslint-disable-next-line react-native/no-inline-styles
                 { opacity: focused ? 1 : 0.7 }
             ]}
         >
@@ -63,23 +66,8 @@ export const ChatsTabOptions: BottomTabNavigationOptions = {
         </Text>
     ),
     tabBarIcon: ({ focused }) => (
+        // eslint-disable-next-line react-native/no-inline-styles
         <Text style={{ fontSize: focused ? 24 : 19 }}>💬</Text>
-    )
-};
-
-export const AroundTabOptions: BottomTabNavigationOptions = {
-    tabBarLabel: ({ focused }) => (
-        <Text
-            style={[
-                BottomTabNavigatorStyle.tabLabel,
-                { opacity: focused ? 1 : 0.7 }
-            ]}
-        >
-            Around
-        </Text>
-    ),
-    tabBarIcon: ({ focused }) => (
-        <Text style={{ fontSize: focused ? 24 : 20 }}>🚀</Text>
     )
 };
 
@@ -90,6 +78,7 @@ export const PeopleTabOptions: BottomTabNavigationOptions = {
         <Text
             style={[
                 BottomTabNavigatorStyle.tabLabel,
+                // eslint-disable-next-line react-native/no-inline-styles
                 { opacity: focused ? 1 : 0.7 }
             ]}
         >
@@ -97,6 +86,7 @@ export const PeopleTabOptions: BottomTabNavigationOptions = {
         </Text>
     ),
     tabBarIcon: ({ focused }) => (
+        // eslint-disable-next-line react-native/no-inline-styles
         <Text style={{ fontSize: focused ? 24 : 20 }}>🔍</Text>
     )
 };
