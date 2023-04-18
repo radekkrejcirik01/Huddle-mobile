@@ -20,8 +20,7 @@ import {
 import {
     AcceptPersonInviteInterface,
     AddPersonInvitePostInterface,
-    NotifyInterface,
-    RemovePersonInterface
+    NotifyInterface
 } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
@@ -108,7 +107,7 @@ export const PersonProfileScreen = ({
     }, [firstname, user, username]);
 
     const unfriend = useCallback(() => {
-        deleteRequestUser<ResponseInterface, RemovePersonInterface>(
+        deleteRequestUser<ResponseInterface>(
             `person/${user}/${username}`
         ).subscribe((response: ResponseInterface) => {
             if (response?.status) {
