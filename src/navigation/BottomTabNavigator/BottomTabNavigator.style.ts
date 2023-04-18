@@ -9,11 +9,6 @@ export const BottomTabNavigatorStyle = StyleSheet.create({
         borderTopWidth: 0,
         backgroundColor: COLORS.TRANSPARENT
     },
-    tabBarLabel: {
-        fontSize: 9,
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
-    },
     tabBarProfile: {
         backgroundColor: COLORS.BLACK
     },

@@ -6,8 +6,7 @@ import { PeopleTabHeader } from '@components/people/PeopleTabHeader/PeopleTabHea
 
 export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
     headerShown: false,
-    tabBarStyle: BottomTabNavigatorStyle.tabBar,
-    tabBarLabelStyle: BottomTabNavigatorStyle.tabBarLabel
+    tabBarStyle: BottomTabNavigatorStyle.tabBar
 };
 
 export const HomeTabOptions: BottomTabNavigationOptions = {

@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { HuddlesListItemProps } from '@components/huddles/HuddlesListItem/HuddlesListItem.props';
 import { HuddlesListItemStyle } from '@components/huddles/HuddlesListItem/HuddlesListItem.style';
+import { ReducerProps } from '@store/index/index.props';
 
 export const HuddlesListItem = ({
     item,
@@ -12,6 +14,8 @@ export const HuddlesListItem = ({
     onPressProfilePhoto,
     onInteract
 }: HuddlesListItemProps): JSX.Element => {
+    const { username } = useSelector((state: ReducerProps) => state.user.user);
+
     const [interacted, setInteracted] = useState<boolean>();
 
     const { showActionSheetWithOptions } = useActionSheet();
@@ -77,14 +81,16 @@ export const HuddlesListItem = ({
                         style={HuddlesListItemStyle.image}
                     />
                 </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={interact}
-                    style={HuddlesListItemStyle.handView}
-                >
-                    <Text style={HuddlesListItemStyle.handText}>
-                        {interactedText}
-                    </Text>
-                </TouchableOpacity>
+                {item?.createdBy !== username && (
+                    <TouchableOpacity
+                        onPress={interact}
+                        style={HuddlesListItemStyle.handView}
+                    >
+                        <Text style={HuddlesListItemStyle.handText}>
+                            {interactedText}
+                        </Text>
+                    </TouchableOpacity>
+                )}
             </View>
         </TouchableOpacity>
     );
