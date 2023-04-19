@@ -15,13 +15,7 @@ export const HuddlesListItemStyle = StyleSheet.create({
     flex: {
         flex: 1
     },
-    nameText: {
-        fontSize: 20,
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
-    },
     whatText: {
-        marginTop: 10,
         fontSize: 18,
         color: COLORS.WHITE,
         fontWeight: 'bold'
@@ -37,14 +31,20 @@ export const HuddlesListItemStyle = StyleSheet.create({
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
+    nameText: {
+        marginTop: 10,
+        fontSize: 20,
+        color: COLORS.WHITE,
+        fontWeight: 'bold'
+    },
     rightContainer: {
         paddingLeft: 15,
         alignItems: 'center',
         justifyContent: 'space-between'
     },
     image: {
-        height: 60,
-        width: 60,
+        height: 55,
+        width: 55,
         borderRadius: 30
     },
     handView: {

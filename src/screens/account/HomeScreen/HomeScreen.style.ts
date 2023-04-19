@@ -8,14 +8,19 @@ export const HomeScreenStyle = StyleSheet.create({
     },
     content: {
         flex: 1,
-        paddingTop: 20,
-        justifyContent: 'space-between'
+        paddingTop: 20
+    },
+    flex: {
+        flex: 1
     },
     title: {
         marginBottom: 10,
         fontSize: 15,
         color: COLORS.WHITE,
         fontWeight: 'bold'
+    },
+    contentContainer: {
+        paddingTop: 10
     },
     description: {
         marginTop: 100,

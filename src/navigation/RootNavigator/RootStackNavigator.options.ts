@@ -3,8 +3,8 @@ import { transitionConfig } from './RootStackNavigator.config';
 
 export const NavigatorScreenOptions: StackNavigationOptions = {
     transitionSpec: {
-        open: transitionConfig(800),
-        close: transitionConfig(1000)
+        open: transitionConfig,
+        close: transitionConfig
     }
 };
 

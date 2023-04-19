@@ -42,8 +42,6 @@ export const HomeTabHeader = (): JSX.Element => {
         [navigateTo]
     );
 
-    const plusPress = useCallback(() => {}, []);
-
     return (
         <SafeAreaView style={HomeTabHeaderStyle.container}>
             <TouchableOpacity onPress={openProfile}>
@@ -72,19 +70,10 @@ export const HomeTabHeader = (): JSX.Element => {
                         <Text style={HomeTabHeaderStyle.title}>Huddles</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={HomeTabHeaderStyle.row}>
-                    <TouchableOpacity onPress={plusPress}>
-                        <Icon
-                            name={IconEnum.PLUS}
-                            size={25}
-                            style={HomeTabHeaderStyle.plus}
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={openNotifications}>
-                        <Icon name={IconEnum.BELL} size={25} />
-                        <Badge value={notifications} />
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity onPress={openNotifications}>
+                    <Icon name={IconEnum.BELL} size={25} />
+                    <Badge value={notifications} />
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     );

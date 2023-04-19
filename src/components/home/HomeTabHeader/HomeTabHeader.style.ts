@@ -6,6 +6,12 @@ export const HomeTabHeaderStyle = StyleSheet.create({
         paddingRight: 7,
         flexDirection: 'row'
     },
+    image: {
+        width: 60,
+        height: 60,
+        borderRadius: 25,
+        backgroundColor: COLORS.GRAY_100
+    },
     buttonsContainer: {
         flex: 1,
         flexDirection: 'row',
@@ -29,17 +35,5 @@ export const HomeTabHeaderStyle = StyleSheet.create({
     },
     huddlesContainer: {
         marginLeft: 10
-    },
-    image: {
-        width: 50,
-        height: 50,
-        borderRadius: 20,
-        backgroundColor: COLORS.GRAY_100
-    },
-    row: {
-        flexDirection: 'row'
-    },
-    plus: {
-        marginRight: 12
     }
 });

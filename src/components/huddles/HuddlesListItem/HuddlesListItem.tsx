@@ -22,7 +22,7 @@ export const HuddlesListItem = ({
 
     useEffect(() => setInteracted(!!item.interacted), [item.interacted]);
 
-    const isCreateByUser = useMemo(
+    const createdByUser = useMemo(
         (): boolean => item?.createdBy === username,
         [item?.createdBy, username]
     );
@@ -71,14 +71,14 @@ export const HuddlesListItem = ({
             style={HuddlesListItemStyle.container}
         >
             <View style={HuddlesListItemStyle.flex}>
-                <Text style={HuddlesListItemStyle.nameText}>{item.name}</Text>
                 <Text style={HuddlesListItemStyle.whatText}>{item.what}</Text>
                 <Text style={HuddlesListItemStyle.whereText}>{item.where}</Text>
                 <Text style={HuddlesListItemStyle.whenText}>{item.when}</Text>
+                <Text style={HuddlesListItemStyle.nameText}>{item.name}</Text>
             </View>
             <View style={HuddlesListItemStyle.rightContainer}>
                 <TouchableOpacity
-                    disabled={isCreateByUser}
+                    disabled={createdByUser}
                     activeOpacity={0.9}
                     onPress={() => onPressProfilePhoto(item)}
                 >
@@ -87,7 +87,7 @@ export const HuddlesListItem = ({
                         style={HuddlesListItemStyle.image}
                     />
                 </TouchableOpacity>
-                {!isCreateByUser && (
+                {!createdByUser && (
                     <TouchableOpacity
                         onPress={interact}
                         style={HuddlesListItemStyle.handView}
