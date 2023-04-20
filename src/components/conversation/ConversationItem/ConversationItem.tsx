@@ -251,8 +251,8 @@ export const ConversationItem = ({
             <View style={!isOutbound && ConversationItemStyle.row}>
                 {!isOutbound && (
                     <FastImage
-                        source={{ uri: item.profilePicture }}
-                        style={ConversationItemStyle.profilePicture}
+                        source={{ uri: item.profilePhoto }}
+                        style={ConversationItemStyle.profilePhoto}
                     />
                 )}
                 {(item?.message || item?.url) && (
@@ -316,7 +316,7 @@ export const ConversationItem = ({
                             return (
                                 <FastImage
                                     key={value.username}
-                                    source={{ uri: value.profilePicture }}
+                                    source={{ uri: value.profilePhoto }}
                                     style={ConversationItemStyle.readImage}
                                 />
                             );

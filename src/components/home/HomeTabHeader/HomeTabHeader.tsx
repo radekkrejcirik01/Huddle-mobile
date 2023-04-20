@@ -47,7 +47,7 @@ export const HomeTabHeader = (): JSX.Element => {
             <TouchableOpacity onPress={openProfile}>
                 <FastImage
                     source={{
-                        uri: user?.profilePicture
+                        uri: user?.profilePhoto
                     }}
                     style={HomeTabHeaderStyle.image}
                 />

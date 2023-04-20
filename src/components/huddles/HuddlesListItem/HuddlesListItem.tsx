@@ -4,7 +4,10 @@ import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { HuddlesListItemProps } from '@components/huddles/HuddlesListItem/HuddlesListItem.props';
+import {
+    HuddlesListItemDefaultProps,
+    HuddlesListItemProps
+} from '@components/huddles/HuddlesListItem/HuddlesListItem.props';
 import { HuddlesListItemStyle } from '@components/huddles/HuddlesListItem/HuddlesListItem.style';
 import { ReducerProps } from '@store/index/index.props';
 
@@ -12,7 +15,8 @@ export const HuddlesListItem = ({
     item,
     onPressCard,
     onPressProfilePhoto,
-    onInteract
+    onInteract,
+    style
 }: HuddlesListItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
@@ -67,14 +71,27 @@ export const HuddlesListItem = ({
     return (
         <TouchableOpacity
             activeOpacity={1}
+            disabled={!onPressCard}
             onPress={() => onPressCard(item)}
-            style={HuddlesListItemStyle.container}
+            style={[HuddlesListItemStyle.container, style]}
         >
-            <View style={HuddlesListItemStyle.flex}>
-                <Text style={HuddlesListItemStyle.whatText}>{item.what}</Text>
-                <Text style={HuddlesListItemStyle.whereText}>{item.where}</Text>
-                <Text style={HuddlesListItemStyle.whenText}>{item.when}</Text>
-                <Text style={HuddlesListItemStyle.nameText}>{item.name}</Text>
+            <View style={HuddlesListItemStyle.leftContainer}>
+                <View>
+                    <Text style={HuddlesListItemStyle.whatText}>
+                        {item.what}
+                    </Text>
+                    <Text style={HuddlesListItemStyle.whereText}>
+                        {item.where}
+                    </Text>
+                    <Text style={HuddlesListItemStyle.whenText}>
+                        {item.when}
+                    </Text>
+                </View>
+                <View style={HuddlesListItemStyle.nameView}>
+                    <Text style={HuddlesListItemStyle.nameText}>
+                        {item.name}
+                    </Text>
+                </View>
             </View>
             <View style={HuddlesListItemStyle.rightContainer}>
                 <TouchableOpacity
@@ -101,3 +118,5 @@ export const HuddlesListItem = ({
         </TouchableOpacity>
     );
 };
+
+HuddlesListItem.defaultProps = HuddlesListItemDefaultProps;

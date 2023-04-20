@@ -7,7 +7,7 @@ import FastImage from 'react-native-fast-image';
 import { ListItem } from '@components/general/ListItem/ListItem';
 import { ProfileScreenStyle } from '@screens/account/ProfileScreen/ProfileScreen.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { resetUserState, setProfilePictureAction } from '@store/UserReducer';
+import { resetUserState, setProfilePhotoAction } from '@store/UserReducer';
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import { ReducerProps } from '@store/index/index.props';
@@ -25,7 +25,7 @@ import {
 } from '@interfaces/post/Post.inteface';
 
 export const ProfileScreen = (): JSX.Element => {
-    const { firstname, username, profilePicture } = useSelector(
+    const { firstname, username, profilePhoto } = useSelector(
         (state: ReducerProps) => state.user.user
     );
     const { token } = useSelector((state: ReducerProps) => state.device);
@@ -33,7 +33,7 @@ export const ProfileScreen = (): JSX.Element => {
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
-    const changeProfilePicture = useCallback(() => {
+    const changeProfilePhoto = useCallback(() => {
         ImagePicker.openPicker({
             width: 500,
             height: 500,
@@ -41,7 +41,7 @@ export const ProfileScreen = (): JSX.Element => {
             waitAnimationEnd: false
         }).then(async (image) => {
             const base64 = await fs.readFile(image?.path, 'base64');
-            dispatch(setProfilePictureAction(image?.path));
+            dispatch(setProfilePhotoAction(image?.path));
 
             postRequest<
                 ResponseUploadImageInterface,
@@ -81,10 +81,10 @@ export const ProfileScreen = (): JSX.Element => {
     return (
         <View style={ProfileScreenStyle.container}>
             <View style={ProfileScreenStyle.infoContainer}>
-                <TouchableOpacity onPress={changeProfilePicture}>
+                <TouchableOpacity onPress={changeProfilePhoto}>
                     <FastImage
                         source={{
-                            uri: profilePicture
+                            uri: profilePhoto
                         }}
                         style={ProfileScreenStyle.image}
                     />

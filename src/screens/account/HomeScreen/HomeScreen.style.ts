@@ -31,9 +31,11 @@ export const HomeScreenStyle = StyleSheet.create({
         textAlign: 'center'
     },
     addHuddleTouchableOpacity: {
-        marginBottom: 40,
+        zIndex: 1,
+        bottom: 30,
         borderRadius: 15,
         backgroundColor: COLORS.GRAY_100,
+        position: 'absolute',
         alignSelf: 'center'
     },
     addHuddleText: {

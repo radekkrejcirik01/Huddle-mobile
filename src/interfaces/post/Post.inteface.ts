@@ -12,9 +12,24 @@ export interface AddPersonInvitePostInterface {
     receiver: string;
 }
 
+export interface AddHuddlePostInterface {
+    sender: string;
+    what: string;
+    where: string;
+    when: string;
+    people: Array<string>;
+}
+
 export interface HuddleInteractPostInterface {
-    username: string;
     huddleId: number;
+    sender: string;
+    receiver: string;
+}
+
+export interface HuddleConfirmPostInterface {
+    huddleId: number;
+    sender: string;
+    receiver: string;
 }
 
 export interface MessagesGetInterface {

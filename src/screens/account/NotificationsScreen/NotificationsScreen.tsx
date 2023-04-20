@@ -45,7 +45,7 @@ export const NotificationsScreen = (): JSX.Element => {
             navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
                 username: item.sender,
                 name: item.senderName,
-                profilePhoto: item.profilePicture
+                profilePhoto: item.profilePhoto
             });
         },
         [navigateTo]

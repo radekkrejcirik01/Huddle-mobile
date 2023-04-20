@@ -64,7 +64,7 @@ export const PeopleScreen = (): JSX.Element => {
             navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
                 username: item.username,
                 name: item.firstname,
-                profilePhoto: item.profilePicture
+                profilePhoto: item.profilePhoto
             });
         },
         [navigateTo]
@@ -86,7 +86,7 @@ export const PeopleScreen = (): JSX.Element => {
                 </Text>
             </View>
             <FastImage
-                source={{ uri: item.profilePicture }}
+                source={{ uri: item.profilePhoto }}
                 style={PeopleScreenStyle.itemImage}
             />
         </TouchableOpacity>

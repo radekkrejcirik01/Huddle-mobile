@@ -4,7 +4,7 @@ export interface NotificationsListProps {
     id: number;
     sender: string;
     senderName: string;
-    profilePicture: string;
+    profilePhoto: string;
     type: NotificationTypeEnum;
     accepted?: number;
     created: string;

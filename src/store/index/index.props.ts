@@ -12,7 +12,7 @@ export interface User {
     user: {
         firstname: string;
         username: string;
-        profilePicture: string;
+        profilePhoto: string;
     };
     people: number;
     huddles: number;
@@ -25,7 +25,7 @@ export interface SelectUsers {
     selectedUsers: Array<{
         username: string;
         firstname: string;
-        profilePicture: string;
+        profilePhoto: string;
     }>;
 }
 

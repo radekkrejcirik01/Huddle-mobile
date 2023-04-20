@@ -3,6 +3,7 @@ import { NotificationsListProps } from '@screens/account/NotificationsScreen/Not
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
+import { HuddleInteractionInterface } from '@components/huddles/HuddleModalScreen/HuddleModalScreen.props';
 
 export interface ResponseInterface {
     status: string;
@@ -17,7 +18,7 @@ export interface ResponseUserGetInterface {
             id: number;
             username: string;
             firstname: string;
-            profilePicture: string;
+            profilePhoto: string;
         };
         people: number;
         huddles: number;
@@ -36,6 +37,13 @@ export interface ResponseHuddlesGetInterface {
     status: string;
     message: string;
     data?: Array<HuddleItemInterface>;
+}
+
+export interface ResponseHuddlesInteractionsGetInterface {
+    status: string;
+    message: string;
+    data?: Array<HuddleInteractionInterface>;
+    confirmedUser?: string;
 }
 
 export interface ResponseGetPersonInviteInterface {
@@ -74,7 +82,7 @@ export interface ConversationDetailsInterface {
     users: Array<{
         username: string;
         firstname: string;
-        profilePicture: string;
+        profilePhoto: string;
     }>;
     createdBy: string;
     type: string;

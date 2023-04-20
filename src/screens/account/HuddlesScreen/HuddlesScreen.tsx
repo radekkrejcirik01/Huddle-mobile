@@ -9,6 +9,8 @@ import { ReducerProps } from '@store/index/index.props';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
+import { Modal } from '@components/general/Modal/Modal';
+import { HuddleModalScreen } from '@components/huddles/HuddleModalScreen/HuddleModalScreen';
 
 export const HuddlesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -25,10 +27,17 @@ export const HuddlesScreen = (): JSX.Element => {
         });
     }, [username]);
 
-    const { renderItem, keyExtractor, refreshControl } = useRenderHuddles(
-        huddles,
-        loadHuddles
-    );
+    const {
+        renderItem,
+        keyExtractor,
+        refreshControl,
+        huddleOpened,
+        huddleItem,
+        huddleOpenedRef,
+        onPressProfilePhoto,
+        onInteract,
+        hideHuddle
+    } = useRenderHuddles(huddles, loadHuddles);
 
     useEffect(() => loadHuddles(), [loadHuddles]);
 
@@ -43,6 +52,22 @@ export const HuddlesScreen = (): JSX.Element => {
                 estimatedItemSize={68}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={HuddlesScreenStyle.listContentContainer}
+            />
+            <Modal
+                isVisible={huddleOpened}
+                content={
+                    <HuddleModalScreen
+                        ref={huddleOpenedRef}
+                        huddle={huddleItem}
+                        onPressProfilePhoto={onPressProfilePhoto}
+                        onInteract={onInteract}
+                    />
+                }
+                backdropOpacity={0.7}
+                onClose={() => {
+                    loadHuddles();
+                    hideHuddle();
+                }}
             />
         </View>
     );

@@ -6,6 +6,6 @@ export interface ParticipantsListProps {
 export interface Participant {
     username: string;
     firstname: string;
-    profilePicture: string;
+    profilePhoto: string;
     confirmed?: number;
 }

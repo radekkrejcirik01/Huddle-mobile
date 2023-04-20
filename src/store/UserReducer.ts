@@ -6,7 +6,7 @@ const initialState: User = {
     user: {
         firstname: null,
         username: null,
-        profilePicture: null
+        profilePhoto: null
     },
     people: null,
     huddles: null,
@@ -27,8 +27,8 @@ export const UserReducer = createSlice({
         setUsernameAction: (state, action) => {
             state.user.username = action.payload;
         },
-        setProfilePictureAction: (state, action) => {
-            state.user.profilePicture = action.payload;
+        setProfilePhotoAction: (state, action) => {
+            state.user.profilePhoto = action.payload;
         },
         setPeopleAction: (state, action) => {
             state.people = action.payload;
@@ -51,7 +51,7 @@ export const {
     setUserToken,
     setFirstnameAction,
     setUsernameAction,
-    setProfilePictureAction,
+    setProfilePhotoAction,
     setPeopleAction,
     setHuddlesAction,
     setUnreadMessagesAction,

@@ -29,7 +29,7 @@ export const ParticipantsList = ({
                         <FastImage
                             style={ParticipantsListStyle.image}
                             source={{
-                                uri: value?.profilePicture
+                                uri: value?.profilePhoto
                             }}
                         />
                         <Text style={ParticipantsListStyle.text}>

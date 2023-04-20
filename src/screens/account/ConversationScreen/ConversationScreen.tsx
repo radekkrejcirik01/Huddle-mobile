@@ -133,7 +133,7 @@ export const ConversationScreen = ({
                             style={ConversationScreenStyle.headerUsersItemView}
                         >
                             <FastImage
-                                source={{ uri: value?.profilePicture }}
+                                source={{ uri: value?.profilePhoto }}
                                 style={
                                     ConversationScreenStyle.headerUsersItemImage
                                 }

@@ -3,7 +3,7 @@ export interface ChatsListDataProps {
     usernames: Array<{
         username: string;
         firstname: string;
-        profilePicture: string;
+        profilePhoto: string;
     }>;
     name: string;
     picture: string;

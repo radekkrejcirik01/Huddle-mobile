@@ -1,5 +1,3 @@
-import { HuddleTypeEnum } from '@enums/huddles/HuddleType.enum';
-
 export interface HuddleItemInterface {
     id: number;
     createdBy: string;
@@ -8,6 +6,5 @@ export interface HuddleItemInterface {
     what: string;
     where: string;
     when: string;
-    type: HuddleTypeEnum;
     interacted: number;
 }

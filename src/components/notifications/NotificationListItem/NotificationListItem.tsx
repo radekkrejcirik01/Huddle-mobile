@@ -85,7 +85,7 @@ export const NotificationListItem = ({
         <View style={NotificationsScreenStyle.itemContainer}>
             <TouchableOpacity onPress={() => onOpenAccount(listItem)}>
                 <FastImage
-                    source={{ uri: listItem.profilePicture }}
+                    source={{ uri: listItem.profilePhoto }}
                     style={NotificationsScreenStyle.itemImage}
                 />
             </TouchableOpacity>

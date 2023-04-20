@@ -86,6 +86,6 @@ export const PeopleTabOptions: BottomTabNavigationOptions = {
     ),
     tabBarIcon: ({ focused }) => (
         // eslint-disable-next-line react-native/no-inline-styles
-        <Text style={{ fontSize: focused ? 24 : 20 }}>🔍</Text>
+        <Text style={{ fontSize: focused ? 24 : 20 }}>🚀</Text>
     )
 };

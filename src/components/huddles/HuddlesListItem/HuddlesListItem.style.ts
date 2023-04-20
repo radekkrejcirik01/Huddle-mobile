@@ -3,7 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const HuddlesListItemStyle = StyleSheet.create({
     container: {
-        height: 175,
+        height: 165,
         width: '100%',
         marginBottom: 15,
         padding: 15,
@@ -12,8 +12,16 @@ export const HuddlesListItemStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    flex: {
-        flex: 1
+    wholeBorderRadius: {
+        borderRadius: 20
+    },
+    topBorderRadius: {
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20
+    },
+    leftContainer: {
+        flex: 1,
+        justifyContent: 'space-between'
     },
     whatText: {
         fontSize: 18,
@@ -21,30 +29,35 @@ export const HuddlesListItemStyle = StyleSheet.create({
         fontWeight: 'bold'
     },
     whereText: {
+        marginTop: 5,
         fontSize: 16,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
     whenText: {
-        marginTop: 10,
+        marginTop: 5,
         fontSize: 16,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
+    nameView: {
+        height: 38,
+        justifyContent: 'center'
+    },
     nameText: {
-        marginTop: 10,
+        marginBottom: 5,
         fontSize: 20,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
     rightContainer: {
-        paddingLeft: 15,
+        marginLeft: 15,
         alignItems: 'center',
         justifyContent: 'space-between'
     },
     image: {
-        height: 55,
-        width: 55,
+        height: 60,
+        width: 60,
         borderRadius: 30
     },
     handView: {

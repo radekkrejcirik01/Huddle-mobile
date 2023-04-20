@@ -33,7 +33,7 @@ export const ChatsItem = ({
                     {item?.usernames.map((value) => (
                         <View key={value.username} style={ChatsItemStyle.row}>
                             <FastImage
-                                source={{ uri: value?.profilePicture }}
+                                source={{ uri: value?.profilePhoto }}
                                 style={ChatsItemStyle.titleImage}
                             />
                             <Text style={ChatsItemStyle.titleText}>
