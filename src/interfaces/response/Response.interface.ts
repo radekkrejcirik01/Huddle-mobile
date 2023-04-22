@@ -39,6 +39,12 @@ export interface ResponseHuddlesGetInterface {
     data?: Array<HuddleItemInterface>;
 }
 
+export interface ResponseHuddleGetInterface {
+    status: string;
+    message: string;
+    data?: HuddleItemInterface;
+}
+
 export interface ResponseHuddlesInteractionsGetInterface {
     status: string;
     message: string;

@@ -33,7 +33,6 @@ export const HuddlesScreen = (): JSX.Element => {
         refreshControl,
         huddleOpened,
         huddleItem,
-        huddleOpenedRef,
         onPressProfilePhoto,
         onInteract,
         hideHuddle
@@ -46,6 +45,7 @@ export const HuddlesScreen = (): JSX.Element => {
             <HuddlesTabHeader />
             <FlashList
                 data={huddles}
+                extraData={huddles}
                 renderItem={renderItem}
                 keyExtractor={keyExtractor}
                 refreshControl={refreshControl}
@@ -57,17 +57,13 @@ export const HuddlesScreen = (): JSX.Element => {
                 isVisible={huddleOpened}
                 content={
                     <HuddleModalScreen
-                        ref={huddleOpenedRef}
                         huddle={huddleItem}
                         onPressProfilePhoto={onPressProfilePhoto}
                         onInteract={onInteract}
                     />
                 }
                 backdropOpacity={0.7}
-                onClose={() => {
-                    loadHuddles();
-                    hideHuddle();
-                }}
+                onClose={hideHuddle}
             />
         </View>
     );

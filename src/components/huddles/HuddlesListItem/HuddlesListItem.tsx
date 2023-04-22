@@ -24,7 +24,7 @@ export const HuddlesListItem = ({
 
     const { showActionSheetWithOptions } = useActionSheet();
 
-    useEffect(() => setInteracted(!!item.interacted), [item.interacted]);
+    useEffect(() => setInteracted(!!item?.interacted), [item?.interacted]);
 
     const createdByUser = useMemo(
         (): boolean => item?.createdBy === username,
@@ -32,7 +32,7 @@ export const HuddlesListItem = ({
     );
 
     const interactAction = useCallback(() => {
-        onInteract({ ...item, interacted: interacted ? 1 : 0 });
+        onInteract(item);
 
         setInteracted(!interacted);
     }, [interacted, item, onInteract]);
@@ -45,7 +45,7 @@ export const HuddlesListItem = ({
                 options,
                 cancelButtonIndex: 1,
                 userInterfaceStyle: 'dark',
-                title: 'Remove interaction?'
+                title: 'Remove tap?'
             },
             (selectedIndex: number) => {
                 if (selectedIndex === 0) {
@@ -78,18 +78,18 @@ export const HuddlesListItem = ({
             <View style={HuddlesListItemStyle.leftContainer}>
                 <View>
                     <Text style={HuddlesListItemStyle.whatText}>
-                        {item.what}
+                        {item?.what}
                     </Text>
                     <Text style={HuddlesListItemStyle.whereText}>
-                        {item.where}
+                        {item?.where}
                     </Text>
                     <Text style={HuddlesListItemStyle.whenText}>
-                        {item.when}
+                        {item?.when}
                     </Text>
                 </View>
                 <View style={HuddlesListItemStyle.nameView}>
                     <Text style={HuddlesListItemStyle.nameText}>
-                        {item.name}
+                        {item?.name}
                     </Text>
                 </View>
             </View>

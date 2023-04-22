@@ -174,10 +174,10 @@ export const PersonProfileScreen = ({
             return 'Accept friend invite';
         }
         if (personState === PersonStateEnum.Friends) {
-            return `Let's hangout ${firstname}!`;
+            return `Let's hangout ${name}!`;
         }
         return null;
-    }, [firstname, personState]);
+    }, [name, personState]);
 
     const action = useCallback(() => {
         if (personState === PersonStateEnum.NotInvited) {

@@ -1,17 +1,24 @@
-import React, { Ref, useCallback, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
-import { ResponseInterface } from '@interfaces/response/Response.interface';
+import {
+    deleteRequestUser,
+    getRequestUser,
+    postRequestUser
+} from '@utils/Axios/Axios.service';
+import {
+    ResponseHuddleGetInterface,
+    ResponseInterface
+} from '@interfaces/response/Response.interface';
 import { HuddleInteractPostInterface } from '@interfaces/post/Post.inteface';
 import { HuddlesListItem } from '@components/huddles/HuddlesListItem/HuddlesListItem';
 import { ReducerProps } from '@store/index/index.props';
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { HuddleInteractionRefInterface } from '@components/huddles/HuddleModalScreen/HuddleModalScreen.props';
+import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
 
 export const useRenderHuddles = (
     data: Array<HuddleItemInterface>,
@@ -23,8 +30,8 @@ export const useRenderHuddles = (
     keyExtractor: (item: HuddleItemInterface, index: number) => string;
     refreshControl: JSX.Element;
     huddleOpened: boolean;
-    huddleOpenedRef: Ref<HuddleInteractionRefInterface>;
     huddleItem: HuddleItemInterface;
+    openHuddleFromNotification: (item: NotificationsListProps) => void;
     onPressProfilePhoto: (item: HuddleItemInterface) => void;
     onInteract: (item: HuddleItemInterface) => void;
     hideHuddle: () => void;
@@ -32,8 +39,6 @@ export const useRenderHuddles = (
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
-
-    const huddleOpenedRef = useRef<HuddleInteractionRefInterface>(null);
 
     const [refreshing, setRefreshing] = useState(false);
     const [huddleOpened, setHuddleOpened] = useState(false);
@@ -47,23 +52,45 @@ export const useRenderHuddles = (
         }, 1000);
     }, [onRefresh]);
 
-    const onPressCard = useCallback((item: HuddleItemInterface) => {
+    const openHuddleFromNotification = (item: NotificationsListProps) => {
         setHuddleOpened(true);
+        getRequestUser<ResponseHuddleGetInterface>(
+            `huddle/${item?.huddleId}`
+        ).subscribe((response: ResponseHuddleGetInterface) => {
+            if (response?.status) {
+                setHuddleItem(response?.data);
+            }
+        });
+    };
+
+    const openHuddle = useCallback((item: HuddleItemInterface) => {
         setHuddleItem(item);
+        setHuddleOpened(true);
     }, []);
 
-    const onPressProfilePhoto = useCallback(
+    const openProfile = useCallback(
         (item: HuddleItemInterface) => {
-            if (huddleOpened) {
-                setHuddleOpened(false);
-            }
             navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
                 username: item.createdBy,
                 name: item.name,
                 profilePhoto: item.profilePhoto
             });
         },
-        [huddleOpened, navigateTo]
+        [navigateTo]
+    );
+
+    const onPressProfilePhoto = useCallback(
+        (item: HuddleItemInterface) => {
+            if (huddleOpened) {
+                setHuddleOpened(false);
+                setTimeout(() => {
+                    openProfile(item);
+                }, 300);
+            } else {
+                openProfile(item);
+            }
+        },
+        [huddleOpened, openProfile]
     );
 
     const interact = useCallback(
@@ -76,12 +103,10 @@ export const useRenderHuddles = (
                     receiver: createdBy
                 }
             ).subscribe(() => {
-                if (huddleOpened) {
-                    huddleOpenedRef.current.loadInteractions();
-                }
+                onRefresh();
             });
         },
-        [huddleOpened, username]
+        [onRefresh, username]
     );
 
     const removeInteraction = useCallback(
@@ -89,12 +114,10 @@ export const useRenderHuddles = (
             deleteRequestUser<ResponseInterface>(
                 `huddle/interaction/${username}/${huddleId}`
             ).subscribe(() => {
-                if (huddleOpened) {
-                    huddleOpenedRef.current.loadInteractions();
-                }
+                onRefresh();
             });
         },
-        [huddleOpened, username]
+        [onRefresh, username]
     );
 
     const onInteract = useCallback(
@@ -112,12 +135,12 @@ export const useRenderHuddles = (
         ({ item }: ListRenderItemInfo<HuddleItemInterface>): JSX.Element => (
             <HuddlesListItem
                 item={item}
-                onPressCard={onPressCard}
+                onPressCard={openHuddle}
                 onPressProfilePhoto={onPressProfilePhoto}
                 onInteract={onInteract}
             />
         ),
-        [onInteract, onPressCard, onPressProfilePhoto]
+        [onInteract, onPressProfilePhoto, openHuddle]
     );
     const keyExtractor = (item: HuddleItemInterface): string =>
         item?.id?.toString();
@@ -137,8 +160,8 @@ export const useRenderHuddles = (
         keyExtractor,
         refreshControl,
         huddleOpened,
-        huddleOpenedRef,
         huddleItem,
+        openHuddleFromNotification,
         onPressProfilePhoto,
         onInteract,
         hideHuddle

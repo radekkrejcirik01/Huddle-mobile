@@ -61,9 +61,9 @@ export const HuddlesListItemStyle = StyleSheet.create({
         borderRadius: 30
     },
     handView: {
-        height: 38,
-        width: 60,
-        borderRadius: 20,
+        paddingVertical: 12,
+        paddingHorizontal: 14,
+        borderRadius: 30,
         backgroundColor: COLORS.MAIN_WHITE,
         justifyContent: 'center',
         alignItems: 'center'

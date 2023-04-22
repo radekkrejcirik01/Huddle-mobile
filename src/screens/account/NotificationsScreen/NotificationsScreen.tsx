@@ -8,19 +8,27 @@ import { useRefresh } from '@hooks/useRefresh';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { NotificationsScreenStyle } from '@screens/account/NotificationsScreen/NotificationsScreen.style';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
-import { getRequestUser, putRequestUser } from '@utils/Axios/Axios.service';
+import {
+    getRequestUser,
+    postRequestUser,
+    putRequestUser
+} from '@utils/Axios/Axios.service';
 import {
     ResponseInterface,
     ResponseNotificationsGetInterface
 } from '@interfaces/response/Response.interface';
-import { AcceptPersonInviteInterface } from '@interfaces/post/Post.inteface';
+import {
+    AcceptPersonInviteInterface,
+    HuddleConfirmPostInterface
+} from '@interfaces/post/Post.inteface';
 import { NotificationListItem } from '@components/notifications/NotificationListItem/NotificationListItem';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { HuddleModalScreen } from '@components/huddles/HuddleModalScreen/HuddleModalScreen';
+import { Modal } from '@components/general/Modal/Modal';
+import { useRenderHuddles } from '@hooks/useRenderHuddles';
 
 export const NotificationsScreen = (): JSX.Element => {
-    const { firstname, username } = useSelector(
-        (state: ReducerProps) => state.user.user
-    );
+    const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const [data, setData] = useState<Array<NotificationsListProps>>([]);
 
@@ -38,6 +46,16 @@ export const NotificationsScreen = (): JSX.Element => {
         RootStackNavigatorEnum.AccountStack,
         loadNotifications
     );
+
+    const {
+        huddleOpened,
+        huddleItem,
+        openHuddleFromNotification,
+        onPressProfilePhoto,
+        onInteract,
+        hideHuddle
+    } = useRenderHuddles([], loadNotifications);
+
     const { refreshing, onRefresh } = useRefresh(loadNotifications);
 
     const openAccount = useCallback(
@@ -72,9 +90,23 @@ export const NotificationsScreen = (): JSX.Element => {
         Alert.alert('Open chat');
     }, []);
 
-    const openHuddle = useCallback((item: NotificationsListProps) => {
-        Alert.alert('Open huddle');
-    }, []);
+    const confirmHuddle = useCallback(
+        (item: NotificationsListProps) => {
+            postRequestUser<ResponseInterface, HuddleConfirmPostInterface>(
+                'huddle/confirm',
+                {
+                    huddleId: item?.huddleId,
+                    sender: username,
+                    receiver: item?.sender
+                }
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    loadNotifications();
+                }
+            });
+        },
+        [loadNotifications, username]
+    );
 
     const renderItem = useCallback(
         ({ item }: ListRenderItemInfo<NotificationsListProps>): JSX.Element => (
@@ -83,10 +115,17 @@ export const NotificationsScreen = (): JSX.Element => {
                 onOpenAccount={openAccount}
                 onAcceptPersonInvite={acceptPersonInvite}
                 onOpenChat={openChat}
-                onOpenHuddle={openHuddle}
+                onOpenHuddle={openHuddleFromNotification}
+                onConfirmHuddle={confirmHuddle}
             />
         ),
-        [acceptPersonInvite, openAccount, openChat, openHuddle]
+        [
+            acceptPersonInvite,
+            confirmHuddle,
+            openAccount,
+            openChat,
+            openHuddleFromNotification
+        ]
     );
 
     return (
@@ -109,6 +148,19 @@ export const NotificationsScreen = (): JSX.Element => {
                 contentContainerStyle={
                     NotificationsScreenStyle.listContentContainer
                 }
+            />
+            <Modal
+                isVisible={huddleOpened}
+                content={
+                    <HuddleModalScreen
+                        huddle={huddleItem}
+                        onPressProfilePhoto={onPressProfilePhoto}
+                        onInteract={onInteract}
+                        onConfirm={loadNotifications}
+                    />
+                }
+                backdropOpacity={0.7}
+                onClose={hideHuddle}
             />
         </View>
     );

@@ -6,4 +6,5 @@ export interface NotificationListItemProps {
     onAcceptPersonInvite: (item: NotificationsListProps) => void;
     onOpenChat: (item: NotificationsListProps) => void;
     onOpenHuddle: (item: NotificationsListProps) => void;
+    onConfirmHuddle: (item: NotificationsListProps) => void;
 }

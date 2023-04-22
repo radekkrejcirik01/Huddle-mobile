@@ -56,7 +56,6 @@ export const HomeScreen = (): JSX.Element => {
         keyExtractor,
         refreshControl,
         huddleOpened,
-        huddleOpenedRef,
         huddleItem,
         onPressProfilePhoto,
         onInteract,
@@ -99,6 +98,7 @@ export const HomeScreen = (): JSX.Element => {
                     <>
                         <FlashList
                             data={huddles}
+                            extraData={huddles}
                             renderItem={renderItem}
                             keyExtractor={keyExtractor}
                             refreshControl={refreshControl}
@@ -112,7 +112,6 @@ export const HomeScreen = (): JSX.Element => {
                             isVisible={huddleOpened}
                             content={
                                 <HuddleModalScreen
-                                    ref={huddleOpenedRef}
                                     huddle={huddleItem}
                                     onPressProfilePhoto={onPressProfilePhoto}
                                     onInteract={onInteract}

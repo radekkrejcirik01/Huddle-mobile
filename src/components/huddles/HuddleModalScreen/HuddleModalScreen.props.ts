@@ -4,6 +4,7 @@ export interface HuddleModalScreenProps {
     huddle: HuddleItemInterface;
     onPressProfilePhoto: (item: HuddleItemInterface) => void;
     onInteract: (item: HuddleItemInterface) => void;
+    onConfirm?: () => void;
 }
 
 export interface HuddleInteractionInterface {
@@ -11,8 +12,4 @@ export interface HuddleInteractionInterface {
     username: string;
     name: string;
     profilePhoto: string;
-}
-
-export interface HuddleInteractionRefInterface {
-    loadInteractions: () => void;
 }
