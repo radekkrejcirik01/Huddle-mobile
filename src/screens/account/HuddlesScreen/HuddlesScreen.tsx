@@ -34,7 +34,7 @@ export const HuddlesScreen = (): JSX.Element => {
         huddleOpened,
         huddleItem,
         onPressProfilePhoto,
-        onInteract,
+        onPressInteract,
         hideHuddle
     } = useRenderHuddles(huddles, loadHuddles);
 
@@ -59,7 +59,7 @@ export const HuddlesScreen = (): JSX.Element => {
                     <HuddleModalScreen
                         huddle={huddleItem}
                         onPressProfilePhoto={onPressProfilePhoto}
-                        onInteract={onInteract}
+                        onPressInteract={onPressInteract}
                     />
                 }
                 backdropOpacity={0.7}

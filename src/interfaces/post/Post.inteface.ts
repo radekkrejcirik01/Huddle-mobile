@@ -86,11 +86,6 @@ export interface AcceptPersonInviteInterface {
     receiver: string;
 }
 
-export interface RemovePersonInterface {
-    user: string;
-    username: string;
-}
-
 export interface UpdateReadInterface {
     username: string;
     conversationId: number;

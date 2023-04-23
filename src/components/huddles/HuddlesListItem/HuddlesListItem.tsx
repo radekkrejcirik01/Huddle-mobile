@@ -15,7 +15,7 @@ export const HuddlesListItem = ({
     item,
     onPressCard,
     onPressProfilePhoto,
-    onInteract,
+    onPressInteract,
     style
 }: HuddlesListItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -32,10 +32,10 @@ export const HuddlesListItem = ({
     );
 
     const interactAction = useCallback(() => {
-        onInteract(item);
+        onPressInteract(item);
 
         setInteracted(!interacted);
-    }, [interacted, item, onInteract]);
+    }, [interacted, item, onPressInteract]);
 
     const removeInteractionActionSheet = useCallback(() => {
         const options = ['Remove', 'Cancel'];

@@ -33,7 +33,7 @@ export const useRenderHuddles = (
     huddleItem: HuddleItemInterface;
     openHuddleFromNotification: (item: NotificationsListProps) => void;
     onPressProfilePhoto: (item: HuddleItemInterface) => void;
-    onInteract: (item: HuddleItemInterface) => void;
+    onPressInteract: (item: HuddleItemInterface) => void;
     hideHuddle: () => void;
 } => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -120,7 +120,7 @@ export const useRenderHuddles = (
         [onRefresh, username]
     );
 
-    const onInteract = useCallback(
+    const onPressInteract = useCallback(
         (item: HuddleItemInterface) => {
             if (item.interacted) {
                 removeInteraction(item.id);
@@ -137,10 +137,10 @@ export const useRenderHuddles = (
                 item={item}
                 onPressCard={openHuddle}
                 onPressProfilePhoto={onPressProfilePhoto}
-                onInteract={onInteract}
+                onPressInteract={onPressInteract}
             />
         ),
-        [onInteract, onPressProfilePhoto, openHuddle]
+        [onPressInteract, onPressProfilePhoto, openHuddle]
     );
     const keyExtractor = (item: HuddleItemInterface): string =>
         item?.id?.toString();
@@ -163,7 +163,7 @@ export const useRenderHuddles = (
         huddleItem,
         openHuddleFromNotification,
         onPressProfilePhoto,
-        onInteract,
+        onPressInteract,
         hideHuddle
     };
 };

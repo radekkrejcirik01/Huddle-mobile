@@ -52,7 +52,7 @@ export const NotificationsScreen = (): JSX.Element => {
         huddleItem,
         openHuddleFromNotification,
         onPressProfilePhoto,
-        onInteract,
+        onPressInteract,
         hideHuddle
     } = useRenderHuddles([], loadNotifications);
 
@@ -78,7 +78,7 @@ export const NotificationsScreen = (): JSX.Element => {
                     receiver: item.sender
                 }
             ).subscribe((response) => {
-                if (response.status) {
+                if (response?.status) {
                     loadNotifications();
                 }
             });
@@ -155,7 +155,7 @@ export const NotificationsScreen = (): JSX.Element => {
                     <HuddleModalScreen
                         huddle={huddleItem}
                         onPressProfilePhoto={onPressProfilePhoto}
-                        onInteract={onInteract}
+                        onPressInteract={onPressInteract}
                         onConfirm={loadNotifications}
                     />
                 }

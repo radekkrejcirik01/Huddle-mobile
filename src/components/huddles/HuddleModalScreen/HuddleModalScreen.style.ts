@@ -11,11 +11,11 @@ export const HuddleModalScreenStyle = StyleSheet.create({
     margin20: {
         margin: 20
     },
-    visibleView: {
+    editView: {
         marginBottom: 15,
         alignSelf: 'flex-end'
     },
-    visibleText: {
+    editText: {
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },

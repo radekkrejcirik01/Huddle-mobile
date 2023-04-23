@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import {
     HuddleInteractionInterface,
+    HuddleModalScreenDefaultProps,
     HuddleModalScreenProps
 } from '@components/huddles/HuddleModalScreen/HuddleModalScreen.props';
 import { HuddleModalScreenStyle } from '@components/huddles/HuddleModalScreen/HuddleModalScreen.style';
@@ -20,7 +21,7 @@ import { HuddleConfirmPostInterface } from '@interfaces/post/Post.inteface';
 export const HuddleModalScreen = ({
     huddle,
     onPressProfilePhoto,
-    onInteract,
+    onPressInteract,
     onConfirm
 }: HuddleModalScreenProps): JSX.Element => {
     const { top } = useSafeAreaInsets();
@@ -49,7 +50,7 @@ export const HuddleModalScreen = ({
 
     useEffect(() => loadInteractions(), [loadInteractions]);
 
-    const hideHuddle = useCallback(() => {}, []);
+    const edit = useCallback(() => {}, []);
 
     const confirm = useCallback(
         (username: string) => {
@@ -90,17 +91,15 @@ export const HuddleModalScreen = ({
         <View style={[HuddleModalScreenStyle.container, { top }]}>
             <View style={HuddleModalScreenStyle.margin20}>
                 <TouchableOpacity
-                    onPress={hideHuddle}
-                    style={HuddleModalScreenStyle.visibleView}
+                    onPress={edit}
+                    style={HuddleModalScreenStyle.editView}
                 >
-                    <Text style={HuddleModalScreenStyle.visibleText}>
-                        Visible
-                    </Text>
+                    <Text style={HuddleModalScreenStyle.editText}>Edit</Text>
                 </TouchableOpacity>
                 <HuddlesListItem
                     item={huddle}
                     onPressProfilePhoto={onPressProfilePhoto}
-                    onInteract={onInteract}
+                    onPressInteract={onPressInteract}
                     style={HuddleModalScreenStyle.huddlesListItem}
                 />
             </View>
@@ -119,3 +118,5 @@ export const HuddleModalScreen = ({
         </View>
     );
 };
+
+HuddleModalScreen.defaultProps = HuddleModalScreenDefaultProps;
