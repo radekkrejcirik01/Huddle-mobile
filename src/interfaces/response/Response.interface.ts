@@ -49,7 +49,7 @@ export interface ResponseHuddlesInteractionsGetInterface {
     status: string;
     message: string;
     data?: Array<HuddleInteractionInterface>;
-    confirmedUser?: string;
+    confirmedUser?: HuddleInteractionInterface;
 }
 
 export interface ResponseGetPersonInviteInterface {

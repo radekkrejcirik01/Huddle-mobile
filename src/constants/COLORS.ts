@@ -3,6 +3,7 @@ export default {
     MAIN_RED: '#ff5555',
     MAIN_BLUE: '#634bed',
     MAIN_WHITE: '#ffd9b3',
+    MAIN_BROWN: '#cc6600',
     MAIN_BLUE_100: '#735def',
     MAIN_BLUE_200: '#755def',
     MAIN_ORANGE: '#ff9933',

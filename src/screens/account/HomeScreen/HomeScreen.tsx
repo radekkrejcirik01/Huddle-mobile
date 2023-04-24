@@ -7,21 +7,18 @@ import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { ReducerProps } from '@store/index/index.props';
 import { useMessaging } from '@hooks/useMessaging';
-import { getRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
+import { getRequestUser } from '@utils/Axios/Axios.service';
 import {
     ResponseHuddlesGetInterface,
-    ResponseInterface,
     ResponseUserGetInterface
 } from '@interfaces/response/Response.interface';
 import { setUserStateAction } from '@store/UserReducer';
 import { useNotifications } from '@hooks/useNotifications';
 import { HomeTabHeader } from '@components/home/HomeTabHeader/HomeTabHeader';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { HuddleModalScreen } from '@components/huddles/HuddleModalScreen/HuddleModalScreen';
 import { Modal } from '@components/general/Modal/Modal';
-import { AddHuddlePostInterface } from '@interfaces/post/Post.inteface';
 
 export const HomeScreen = (): JSX.Element => {
     const { user } = useSelector((state: ReducerProps) => state.user);
@@ -79,21 +76,11 @@ export const HomeScreen = (): JSX.Element => {
         }
     }, [loadHuddles, user?.username]);
 
-    const createHuddle = useCallback(() => {
-        postRequestUser<ResponseInterface, AddHuddlePostInterface>('huddle', {
-            sender: user?.username,
-            what: 'Go for a beer 🍻',
-            where: 'B',
-            when: 'C',
-            people: ['radekkrejcirik']
-        }).subscribe();
-    }, [user?.username]);
-
     return (
         <View style={HomeScreenStyle.container}>
             <HomeTabHeader />
             <View style={HomeScreenStyle.content}>
-                <Text style={HomeScreenStyle.title}>Active Huddles</Text>
+                <Text style={HomeScreenStyle.title}>Confirmed Huddles</Text>
                 {huddles?.length ? (
                     <>
                         <FlashList
@@ -123,16 +110,10 @@ export const HomeScreen = (): JSX.Element => {
                     </>
                 ) : (
                     <Text style={HomeScreenStyle.description}>
-                        your upcoming Huddles{'\n'}will appear here 👋
+                        your confirmed Huddles{'\n'}will appear here 👋
                     </Text>
                 )}
             </View>
-            <TouchableOpacity
-                onPress={createHuddle}
-                style={HomeScreenStyle.addHuddleTouchableOpacity}
-            >
-                <Text style={HomeScreenStyle.addHuddleText}>Add a Huddle</Text>
-            </TouchableOpacity>
         </View>
     );
 };

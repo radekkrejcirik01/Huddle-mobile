@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Keyboard, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList } from '@shopify/flash-list';
 import { HuddlesScreenStyle } from '@screens/account/HuddlesScreen/HuddlesScreen.style';
@@ -11,11 +11,15 @@ import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.inter
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { Modal } from '@components/general/Modal/Modal';
 import { HuddleModalScreen } from '@components/huddles/HuddleModalScreen/HuddleModalScreen';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { StartHuddleModalScreen } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen';
 
 export const HuddlesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
+
+    const [huddleStarted, setHuddleStarted] = useState<boolean>(false);
 
     const loadHuddles = useCallback(() => {
         getRequestUser<ResponseHuddlesGetInterface>(
@@ -40,9 +44,11 @@ export const HuddlesScreen = (): JSX.Element => {
 
     useEffect(() => loadHuddles(), [loadHuddles]);
 
+    const startHuddle = () => setHuddleStarted(true);
+
     return (
         <View style={HuddlesScreenStyle.container}>
-            <HuddlesTabHeader />
+            <HuddlesTabHeader onPressPlus={startHuddle} />
             <FlashList
                 data={huddles}
                 extraData={huddles}
@@ -52,6 +58,19 @@ export const HuddlesScreen = (): JSX.Element => {
                 estimatedItemSize={68}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={HuddlesScreenStyle.listContentContainer}
+            />
+            <Modal
+                isVisible={huddleStarted}
+                content={
+                    <StartHuddleModalScreen
+                        onClose={() => setHuddleStarted(false)}
+                    />
+                }
+                backdropOpacity={0.7}
+                onClose={() => {
+                    setHuddleStarted(false);
+                    Keyboard.dismiss();
+                }}
             />
             <Modal
                 isVisible={huddleOpened}
@@ -65,6 +84,16 @@ export const HuddlesScreen = (): JSX.Element => {
                 backdropOpacity={0.7}
                 onClose={hideHuddle}
             />
+            {!huddles?.length && (
+                <TouchableOpacity
+                    onPress={startHuddle}
+                    style={HuddlesScreenStyle.addHuddleTouchableOpacity}
+                >
+                    <Text style={HuddlesScreenStyle.addHuddleText}>
+                        Add Huddle
+                    </Text>
+                </TouchableOpacity>
+            )}
         </View>
     );
 };

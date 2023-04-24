@@ -12,13 +12,6 @@ export const HuddlesListItemStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    wholeBorderRadius: {
-        borderRadius: 20
-    },
-    topBorderRadius: {
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20
-    },
     leftContainer: {
         flex: 1,
         justifyContent: 'space-between'

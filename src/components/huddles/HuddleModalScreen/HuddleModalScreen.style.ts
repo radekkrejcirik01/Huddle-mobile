@@ -29,12 +29,10 @@ export const HuddleModalScreenStyle = StyleSheet.create({
         fontWeight: 'bold'
     },
     itemContainer: {
-        flex: 1,
         marginBottom: 15,
         paddingHorizontal: 20,
         flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
+        alignItems: 'center'
     },
     itemInfoContainer: {
         flex: 1,

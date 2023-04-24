@@ -29,7 +29,8 @@ export const HuddleModalScreen = ({
     const [interactions, setInteractions] = useState<
         Array<HuddleInteractionInterface>
     >([]);
-    const [confirmedUser, setConfirmedUser] = useState<string>();
+    const [confirmedUser, setConfirmedUser] =
+        useState<HuddleInteractionInterface>();
 
     const loadInteractions = useCallback(() => {
         if (huddle?.id) {
@@ -87,7 +88,7 @@ export const HuddleModalScreen = ({
     );
 
     return (
-        // SafeAreaView for modal doesn't work as expected
+        // SafeAreaView for modal doesn't render as expected
         <View style={[HuddleModalScreenStyle.container, { top }]}>
             <View style={HuddleModalScreenStyle.margin20}>
                 <TouchableOpacity
@@ -103,9 +104,23 @@ export const HuddleModalScreen = ({
                     style={HuddleModalScreenStyle.huddlesListItem}
                 />
             </View>
-            <Text style={HuddleModalScreenStyle.interactionsText}>
-                Interactions 👋
-            </Text>
+            {!!confirmedUser && (
+                <>
+                    <Text style={HuddleModalScreenStyle.interactionsText}>
+                        Confirmed ✅
+                    </Text>
+                    <HuddleInteractionsListItem
+                        item={confirmedUser}
+                        onConfirm={confirm}
+                        hasConfirmedUser={!!confirmedUser}
+                    />
+                </>
+            )}
+            {!!interactions?.length && (
+                <Text style={HuddleModalScreenStyle.interactionsText}>
+                    Interactions 👋
+                </Text>
+            )}
             <FlashList
                 data={interactions}
                 renderItem={renderItem}

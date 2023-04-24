@@ -15,7 +15,7 @@ export const HuddleModalScreenDefaultProps: Omit<
 };
 
 export interface HuddleInteractionInterface {
-    id: number;
+    id?: number;
     username: string;
     name: string;
     profilePhoto: string;
