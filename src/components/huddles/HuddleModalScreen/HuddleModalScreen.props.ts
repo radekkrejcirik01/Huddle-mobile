@@ -4,12 +4,12 @@ export interface HuddleModalScreenProps {
     huddle: HuddleItemInterface;
     onPressProfilePhoto: (item: HuddleItemInterface) => void;
     onPressInteract: (item: HuddleItemInterface) => void;
-    onConfirm?: () => void;
+    onEdited: () => void;
 }
 
 export const HuddleModalScreenDefaultProps: Omit<
     HuddleModalScreenProps,
-    'huddle' | 'onPressProfilePhoto' | 'onPressInteract'
+    'huddle' | 'onPressProfilePhoto' | 'onPressInteract' | 'onEdited'
 > = {
     onConfirm: null
 };

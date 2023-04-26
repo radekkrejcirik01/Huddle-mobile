@@ -18,8 +18,7 @@ export const HuddlesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
-
-    const [huddleStarted, setHuddleStarted] = useState<boolean>(false);
+    const [startHuddle, setStartHuddle] = useState<boolean>(false);
 
     const loadHuddles = useCallback(() => {
         getRequestUser<ResponseHuddlesGetInterface>(
@@ -44,11 +43,14 @@ export const HuddlesScreen = (): JSX.Element => {
 
     useEffect(() => loadHuddles(), [loadHuddles]);
 
-    const startHuddle = () => setHuddleStarted(true);
+    const hideStartHuddle = () => {
+        Keyboard.dismiss();
+        setStartHuddle(false);
+    };
 
     return (
         <View style={HuddlesScreenStyle.container}>
-            <HuddlesTabHeader onPressPlus={startHuddle} />
+            <HuddlesTabHeader onPressPlus={() => setStartHuddle(true)} />
             <FlashList
                 data={huddles}
                 extraData={huddles}
@@ -60,17 +62,10 @@ export const HuddlesScreen = (): JSX.Element => {
                 contentContainerStyle={HuddlesScreenStyle.listContentContainer}
             />
             <Modal
-                isVisible={huddleStarted}
-                content={
-                    <StartHuddleModalScreen
-                        onClose={() => setHuddleStarted(false)}
-                    />
-                }
+                isVisible={startHuddle}
+                content={<StartHuddleModalScreen onClose={hideStartHuddle} />}
                 backdropOpacity={0.7}
-                onClose={() => {
-                    setHuddleStarted(false);
-                    Keyboard.dismiss();
-                }}
+                onClose={hideStartHuddle}
             />
             <Modal
                 isVisible={huddleOpened}
@@ -79,6 +74,7 @@ export const HuddlesScreen = (): JSX.Element => {
                         huddle={huddleItem}
                         onPressProfilePhoto={onPressProfilePhoto}
                         onPressInteract={onPressInteract}
+                        onEdited={loadHuddles}
                     />
                 }
                 backdropOpacity={0.7}
@@ -86,7 +82,7 @@ export const HuddlesScreen = (): JSX.Element => {
             />
             {!huddles?.length && (
                 <TouchableOpacity
-                    onPress={startHuddle}
+                    onPress={() => setStartHuddle(true)}
                     style={HuddlesScreenStyle.addHuddleTouchableOpacity}
                 >
                     <Text style={HuddlesScreenStyle.addHuddleText}>

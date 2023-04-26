@@ -1,24 +1,18 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const StartHuddleCardContentStyle = StyleSheet.create({
+export const HuddleEditableCardStyle = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'space-evenly'
-    },
-    huddleText: {
-        fontSize: 25,
-        color: COLORS.WHITE,
-        fontWeight: 'bold',
-        textAlign: 'center'
-    },
-    cardContainer: {
         height: 165,
         width: '100%',
         padding: 15,
         borderRadius: 20,
         backgroundColor: COLORS.MAIN_ORANGE,
         flexDirection: 'row'
+    },
+    inputsContainer: {
+        flex: 1,
+        paddingRight: 10
     },
     primaryInput: {
         width: '90%',
@@ -45,15 +39,9 @@ export const StartHuddleCardContentStyle = StyleSheet.create({
         alignSelf: 'flex-start',
         fontWeight: 'bold'
     },
-    addButtonView: {
-        paddingVertical: 12,
-        paddingHorizontal: 30,
-        borderRadius: 20,
-        backgroundColor: COLORS.BUTTON_BLUE,
-        alignSelf: 'center'
-    },
-    addButtonText: {
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
+    image: {
+        height: 60,
+        width: 60,
+        borderRadius: 30
     }
 });

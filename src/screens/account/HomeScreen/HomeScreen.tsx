@@ -102,6 +102,7 @@ export const HomeScreen = (): JSX.Element => {
                                     huddle={huddleItem}
                                     onPressProfilePhoto={onPressProfilePhoto}
                                     onPressInteract={onPressInteract}
+                                    onEdited={loadHuddles}
                                 />
                             }
                             backdropOpacity={0.7}

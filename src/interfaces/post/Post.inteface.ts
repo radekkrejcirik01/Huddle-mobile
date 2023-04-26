@@ -17,13 +17,19 @@ export interface AddHuddlePostInterface {
     what: string;
     where: string;
     when: string;
-    people: Array<string>;
 }
 
 export interface HuddleInteractPostInterface {
     huddleId: number;
     sender: string;
     receiver: string;
+}
+
+export interface HuddleUpdatePutInterface {
+    id: number;
+    what: string;
+    where: string;
+    when: string;
 }
 
 export interface HuddleConfirmPostInterface {

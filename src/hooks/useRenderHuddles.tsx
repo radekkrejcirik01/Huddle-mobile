@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { RefreshControl } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Keyboard, RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
@@ -43,6 +43,28 @@ export const useRenderHuddles = (
     const [refreshing, setRefreshing] = useState(false);
     const [huddleOpened, setHuddleOpened] = useState(false);
     const [huddleItem, setHuddleItem] = useState<HuddleItemInterface>();
+
+    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            () => {
+                setKeyboardVisible(true);
+            }
+        );
+        const keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => {
+                setKeyboardVisible(false);
+            }
+        );
+
+        return () => {
+            keyboardDidHideListener.remove();
+            keyboardDidShowListener.remove();
+        };
+    }, []);
 
     const refresh = useCallback(() => {
         setRefreshing(true);
@@ -153,7 +175,13 @@ export const useRenderHuddles = (
         />
     );
 
-    const hideHuddle = () => setHuddleOpened(false);
+    const hideHuddle = useCallback(() => {
+        // When modal is closed while editing
+        if (isKeyboardVisible) {
+            Keyboard.dismiss();
+        }
+        setHuddleOpened(false);
+    }, [isKeyboardVisible]);
 
     return {
         renderItem,
