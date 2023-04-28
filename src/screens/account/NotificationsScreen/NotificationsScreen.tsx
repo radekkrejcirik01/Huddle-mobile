@@ -156,6 +156,7 @@ export const NotificationsScreen = (): JSX.Element => {
                         huddle={huddleItem}
                         onPressProfilePhoto={onPressProfilePhoto}
                         onPressInteract={onPressInteract}
+                        onEdited={loadNotifications}
                         onConfirm={loadNotifications}
                     />
                 }

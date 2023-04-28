@@ -5,6 +5,7 @@ export interface HuddleModalScreenProps {
     onPressProfilePhoto: (item: HuddleItemInterface) => void;
     onPressInteract: (item: HuddleItemInterface) => void;
     onEdited: () => void;
+    onConfirm?: () => void;
 }
 
 export const HuddleModalScreenDefaultProps: Omit<

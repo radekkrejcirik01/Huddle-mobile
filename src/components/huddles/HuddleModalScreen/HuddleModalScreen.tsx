@@ -14,7 +14,7 @@ import {
     HuddleModalScreenProps
 } from '@components/huddles/HuddleModalScreen/HuddleModalScreen.props';
 import { HuddleModalScreenStyle } from '@components/huddles/HuddleModalScreen/HuddleModalScreen.style';
-import { HuddlesListItem } from '@components/huddles/HuddlesListItem/HuddlesListItem';
+import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem';
 import {
     getRequestUser,
     postRequestUser,
@@ -28,6 +28,7 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { HuddleInteractionsListItem } from '@components/huddles/HuddleInteractionsListItem/HuddleInteractionsListItem';
 import {
     HuddleConfirmPostInterface,
+    HuddlePostAgainPutInterface,
     HuddleUpdatePutInterface
 } from '@interfaces/post/Post.inteface';
 import { HuddleEditableCard } from '@components/huddles/HuddleEditableCard/HuddleEditableCard';
@@ -36,7 +37,8 @@ export const HuddleModalScreen = ({
     huddle,
     onPressProfilePhoto,
     onPressInteract,
-    onEdited
+    onEdited,
+    onConfirm
 }: HuddleModalScreenProps): JSX.Element => {
     const { top } = useSafeAreaInsets();
 
@@ -45,6 +47,8 @@ export const HuddleModalScreen = ({
     >([]);
     const [confirmedUser, setConfirmedUser] =
         useState<HuddleInteractionInterface>();
+
+    const [postAgain, setPostAgain] = useState<boolean>(!!huddle?.canceled);
 
     const [editing, setEditing] = useState<boolean>(false);
 
@@ -110,10 +114,13 @@ export const HuddleModalScreen = ({
             ).subscribe((response: ResponseInterface) => {
                 if (response?.status) {
                     loadInteractions();
+                    if (onConfirm) {
+                        onConfirm();
+                    }
                 }
             });
         },
-        [huddle?.createdBy, huddle?.id, loadInteractions]
+        [huddle?.createdBy, huddle?.id, loadInteractions, onConfirm]
     );
 
     const renderItem = useCallback(
@@ -129,6 +136,19 @@ export const HuddleModalScreen = ({
         [confirm, confirmedUser]
     );
 
+    const postHuddleAgain = useCallback(() => {
+        putRequestUser<ResponseInterface, HuddlePostAgainPutInterface>(
+            'huddle/post',
+            {
+                id: huddle?.id
+            }
+        ).subscribe((response: ResponseInterface) => {
+            if (response?.status) {
+                setPostAgain(false);
+            }
+        });
+    }, [huddle?.id]);
+
     return (
         // SafeAreaView for modal doesn't render as expected
         <View style={[HuddleModalScreenStyle.container, { top }]}>
@@ -142,11 +162,11 @@ export const HuddleModalScreen = ({
                     </Text>
                 </TouchableOpacity>
                 {!editing ? (
-                    <HuddlesListItem
+                    <LargeHuddleListItem
                         item={huddle}
                         onPressProfilePhoto={onPressProfilePhoto}
                         onPressInteract={onPressInteract}
-                        style={HuddleModalScreenStyle.huddlesListItem}
+                        style={HuddleModalScreenStyle.huddleListItem}
                     />
                 ) : (
                     <HuddleEditableCard
@@ -162,7 +182,7 @@ export const HuddleModalScreen = ({
                         onWhenChange={(text) => {
                             editedWhen.current = text;
                         }}
-                        style={HuddleModalScreenStyle.huddlesListItem}
+                        style={HuddleModalScreenStyle.huddleListItem}
                     />
                 )}
             </View>
@@ -197,6 +217,16 @@ export const HuddleModalScreen = ({
                         showsVerticalScrollIndicator={false}
                     />
                 </>
+            )}
+            {postAgain && (
+                <TouchableOpacity
+                    onPress={postHuddleAgain}
+                    style={HuddleModalScreenStyle.postAgainView}
+                >
+                    <Text style={HuddleModalScreenStyle.postAgainText}>
+                        Post again
+                    </Text>
+                </TouchableOpacity>
             )}
         </View>
     );

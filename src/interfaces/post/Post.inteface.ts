@@ -32,6 +32,10 @@ export interface HuddleUpdatePutInterface {
     when: string;
 }
 
+export interface HuddlePostAgainPutInterface {
+    id: number;
+}
+
 export interface HuddleConfirmPostInterface {
     huddleId: number;
     sender: string;

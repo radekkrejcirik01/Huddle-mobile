@@ -8,14 +8,12 @@ export const HomeScreenStyle = StyleSheet.create({
     },
     content: {
         flex: 1,
-        paddingTop: 20
+        paddingTop: 25
     },
     flex: {
         flex: 1
     },
     title: {
-        marginBottom: 10,
-        fontSize: 14,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },

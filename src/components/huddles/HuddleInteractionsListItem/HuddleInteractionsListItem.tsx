@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
 import { Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { HuddleModalScreenStyle } from '@components/huddles/HuddleModalScreen/HuddleModalScreen.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { HuddleInteractionsListItemProps } from '@components/huddles/HuddleInteractionsListItem/HuddleInteractionsListItem.props';
+import { HuddleInteractionsListItemStyle } from '@components/huddles/HuddleInteractionsListItem/HuddleInteractionsListItem.style';
 
 export const HuddleInteractionsListItem = ({
     hasConfirmedUser,
@@ -18,13 +18,15 @@ export const HuddleInteractionsListItem = ({
     const openChat = useCallback((username: string) => {}, []);
 
     return (
-        <View style={HuddleModalScreenStyle.itemContainer}>
-            <TouchableOpacity style={HuddleModalScreenStyle.itemInfoContainer}>
+        <View style={HuddleInteractionsListItemStyle.container}>
+            <TouchableOpacity
+                style={HuddleInteractionsListItemStyle.infoContainer}
+            >
                 <FastImage
                     source={{ uri: item?.profilePhoto }}
-                    style={HuddleModalScreenStyle.itemPhoto}
+                    style={HuddleInteractionsListItemStyle.image}
                 />
-                <Text style={HuddleModalScreenStyle.itemName}>
+                <Text style={HuddleInteractionsListItemStyle.name}>
                     {item?.name}
                 </Text>
             </TouchableOpacity>
@@ -34,9 +36,9 @@ export const HuddleInteractionsListItem = ({
                         ? openChat(item.username)
                         : onConfirm(item.username)
                 }
-                style={HuddleModalScreenStyle.itemButtonView}
+                style={HuddleInteractionsListItemStyle.buttonView}
             >
-                <Text style={HuddleModalScreenStyle.itemButtonText}>
+                <Text style={HuddleInteractionsListItemStyle.buttonText}>
                     {buttonText}
                 </Text>
             </TouchableOpacity>

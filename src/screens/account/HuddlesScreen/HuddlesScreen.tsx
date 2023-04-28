@@ -6,13 +6,13 @@ import { HuddlesScreenStyle } from '@screens/account/HuddlesScreen/HuddlesScreen
 import { HuddlesTabHeader } from '@components/huddles/HuddlesTabHeader/HuddlesTabHeader';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { ReducerProps } from '@store/index/index.props';
-import { getRequestUser } from '@utils/Axios/Axios.service';
-import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { Modal } from '@components/general/Modal/Modal';
 import { HuddleModalScreen } from '@components/huddles/HuddleModalScreen/HuddleModalScreen';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { StartHuddleModalScreen } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen';
+import { getRequestUser } from '@utils/Axios/Axios.service';
+import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
 
 export const HuddlesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -21,17 +21,21 @@ export const HuddlesScreen = (): JSX.Element => {
     const [startHuddle, setStartHuddle] = useState<boolean>(false);
 
     const loadHuddles = useCallback(() => {
-        getRequestUser<ResponseHuddlesGetInterface>(
-            `huddles/${username}`
-        ).subscribe((response: ResponseHuddlesGetInterface) => {
-            if (response?.status) {
-                setHuddles(response?.data);
-            }
-        });
+        if (username) {
+            getRequestUser<ResponseHuddlesGetInterface>(
+                `huddles/${username}`
+            ).subscribe((response: ResponseHuddlesGetInterface) => {
+                if (response?.status) {
+                    setHuddles(response?.data);
+                }
+            });
+        }
     }, [username]);
 
+    useEffect(() => loadHuddles(), [loadHuddles]);
+
     const {
-        renderItem,
+        renderLargeItem,
         keyExtractor,
         refreshControl,
         huddleOpened,
@@ -39,9 +43,7 @@ export const HuddlesScreen = (): JSX.Element => {
         onPressProfilePhoto,
         onPressInteract,
         hideHuddle
-    } = useRenderHuddles(huddles, loadHuddles);
-
-    useEffect(() => loadHuddles(), [loadHuddles]);
+    } = useRenderHuddles([], loadHuddles);
 
     const hideStartHuddle = () => {
         Keyboard.dismiss();
@@ -54,7 +56,7 @@ export const HuddlesScreen = (): JSX.Element => {
             <FlashList
                 data={huddles}
                 extraData={huddles}
-                renderItem={renderItem}
+                renderItem={renderLargeItem}
                 keyExtractor={keyExtractor}
                 refreshControl={refreshControl}
                 estimatedItemSize={68}

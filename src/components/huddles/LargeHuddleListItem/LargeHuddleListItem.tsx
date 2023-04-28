@@ -5,19 +5,19 @@ import FastImage from 'react-native-fast-image';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import {
-    HuddlesListItemDefaultProps,
-    HuddlesListItemProps
-} from '@components/huddles/HuddlesListItem/HuddlesListItem.props';
-import { HuddlesListItemStyle } from '@components/huddles/HuddlesListItem/HuddlesListItem.style';
+    LargeHuddleListItemProps,
+    LargeHuddlesListItemDefaultProps
+} from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem.props';
+import { LargeHuddleListItemStyle } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem.style';
 import { ReducerProps } from '@store/index/index.props';
 
-export const HuddlesListItem = ({
+export const LargeHuddleListItem = ({
     item,
     onPressCard,
     onPressProfilePhoto,
     onPressInteract,
     style
-}: HuddlesListItemProps): JSX.Element => {
+}: LargeHuddleListItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const [interacted, setInteracted] = useState<boolean>();
@@ -73,27 +73,27 @@ export const HuddlesListItem = ({
             activeOpacity={1}
             disabled={!onPressCard}
             onPress={() => onPressCard(item)}
-            style={[HuddlesListItemStyle.container, style]}
+            style={[LargeHuddleListItemStyle.container, style]}
         >
-            <View style={HuddlesListItemStyle.leftContainer}>
+            <View style={LargeHuddleListItemStyle.leftContainer}>
                 <View>
-                    <Text style={HuddlesListItemStyle.whatText}>
+                    <Text style={LargeHuddleListItemStyle.whatText}>
                         {item?.what}
                     </Text>
-                    <Text style={HuddlesListItemStyle.whereText}>
+                    <Text style={LargeHuddleListItemStyle.whereText}>
                         {item?.where}
                     </Text>
-                    <Text style={HuddlesListItemStyle.whenText}>
+                    <Text style={LargeHuddleListItemStyle.whenText}>
                         {item?.when}
                     </Text>
                 </View>
-                <View style={HuddlesListItemStyle.nameView}>
-                    <Text style={HuddlesListItemStyle.nameText}>
+                <View style={LargeHuddleListItemStyle.nameView}>
+                    <Text style={LargeHuddleListItemStyle.nameText}>
                         {item?.name}
                     </Text>
                 </View>
             </View>
-            <View style={HuddlesListItemStyle.rightContainer}>
+            <View style={LargeHuddleListItemStyle.rightContainer}>
                 <TouchableOpacity
                     disabled={createdByUser}
                     activeOpacity={0.9}
@@ -101,15 +101,15 @@ export const HuddlesListItem = ({
                 >
                     <FastImage
                         source={{ uri: item?.profilePhoto }}
-                        style={HuddlesListItemStyle.image}
+                        style={LargeHuddleListItemStyle.image}
                     />
                 </TouchableOpacity>
                 {!createdByUser && (
                     <TouchableOpacity
                         onPress={interact}
-                        style={HuddlesListItemStyle.handView}
+                        style={LargeHuddleListItemStyle.handView}
                     >
-                        <Text style={HuddlesListItemStyle.handText}>
+                        <Text style={LargeHuddleListItemStyle.handText}>
                             {interactedText}
                         </Text>
                     </TouchableOpacity>
@@ -119,4 +119,4 @@ export const HuddlesListItem = ({
     );
 };
 
-HuddlesListItem.defaultProps = HuddlesListItemDefaultProps;
+LargeHuddleListItem.defaultProps = LargeHuddlesListItemDefaultProps;

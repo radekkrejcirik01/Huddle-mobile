@@ -1,7 +1,7 @@
 import { StyleProp, ViewStyle } from 'react-native';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 
-export interface HuddlesListItemProps {
+export interface LargeHuddleListItemProps {
     item: HuddleItemInterface;
     onPressCard?: (item: HuddleItemInterface) => void;
     onPressProfilePhoto: (item: HuddleItemInterface) => void;
@@ -9,8 +9,8 @@ export interface HuddlesListItemProps {
     style?: StyleProp<ViewStyle>;
 }
 
-export const HuddlesListItemDefaultProps: Omit<
-    HuddlesListItemProps,
+export const LargeHuddlesListItemDefaultProps: Omit<
+    LargeHuddleListItemProps,
     'item' | 'onPressProfilePhoto' | 'onPressInteract'
 > = {
     onPressCard: null,

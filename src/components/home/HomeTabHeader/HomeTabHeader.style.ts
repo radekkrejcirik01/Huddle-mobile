@@ -3,37 +3,32 @@ import COLORS from '@constants/COLORS';
 
 export const HomeTabHeaderStyle = StyleSheet.create({
     container: {
-        paddingRight: 7,
-        flexDirection: 'row'
+        paddingTop: 5,
+        paddingHorizontal: 15,
+        alignItems: 'center'
     },
-    image: {
-        width: 60,
-        height: 60,
-        borderRadius: 25,
-        backgroundColor: COLORS.GRAY_100
-    },
-    buttonsContainer: {
-        flex: 1,
+    topView: {
+        width: '100%',
         flexDirection: 'row',
-        alignItems: 'center',
         justifyContent: 'space-between'
     },
-    numbersContainer: {
-        marginLeft: 15,
-        flexDirection: 'row'
+    flex: {
+        flex: 1
     },
-    number: {
-        fontSize: 14,
-        color: COLORS.LIGHTGRAY,
-        fontWeight: '600',
-        alignSelf: 'center'
-    },
-    title: {
-        fontSize: 14,
+    usernameText: {
         color: COLORS.WHITE,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontStyle: 'italic'
     },
-    huddlesContainer: {
-        marginLeft: 10
+    bellIconContainer: {
+        flex: 1,
+        alignItems: 'flex-end'
+    },
+    image: {
+        width: 90,
+        height: 90,
+        marginTop: 10,
+        borderRadius: 40,
+        backgroundColor: COLORS.GRAY_100
     }
 });

@@ -19,7 +19,7 @@ export const HuddleModalScreenStyle = StyleSheet.create({
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
-    huddlesListItem: {
+    huddleListItem: {
         marginBottom: 5
     },
     interactionsText: {
@@ -28,38 +28,22 @@ export const HuddleModalScreenStyle = StyleSheet.create({
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
-    itemContainer: {
-        marginBottom: 15,
-        paddingHorizontal: 20,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    itemInfoContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    itemPhoto: {
-        height: 45,
-        width: 45,
-        borderRadius: 20
-    },
-    itemName: {
-        paddingLeft: 10,
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
-    },
-    itemButtonView: {
-        paddingVertical: 8,
-        paddingHorizontal: 10,
-        borderRadius: 20,
-        backgroundColor: COLORS.BUTTON_BLUE
-    },
-    itemButtonText: {
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
-    },
     listContentContainer: {
         padding: 10
+    },
+    postAgainView: {
+        paddingVertical: 15,
+        paddingHorizontal: 35,
+        borderRadius: 25,
+        backgroundColor: COLORS.BUTTON_BLUE,
+        position: 'absolute',
+        bottom: '15%',
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    postAgainText: {
+        color: COLORS.WHITE,
+        fontWeight: 'bold'
     }
 });

@@ -14,7 +14,8 @@ import {
     ResponseInterface
 } from '@interfaces/response/Response.interface';
 import { HuddleInteractPostInterface } from '@interfaces/post/Post.inteface';
-import { HuddlesListItem } from '@components/huddles/HuddlesListItem/HuddlesListItem';
+import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem';
+import { SmallHuddleListItem } from '@components/huddles/SmallHuddleListItem/SmallHuddleListItem';
 import { ReducerProps } from '@store/index/index.props';
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
@@ -24,7 +25,10 @@ export const useRenderHuddles = (
     data: Array<HuddleItemInterface>,
     onRefresh: () => void
 ): {
-    renderItem: ({
+    renderLargeItem: ({
+        item
+    }: ListRenderItemInfo<HuddleItemInterface>) => JSX.Element;
+    renderSmallItem: ({
         item
     }: ListRenderItemInfo<HuddleItemInterface>) => JSX.Element;
     keyExtractor: (item: HuddleItemInterface, index: number) => string;
@@ -144,18 +148,18 @@ export const useRenderHuddles = (
 
     const onPressInteract = useCallback(
         (item: HuddleItemInterface) => {
-            if (item.interacted) {
-                removeInteraction(item.id);
-            } else {
+            if (!item?.interacted) {
                 interact(item.id, item.createdBy);
+            } else {
+                removeInteraction(item.id);
             }
         },
         [interact, removeInteraction]
     );
 
-    const renderItem = useCallback(
+    const renderLargeItem = useCallback(
         ({ item }: ListRenderItemInfo<HuddleItemInterface>): JSX.Element => (
-            <HuddlesListItem
+            <LargeHuddleListItem
                 item={item}
                 onPressCard={openHuddle}
                 onPressProfilePhoto={onPressProfilePhoto}
@@ -163,6 +167,13 @@ export const useRenderHuddles = (
             />
         ),
         [onPressInteract, onPressProfilePhoto, openHuddle]
+    );
+
+    const renderSmallItem = useCallback(
+        ({ item }: ListRenderItemInfo<HuddleItemInterface>): JSX.Element => (
+            <SmallHuddleListItem item={item} onPressCard={openHuddle} />
+        ),
+        [openHuddle]
     );
     const keyExtractor = (item: HuddleItemInterface): string =>
         item?.id?.toString();
@@ -184,7 +195,8 @@ export const useRenderHuddles = (
     }, [isKeyboardVisible]);
 
     return {
-        renderItem,
+        renderLargeItem,
+        renderSmallItem,
         keyExtractor,
         refreshControl,
         huddleOpened,
