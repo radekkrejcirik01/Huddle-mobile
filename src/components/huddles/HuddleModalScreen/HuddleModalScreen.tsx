@@ -5,7 +5,7 @@ import React, {
     useRef,
     useState
 } from 'react';
-import { Text, View } from 'react-native';
+import { Alert, StyleProp, Text, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import {
@@ -16,6 +16,7 @@ import {
 import { HuddleModalScreenStyle } from '@components/huddles/HuddleModalScreen/HuddleModalScreen.style';
 import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem';
 import {
+    deleteRequestUser,
     getRequestUser,
     postRequestUser,
     putRequestUser
@@ -75,16 +76,26 @@ export const HuddleModalScreen = ({
 
     useEffect(() => loadInteractions(), [loadInteractions]);
 
+    const buttonsViewStyle = useMemo(
+        (): StyleProp<ViewStyle> => [
+            HuddleModalScreenStyle.buttonsView,
+            editing
+                ? HuddleModalScreenStyle.contentSpace
+                : HuddleModalScreenStyle.contentEnd
+        ],
+        [editing]
+    );
+
     const editButtonText = useMemo(
         (): string => (editing ? 'Save' : 'Edit'),
         [editing]
     );
 
-    const edit = useCallback(() => {
+    const editHuddle = useCallback(() => {
         setEditing(true);
     }, []);
 
-    const save = useCallback(() => {
+    const saveHuddle = useCallback(() => {
         huddle.what = editedWhat?.current;
         huddle.where = editedWhere?.current;
         huddle.when = editedWhen?.current;
@@ -101,6 +112,26 @@ export const HuddleModalScreen = ({
             }
         });
     }, [huddle, onEdited]);
+
+    const deleteHuddle = useCallback(() => {
+        deleteRequestUser<ResponseInterface>(
+            `huddle/${huddle?.id}`
+        ).subscribe();
+    }, [huddle?.id]);
+
+    const deleteHuddleMessage = useCallback(() => {
+        Alert.alert('Delete Huddle', '', [
+            {
+                text: 'Cancel',
+                style: 'cancel'
+            },
+            {
+                text: 'Confirm',
+                onPress: deleteHuddle,
+                style: 'destructive'
+            }
+        ]);
+    }, [deleteHuddle]);
 
     const confirm = useCallback(
         (user: string) => {
@@ -153,14 +184,22 @@ export const HuddleModalScreen = ({
         // SafeAreaView for modal doesn't render as expected
         <View style={[HuddleModalScreenStyle.container, { top }]}>
             <View style={HuddleModalScreenStyle.margin20}>
-                <TouchableOpacity
-                    onPress={editing ? save : edit}
-                    style={HuddleModalScreenStyle.editView}
-                >
-                    <Text style={HuddleModalScreenStyle.editText}>
-                        {editButtonText}
-                    </Text>
-                </TouchableOpacity>
+                <View style={buttonsViewStyle}>
+                    {editing && (
+                        <TouchableOpacity onPress={deleteHuddleMessage}>
+                            <Text style={HuddleModalScreenStyle.buttonText}>
+                                Delete
+                            </Text>
+                        </TouchableOpacity>
+                    )}
+                    <TouchableOpacity
+                        onPress={editing ? saveHuddle : editHuddle}
+                    >
+                        <Text style={HuddleModalScreenStyle.buttonText}>
+                            {editButtonText}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
                 {!editing ? (
                     <LargeHuddleListItem
                         item={huddle}

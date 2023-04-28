@@ -11,11 +11,17 @@ export const HuddleModalScreenStyle = StyleSheet.create({
     margin20: {
         margin: 20
     },
-    editView: {
+    buttonsView: {
         marginBottom: 15,
-        alignSelf: 'flex-end'
+        flexDirection: 'row'
     },
-    editText: {
+    contentSpace: {
+        justifyContent: 'space-between'
+    },
+    contentEnd: {
+        justifyContent: 'flex-end'
+    },
+    buttonText: {
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
