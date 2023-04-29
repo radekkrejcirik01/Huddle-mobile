@@ -9,7 +9,7 @@ export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
     tabBarStyle: BottomTabNavigatorStyle.tabBar
 };
 
-export const HomeTabOptions: BottomTabNavigationOptions = {
+export const ProfileTabOptions: BottomTabNavigationOptions = {
     tabBarLabel: ({ focused }) => (
         <Text
             style={[
@@ -18,12 +18,12 @@ export const HomeTabOptions: BottomTabNavigationOptions = {
                 { opacity: focused ? 1 : 0.7 }
             ]}
         >
-            Home
+            Profile
         </Text>
     ),
     tabBarIcon: ({ focused }) => (
         // eslint-disable-next-line react-native/no-inline-styles
-        <Text style={{ fontSize: focused ? 25 : 20 }}>🏠‍️</Text>
+        <Text style={{ fontSize: focused ? 25 : 20 }}>🙍‍♂️</Text>
     )
 };
 

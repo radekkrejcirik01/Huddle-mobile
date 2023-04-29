@@ -1,104 +1,110 @@
-import React, { useCallback } from 'react';
-import { Alert, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import ImagePicker from 'react-native-image-crop-picker';
-import fs from 'react-native-fs';
-import FastImage from 'react-native-fast-image';
-import { ListItem } from '@components/general/ListItem/ListItem';
+import { useFocusEffect } from '@react-navigation/native';
+import { FlashList } from '@shopify/flash-list';
 import { ProfileScreenStyle } from '@screens/account/ProfileScreen/ProfileScreen.style';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { resetUserState, setProfilePhotoAction } from '@store/UserReducer';
-import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
-import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import { ReducerProps } from '@store/index/index.props';
-import { useNavigation } from '@hooks/useNavigation';
-import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { postRequest } from '@utils/Axios/Axios.service';
+import { useMessaging } from '@hooks/useMessaging';
+import { getRequestUser } from '@utils/Axios/Axios.service';
 import {
-    ResponseInterface,
-    ResponseUploadImageInterface
+    ResponseHuddlesGetInterface,
+    ResponseUserGetInterface
 } from '@interfaces/response/Response.interface';
-import {
-    DeviceInterface,
-    UploadProfileImageInterface
-} from '@interfaces/post/Post.inteface';
+import { useNotifications } from '@hooks/useNotifications';
+import { HomeTabHeader } from '@components/home/HomeTabHeader/HomeTabHeader';
+import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
+import { useRenderHuddles } from '@hooks/useRenderHuddles';
+import { HuddleModalScreen } from '@components/huddles/HuddleModalScreen/HuddleModalScreen';
+import { Modal } from '@components/general/Modal/Modal';
+import { setUserStateAction } from '@store/UserReducer';
 
 export const ProfileScreen = (): JSX.Element => {
-    const { firstname, username, profilePhoto } = useSelector(
-        (state: ReducerProps) => state.user.user
-    );
-    const { token } = useSelector((state: ReducerProps) => state.device);
+    const { user } = useSelector((state: ReducerProps) => state.user);
     const dispatch = useDispatch();
 
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
+    useMessaging();
 
-    const changeProfilePhoto = useCallback(() => {
-        ImagePicker.openPicker({
-            width: 500,
-            height: 500,
-            cropping: true,
-            waitAnimationEnd: false
-        }).then(async (image) => {
-            const base64 = await fs.readFile(image?.path, 'base64');
-            dispatch(setProfilePhotoAction(image?.path));
+    const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
 
-            postRequest<
-                ResponseUploadImageInterface,
-                UploadProfileImageInterface
-            >(
-                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/photo',
-                {
-                    username,
-                    buffer: base64,
-                    fileName: image.filename
-                }
-            ).subscribe((response: ResponseUploadImageInterface) => {
-                if (!response?.status) {
-                    Alert.alert("Sorry, we couldn't upload this image 😔");
+    const refreshUser = useCallback(() => {
+        getRequestUser<ResponseUserGetInterface>(
+            `user/${user?.username}`
+        ).subscribe((response: ResponseUserGetInterface) => {
+            if (response?.status) {
+                dispatch(setUserStateAction(response?.data));
+            }
+        });
+    }, [dispatch, user?.username]);
+
+    const loadHuddles = useCallback(() => {
+        if (user?.username) {
+            getRequestUser<ResponseHuddlesGetInterface>(
+                `huddles/user/${user?.username}`
+            ).subscribe((response: ResponseHuddlesGetInterface) => {
+                if (response?.status) {
+                    setHuddles(response?.data);
                 }
             });
-        });
-    }, [dispatch, username]);
+        }
+    }, [user?.username]);
 
-    const openAccountScreen = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.AccountScreen);
-    }, [navigateTo]);
+    useEffect(() => loadHuddles(), [loadHuddles]);
 
-    const logout = useCallback(() => {
-        dispatch(resetUserState());
-        PersistStorage.setItem(PersistStorageKeys.TOKEN, '').catch();
+    useFocusEffect(refreshUser);
 
-        postRequest<ResponseInterface, DeviceInterface>(
-            'https://2df57yatfl.execute-api.eu-central-1.amazonaws.com/pushnotifications/device/delete',
-            {
-                username,
-                deviceToken: token
-            }
-        ).subscribe();
-    }, [dispatch, username, token]);
+    const {
+        renderSmallItem,
+        keyExtractor,
+        refreshControl,
+        huddleOpened,
+        huddleItem,
+        onPressProfilePhoto,
+        onPressInteract,
+        hideHuddle
+    } = useRenderHuddles(huddles, loadHuddles);
+
+    useNotifications(refreshUser, loadHuddles);
 
     return (
         <View style={ProfileScreenStyle.container}>
-            <View style={ProfileScreenStyle.infoContainer}>
-                <TouchableOpacity onPress={changeProfilePhoto}>
-                    <FastImage
-                        source={{
-                            uri: profilePhoto
-                        }}
-                        style={ProfileScreenStyle.image}
-                    />
-                </TouchableOpacity>
-                <Text style={ProfileScreenStyle.firstname}>{firstname}</Text>
-                <Text style={ProfileScreenStyle.username}>@{username}</Text>
-            </View>
-            <View style={ProfileScreenStyle.buttons}>
-                <ListItem
-                    title="Account"
-                    hasArrow
-                    onPress={openAccountScreen}
-                />
-                <ListItem title="Log Out" onPress={logout} />
+            <HomeTabHeader />
+            <View style={ProfileScreenStyle.content}>
+                <Text style={ProfileScreenStyle.title}>Your Huddles</Text>
+                {huddles?.length ? (
+                    <>
+                        <FlashList
+                            data={huddles}
+                            extraData={huddles}
+                            renderItem={renderSmallItem}
+                            numColumns={3}
+                            keyExtractor={keyExtractor}
+                            refreshControl={refreshControl}
+                            estimatedItemSize={68}
+                            showsVerticalScrollIndicator={false}
+                            contentContainerStyle={
+                                ProfileScreenStyle.contentContainer
+                            }
+                        />
+                        <Modal
+                            isVisible={huddleOpened}
+                            content={
+                                <HuddleModalScreen
+                                    huddle={huddleItem}
+                                    onPressProfilePhoto={onPressProfilePhoto}
+                                    onPressInteract={onPressInteract}
+                                    onEdited={loadHuddles}
+                                />
+                            }
+                            backdropOpacity={0.7}
+                            onClose={hideHuddle}
+                        />
+                    </>
+                ) : (
+                    <Text style={ProfileScreenStyle.description}>
+                        your confirmed Huddles{'\n'}will appear here 👋
+                    </Text>
+                )}
             </View>
         </View>
     );

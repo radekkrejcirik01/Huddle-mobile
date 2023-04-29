@@ -4,7 +4,7 @@ import COLORS from '@constants/COLORS';
 
 export const SmallHuddleListItemStyle = StyleSheet.create({
     container: {
-        // HomeScreen's padding horizontal is 5
+        // ProfileScreen's padding horizontal is 5
         width: DIMENSIONS.width / 3 - 10,
         height: DIMENSIONS.width / 3 - 10,
         margin: 2.5,

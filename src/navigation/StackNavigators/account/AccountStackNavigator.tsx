@@ -6,7 +6,7 @@ import {
     NoTitle
 } from '@navigation/StackNavigators/StackNavigator.options';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { ProfileScreen } from '@screens/account/ProfileScreen/ProfileScreen';
+import { ProfileDetailsScreen } from '@screens/account/ProfileDetailsScreen/ProfileDetailsScreen';
 import { NotificationsScreen } from '@screens/account/NotificationsScreen/NotificationsScreen';
 import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
 import { PersonProfileScreen } from '@screens/account/PersonProfileScreen/PersonProfileScreen';
@@ -82,7 +82,7 @@ export const AccountStackNavigator = (): JSX.Element => (
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.ProfileScreen}
-            component={ProfileScreen}
+            component={ProfileDetailsScreen}
             options={{ ...NavigationScreenHeader, ...ProfileTitle }}
         />
         <Account.Screen
