@@ -8,7 +8,29 @@ export const ProfileScreenStyle = StyleSheet.create({
     },
     content: {
         flex: 1,
-        paddingTop: 25
+        paddingTop: 22
+    },
+    contentHeaderView: {
+        paddingLeft: 16,
+        paddingRight: 12,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    addButtonView: {
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+        borderRadius: 12,
+        backgroundColor: COLORS.MAIN_ORANGE,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    plusIcon: {
+        marginLeft: 4
+    },
+    addButtonText: {
+        color: COLORS.WHITE,
+        fontWeight: '500'
     },
     flex: {
         flex: 1

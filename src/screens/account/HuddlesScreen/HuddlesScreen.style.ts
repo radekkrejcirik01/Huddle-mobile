@@ -5,6 +5,14 @@ export const HuddlesScreenStyle = StyleSheet.create({
     container: {
         flex: 1
     },
+    description: {
+        marginTop: 100,
+        fontSize: 20,
+        color: COLORS.WHITE,
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
     listContentContainer: {
         paddingTop: 10,
         paddingHorizontal: 15

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
@@ -12,12 +12,15 @@ import {
     ResponseUserGetInterface
 } from '@interfaces/response/Response.interface';
 import { useNotifications } from '@hooks/useNotifications';
-import { HomeTabHeader } from '@components/home/HomeTabHeader/HomeTabHeader';
+import { ProfileTabHeader } from '@components/profile/ProfileTabHeader/ProfileTabHeader';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { HuddleModalScreen } from '@components/huddles/HuddleModalScreen/HuddleModalScreen';
 import { Modal } from '@components/general/Modal/Modal';
 import { setUserStateAction } from '@store/UserReducer';
+import { Icon } from '@components/general/Icon/Icon';
+import { IconEnum } from '@components/general/Icon/Icon.enum';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const ProfileScreen = (): JSX.Element => {
     const { user } = useSelector((state: ReducerProps) => state.user);
@@ -49,9 +52,12 @@ export const ProfileScreen = (): JSX.Element => {
         }
     }, [user?.username]);
 
-    useEffect(() => loadHuddles(), [loadHuddles]);
-
-    useFocusEffect(refreshUser);
+    useFocusEffect(
+        useCallback(() => {
+            loadHuddles();
+            refreshUser();
+        }, [loadHuddles, refreshUser])
+    );
 
     const {
         renderSmallItem,
@@ -68,43 +74,50 @@ export const ProfileScreen = (): JSX.Element => {
 
     return (
         <View style={ProfileScreenStyle.container}>
-            <HomeTabHeader />
+            <ProfileTabHeader />
             <View style={ProfileScreenStyle.content}>
-                <Text style={ProfileScreenStyle.title}>Your Huddles</Text>
-                {huddles?.length ? (
-                    <>
-                        <FlashList
-                            data={huddles}
-                            extraData={huddles}
-                            renderItem={renderSmallItem}
-                            numColumns={3}
-                            keyExtractor={keyExtractor}
-                            refreshControl={refreshControl}
-                            estimatedItemSize={68}
-                            showsVerticalScrollIndicator={false}
-                            contentContainerStyle={
-                                ProfileScreenStyle.contentContainer
-                            }
+                <View style={ProfileScreenStyle.contentHeaderView}>
+                    <Text style={ProfileScreenStyle.title}>Your Huddles</Text>
+                    <TouchableOpacity style={ProfileScreenStyle.addButtonView}>
+                        <Text style={ProfileScreenStyle.addButtonText}>
+                            Add new
+                        </Text>
+                        <Icon
+                            name={IconEnum.PLUS}
+                            size={12}
+                            style={ProfileScreenStyle.plusIcon}
                         />
-                        <Modal
-                            isVisible={huddleOpened}
-                            content={
-                                <HuddleModalScreen
-                                    huddle={huddleItem}
-                                    onPressProfilePhoto={onPressProfilePhoto}
-                                    onPressInteract={onPressInteract}
-                                    onEdited={loadHuddles}
-                                />
-                            }
-                            backdropOpacity={0.7}
-                            onClose={hideHuddle}
+                    </TouchableOpacity>
+                </View>
+                <FlashList
+                    data={huddles}
+                    extraData={huddles}
+                    renderItem={renderSmallItem}
+                    numColumns={3}
+                    keyExtractor={keyExtractor}
+                    refreshControl={refreshControl}
+                    estimatedItemSize={68}
+                    showsVerticalScrollIndicator={false}
+                    ListEmptyComponent={
+                        <Text style={ProfileScreenStyle.description}>
+                            your confirmed Huddles{'\n'}will appear here 👋
+                        </Text>
+                    }
+                    contentContainerStyle={ProfileScreenStyle.contentContainer}
+                />
+                <Modal
+                    isVisible={huddleOpened}
+                    content={
+                        <HuddleModalScreen
+                            huddle={huddleItem}
+                            onPressProfilePhoto={onPressProfilePhoto}
+                            onPressInteract={onPressInteract}
+                            onEdited={loadHuddles}
                         />
-                    </>
-                ) : (
-                    <Text style={ProfileScreenStyle.description}>
-                        your confirmed Huddles{'\n'}will appear here 👋
-                    </Text>
-                )}
+                    }
+                    backdropOpacity={0.7}
+                    onClose={hideHuddle}
+                />
             </View>
         </View>
     );

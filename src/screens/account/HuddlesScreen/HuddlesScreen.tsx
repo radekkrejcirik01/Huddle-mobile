@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Keyboard, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { HuddlesScreenStyle } from '@screens/account/HuddlesScreen/HuddlesScreen.style';
 import { HuddlesTabHeader } from '@components/huddles/HuddlesTabHeader/HuddlesTabHeader';
@@ -32,7 +33,11 @@ export const HuddlesScreen = (): JSX.Element => {
         }
     }, [username]);
 
-    useEffect(() => loadHuddles(), [loadHuddles]);
+    useFocusEffect(
+        useCallback(() => {
+            loadHuddles();
+        }, [loadHuddles])
+    );
 
     const {
         renderLargeItem,
@@ -52,7 +57,7 @@ export const HuddlesScreen = (): JSX.Element => {
 
     return (
         <View style={HuddlesScreenStyle.container}>
-            <HuddlesTabHeader onPressPlus={() => setStartHuddle(true)} />
+            <HuddlesTabHeader />
             <FlashList
                 data={huddles}
                 extraData={huddles}
@@ -61,6 +66,11 @@ export const HuddlesScreen = (): JSX.Element => {
                 refreshControl={refreshControl}
                 estimatedItemSize={68}
                 showsVerticalScrollIndicator={false}
+                ListEmptyComponent={
+                    <Text style={HuddlesScreenStyle.description}>
+                        active Huddles will appear{'\n'}here 👋
+                    </Text>
+                }
                 contentContainerStyle={HuddlesScreenStyle.listContentContainer}
             />
             <Modal

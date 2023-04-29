@@ -3,7 +3,6 @@ import COLORS from '@constants/COLORS';
 
 export const HuddlesTabHeaderStyle = StyleSheet.create({
     header: {
-        height: 50, // height of image in HomeTabHeader
         paddingLeft: 10,
         flexDirection: 'row',
         alignItems: 'center',
@@ -14,7 +13,25 @@ export const HuddlesTabHeaderStyle = StyleSheet.create({
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
+    row: {
+        flexDirection: 'row'
+    },
     iconButton: {
-        marginHorizontal: 12
+        marginRight: 20
+    },
+    peopleView: {
+        marginRight: 20,
+        alignItems: 'center'
+    },
+    peopleText: {
+        fontSize: 12,
+        color: COLORS.WHITE,
+        fontWeight: 'bold'
+    },
+    peopleNumber: {
+        fontSize: 12,
+        opacity: 0.9,
+        color: COLORS.WHITE,
+        fontWeight: 'bold'
     }
 });

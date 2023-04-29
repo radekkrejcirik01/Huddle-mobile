@@ -3,7 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const ChatsTabHeaderStyle = StyleSheet.create({
     header: {
-        height: 50, // height of image in HomeTabHeader
+        height: 50, // height of image in ProfileTabHeader
         paddingLeft: 10,
         flexDirection: 'row',
         alignItems: 'center',
