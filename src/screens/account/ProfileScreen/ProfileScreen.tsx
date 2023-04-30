@@ -1,42 +1,29 @@
 import React, { useCallback, useState } from 'react';
-import { Text, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { Keyboard, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { ProfileScreenStyle } from '@screens/account/ProfileScreen/ProfileScreen.style';
 import { ReducerProps } from '@store/index/index.props';
 import { useMessaging } from '@hooks/useMessaging';
 import { getRequestUser } from '@utils/Axios/Axios.service';
-import {
-    ResponseHuddlesGetInterface,
-    ResponseUserGetInterface
-} from '@interfaces/response/Response.interface';
-import { useNotifications } from '@hooks/useNotifications';
+import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
 import { ProfileTabHeader } from '@components/profile/ProfileTabHeader/ProfileTabHeader';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
-import { setUserStateAction } from '@store/UserReducer';
 import { Icon } from '@components/general/Icon/Icon';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { StartHuddleModalScreen } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen';
+import { Modal } from '@components/general/Modal/Modal';
 
 export const ProfileScreen = (): JSX.Element => {
     const { user } = useSelector((state: ReducerProps) => state.user);
-    const dispatch = useDispatch();
 
     useMessaging();
 
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
-
-    const refreshUser = useCallback(() => {
-        getRequestUser<ResponseUserGetInterface>(
-            `user/${user?.username}`
-        ).subscribe((response: ResponseUserGetInterface) => {
-            if (response?.status) {
-                dispatch(setUserStateAction(response?.data));
-            }
-        });
-    }, [dispatch, user?.username]);
+    const [startHuddle, setStartHuddle] = useState<boolean>(false);
 
     const loadHuddles = useCallback(() => {
         if (user?.username) {
@@ -50,17 +37,15 @@ export const ProfileScreen = (): JSX.Element => {
         }
     }, [user?.username]);
 
-    useFocusEffect(
-        useCallback(() => {
-            loadHuddles();
-            refreshUser();
-        }, [loadHuddles, refreshUser])
-    );
+    useFocusEffect(useCallback(() => loadHuddles(), [loadHuddles]));
 
     const { renderSmallItem, keyExtractor, refreshControl } =
         useRenderHuddles(loadHuddles);
 
-    useNotifications(refreshUser, loadHuddles);
+    const hideStartHuddle = () => {
+        Keyboard.dismiss();
+        setStartHuddle(false);
+    };
 
     return (
         <View style={ProfileScreenStyle.container}>
@@ -68,7 +53,10 @@ export const ProfileScreen = (): JSX.Element => {
             <View style={ProfileScreenStyle.content}>
                 <View style={ProfileScreenStyle.contentHeaderView}>
                     <Text style={ProfileScreenStyle.title}>Your Huddles</Text>
-                    <TouchableOpacity style={ProfileScreenStyle.addButtonView}>
+                    <TouchableOpacity
+                        onPress={() => setStartHuddle(true)}
+                        style={ProfileScreenStyle.addButtonView}
+                    >
                         <Text style={ProfileScreenStyle.addButtonText}>
                             Add new
                         </Text>
@@ -96,6 +84,12 @@ export const ProfileScreen = (): JSX.Element => {
                     contentContainerStyle={ProfileScreenStyle.contentContainer}
                 />
             </View>
+            <Modal
+                isVisible={startHuddle}
+                content={<StartHuddleModalScreen onClose={hideStartHuddle} />}
+                backdropOpacity={0.7}
+                onClose={hideStartHuddle}
+            />
         </View>
     );
 };

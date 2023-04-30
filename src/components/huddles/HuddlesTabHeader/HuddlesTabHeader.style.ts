@@ -25,12 +25,12 @@ export const HuddlesTabHeaderStyle = StyleSheet.create({
         alignItems: 'center'
     },
     peopleText: {
-        fontSize: 12,
+        fontSize: 12.5,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
     peopleNumber: {
-        fontSize: 12,
+        fontSize: 12.5,
         opacity: 0.9,
         color: COLORS.WHITE,
         fontWeight: 'bold'

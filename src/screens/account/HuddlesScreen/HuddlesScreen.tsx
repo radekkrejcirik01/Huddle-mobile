@@ -13,6 +13,7 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { StartHuddleModalScreen } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
+import { useNotifications } from '@hooks/useNotifications';
 
 export const HuddlesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -32,11 +33,9 @@ export const HuddlesScreen = (): JSX.Element => {
         }
     }, [username]);
 
-    useFocusEffect(
-        useCallback(() => {
-            loadHuddles();
-        }, [loadHuddles])
-    );
+    useFocusEffect(useCallback(() => loadHuddles(), [loadHuddles]));
+
+    useNotifications(() => {}, loadHuddles);
 
     const { renderLargeItem, keyExtractor, refreshControl } =
         useRenderHuddles(loadHuddles);
