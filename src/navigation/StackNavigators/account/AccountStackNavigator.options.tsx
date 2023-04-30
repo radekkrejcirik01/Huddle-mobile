@@ -15,10 +15,6 @@ export const ConversationDetailsOptions: StackNavigationOptions = {
     title: 'Details'
 };
 
-export const HuddlesHistoryTitle: StackNavigationOptions = {
-    headerTitle: 'Huddles history'
-};
-
 export const NotificationsTitle: StackNavigationOptions = {
     headerTitle: 'Notifications'
 };

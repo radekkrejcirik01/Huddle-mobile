@@ -12,18 +12,17 @@ import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
 import { PersonProfileScreen } from '@screens/account/PersonProfileScreen/PersonProfileScreen';
 import { ConversationScreen } from '@screens/account/ConversationScreen/ConversationScreen';
 import { ConversationDetailsScreen } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen';
+import { HuddleScreen } from '@screens/account/HuddleScreen/HuddleScreen';
 import { PictureScreen } from '@screens/account/PictureScreen/PictureScreen';
 import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
 import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/DeleteAccountScreen';
-import { HuddlesHistoryScreen } from '@screens/account/HuddlesHistoryScreen/HuddlesHistoryScreen';
 import {
     AccountTitle,
     ChangePasswordTitle,
     ConversationDetailsOptions,
     DeleteAccountTitle,
     FriendsOptions,
-    HuddlesHistoryTitle,
     NotificationsTitle,
     ProfileTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
@@ -56,9 +55,9 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...DeleteAccountTitle }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.HuddlesHistoryScreen}
-            component={HuddlesHistoryScreen}
-            options={{ ...NavigationScreenHeader, ...HuddlesHistoryTitle }}
+            name={AccountStackNavigatorEnum.HuddleScreen}
+            component={HuddleScreen}
+            options={{ ...NavigationScreenHeader, ...NoTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.PersonProfileScreen}

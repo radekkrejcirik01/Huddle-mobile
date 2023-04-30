@@ -1,7 +1,14 @@
-import { HuddleInteractionInterface } from '@components/huddles/HuddleModalScreen/HuddleModalScreen.props';
+import { HuddleInteractionInterface } from '@screens/account/HuddleScreen/HuddleScreen.props';
 
 export interface HuddleInteractionsListItemProps {
-    hasConfirmedUser: boolean;
     item: HuddleInteractionInterface;
-    onConfirm: (username: string) => void;
+    isConfirmed: boolean;
+    onConfirm?: (username: string) => void;
 }
+
+export const HuddleInteractionsListItemDefaultProps: Omit<
+    HuddleInteractionsListItemProps,
+    'item' | 'isConfirmed'
+> = {
+    onConfirm: null
+};

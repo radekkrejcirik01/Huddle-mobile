@@ -1,18 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Keyboard, RefreshControl } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import {
-    deleteRequestUser,
-    getRequestUser,
-    postRequestUser
-} from '@utils/Axios/Axios.service';
-import {
-    ResponseHuddleGetInterface,
-    ResponseInterface
-} from '@interfaces/response/Response.interface';
+import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
+import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { HuddleInteractPostInterface } from '@interfaces/post/Post.inteface';
 import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem';
 import { SmallHuddleListItem } from '@components/huddles/SmallHuddleListItem/SmallHuddleListItem';
@@ -22,8 +15,7 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
 
 export const useRenderHuddles = (
-    data: Array<HuddleItemInterface>,
-    onRefresh: () => void
+    onRefresh?: () => void
 ): {
     renderLargeItem: ({
         item
@@ -33,42 +25,14 @@ export const useRenderHuddles = (
     }: ListRenderItemInfo<HuddleItemInterface>) => JSX.Element;
     keyExtractor: (item: HuddleItemInterface, index: number) => string;
     refreshControl: JSX.Element;
-    huddleOpened: boolean;
-    huddleItem: HuddleItemInterface;
     openHuddleFromNotification: (item: NotificationsListProps) => void;
-    onPressProfilePhoto: (item: HuddleItemInterface) => void;
     onPressInteract: (item: HuddleItemInterface) => void;
-    hideHuddle: () => void;
 } => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const [refreshing, setRefreshing] = useState(false);
-    const [huddleOpened, setHuddleOpened] = useState(false);
-    const [huddleItem, setHuddleItem] = useState<HuddleItemInterface>();
-
-    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
-    useEffect(() => {
-        const keyboardDidShowListener = Keyboard.addListener(
-            'keyboardDidShow',
-            () => {
-                setKeyboardVisible(true);
-            }
-        );
-        const keyboardDidHideListener = Keyboard.addListener(
-            'keyboardDidHide',
-            () => {
-                setKeyboardVisible(false);
-            }
-        );
-
-        return () => {
-            keyboardDidHideListener.remove();
-            keyboardDidShowListener.remove();
-        };
-    }, []);
 
     const refresh = useCallback(() => {
         setRefreshing(true);
@@ -78,21 +42,16 @@ export const useRenderHuddles = (
         }, 1000);
     }, [onRefresh]);
 
-    const openHuddleFromNotification = (item: NotificationsListProps) => {
-        setHuddleOpened(true);
-        getRequestUser<ResponseHuddleGetInterface>(
-            `huddle/${item?.huddleId}`
-        ).subscribe((response: ResponseHuddleGetInterface) => {
-            if (response?.status) {
-                setHuddleItem(response?.data);
-            }
-        });
-    };
+    const openHuddleFromNotification = (item: NotificationsListProps) => {};
 
-    const openHuddle = useCallback((item: HuddleItemInterface) => {
-        setHuddleItem(item);
-        setHuddleOpened(true);
-    }, []);
+    const openHuddle = useCallback(
+        (item: HuddleItemInterface) => {
+            navigateTo(AccountStackNavigatorEnum.HuddleScreen, {
+                huddle: item
+            });
+        },
+        [navigateTo]
+    );
 
     const openProfile = useCallback(
         (item: HuddleItemInterface) => {
@@ -106,17 +65,8 @@ export const useRenderHuddles = (
     );
 
     const onPressProfilePhoto = useCallback(
-        (item: HuddleItemInterface) => {
-            if (huddleOpened) {
-                setHuddleOpened(false);
-                setTimeout(() => {
-                    openProfile(item);
-                }, 300);
-            } else {
-                openProfile(item);
-            }
-        },
-        [huddleOpened, openProfile]
+        (item: HuddleItemInterface) => openProfile(item),
+        [openProfile]
     );
 
     const interact = useCallback(
@@ -129,7 +79,9 @@ export const useRenderHuddles = (
                     receiver: createdBy
                 }
             ).subscribe(() => {
-                onRefresh();
+                if (onRefresh) {
+                    onRefresh();
+                }
             });
         },
         [onRefresh, username]
@@ -140,7 +92,9 @@ export const useRenderHuddles = (
             deleteRequestUser<ResponseInterface>(
                 `huddle/interaction/${username}/${huddleId}`
             ).subscribe(() => {
-                onRefresh();
+                if (onRefresh) {
+                    onRefresh();
+                }
             });
         },
         [onRefresh, username]
@@ -161,6 +115,7 @@ export const useRenderHuddles = (
         ({ item }: ListRenderItemInfo<HuddleItemInterface>): JSX.Element => (
             <LargeHuddleListItem
                 item={item}
+                created={item?.createdBy === username}
                 onPressCard={openHuddle}
                 onPressProfilePhoto={onPressProfilePhoto}
                 onPressInteract={onPressInteract}
@@ -186,24 +141,12 @@ export const useRenderHuddles = (
         />
     );
 
-    const hideHuddle = useCallback(() => {
-        // When modal is closed while editing
-        if (isKeyboardVisible) {
-            Keyboard.dismiss();
-        }
-        setHuddleOpened(false);
-    }, [isKeyboardVisible]);
-
     return {
         renderLargeItem,
         renderSmallItem,
         keyExtractor,
         refreshControl,
-        huddleOpened,
-        huddleItem,
         openHuddleFromNotification,
-        onPressProfilePhoto,
-        onPressInteract,
-        hideHuddle
+        onPressInteract
     };
 };

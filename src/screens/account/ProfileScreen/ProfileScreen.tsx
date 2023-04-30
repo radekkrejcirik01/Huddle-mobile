@@ -15,8 +15,6 @@ import { useNotifications } from '@hooks/useNotifications';
 import { ProfileTabHeader } from '@components/profile/ProfileTabHeader/ProfileTabHeader';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
-import { HuddleModalScreen } from '@components/huddles/HuddleModalScreen/HuddleModalScreen';
-import { Modal } from '@components/general/Modal/Modal';
 import { setUserStateAction } from '@store/UserReducer';
 import { Icon } from '@components/general/Icon/Icon';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
@@ -59,16 +57,8 @@ export const ProfileScreen = (): JSX.Element => {
         }, [loadHuddles, refreshUser])
     );
 
-    const {
-        renderSmallItem,
-        keyExtractor,
-        refreshControl,
-        huddleOpened,
-        huddleItem,
-        onPressProfilePhoto,
-        onPressInteract,
-        hideHuddle
-    } = useRenderHuddles(huddles, loadHuddles);
+    const { renderSmallItem, keyExtractor, refreshControl } =
+        useRenderHuddles(loadHuddles);
 
     useNotifications(refreshUser, loadHuddles);
 
@@ -104,19 +94,6 @@ export const ProfileScreen = (): JSX.Element => {
                         </Text>
                     }
                     contentContainerStyle={ProfileScreenStyle.contentContainer}
-                />
-                <Modal
-                    isVisible={huddleOpened}
-                    content={
-                        <HuddleModalScreen
-                            huddle={huddleItem}
-                            onPressProfilePhoto={onPressProfilePhoto}
-                            onPressInteract={onPressInteract}
-                            onEdited={loadHuddles}
-                        />
-                    }
-                    backdropOpacity={0.7}
-                    onClose={hideHuddle}
                 />
             </View>
         </View>

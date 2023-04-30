@@ -23,8 +23,6 @@ import {
 } from '@interfaces/post/Post.inteface';
 import { NotificationListItem } from '@components/notifications/NotificationListItem/NotificationListItem';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { HuddleModalScreen } from '@components/huddles/HuddleModalScreen/HuddleModalScreen';
-import { Modal } from '@components/general/Modal/Modal';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 
 export const NotificationsScreen = (): JSX.Element => {
@@ -47,14 +45,7 @@ export const NotificationsScreen = (): JSX.Element => {
         loadNotifications
     );
 
-    const {
-        huddleOpened,
-        huddleItem,
-        openHuddleFromNotification,
-        onPressProfilePhoto,
-        onPressInteract,
-        hideHuddle
-    } = useRenderHuddles([], loadNotifications);
+    const { openHuddleFromNotification } = useRenderHuddles(loadNotifications);
 
     const { refreshing, onRefresh } = useRefresh(loadNotifications);
 
@@ -148,20 +139,6 @@ export const NotificationsScreen = (): JSX.Element => {
                 contentContainerStyle={
                     NotificationsScreenStyle.listContentContainer
                 }
-            />
-            <Modal
-                isVisible={huddleOpened}
-                content={
-                    <HuddleModalScreen
-                        huddle={huddleItem}
-                        onPressProfilePhoto={onPressProfilePhoto}
-                        onPressInteract={onPressInteract}
-                        onEdited={loadNotifications}
-                        onConfirm={loadNotifications}
-                    />
-                }
-                backdropOpacity={0.7}
-                onClose={hideHuddle}
             />
         </View>
     );

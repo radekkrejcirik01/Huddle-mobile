@@ -2,24 +2,30 @@ import React, { useCallback, useMemo } from 'react';
 import { Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { HuddleInteractionsListItemProps } from '@components/huddles/HuddleInteractionsListItem/HuddleInteractionsListItem.props';
+import {
+    HuddleInteractionsListItemDefaultProps,
+    HuddleInteractionsListItemProps
+} from '@components/huddles/HuddleInteractionsListItem/HuddleInteractionsListItem.props';
 import { HuddleInteractionsListItemStyle } from '@components/huddles/HuddleInteractionsListItem/HuddleInteractionsListItem.style';
 
 export const HuddleInteractionsListItem = ({
-    hasConfirmedUser,
     item,
+    isConfirmed,
     onConfirm
 }: HuddleInteractionsListItemProps): JSX.Element => {
     const buttonText = useMemo(
-        (): string => (hasConfirmedUser ? 'Message' : 'Confirm'),
-        [hasConfirmedUser]
+        (): string => (isConfirmed ? 'Message' : 'Confirm'),
+        [isConfirmed]
     );
+
+    const openProfile = useCallback(() => {}, []);
 
     const openChat = useCallback((username: string) => {}, []);
 
     return (
         <View style={HuddleInteractionsListItemStyle.container}>
             <TouchableOpacity
+                onPress={openProfile}
                 style={HuddleInteractionsListItemStyle.infoContainer}
             >
                 <FastImage
@@ -32,7 +38,7 @@ export const HuddleInteractionsListItem = ({
             </TouchableOpacity>
             <TouchableOpacity
                 onPress={() =>
-                    hasConfirmedUser
+                    isConfirmed
                         ? openChat(item.username)
                         : onConfirm(item.username)
                 }
@@ -45,3 +51,6 @@ export const HuddleInteractionsListItem = ({
         </View>
     );
 };
+
+HuddleInteractionsListItem.defaultProps =
+    HuddleInteractionsListItemDefaultProps;

@@ -9,7 +9,6 @@ import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScree
 import { ReducerProps } from '@store/index/index.props';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { Modal } from '@components/general/Modal/Modal';
-import { HuddleModalScreen } from '@components/huddles/HuddleModalScreen/HuddleModalScreen';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { StartHuddleModalScreen } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen';
 import { getRequestUser } from '@utils/Axios/Axios.service';
@@ -39,16 +38,8 @@ export const HuddlesScreen = (): JSX.Element => {
         }, [loadHuddles])
     );
 
-    const {
-        renderLargeItem,
-        keyExtractor,
-        refreshControl,
-        huddleOpened,
-        huddleItem,
-        onPressProfilePhoto,
-        onPressInteract,
-        hideHuddle
-    } = useRenderHuddles([], loadHuddles);
+    const { renderLargeItem, keyExtractor, refreshControl } =
+        useRenderHuddles(loadHuddles);
 
     const hideStartHuddle = () => {
         Keyboard.dismiss();
@@ -78,19 +69,6 @@ export const HuddlesScreen = (): JSX.Element => {
                 content={<StartHuddleModalScreen onClose={hideStartHuddle} />}
                 backdropOpacity={0.7}
                 onClose={hideStartHuddle}
-            />
-            <Modal
-                isVisible={huddleOpened}
-                content={
-                    <HuddleModalScreen
-                        huddle={huddleItem}
-                        onPressProfilePhoto={onPressProfilePhoto}
-                        onPressInteract={onPressInteract}
-                        onEdited={loadHuddles}
-                    />
-                }
-                backdropOpacity={0.7}
-                onClose={hideHuddle}
             />
             {!huddles?.length && (
                 <TouchableOpacity

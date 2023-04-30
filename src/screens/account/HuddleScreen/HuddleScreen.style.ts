@@ -1,12 +1,15 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const HuddleModalScreenStyle = StyleSheet.create({
+export const HuddleScreenStyle = StyleSheet.create({
     container: {
-        flex: 1,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        backgroundColor: COLORS.BLACK
+        flex: 1
+    },
+    editButtonView: {
+        marginRight: 20
+    },
+    deleteButtonView: {
+        marginLeft: 20
     },
     margin20: {
         margin: 20
@@ -38,12 +41,12 @@ export const HuddleModalScreenStyle = StyleSheet.create({
         padding: 10
     },
     postAgainView: {
-        paddingVertical: 15,
-        paddingHorizontal: 35,
-        borderRadius: 25,
+        paddingVertical: 12,
+        paddingHorizontal: 18,
+        borderRadius: 20,
         backgroundColor: COLORS.BUTTON_BLUE,
         position: 'absolute',
-        bottom: '15%',
+        bottom: '10%',
         alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'center'

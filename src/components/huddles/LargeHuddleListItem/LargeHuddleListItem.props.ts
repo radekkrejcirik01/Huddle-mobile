@@ -3,16 +3,18 @@ import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScree
 
 export interface LargeHuddleListItemProps {
     item: HuddleItemInterface;
+    created: boolean;
     onPressCard?: (item: HuddleItemInterface) => void;
     onPressProfilePhoto: (item: HuddleItemInterface) => void;
-    onPressInteract: (item: HuddleItemInterface) => void;
+    onPressInteract?: (item: HuddleItemInterface) => void;
     style?: StyleProp<ViewStyle>;
 }
 
 export const LargeHuddlesListItemDefaultProps: Omit<
     LargeHuddleListItemProps,
-    'item' | 'onPressProfilePhoto' | 'onPressInteract'
+    'item' | 'created' | 'onPressProfilePhoto'
 > = {
     onPressCard: null,
+    onPressInteract: null,
     style: {}
 };

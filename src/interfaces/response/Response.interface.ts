@@ -3,7 +3,7 @@ import { NotificationsListProps } from '@screens/account/NotificationsScreen/Not
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
-import { HuddleInteractionInterface } from '@components/huddles/HuddleModalScreen/HuddleModalScreen.props';
+import { HuddleInteractionInterface } from '@screens/account/HuddleScreen/HuddleScreen.props';
 
 export interface ResponseInterface {
     status: string;
