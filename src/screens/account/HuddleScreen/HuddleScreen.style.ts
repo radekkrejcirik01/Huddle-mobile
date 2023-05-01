@@ -5,24 +5,15 @@ export const HuddleScreenStyle = StyleSheet.create({
     container: {
         flex: 1
     },
-    editButtonView: {
+    editButton: {
         marginRight: 20
     },
-    deleteButtonView: {
+    deleteButton: {
         marginLeft: 20
     },
     margin20: {
-        margin: 20
-    },
-    buttonsView: {
-        marginBottom: 15,
-        flexDirection: 'row'
-    },
-    contentSpace: {
-        justifyContent: 'space-between'
-    },
-    contentEnd: {
-        justifyContent: 'flex-end'
+        marginTop: 20,
+        marginHorizontal: 20
     },
     buttonText: {
         color: COLORS.WHITE,
@@ -31,16 +22,19 @@ export const HuddleScreenStyle = StyleSheet.create({
     huddleListItem: {
         marginBottom: 5
     },
-    interactionsText: {
+    title: {
+        marginVertical: 15,
         paddingLeft: 20,
-        paddingBottom: 15,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
-    listContentContainer: {
-        padding: 10
+    swipeableView: {
+        marginRight: 20,
+        padding: 10,
+        borderRadius: 20,
+        backgroundColor: COLORS.GRAY_100
     },
-    postAgainView: {
+    repostView: {
         paddingVertical: 12,
         paddingHorizontal: 18,
         borderRadius: 20,
@@ -51,7 +45,7 @@ export const HuddleScreenStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    postAgainText: {
+    repostText: {
         color: COLORS.WHITE,
         fontWeight: 'bold'
     }

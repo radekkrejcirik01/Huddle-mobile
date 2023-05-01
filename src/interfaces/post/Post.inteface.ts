@@ -32,7 +32,11 @@ export interface HuddleUpdatePutInterface {
     when: string;
 }
 
-export interface HuddlePostAgainPutInterface {
+export interface HuddleRepostPutInterface {
+    id: number;
+}
+
+export interface HuddleRemoveConfirmPutInterface {
     id: number;
 }
 

@@ -78,8 +78,8 @@ export const useRenderHuddles = (
                     sender: username,
                     receiver: createdBy
                 }
-            ).subscribe(() => {
-                if (onRefresh) {
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status && onRefresh) {
                     onRefresh();
                 }
             });
@@ -91,8 +91,8 @@ export const useRenderHuddles = (
         (huddleId: number) => {
             deleteRequestUser<ResponseInterface>(
                 `huddle/interaction/${username}/${huddleId}`
-            ).subscribe(() => {
-                if (onRefresh) {
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status && onRefresh) {
                     onRefresh();
                 }
             });
@@ -121,7 +121,7 @@ export const useRenderHuddles = (
                 onPressInteract={onPressInteract}
             />
         ),
-        [onPressInteract, onPressProfilePhoto, openHuddle]
+        [onPressInteract, onPressProfilePhoto, openHuddle, username]
     );
 
     const renderSmallItem = useCallback(

@@ -5,7 +5,6 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
     container: {
         height: 165,
         width: '100%',
-        marginBottom: 20,
         padding: 15,
         borderRadius: 20,
         backgroundColor: COLORS.MAIN_ORANGE,

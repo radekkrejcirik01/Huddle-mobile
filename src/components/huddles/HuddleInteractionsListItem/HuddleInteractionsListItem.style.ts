@@ -3,7 +3,6 @@ import COLORS from '@constants/COLORS';
 
 export const HuddleInteractionsListItemStyle = StyleSheet.create({
     container: {
-        marginBottom: 15,
         paddingHorizontal: 20,
         flexDirection: 'row',
         alignItems: 'center'

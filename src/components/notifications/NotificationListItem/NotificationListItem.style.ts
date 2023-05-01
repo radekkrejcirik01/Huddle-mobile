@@ -4,7 +4,6 @@ import COLORS from '@constants/COLORS';
 export const NotificationListItemStyle = StyleSheet.create({
     container: {
         flex: 1,
-        marginBottom: 25,
         paddingLeft: 8,
         flexDirection: 'row'
     },

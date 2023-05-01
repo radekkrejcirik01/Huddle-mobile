@@ -16,7 +16,8 @@ import {
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { HuddleInteractionsListItem } from '@components/huddles/HuddleInteractionsListItem/HuddleInteractionsListItem';
 import {
-    HuddlePostAgainPutInterface,
+    HuddleRemoveConfirmPutInterface,
+    HuddleRepostPutInterface,
     HuddleUpdatePutInterface
 } from '@interfaces/post/Post.inteface';
 import { HuddleEditableCard } from '@components/huddles/HuddleEditableCard/HuddleEditableCard';
@@ -30,6 +31,8 @@ import { ReducerProps } from '@store/index/index.props';
 import { Back } from '@components/general/Back/Back';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { useRenderInteractions } from '@hooks/useRenderInteractions';
+import { SwipeableView } from '@components/general/SwipeableView/SwipeableView';
+import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 
 export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const { huddle } = route.params;
@@ -124,7 +127,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                     editing ? (
                         <TouchableOpacity
                             onPress={deleteHuddleMessage}
-                            style={HuddleScreenStyle.deleteButtonView}
+                            style={HuddleScreenStyle.deleteButton}
                         >
                             <Text style={HuddleScreenStyle.buttonText}>
                                 Delete
@@ -139,7 +142,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                             onPress={
                                 editing ? saveHuddle : () => setEditing(true)
                             }
-                            style={HuddleScreenStyle.editButtonView}
+                            style={HuddleScreenStyle.editButton}
                         >
                             <Text style={HuddleScreenStyle.buttonText}>
                                 {editing ? 'Save' : 'Edit'}
@@ -151,9 +154,24 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
         [created, deleteHuddleMessage, editing, navigation, saveHuddle]
     );
 
+    const removeConfirm = useCallback(
+        () =>
+            putRequestUser<ResponseInterface, HuddleRemoveConfirmPutInterface>(
+                'huddle/confirm',
+                {
+                    id: huddle?.id
+                }
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    loadInteractions();
+                }
+            }),
+        [huddle?.id, loadInteractions]
+    );
+
     const repostHuddle = useCallback(
         () =>
-            putRequestUser<ResponseInterface, HuddlePostAgainPutInterface>(
+            putRequestUser<ResponseInterface, HuddleRepostPutInterface>(
                 'huddle/post',
                 {
                     id: huddle?.id
@@ -204,25 +222,25 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                             <>
                                 {!!confirmedUser && (
                                     <>
-                                        <Text
-                                            style={
-                                                HuddleScreenStyle.interactionsText
-                                            }
-                                        >
+                                        <Text style={HuddleScreenStyle.title}>
                                             Confirmed ✅
                                         </Text>
-                                        <HuddleInteractionsListItem
-                                            item={confirmedUser}
-                                            isConfirmed={!!confirmedUser}
-                                        />
+                                        <SwipeableView
+                                            text="Remove"
+                                            onAction={removeConfirm}
+                                            style={
+                                                HuddleScreenStyle.swipeableView
+                                            }
+                                        >
+                                            <HuddleInteractionsListItem
+                                                item={confirmedUser}
+                                                isConfirmed={!!confirmedUser}
+                                            />
+                                        </SwipeableView>
                                     </>
                                 )}
                                 {(!!interactions?.length || !confirmedUser) && (
-                                    <Text
-                                        style={
-                                            HuddleScreenStyle.interactionsText
-                                        }
-                                    >
+                                    <Text style={HuddleScreenStyle.title}>
                                         Interactions 👋
                                     </Text>
                                 )}
@@ -237,11 +255,10 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                 estimatedItemSize={10}
                 refreshControl={refreshControl}
                 showsVerticalScrollIndicator={false}
+                ItemSeparatorComponent={() => <ItemSeparator space={15} />}
                 ListFooterComponent={
                     <>
-                        <Text style={HuddleScreenStyle.interactionsText}>
-                            Comments 💬
-                        </Text>
+                        <Text style={HuddleScreenStyle.title}>Comments 💬</Text>
                         <ScrollView />
                     </>
                 }
@@ -249,11 +266,9 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
             {canceled && (
                 <TouchableOpacity
                     onPress={repostHuddle}
-                    style={HuddleScreenStyle.postAgainView}
+                    style={HuddleScreenStyle.repostView}
                 >
-                    <Text style={HuddleScreenStyle.postAgainText}>
-                        Post again
-                    </Text>
+                    <Text style={HuddleScreenStyle.repostText}>Post again</Text>
                 </TouchableOpacity>
             )}
         </>

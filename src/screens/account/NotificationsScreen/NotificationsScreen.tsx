@@ -24,6 +24,7 @@ import {
 import { NotificationListItem } from '@components/notifications/NotificationListItem/NotificationListItem';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
+import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 
 export const NotificationsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -136,6 +137,7 @@ export const NotificationsScreen = (): JSX.Element => {
                 }
                 estimatedItemSize={68}
                 showsVerticalScrollIndicator={false}
+                ItemSeparatorComponent={() => <ItemSeparator space={25} />}
                 contentContainerStyle={
                     NotificationsScreenStyle.listContentContainer
                 }

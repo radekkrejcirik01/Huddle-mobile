@@ -14,6 +14,7 @@ import { StartHuddleModalScreen } from '@components/huddles/StartHuddleModalScre
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
 import { useNotifications } from '@hooks/useNotifications';
+import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 
 export const HuddlesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -56,6 +57,7 @@ export const HuddlesScreen = (): JSX.Element => {
                 refreshControl={refreshControl}
                 estimatedItemSize={68}
                 showsVerticalScrollIndicator={false}
+                ItemSeparatorComponent={() => <ItemSeparator space={20} />}
                 ListEmptyComponent={
                     <Text style={HuddlesScreenStyle.description}>
                         active Huddles will appear{'\n'}here 👋
