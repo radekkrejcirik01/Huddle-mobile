@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
+import DIMENSIONS from '@constants/DIMENSIONS';
 
 export const HuddleScreenStyle = StyleSheet.create({
     container: {
@@ -20,10 +21,11 @@ export const HuddleScreenStyle = StyleSheet.create({
         fontWeight: 'bold'
     },
     huddleListItem: {
-        marginBottom: 5
+        marginBottom: 0
     },
     title: {
-        marginVertical: 15,
+        marginTop: 30,
+        marginBottom: 20,
         paddingLeft: 20,
         color: COLORS.WHITE,
         fontWeight: 'bold'
@@ -33,6 +35,14 @@ export const HuddleScreenStyle = StyleSheet.create({
         padding: 10,
         borderRadius: 20,
         backgroundColor: COLORS.GRAY_100
+    },
+    emptyListText: {
+        marginLeft: 20,
+        color: COLORS.WHITE,
+        fontWeight: '500'
+    },
+    listContentContainer: {
+        paddingBottom: DIMENSIONS.height / 3
     },
     repostView: {
         paddingVertical: 12,

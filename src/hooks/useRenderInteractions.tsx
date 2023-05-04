@@ -1,5 +1,4 @@
-import React, { useCallback, useState } from 'react';
-import { RefreshControl } from 'react-native';
+import React, { useCallback } from 'react';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { HuddleInteractionInterface } from '@screens/account/HuddleScreen/HuddleScreen.props';
 import { HuddleInteractionsListItem } from '@components/huddles/HuddleInteractionsListItem/HuddleInteractionsListItem';
@@ -11,24 +10,13 @@ import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScree
 export const useRenderInteractions = (
     huddle: HuddleItemInterface,
     isConfirmed: boolean,
-    onRefresh: () => void
+    onConfirm: () => void
 ): {
-    renderItem: ({
+    renderInteractionItem: ({
         item
     }: ListRenderItemInfo<HuddleInteractionInterface>) => JSX.Element;
-    keyExtractor: (item: HuddleInteractionInterface) => string;
-    refreshControl: JSX.Element;
+    keyInteractionExtractor: (item: HuddleInteractionInterface) => string;
 } => {
-    const [refreshing, setRefreshing] = useState(false);
-
-    const refresh = useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-            onRefresh();
-        }, 1000);
-    }, [onRefresh]);
-
     const confirm = useCallback(
         (username: string) => {
             postRequestUser<ResponseInterface, HuddleConfirmPostInterface>(
@@ -40,14 +28,14 @@ export const useRenderInteractions = (
                 }
             ).subscribe((response: ResponseInterface) => {
                 if (response?.status) {
-                    onRefresh();
+                    onConfirm();
                 }
             });
         },
-        [huddle?.createdBy, huddle?.id, onRefresh]
+        [huddle?.createdBy, huddle?.id, onConfirm]
     );
 
-    const renderItem = useCallback(
+    const renderInteractionItem = useCallback(
         ({
             item
         }: ListRenderItemInfo<HuddleInteractionInterface>): JSX.Element => (
@@ -60,16 +48,9 @@ export const useRenderInteractions = (
         [confirm, isConfirmed]
     );
 
-    const keyExtractor = (item: HuddleInteractionInterface): string =>
-        item?.id?.toString();
+    const keyInteractionExtractor = (
+        item: HuddleInteractionInterface
+    ): string => item?.id?.toString();
 
-    const refreshControl = (
-        <RefreshControl
-            refreshing={refreshing}
-            onRefresh={refresh}
-            tintColor="white"
-        />
-    );
-
-    return { renderItem, keyExtractor, refreshControl };
+    return { renderInteractionItem, keyInteractionExtractor };
 };

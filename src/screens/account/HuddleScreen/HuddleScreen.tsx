@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, ScrollView, Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem';
 import {
     deleteRequestUser,
@@ -10,6 +11,7 @@ import {
     putRequestUser
 } from '@utils/Axios/Axios.service';
 import {
+    ResponseHuddlesCommentsGetInterface,
     ResponseHuddlesInteractionsGetInterface,
     ResponseInterface
 } from '@interfaces/response/Response.interface';
@@ -33,6 +35,11 @@ import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { useRenderInteractions } from '@hooks/useRenderInteractions';
 import { SwipeableView } from '@components/general/SwipeableView/SwipeableView';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
+import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
+import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
+import { useRenderComments } from '@hooks/useRenderComments';
+import { CommentInput } from '@components/huddles/CommentInput/CommentInput';
+import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
 
 export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const { huddle } = route.params;
@@ -41,12 +48,15 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
 
     const navigation = useNavigation();
     const openPhoto = useOpenPhoto();
+    const { bottom } = useSafeAreaInsets();
 
     const [interactions, setInteractions] = useState<
         Array<HuddleInteractionInterface>
     >([]);
     const [confirmedUser, setConfirmedUser] =
         useState<HuddleInteractionInterface>();
+    const [comments, setComments] = useState<Array<CommentItemInterface>>([]);
+    const [mentions, setMentions] = useState<Array<Mention>>([]);
     const [canceled, setCanceled] = useState<boolean>(!!huddle?.canceled);
     const [editing, setEditing] = useState<boolean>(false);
 
@@ -55,6 +65,8 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const editedWhen = useRef<string>(huddle?.when);
 
     const created = huddle?.createdBy === username;
+
+    const commentsListRef = useRef(null);
 
     const loadInteractions = useCallback(() => {
         if (created) {
@@ -69,14 +81,27 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
         }
     }, [created, huddle?.id]);
 
-    useEffect(() => loadInteractions(), [loadInteractions]);
-
     const { onPressInteract } = useRenderHuddles();
-    const { renderItem, keyExtractor, refreshControl } = useRenderInteractions(
-        huddle,
-        !!confirmedUser,
-        loadInteractions
-    );
+    const { renderInteractionItem, keyInteractionExtractor } =
+        useRenderInteractions(huddle, !!confirmedUser, loadInteractions);
+
+    const loadComments = useCallback(() => {
+        getRequestUser<ResponseHuddlesCommentsGetInterface>(
+            `huddle/comments/${huddle?.id}`
+        ).subscribe((response: ResponseHuddlesCommentsGetInterface) => {
+            if (response?.status) {
+                setComments(response?.data);
+                setMentions(response?.mentions);
+            }
+        });
+    }, [huddle?.id]);
+
+    const load = useCallback(() => {
+        loadInteractions();
+        loadComments();
+    }, [loadComments, loadInteractions]);
+
+    useEffect(() => load(), [load]);
 
     const saveHuddle = useCallback(() => {
         huddle.what = editedWhat?.current;
@@ -169,6 +194,24 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
         [huddle?.id, loadInteractions]
     );
 
+    const getInteractionsListHeight = useCallback((): number => {
+        const itemsHeight = interactions?.length * 45;
+        const separatorsHeight = (interactions?.length - 1) * 15;
+
+        return itemsHeight + separatorsHeight;
+    }, [interactions?.length]);
+
+    const { renderCommentItem, keyCommentExtractor, refreshControl } =
+        useRenderComments(loadComments, load);
+
+    const onSend = useCallback(() => {
+        loadComments();
+        commentsListRef.current?.scrollToIndex({
+            index: comments?.length - 1,
+            animated: true
+        });
+    }, [comments?.length, loadComments]);
+
     const repostHuddle = useCallback(
         () =>
             putRequestUser<ResponseInterface, HuddleRepostPutInterface>(
@@ -185,8 +228,14 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     );
 
     return (
-        <>
+        <View
+            style={[
+                HuddleScreenStyle.container,
+                { paddingBottom: bottom - 15 }
+            ]}
+        >
             <FlashList
+                ref={commentsListRef}
                 ListHeaderComponent={
                     <>
                         <View style={HuddleScreenStyle.margin20}>
@@ -240,29 +289,67 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                     </>
                                 )}
                                 {(!!interactions?.length || !confirmedUser) && (
-                                    <Text style={HuddleScreenStyle.title}>
-                                        Interactions 👋
-                                    </Text>
+                                    <>
+                                        <Text style={HuddleScreenStyle.title}>
+                                            Interactions 👋
+                                        </Text>
+                                        <View
+                                            style={{
+                                                height: getInteractionsListHeight()
+                                            }}
+                                        >
+                                            <FlashList
+                                                data={interactions}
+                                                renderItem={
+                                                    renderInteractionItem
+                                                }
+                                                keyExtractor={
+                                                    keyInteractionExtractor
+                                                }
+                                                estimatedItemSize={68}
+                                                ItemSeparatorComponent={() => (
+                                                    <ItemSeparator space={15} />
+                                                )}
+                                                ListEmptyComponent={
+                                                    <Text
+                                                        style={
+                                                            HuddleScreenStyle.emptyListText
+                                                        }
+                                                    >
+                                                        No interactions yet
+                                                    </Text>
+                                                }
+                                            />
+                                        </View>
+                                    </>
                                 )}
                             </>
                         )}
+                        <Text style={HuddleScreenStyle.title}>Comments 💬</Text>
                     </>
                 }
+                data={comments}
                 scrollEnabled={!editing}
-                data={interactions}
-                renderItem={renderItem}
-                keyExtractor={keyExtractor}
-                estimatedItemSize={10}
+                renderItem={renderCommentItem}
+                keyExtractor={keyCommentExtractor}
+                estimatedItemSize={68}
                 refreshControl={refreshControl}
                 showsVerticalScrollIndicator={false}
-                ItemSeparatorComponent={() => <ItemSeparator space={15} />}
-                ListFooterComponent={
-                    <>
-                        <Text style={HuddleScreenStyle.title}>Comments 💬</Text>
-                        <ScrollView />
-                    </>
+                ItemSeparatorComponent={() => <ItemSeparator space={30} />}
+                ListEmptyComponent={
+                    <Text style={HuddleScreenStyle.emptyListText}>
+                        No comments yet
+                    </Text>
                 }
+                contentContainerStyle={HuddleScreenStyle.listContentContainer}
             />
+            <KeyboardAvoidingView keyboardVerticalOffset={42}>
+                <CommentInput
+                    huddleId={huddle?.id}
+                    onSend={onSend}
+                    mentions={mentions}
+                />
+            </KeyboardAvoidingView>
             {canceled && (
                 <TouchableOpacity
                     onPress={repostHuddle}
@@ -271,6 +358,6 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                     <Text style={HuddleScreenStyle.repostText}>Post again</Text>
                 </TouchableOpacity>
             )}
-        </>
+        </View>
     );
 };

@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { AppState, StatusBar } from 'react-native';
 import notifee from '@notifee/react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {
+    initialWindowMetrics,
+    SafeAreaProvider
+} from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import store from '@store/index/index';
 import { BAR_STYLE } from '@app/App.const';
@@ -33,7 +36,7 @@ const App = () => {
 
     return (
         <ActionSheetProvider>
-            <SafeAreaProvider>
+            <SafeAreaProvider initialMetrics={initialWindowMetrics}>
                 <StatusBar animated barStyle={BAR_STYLE} />
                 <Provider store={store}>
                     <Navigation />
