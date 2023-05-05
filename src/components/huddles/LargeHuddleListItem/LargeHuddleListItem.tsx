@@ -16,6 +16,7 @@ export const LargeHuddleListItem = ({
     onPressCard,
     onPressProfilePhoto,
     onPressInteract,
+    onItemLongPress,
     hideCommentsNumber,
     style
 }: LargeHuddleListItemProps): JSX.Element => {
@@ -68,6 +69,7 @@ export const LargeHuddleListItem = ({
             activeOpacity={1}
             disabled={!onPressCard}
             onPress={onPressCard}
+            onLongPress={onItemLongPress}
             style={[LargeHuddleListItemStyle.container, style]}
         >
             <View style={LargeHuddleListItemStyle.leftContainer}>

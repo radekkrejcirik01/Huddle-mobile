@@ -12,10 +12,15 @@ export const HuddleCommentsListItem = ({
     onPressProfilePhoto,
     onPressName,
     onPressMention,
+    onItemLongPress,
     likeValue,
     onPressLike
 }: HuddleCommentsListItemProps): JSX.Element => (
-    <View style={HuddleCommentsListItemStyle.container}>
+    <TouchableOpacity
+        activeOpacity={1}
+        onLongPress={onItemLongPress}
+        style={HuddleCommentsListItemStyle.container}
+    >
         <View style={HuddleCommentsListItemStyle.content}>
             <TouchableOpacity
                 onPress={onPressProfilePhoto}
@@ -70,5 +75,5 @@ export const HuddleCommentsListItem = ({
             </View>
         </View>
         <LikeComponent value={likeValue} onPressLike={onPressLike} />
-    </View>
+    </TouchableOpacity>
 );

@@ -56,6 +56,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const [confirmedUser, setConfirmedUser] =
         useState<HuddleInteractionInterface>();
     const [comments, setComments] = useState<Array<CommentItemInterface>>([]);
+    const [mention, setMention] = useState<Mention>(null);
     const [mentions, setMentions] = useState<Array<Mention>>([]);
     const [canceled, setCanceled] = useState<boolean>(!!huddle?.canceled);
     const [editing, setEditing] = useState<boolean>(false);
@@ -202,7 +203,9 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     }, [interactions?.length]);
 
     const { renderCommentItem, keyCommentExtractor, refreshControl } =
-        useRenderComments(huddle?.id, loadComments, load);
+        useRenderComments(huddle?.id, loadComments, load, (value) =>
+            setMention(value)
+        );
 
     const onSend = useCallback(() => {
         loadComments();
@@ -359,6 +362,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                 <CommentInput
                     huddleId={huddle?.id}
                     onSend={onSend}
+                    mention={mention}
                     mentions={mentions}
                 />
             </KeyboardAvoidingView>

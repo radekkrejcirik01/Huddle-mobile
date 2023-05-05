@@ -1,7 +1,9 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { RefreshControl } from 'react-native';
+import { Alert, RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
+import { useActionSheet } from '@expo/react-native-action-sheet';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
 import { HuddleCommentsListItem } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
@@ -9,11 +11,13 @@ import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { HuddleLikeCommentPostInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
+import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
 
 export const useRenderComments = (
     huddleId: number,
     refreshComments: () => void,
-    onRefresh: () => void
+    onRefresh: () => void,
+    mention: (value: Mention) => void
 ): {
     renderCommentItem: ({
         item
@@ -24,6 +28,8 @@ export const useRenderComments = (
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const openProfilePhoto = useOpenProfilePhoto();
+    const { showActionSheetWithOptions } = useActionSheet();
+
     const [refreshing, setRefreshing] = useState(false);
 
     const refresh = useCallback(() => {
@@ -59,6 +65,38 @@ export const useRenderComments = (
         [huddleId, refreshComments, username]
     );
 
+    const itemLongPress = useCallback(
+        (item: CommentItemInterface) => {
+            const options = ['Report', 'Copy', 'Reply', 'Cancel'];
+
+            showActionSheetWithOptions(
+                {
+                    options,
+                    cancelButtonIndex: 3,
+                    userInterfaceStyle: 'dark'
+                },
+                (selectedIndex: number) => {
+                    if (selectedIndex === 0) {
+                        Alert.alert(
+                            'Thank you for reporting, our team will take a look 🧡'
+                        );
+                    }
+                    if (selectedIndex === 1) {
+                        Clipboard.setString(item?.message);
+                    }
+                    if (selectedIndex === 2) {
+                        mention({
+                            username: item?.sender,
+                            name: item?.name,
+                            profilePhoto: item?.profilePhoto
+                        });
+                    }
+                }
+            );
+        },
+        [mention, showActionSheetWithOptions]
+    );
+
     const renderCommentItem = useCallback(
         ({ item }: ListRenderItemInfo<CommentItemInterface>): JSX.Element => (
             <HuddleCommentsListItem
@@ -75,11 +113,12 @@ export const useRenderComments = (
                         item?.mention?.profilePhoto
                     )
                 }
+                onItemLongPress={() => itemLongPress(item)}
                 likeValue={item?.liked}
                 onPressLike={(value: boolean) => pressCommentLike(value, item)}
             />
         ),
-        [openProfilePhoto, pressCommentLike]
+        [itemLongPress, openProfilePhoto, pressCommentLike]
     );
 
     const keyCommentExtractor = (item: CommentItemInterface): string =>

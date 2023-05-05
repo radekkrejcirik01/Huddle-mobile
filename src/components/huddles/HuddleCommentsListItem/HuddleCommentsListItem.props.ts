@@ -3,6 +3,7 @@ export interface HuddleCommentsListItemProps {
     onPressProfilePhoto: () => void;
     onPressName: () => void;
     onPressMention: () => void;
+    onItemLongPress: () => void;
     likeValue: number;
     onPressLike: (value: boolean) => void;
 }

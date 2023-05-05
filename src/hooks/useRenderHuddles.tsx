@@ -13,6 +13,7 @@ import { ReducerProps } from '@store/index/index.props';
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 
 export const useRenderHuddles = (
     onRefresh?: () => void
@@ -31,6 +32,7 @@ export const useRenderHuddles = (
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
+    const { showActionSheetWithOptions } = useActionSheet();
 
     const [refreshing, setRefreshing] = useState(false);
 
@@ -95,6 +97,31 @@ export const useRenderHuddles = (
         [interact, removeInteraction]
     );
 
+    const itemLongPress = useCallback(
+        (item: HuddleItemInterface) => {
+            const options = ['Report', `Mute`, 'Cancel'];
+
+            showActionSheetWithOptions(
+                {
+                    options,
+                    cancelButtonIndex: 2,
+                    userInterfaceStyle: 'dark'
+                },
+                (selectedIndex: number) => {
+                    if (selectedIndex === 0) {
+                        Alert.alert(
+                            'Thank you for reporting, our team will take a look 🧡'
+                        );
+                    }
+                    if (selectedIndex === 1) {
+                        Alert.alert('Huddles from Radek are muted');
+                    }
+                }
+            );
+        },
+        [showActionSheetWithOptions]
+    );
+
     const renderLargeItem = useCallback(
         ({ item }: ListRenderItemInfo<HuddleItemInterface>): JSX.Element => (
             <LargeHuddleListItem
@@ -102,10 +129,11 @@ export const useRenderHuddles = (
                 created={item?.createdBy === username}
                 onPressCard={() => openHuddle(item)}
                 onPressProfilePhoto={() => Alert.alert('open chat')}
+                onItemLongPress={() => itemLongPress(item)}
                 onPressInteract={() => onPressInteract(item)}
             />
         ),
-        [onPressInteract, openHuddle, username]
+        [itemLongPress, onPressInteract, openHuddle, username]
     );
 
     const renderSmallItem = useCallback(

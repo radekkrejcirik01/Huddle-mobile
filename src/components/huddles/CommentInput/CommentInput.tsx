@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import {
     Keyboard,
     NativeSyntheticEvent,
@@ -29,6 +35,7 @@ import { CommentInputStyle } from '@components/huddles/CommentInput/CommentInput
 export const CommentInput = ({
     huddleId,
     onSend,
+    mention: mentionValue,
     mentions
 }: CommentInputProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -39,6 +46,13 @@ export const CommentInput = ({
     const [filteredData, setFilteredData] = useState(mentions);
 
     const inputRef = useRef(null);
+
+    useEffect(() => {
+        if (mentionValue) {
+            setMention(mentionValue);
+            inputRef?.current?.focus();
+        }
+    }, [mentionValue]);
 
     const filterData = useCallback(
         (value: string) => {
