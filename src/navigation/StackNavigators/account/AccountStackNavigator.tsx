@@ -9,7 +9,7 @@ import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/A
 import { ProfileDetailsScreen } from '@screens/account/ProfileDetailsScreen/ProfileDetailsScreen';
 import { NotificationsScreen } from '@screens/account/NotificationsScreen/NotificationsScreen';
 import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
-import { PersonProfileScreen } from '@screens/account/PersonProfileScreen/PersonProfileScreen';
+import { ProfilePhotoScreen } from '@screens/account/ProfilePhotoScreen/ProfilePhotoScreen';
 import { ConversationScreen } from '@screens/account/ConversationScreen/ConversationScreen';
 import { ConversationDetailsScreen } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen';
 import { HuddleScreen } from '@screens/account/HuddleScreen/HuddleScreen';
@@ -60,9 +60,9 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...NoTitle }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.PersonProfileScreen}
-            component={PersonProfileScreen}
-            options={NavigationScreenHeader}
+            name={AccountStackNavigatorEnum.ProfilePhotoScreen}
+            component={ProfilePhotoScreen}
+            options={{ ...NavigationScreenHeader, ...NoTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.PeopleScreen}
@@ -80,7 +80,7 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...NotificationsTitle }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.ProfileScreen}
+            name={AccountStackNavigatorEnum.ProfileDetailScreen}
             component={ProfileDetailsScreen}
             options={{ ...NavigationScreenHeader, ...ProfileTitle }}
         />

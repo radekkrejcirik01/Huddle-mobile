@@ -28,7 +28,6 @@ import {
     HuddleScreenProps
 } from '@screens/account/HuddleScreen/HuddleScreen.props';
 import { HuddleScreenStyle } from '@screens/account/HuddleScreen/HuddleScreen.style';
-import { useOpenPhoto } from '@hooks/useOpenPhoto';
 import { ReducerProps } from '@store/index/index.props';
 import { Back } from '@components/general/Back/Back';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
@@ -40,6 +39,7 @@ import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem
 import { useRenderComments } from '@hooks/useRenderComments';
 import { CommentInput } from '@components/huddles/CommentInput/CommentInput';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 
 export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const { huddle } = route.params;
@@ -47,7 +47,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const navigation = useNavigation();
-    const openPhoto = useOpenPhoto();
+    const openProfilePhoto = useOpenProfilePhoto();
     const { bottom } = useSafeAreaInsets();
 
     const [interactions, setInteractions] = useState<
@@ -260,9 +260,11 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                     item={huddle}
                                     created={created}
                                     onPressProfilePhoto={() =>
-                                        openPhoto(huddle?.profilePhoto)
+                                        Alert.alert('open chat')
                                     }
-                                    onPressInteract={onPressInteract}
+                                    onPressInteract={() =>
+                                        onPressInteract(huddle)
+                                    }
                                     style={HuddleScreenStyle.huddleListItem}
                                 />
                             )}
@@ -283,7 +285,16 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                         >
                                             <HuddleInteractionsListItem
                                                 item={confirmedUser}
+                                                onPressPhoto={() =>
+                                                    openProfilePhoto(
+                                                        confirmedUser.name,
+                                                        confirmedUser?.profilePhoto
+                                                    )
+                                                }
                                                 isConfirmed={!!confirmedUser}
+                                                onOpenChat={() =>
+                                                    Alert.alert('open chat')
+                                                }
                                             />
                                         </SwipeableView>
                                     </>

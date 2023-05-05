@@ -2,9 +2,9 @@ import { NotificationsListProps } from '@screens/account/NotificationsScreen/Not
 
 export interface NotificationListItemProps {
     listItem: NotificationsListProps;
-    onOpenAccount: (item: NotificationsListProps) => void;
-    onAcceptPersonInvite: (item: NotificationsListProps) => void;
-    onOpenChat: (item: NotificationsListProps) => void;
-    onOpenHuddle: (item: NotificationsListProps) => void;
-    onConfirmHuddle: (item: NotificationsListProps) => void;
+    onOpenAccount: () => void;
+    onAcceptPersonInvite: () => void;
+    onOpenChat: () => void;
+    onOpenHuddle: () => void;
+    onConfirmHuddle: () => void;
 }

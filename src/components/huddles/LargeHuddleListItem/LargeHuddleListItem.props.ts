@@ -4,9 +4,9 @@ import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScree
 export interface LargeHuddleListItemProps {
     item: HuddleItemInterface;
     created: boolean;
-    onPressCard?: (item: HuddleItemInterface) => void;
-    onPressProfilePhoto: (item: HuddleItemInterface) => void;
-    onPressInteract?: (item: HuddleItemInterface) => void;
+    onPressCard?: () => void;
+    onPressProfilePhoto: () => void;
+    onPressInteract?: () => void;
     style?: StyleProp<ViewStyle>;
 }
 

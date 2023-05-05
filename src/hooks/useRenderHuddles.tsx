@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { RefreshControl } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Alert, RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
@@ -53,22 +53,6 @@ export const useRenderHuddles = (
         [navigateTo]
     );
 
-    const openProfile = useCallback(
-        (item: HuddleItemInterface) => {
-            navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
-                username: item.createdBy,
-                name: item.name,
-                profilePhoto: item.profilePhoto
-            });
-        },
-        [navigateTo]
-    );
-
-    const onPressProfilePhoto = useCallback(
-        (item: HuddleItemInterface) => openProfile(item),
-        [openProfile]
-    );
-
     const interact = useCallback(
         (huddleId: number, createdBy: string) => {
             postRequestUser<ResponseInterface, HuddleInteractPostInterface>(
@@ -116,12 +100,12 @@ export const useRenderHuddles = (
             <LargeHuddleListItem
                 item={item}
                 created={item?.createdBy === username}
-                onPressCard={openHuddle}
-                onPressProfilePhoto={onPressProfilePhoto}
-                onPressInteract={onPressInteract}
+                onPressCard={() => openHuddle(item)}
+                onPressProfilePhoto={() => Alert.alert('open chat')}
+                onPressInteract={() => onPressInteract(item)}
             />
         ),
-        [onPressInteract, onPressProfilePhoto, openHuddle, username]
+        [onPressInteract, openHuddle, username]
     );
 
     const renderSmallItem = useCallback(
@@ -133,12 +117,15 @@ export const useRenderHuddles = (
     const keyExtractor = (item: HuddleItemInterface): string =>
         item?.id?.toString();
 
-    const refreshControl = (
-        <RefreshControl
-            refreshing={refreshing}
-            onRefresh={refresh}
-            tintColor="white"
-        />
+    const refreshControl = useMemo(
+        (): JSX.Element => (
+            <RefreshControl
+                refreshing={refreshing}
+                onRefresh={refresh}
+                tintColor="white"
+            />
+        ),
+        [refresh, refreshing]
     );
 
     return {

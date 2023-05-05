@@ -21,7 +21,7 @@ import {
 } from '@interfaces/post/Post.inteface';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { useOpenPhoto } from '@hooks/useOpenPhoto';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { TypingIndicatorEnum } from '@components/general/TypingIndicator/TypingIndicator.enum';
 import { TypingIndicator } from '@components/general/TypingIndicator/TypingIndicator';
 import { useTypingIndicator } from '@hooks/useTypingIndicator';
@@ -40,7 +40,7 @@ export const ConversationScreen = ({
 
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
-    const openPhoto = useOpenPhoto();
+    const openPhoto = useOpenProfilePhoto();
     const navigation = useDefaultNavigation();
     const { isTyping } = useTypingIndicator(conversationId);
 

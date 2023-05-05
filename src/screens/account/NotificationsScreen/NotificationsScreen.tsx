@@ -22,12 +22,14 @@ import {
     HuddleConfirmPostInterface
 } from '@interfaces/post/Post.inteface';
 import { NotificationListItem } from '@components/notifications/NotificationListItem/NotificationListItem';
-import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 
 export const NotificationsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
+
+    const openProfilePhoto = useOpenProfilePhoto();
 
     const [data, setData] = useState<Array<NotificationsListProps>>([]);
 
@@ -49,17 +51,6 @@ export const NotificationsScreen = (): JSX.Element => {
     const { openHuddleFromNotification } = useRenderHuddles(loadNotifications);
 
     const { refreshing, onRefresh } = useRefresh(loadNotifications);
-
-    const openAccount = useCallback(
-        (item: NotificationsListProps) => {
-            navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
-                username: item.sender,
-                name: item.senderName,
-                profilePhoto: item.profilePhoto
-            });
-        },
-        [navigateTo]
-    );
 
     const acceptPersonInvite = useCallback(
         (item: NotificationsListProps) => {
@@ -104,19 +95,21 @@ export const NotificationsScreen = (): JSX.Element => {
         ({ item }: ListRenderItemInfo<NotificationsListProps>): JSX.Element => (
             <NotificationListItem
                 listItem={item}
-                onOpenAccount={openAccount}
-                onAcceptPersonInvite={acceptPersonInvite}
-                onOpenChat={openChat}
-                onOpenHuddle={openHuddleFromNotification}
-                onConfirmHuddle={confirmHuddle}
+                onOpenAccount={() =>
+                    openProfilePhoto(item.senderName, item?.profilePhoto)
+                }
+                onAcceptPersonInvite={() => acceptPersonInvite(item)}
+                onOpenChat={() => openChat(item)}
+                onOpenHuddle={() => openHuddleFromNotification(item)}
+                onConfirmHuddle={() => confirmHuddle(item)}
             />
         ),
         [
             acceptPersonInvite,
             confirmHuddle,
-            openAccount,
             openChat,
-            openHuddleFromNotification
+            openHuddleFromNotification,
+            openProfilePhoto
         ]
     );
 

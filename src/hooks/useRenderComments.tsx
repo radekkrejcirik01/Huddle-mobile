@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { RefreshControl } from 'react-native';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
 import { HuddleCommentsListItem } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 
 export const useRenderComments = (
     refreshComments: () => void,
@@ -14,6 +15,7 @@ export const useRenderComments = (
     keyCommentExtractor: (item: CommentItemInterface) => string;
     refreshControl: JSX.Element;
 } => {
+    const openProfilePhoto = useOpenProfilePhoto();
     const [refreshing, setRefreshing] = useState(false);
 
     const refresh = useCallback(() => {
@@ -24,8 +26,6 @@ export const useRenderComments = (
         }, 1000);
     }, [onRefresh]);
 
-    const openProfile = useCallback((item: CommentItemInterface) => {}, []);
-
     const pressCommentLike = useCallback((item: CommentItemInterface) => {},
     []);
 
@@ -33,23 +33,36 @@ export const useRenderComments = (
         ({ item }: ListRenderItemInfo<CommentItemInterface>): JSX.Element => (
             <HuddleCommentsListItem
                 item={item}
-                onPressProfilePhoto={() => openProfile(item)}
-                onPressName={() => openProfile(item)}
+                onPressProfilePhoto={() =>
+                    openProfilePhoto(item.name, item?.profilePhoto)
+                }
+                onPressName={() =>
+                    openProfilePhoto(item.name, item?.profilePhoto)
+                }
+                onPressMention={() =>
+                    openProfilePhoto(
+                        item?.mention.name,
+                        item?.mention?.profilePhoto
+                    )
+                }
                 onPressLike={() => pressCommentLike(item)}
             />
         ),
-        [openProfile, pressCommentLike]
+        [openProfilePhoto, pressCommentLike]
     );
 
     const keyCommentExtractor = (item: CommentItemInterface): string =>
         item?.id?.toString();
 
-    const refreshControl = (
-        <RefreshControl
-            refreshing={refreshing}
-            onRefresh={refresh}
-            tintColor="white"
-        />
+    const refreshControl = useMemo(
+        (): JSX.Element => (
+            <RefreshControl
+                refreshing={refreshing}
+                onRefresh={refresh}
+                tintColor="white"
+            />
+        ),
+        [refresh, refreshing]
     );
 
     return { renderCommentItem, keyCommentExtractor, refreshControl };

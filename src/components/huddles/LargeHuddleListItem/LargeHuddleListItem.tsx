@@ -24,7 +24,7 @@ export const LargeHuddleListItem = ({
     useEffect(() => setInteracted(!!item?.interacted), [item?.interacted]);
 
     const interactAction = useCallback(() => {
-        onPressInteract(item);
+        onPressInteract();
 
         item.interacted = interacted ? 0 : 1;
         setInteracted(!interacted);
@@ -65,7 +65,7 @@ export const LargeHuddleListItem = ({
         <TouchableOpacity
             activeOpacity={1}
             disabled={!onPressCard}
-            onPress={() => onPressCard(item)}
+            onPress={onPressCard}
             style={[LargeHuddleListItemStyle.container, style]}
         >
             <View style={LargeHuddleListItemStyle.leftContainer}>
@@ -89,7 +89,7 @@ export const LargeHuddleListItem = ({
             <View style={LargeHuddleListItemStyle.rightContainer}>
                 <TouchableOpacity
                     activeOpacity={0.9}
-                    onPress={() => onPressProfilePhoto(item)}
+                    onPress={onPressProfilePhoto}
                 >
                     <FastImage
                         source={{ uri: item?.profilePhoto }}

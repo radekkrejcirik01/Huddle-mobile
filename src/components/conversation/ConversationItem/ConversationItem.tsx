@@ -31,7 +31,7 @@ import { MessageReactInterface } from '@interfaces/post/Post.inteface';
 import { useModal } from '@hooks/useModal';
 import { Modal } from '@components/general/Modal/Modal';
 import { ReactionsContent } from '@components/conversation/ReactionsContent/ReactionsContent';
-import { useOpenPhoto } from '@hooks/useOpenPhoto';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 
 export const ConversationItem = ({
     item
@@ -41,7 +41,7 @@ export const ConversationItem = ({
         (state: ReducerProps) => state.conversation
     );
     const { modalVisible, showModal, hideModal } = useModal();
-    const openPhoto = useOpenPhoto();
+    const openPhoto = useOpenProfilePhoto();
 
     const { showActionSheetWithOptions } = useActionSheet();
 

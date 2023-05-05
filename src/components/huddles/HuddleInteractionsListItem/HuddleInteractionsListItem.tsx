@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
@@ -11,37 +11,32 @@ import { HuddleInteractionsListItemStyle } from '@components/huddles/HuddleInter
 export const HuddleInteractionsListItem = ({
     item,
     isConfirmed,
-    onConfirm
+    onPressPhoto,
+    onConfirm,
+    onOpenChat
 }: HuddleInteractionsListItemProps): JSX.Element => {
     const buttonText = useMemo(
         (): string => (isConfirmed ? 'Message' : 'Confirm'),
         [isConfirmed]
     );
 
-    const openProfile = useCallback(() => {}, []);
-
-    const openChat = useCallback((username: string) => {}, []);
-
     return (
         <View style={HuddleInteractionsListItemStyle.container}>
+            <View style={HuddleInteractionsListItemStyle.infoContainer}>
+                <TouchableOpacity onPress={onPressPhoto}>
+                    <FastImage
+                        source={{ uri: item?.profilePhoto }}
+                        style={HuddleInteractionsListItemStyle.image}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={onOpenChat}>
+                    <Text style={HuddleInteractionsListItemStyle.name}>
+                        {item?.name}
+                    </Text>
+                </TouchableOpacity>
+            </View>
             <TouchableOpacity
-                onPress={openProfile}
-                style={HuddleInteractionsListItemStyle.infoContainer}
-            >
-                <FastImage
-                    source={{ uri: item?.profilePhoto }}
-                    style={HuddleInteractionsListItemStyle.image}
-                />
-                <Text style={HuddleInteractionsListItemStyle.name}>
-                    {item?.name}
-                </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() =>
-                    isConfirmed
-                        ? openChat(item.username)
-                        : onConfirm(item.username)
-                }
+                onPress={() => (isConfirmed ? onOpenChat() : onConfirm())}
                 style={HuddleInteractionsListItemStyle.buttonView}
             >
                 <Text style={HuddleInteractionsListItemStyle.buttonText}>

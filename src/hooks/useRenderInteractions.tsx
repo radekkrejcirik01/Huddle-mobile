@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { Alert } from 'react-native';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { HuddleInteractionInterface } from '@screens/account/HuddleScreen/HuddleScreen.props';
 import { HuddleInteractionsListItem } from '@components/huddles/HuddleInteractionsListItem/HuddleInteractionsListItem';
@@ -6,6 +7,7 @@ import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { HuddleConfirmPostInterface } from '@interfaces/post/Post.inteface';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 
 export const useRenderInteractions = (
     huddle: HuddleItemInterface,
@@ -17,6 +19,8 @@ export const useRenderInteractions = (
     }: ListRenderItemInfo<HuddleInteractionInterface>) => JSX.Element;
     keyInteractionExtractor: (item: HuddleInteractionInterface) => string;
 } => {
+    const openProfilePhoto = useOpenProfilePhoto();
+
     const confirm = useCallback(
         (username: string) => {
             postRequestUser<ResponseInterface, HuddleConfirmPostInterface>(
@@ -42,10 +46,14 @@ export const useRenderInteractions = (
             <HuddleInteractionsListItem
                 item={item}
                 isConfirmed={isConfirmed}
-                onConfirm={confirm}
+                onPressPhoto={() =>
+                    openProfilePhoto(item.name, item?.profilePhoto)
+                }
+                onConfirm={() => confirm(item.username)}
+                onOpenChat={() => Alert.alert('open chat')}
             />
         ),
-        [confirm, isConfirmed]
+        [confirm, isConfirmed, openProfilePhoto]
     );
 
     const keyInteractionExtractor = (

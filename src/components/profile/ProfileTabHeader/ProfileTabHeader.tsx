@@ -11,25 +11,27 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 import { ProfileTabHeaderStyle } from '@components/profile/ProfileTabHeader/ProfileTabHeader.style';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { IconButton } from '@components/general/IconButton/IconButton';
-import { useOpenPhoto } from '@hooks/useOpenPhoto';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 
 export const ProfileTabHeader = (): JSX.Element => {
-    const { username, profilePhoto } = useSelector(
+    const { firstname, username, profilePhoto } = useSelector(
         (state: ReducerProps) => state.user.user
     );
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
-    const openPhoto = useOpenPhoto();
+    const openProfilePhoto = useOpenProfilePhoto();
 
     const openProfile = useCallback(
-        () => navigateTo(AccountStackNavigatorEnum.ProfileScreen),
+        () => navigateTo(AccountStackNavigatorEnum.ProfileDetailScreen),
         [navigateTo]
     );
 
     return (
         <SafeAreaView style={ProfileTabHeaderStyle.container}>
             <View style={ProfileTabHeaderStyle.imageContainer}>
-                <TouchableOpacity onPress={() => openPhoto(profilePhoto)}>
+                <TouchableOpacity
+                    onPress={() => openProfilePhoto(firstname, profilePhoto)}
+                >
                     <FastImage
                         source={{
                             uri: profilePhoto

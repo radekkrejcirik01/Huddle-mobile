@@ -12,6 +12,7 @@ export const HuddleCommentsListItem = ({
     item,
     onPressProfilePhoto,
     onPressName,
+    onPressMention,
     onPressLike
 }: HuddleCommentsListItemProps): JSX.Element => (
     <View style={HuddleCommentsListItemStyle.container}>
@@ -40,12 +41,13 @@ export const HuddleCommentsListItem = ({
                     </Text>
                     {!!item?.mention && (
                         <TouchableOpacity
+                            onPress={onPressMention}
                             style={HuddleCommentsListItemStyle.mentionView}
                         >
                             <Text
                                 style={HuddleCommentsListItemStyle.mentionText}
                             >
-                                @{item?.mention}
+                                @{item?.mention.name}
                             </Text>
                         </TouchableOpacity>
                     )}

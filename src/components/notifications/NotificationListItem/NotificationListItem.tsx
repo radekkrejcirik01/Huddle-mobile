@@ -23,9 +23,6 @@ export const NotificationListItem = ({
         if (item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPTED) {
             return `${item.senderName} accepted a friend invite`;
         }
-        if (item.type === NotificationTypeEnum.HANGOUT_NOTIFY) {
-            return `${item.senderName} sends a hangout!`;
-        }
         if (item.type === NotificationTypeEnum.HUDDLE_INTERACTED) {
             return `${item.senderName} tapped to a huddle:\n${item.what}`;
         }
@@ -37,49 +34,48 @@ export const NotificationListItem = ({
 
     const getItemAction = useCallback(
         (item: NotificationsListProps): void => {
-            if (
-                item.type === NotificationTypeEnum.PERSON_INVITE ||
-                item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPTED ||
-                item.type === NotificationTypeEnum.HANGOUT_NOTIFY
-            ) {
-                return onOpenAccount(item);
+            if (item.type === NotificationTypeEnum.PERSON_INVITE) {
+                return onOpenAccount();
+            }
+
+            if (item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPTED) {
+                return onOpenChat();
             }
 
             if (
                 item.type === NotificationTypeEnum.HUDDLE_INTERACTED ||
                 item.type === NotificationTypeEnum.HUDDLE_CONFIRMED
             ) {
-                return onOpenHuddle(item);
+                return onOpenHuddle();
             }
             return null;
         },
-        [onOpenAccount, onOpenHuddle]
+        [onOpenAccount, onOpenChat, onOpenHuddle]
     );
 
     const getButtonAction = useCallback(
         (item: NotificationsListProps): void => {
             if (item.type === NotificationTypeEnum.PERSON_INVITE) {
                 if (item.accepted) {
-                    return onOpenAccount(item);
+                    return onOpenChat();
                 }
-                return onAcceptPersonInvite(item);
+                return onAcceptPersonInvite();
             }
             if (
                 item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPTED ||
-                item.type === NotificationTypeEnum.HANGOUT_NOTIFY ||
                 // When a friend confirmed Huddle
                 item.type === NotificationTypeEnum.HUDDLE_CONFIRMED ||
                 // When a user confirmed Huddle
                 !!item?.confirmed
             ) {
-                return onOpenChat(item);
+                return onOpenChat();
             }
             if (item.type === NotificationTypeEnum.HUDDLE_INTERACTED) {
-                return onConfirmHuddle(item);
+                return onConfirmHuddle();
             }
             return null;
         },
-        [onAcceptPersonInvite, onConfirmHuddle, onOpenAccount, onOpenChat]
+        [onAcceptPersonInvite, onConfirmHuddle, onOpenChat]
     );
 
     const getButtonText = (item: NotificationsListProps): string => {
@@ -91,7 +87,6 @@ export const NotificationListItem = ({
         }
         if (
             item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPTED ||
-            item.type === NotificationTypeEnum.HANGOUT_NOTIFY ||
             // When a friend confirmed Huddle
             item.type === NotificationTypeEnum.HUDDLE_CONFIRMED ||
             // When a user confirmed Huddle
@@ -111,10 +106,12 @@ export const NotificationListItem = ({
                 onPress={() => getItemAction(listItem)}
                 style={NotificationListItemStyle.content}
             >
-                <FastImage
-                    source={{ uri: listItem.profilePhoto }}
-                    style={NotificationListItemStyle.image}
-                />
+                <TouchableOpacity onPress={onOpenAccount}>
+                    <FastImage
+                        source={{ uri: listItem.profilePhoto }}
+                        style={NotificationListItemStyle.image}
+                    />
+                </TouchableOpacity>
                 <View style={NotificationListItemStyle.innerContainer}>
                     <Text style={NotificationListItemStyle.message}>
                         {getMessage(listItem)}

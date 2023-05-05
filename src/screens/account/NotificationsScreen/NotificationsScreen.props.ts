@@ -5,7 +5,7 @@ export interface NotificationsListProps {
     huddleId?: number;
     sender: string;
     senderName: string;
-    profilePhoto: string;
+    profilePhoto?: string;
     type: NotificationTypeEnum;
     what?: string;
     accepted?: number;

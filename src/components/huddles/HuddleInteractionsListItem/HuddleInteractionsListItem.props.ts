@@ -3,12 +3,14 @@ import { HuddleInteractionInterface } from '@screens/account/HuddleScreen/Huddle
 export interface HuddleInteractionsListItemProps {
     item: HuddleInteractionInterface;
     isConfirmed: boolean;
-    onConfirm?: (username: string) => void;
+    onPressPhoto: () => void;
+    onConfirm?: () => void;
+    onOpenChat: () => void;
 }
 
 export const HuddleInteractionsListItemDefaultProps: Omit<
     HuddleInteractionsListItemProps,
-    'item' | 'isConfirmed'
+    'item' | 'isConfirmed' | 'onPressPhoto' | 'onPressName' | 'onOpenChat'
 > = {
     onConfirm: null
 };

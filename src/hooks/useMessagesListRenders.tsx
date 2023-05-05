@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
@@ -61,12 +61,15 @@ export const useMessagesListRenders = (
     const keyExtractor = (item: ChatsListDataProps): string =>
         item.id.toString();
 
-    const refreshControl = (
-        <RefreshControl
-            refreshing={refreshing}
-            onRefresh={refresh}
-            tintColor="white"
-        />
+    const refreshControl = useMemo(
+        (): JSX.Element => (
+            <RefreshControl
+                refreshing={refreshing}
+                onRefresh={refresh}
+                tintColor="white"
+            />
+        ),
+        [refresh, refreshing]
     );
 
     return { renderItem, keyExtractor, refreshControl };

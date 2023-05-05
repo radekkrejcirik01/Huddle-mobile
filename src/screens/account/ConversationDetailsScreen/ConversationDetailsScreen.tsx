@@ -20,7 +20,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import fs from 'react-native-fs';
 import { ConversationDetailsScreenStyle } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { useOpenPhoto } from '@hooks/useOpenPhoto';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { ConversationDetailsScreenProps } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen.props';
 import { ReducerProps } from '@store/index/index.props';
 import { postRequest } from '@utils/Axios/Axios.service';
@@ -51,7 +51,7 @@ export const ConversationDetailsScreen = ({
 
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
-    const openPhoto = useOpenPhoto();
+    const openPhoto = useOpenProfilePhoto();
     const navigation = useDefaultNavigation();
     const { showActionSheetWithOptions } = useActionSheet();
 

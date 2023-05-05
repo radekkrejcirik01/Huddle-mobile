@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { RefreshControl, Text, View } from 'react-native';
+import { Alert, RefreshControl, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import FastImage from 'react-native-fast-image';
@@ -10,13 +10,15 @@ import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponsePeopleGetInterface } from '@interfaces/response/Response.interface';
 import { ReducerProps } from '@store/index/index.props';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 
 export const PeopleScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
+
+    const openProfilePhoto = useOpenProfilePhoto();
 
     const [inputValue, setInputValue] = useState<string>();
 
@@ -59,16 +61,9 @@ export const PeopleScreen = (): JSX.Element => {
         }, 1000);
     }, [loadPeople]);
 
-    const onItemPress = useCallback(
-        (item: PeopleListItemProps) => {
-            navigateTo(AccountStackNavigatorEnum.PersonProfileScreen, {
-                username: item.username,
-                name: item.firstname,
-                profilePhoto: item.profilePhoto
-            });
-        },
-        [navigateTo]
-    );
+    const onItemPress = useCallback((item: PeopleListItemProps) => {
+        Alert.alert('open chat');
+    }, []);
 
     const renderItem = ({
         item
@@ -85,10 +80,16 @@ export const PeopleScreen = (): JSX.Element => {
                     {item.username}
                 </Text>
             </View>
-            <FastImage
-                source={{ uri: item.profilePhoto }}
-                style={PeopleScreenStyle.itemImage}
-            />
+            <TouchableOpacity
+                onPress={() =>
+                    openProfilePhoto(item.firstname, item?.profilePhoto)
+                }
+            >
+                <FastImage
+                    source={{ uri: item.profilePhoto }}
+                    style={PeopleScreenStyle.itemImage}
+                />
+            </TouchableOpacity>
         </TouchableOpacity>
     );
 
