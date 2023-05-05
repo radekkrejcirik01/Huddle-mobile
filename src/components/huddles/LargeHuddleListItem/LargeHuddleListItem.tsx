@@ -8,6 +8,7 @@ import {
     LargeHuddlesListItemDefaultProps
 } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem.props';
 import { LargeHuddleListItemStyle } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem.style';
+import COLORS from '@constants/COLORS';
 
 export const LargeHuddleListItem = ({
     item,
@@ -15,6 +16,7 @@ export const LargeHuddleListItem = ({
     onPressCard,
     onPressProfilePhoto,
     onPressInteract,
+    hideCommentsNumber,
     style
 }: LargeHuddleListItemProps): JSX.Element => {
     const [interacted, setInteracted] = useState<boolean>();
@@ -85,6 +87,12 @@ export const LargeHuddleListItem = ({
                         {item?.name}
                     </Text>
                 </View>
+                {!!item?.commentsNumber && !hideCommentsNumber && (
+                    <Text style={{ color: COLORS.WHITE }}>
+                        {item?.commentsNumber}{' '}
+                        {item?.commentsNumber > 1 ? 'comments' : 'comment'}
+                    </Text>
+                )}
             </View>
             <View style={LargeHuddleListItemStyle.rightContainer}>
                 <TouchableOpacity

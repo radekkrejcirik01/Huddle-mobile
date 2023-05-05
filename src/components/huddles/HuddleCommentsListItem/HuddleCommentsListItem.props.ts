@@ -3,7 +3,8 @@ export interface HuddleCommentsListItemProps {
     onPressProfilePhoto: () => void;
     onPressName: () => void;
     onPressMention: () => void;
-    onPressLike: () => void;
+    likeValue: number;
+    onPressLike: (value: boolean) => void;
 }
 
 export interface CommentItemInterface {
@@ -16,5 +17,7 @@ export interface CommentItemInterface {
         name: string;
         profilePhoto?: string;
     };
+    likesNumber?: number;
+    liked?: number;
     time: string;
 }

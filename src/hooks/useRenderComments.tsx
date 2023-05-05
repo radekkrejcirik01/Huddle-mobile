@@ -1,11 +1,17 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { RefreshControl } from 'react-native';
+import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
 import { HuddleCommentsListItem } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
+import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
+import { ResponseInterface } from '@interfaces/response/Response.interface';
+import { HuddleLikeCommentPostInterface } from '@interfaces/post/Post.inteface';
+import { ReducerProps } from '@store/index/index.props';
 
 export const useRenderComments = (
+    huddleId: number,
     refreshComments: () => void,
     onRefresh: () => void
 ): {
@@ -15,6 +21,8 @@ export const useRenderComments = (
     keyCommentExtractor: (item: CommentItemInterface) => string;
     refreshControl: JSX.Element;
 } => {
+    const { username } = useSelector((state: ReducerProps) => state.user.user);
+
     const openProfilePhoto = useOpenProfilePhoto();
     const [refreshing, setRefreshing] = useState(false);
 
@@ -26,8 +34,30 @@ export const useRenderComments = (
         }, 1000);
     }, [onRefresh]);
 
-    const pressCommentLike = useCallback((item: CommentItemInterface) => {},
-    []);
+    const pressCommentLike = useCallback(
+        (value: boolean, item: CommentItemInterface) => {
+            if (value) {
+                postRequestUser<
+                    ResponseInterface,
+                    HuddleLikeCommentPostInterface
+                >('huddle/comment/like', {
+                    sender: username,
+                    receiver: item?.sender,
+                    commentId: item?.id,
+                    huddleId
+                }).subscribe(() => {
+                    refreshComments();
+                });
+            } else {
+                deleteRequestUser<ResponseInterface>(
+                    `huddle/comment/like/${item?.id}/${username}`
+                ).subscribe(() => {
+                    refreshComments();
+                });
+            }
+        },
+        [huddleId, refreshComments, username]
+    );
 
     const renderCommentItem = useCallback(
         ({ item }: ListRenderItemInfo<CommentItemInterface>): JSX.Element => (
@@ -45,7 +75,8 @@ export const useRenderComments = (
                         item?.mention?.profilePhoto
                     )
                 }
-                onPressLike={() => pressCommentLike(item)}
+                likeValue={item?.liked}
+                onPressLike={(value: boolean) => pressCommentLike(value, item)}
             />
         ),
         [openProfilePhoto, pressCommentLike]

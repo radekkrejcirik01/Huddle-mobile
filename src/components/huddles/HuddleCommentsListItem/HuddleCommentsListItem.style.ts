@@ -59,7 +59,20 @@ export const HuddleCommentsListItemStyle = StyleSheet.create({
         marginTop: 5,
         color: COLORS.WHITE
     },
-    like: {
-        alignSelf: 'flex-end'
+    likesView: {
+        marginTop: 10,
+        paddingVertical: 2,
+        paddingHorizontal: 5,
+        borderRadius: 10,
+        borderWidth: 1.5,
+        borderColor: COLORS.MAIN_ORANGE,
+        alignSelf: 'flex-start'
+    },
+    likesText: {
+        color: COLORS.WHITE,
+        fontWeight: '400'
+    },
+    heartText: {
+        fontSize: 12
     }
 });

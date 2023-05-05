@@ -6,6 +6,7 @@ export interface HuddleItemInterface {
     what: string;
     where: string;
     when: string;
+    commentsNumber?: number;
     interacted?: number;
     confirmed?: number;
     canceled?: number;

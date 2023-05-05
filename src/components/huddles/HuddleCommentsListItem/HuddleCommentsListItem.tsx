@@ -2,17 +2,17 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { IconButton } from '@components/general/IconButton/IconButton';
-import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { HuddleCommentsListItemProps } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
 import { HuddleCommentsListItemStyle } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.style';
 import { getLocalTimeFromUTC } from '@functions/getLocalTimeFromUTC';
+import { LikeComponent } from '@components/huddles/LikeComponent/LikeComponent';
 
 export const HuddleCommentsListItem = ({
     item,
     onPressProfilePhoto,
     onPressName,
     onPressMention,
+    likeValue,
     onPressLike
 }: HuddleCommentsListItemProps): JSX.Element => (
     <View style={HuddleCommentsListItemStyle.container}>
@@ -55,13 +55,20 @@ export const HuddleCommentsListItem = ({
                 <Text style={HuddleCommentsListItemStyle.messageText}>
                     {item.message}
                 </Text>
+                {!!item?.likesNumber && (
+                    <TouchableOpacity
+                        style={HuddleCommentsListItemStyle.likesView}
+                    >
+                        <Text style={HuddleCommentsListItemStyle.likesText}>
+                            {item?.likesNumber}{' '}
+                            <Text style={HuddleCommentsListItemStyle.heartText}>
+                                🧡
+                            </Text>
+                        </Text>
+                    </TouchableOpacity>
+                )}
             </View>
         </View>
-        <IconButton
-            icon={IconEnum.HEART}
-            onPress={onPressLike}
-            size={18}
-            style={HuddleCommentsListItemStyle.like}
-        />
+        <LikeComponent value={likeValue} onPressLike={onPressLike} />
     </View>
 );

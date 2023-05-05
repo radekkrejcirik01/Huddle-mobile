@@ -59,6 +59,13 @@ export interface HuddleAddMentionCommentPostInterface {
     message: string;
 }
 
+export interface HuddleLikeCommentPostInterface {
+    sender: string;
+    receiver: string;
+    commentId: number;
+    huddleId: number;
+}
+
 export interface MessagesGetInterface {
     conversationId: number;
 }

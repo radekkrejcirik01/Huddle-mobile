@@ -7,6 +7,7 @@ export interface LargeHuddleListItemProps {
     onPressCard?: () => void;
     onPressProfilePhoto: () => void;
     onPressInteract?: () => void;
+    hideCommentsNumber?: boolean;
     style?: StyleProp<ViewStyle>;
 }
 
@@ -16,5 +17,6 @@ export const LargeHuddlesListItemDefaultProps: Omit<
 > = {
     onPressCard: null,
     onPressInteract: null,
+    hideCommentsNumber: false,
     style: {}
 };

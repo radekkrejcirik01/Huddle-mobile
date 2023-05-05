@@ -87,14 +87,14 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
 
     const loadComments = useCallback(() => {
         getRequestUser<ResponseHuddlesCommentsGetInterface>(
-            `huddle/comments/${huddle?.id}`
+            `huddle/comments/${huddle?.id}/${username}`
         ).subscribe((response: ResponseHuddlesCommentsGetInterface) => {
             if (response?.status) {
                 setComments(response?.data);
                 setMentions(response?.mentions);
             }
         });
-    }, [huddle?.id]);
+    }, [huddle?.id, username]);
 
     const load = useCallback(() => {
         loadInteractions();
@@ -202,7 +202,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     }, [interactions?.length]);
 
     const { renderCommentItem, keyCommentExtractor, refreshControl } =
-        useRenderComments(loadComments, load);
+        useRenderComments(huddle?.id, loadComments, load);
 
     const onSend = useCallback(() => {
         loadComments();
@@ -265,6 +265,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                     onPressInteract={() =>
                                         onPressInteract(huddle)
                                     }
+                                    hideCommentsNumber
                                     style={HuddleScreenStyle.huddleListItem}
                                 />
                             )}
