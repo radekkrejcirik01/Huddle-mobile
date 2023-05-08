@@ -25,23 +25,12 @@ export const ChatsItemStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    titleRow: {
-        maxWidth: '65%',
-        paddingBottom: 5,
-        flexDirection: 'row',
-        flexWrap: 'wrap'
-    },
-    titleImage: {
-        height: 15,
-        width: 15,
-        borderRadius: 10
-    },
-    titleText: {
+    name: {
         marginLeft: 2,
         color: COLORS.WHITE,
         fontWeight: '500'
     },
-    text: {
+    time: {
         maxWidth: '65%',
         paddingBottom: 5,
         fontSize: 14,

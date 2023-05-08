@@ -4,6 +4,11 @@ import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
+import { useOpenChat } from '@hooks/useOpenChat';
+import { useRenderHuddles } from '@hooks/useRenderHuddles';
+import { useRenderInteractions } from '@hooks/useRenderInteractions';
+import { useRenderComments } from '@hooks/useRenderComments';
 import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem';
 import {
     deleteRequestUser,
@@ -30,16 +35,12 @@ import {
 import { HuddleScreenStyle } from '@screens/account/HuddleScreen/HuddleScreen.style';
 import { ReducerProps } from '@store/index/index.props';
 import { Back } from '@components/general/Back/Back';
-import { useRenderHuddles } from '@hooks/useRenderHuddles';
-import { useRenderInteractions } from '@hooks/useRenderInteractions';
 import { SwipeableView } from '@components/general/SwipeableView/SwipeableView';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
-import { useRenderComments } from '@hooks/useRenderComments';
 import { CommentInput } from '@components/huddles/CommentInput/CommentInput';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
-import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 
 export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const { huddle } = route.params;
@@ -47,6 +48,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const navigation = useNavigation();
+    const openChat = useOpenChat();
     const openProfilePhoto = useOpenProfilePhoto();
     const { bottom } = useSafeAreaInsets();
 
@@ -203,9 +205,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     }, [interactions?.length]);
 
     const { renderCommentItem, keyCommentExtractor, refreshControl } =
-        useRenderComments(huddle?.id, loadComments, load, (value) =>
-            setMention(value)
-        );
+        useRenderComments(huddle?.id, loadComments, load, setMention);
 
     const onSend = useCallback(() => {
         loadComments();
@@ -263,7 +263,10 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                     item={huddle}
                                     created={created}
                                     onPressProfilePhoto={() =>
-                                        Alert.alert('open chat')
+                                        openProfilePhoto(
+                                            huddle.name,
+                                            huddle?.profilePhoto
+                                        )
                                     }
                                     onPressInteract={() =>
                                         onPressInteract(huddle)
@@ -297,13 +300,17 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                                 }
                                                 isConfirmed={!!confirmedUser}
                                                 onOpenChat={() =>
-                                                    Alert.alert('open chat')
+                                                    openChat(
+                                                        confirmedUser.name,
+                                                        confirmedUser?.profilePhoto,
+                                                        confirmedUser?.username
+                                                    )
                                                 }
                                             />
                                         </SwipeableView>
                                     </>
                                 )}
-                                {(!!interactions?.length || !confirmedUser) && (
+                                {!!interactions?.length && (
                                     <>
                                         <Text style={HuddleScreenStyle.title}>
                                             Interactions 👋
@@ -325,15 +332,6 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                                 ItemSeparatorComponent={() => (
                                                     <ItemSeparator space={15} />
                                                 )}
-                                                ListEmptyComponent={
-                                                    <Text
-                                                        style={
-                                                            HuddleScreenStyle.emptyListText
-                                                        }
-                                                    >
-                                                        No interactions yet
-                                                    </Text>
-                                                }
                                             />
                                         </View>
                                     </>

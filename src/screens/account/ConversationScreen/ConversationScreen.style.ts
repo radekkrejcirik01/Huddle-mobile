@@ -2,49 +2,36 @@ import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
 export const ConversationScreenStyle = StyleSheet.create({
-    headerRightView: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    headerRightRow: {
-        paddingTop: 5,
-        paddingRight: 10
-    },
-    headerUsersView: {
-        maxWidth: '120%',
-        flexDirection: 'row',
-        overflow: 'hidden'
-    },
-    headerUsersItemView: {
-        marginLeft: 2,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    headerUsersItemImage: {
-        width: 22,
-        height: 22,
-        borderRadius: 10
-    },
-    headerUsersItemText: {
-        marginLeft: 2,
-        fontSize: 14,
-        color: COLORS.WHITE,
-        fontWeight: '500'
-    },
-    headerTitle: {
-        fontSize: 15,
-        color: COLORS.WHITE,
-        fontWeight: '600'
+    header: {
+        shadowOpacity: 0,
+        backgroundColor: COLORS.BLACK
     },
     container: {
+        paddingTop: 10
+    },
+    content: {
         width: '100%',
         height: '100%'
     },
+    titleView: {
+        marginTop: 5,
+        alignItems: 'center'
+    },
     image: {
-        width: 35,
-        height: 35,
-        marginRight: 15,
-        borderRadius: 20,
-        backgroundColor: COLORS.GRAY_100
+        height: 55,
+        width: 55,
+        borderRadius: 30
+    },
+    name: {
+        marginTop: 5,
+        color: COLORS.WHITE,
+        fontWeight: '500'
+    },
+    status: {
+        marginTop: 5,
+        fontSize: 11,
+        opacity: 0.7,
+        color: COLORS.WHITE,
+        fontWeight: '500'
     }
 });

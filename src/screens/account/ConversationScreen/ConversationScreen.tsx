@@ -1,203 +1,161 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-import { useNavigation as useDefaultNavigation } from '@react-navigation/native';
-import * as Animatable from 'react-native-animatable';
-import { SafeAreaView } from '@components/general/SafeAreaView/SafeAreaView';
-import { ConversationList } from '@components/conversation/ConversationList/ConversationList';
-import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
-import { ConversationScreenProps } from '@screens/account/ConversationScreen/ConversationScreen.props';
-import { ConversationScreenStyle } from '@screens/account/ConversationScreen/ConversationScreen.style';
-import { postRequest } from '@utils/Axios/Axios.service';
-import {
-    ConversationDetailsInterface,
-    ResponseConversationCreateInterface,
-    ResponseGetConversationDetailsInterface
-} from '@interfaces/response/Response.interface';
-import {
-    ConversationCreateInterface,
-    GetConversationDetailsInterface
-} from '@interfaces/post/Post.inteface';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { FlashList } from '@shopify/flash-list';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
-import { TypingIndicatorEnum } from '@components/general/TypingIndicator/TypingIndicator.enum';
-import { TypingIndicator } from '@components/general/TypingIndicator/TypingIndicator';
-import { useTypingIndicator } from '@hooks/useTypingIndicator';
+import { useRenderMesages } from '@hooks/useRenderMesages';
+import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
+import {
+    ConversationScreenProps,
+    MessageItemProps
+} from '@screens/account/ConversationScreen/ConversationScreen.props';
+import { ConversationScreenStyle } from '@screens/account/ConversationScreen/ConversationScreen.style';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { getRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
+import {
+    MessagesByUsernamesResponseInterface,
+    MessagesResponseInterface,
+    ResponseInterface
+} from '@interfaces/response/Response.interface';
+import { ChatInput } from '@components/conversation/ChatInput/ChatInput';
+import { SendMessageInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
-import { useNavigation } from '@hooks/useNavigation';
-import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const ConversationScreen = ({
     route
 }: ConversationScreenProps): JSX.Element => {
-    const {
-        createNewConversation = false,
-        conversationId = 0,
-        usernames
-    } = route.params;
+    const { conversationId, name, profilePhoto, username } = route.params;
 
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-
-    const openPhoto = useOpenProfilePhoto();
-    const navigation = useDefaultNavigation();
-    const { isTyping } = useTypingIndicator(conversationId);
-
-    const [id, setId] = useState<number>(conversationId);
-    const [isGroup, setIsGroup] = useState<boolean>(false);
-    const [title, setTitle] = useState<string>();
-    const [image, setImage] = useState<string>();
-    const [conversationUsers, setConversationUsers] = useState<
-        ConversationDetailsInterface['users']
-    >([]);
-
-    const getConversationDetails = useCallback(() => {
-        if (conversationId && id) {
-            postRequest<
-                ResponseGetConversationDetailsInterface,
-                GetConversationDetailsInterface
-            >(
-                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/get/conversation/details',
-                {
-                    conversationId: id,
-                    username
-                }
-            ).subscribe((response: ResponseGetConversationDetailsInterface) => {
-                if (response?.status) {
-                    setIsGroup(response?.data?.type === 'group');
-                    setTitle(response?.data?.name);
-                    setImage(response?.data?.picture);
-                    setConversationUsers(response?.data?.users);
-                }
-            });
-        }
-    }, [conversationId, id, username]);
-
-    const { navigateTo } = useNavigation(
-        RootStackNavigatorEnum.AccountStack,
-        getConversationDetails
+    const { firstname, username: user } = useSelector(
+        (state: ReducerProps) => state.user.user
     );
 
-    const createConversation = useCallback(() => {
-        if (createNewConversation) {
-            postRequest<
-                ResponseConversationCreateInterface,
-                ConversationCreateInterface
-            >(
-                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/create/conversation',
-                {
-                    usernames,
-                    username
-                }
-            ).subscribe((response: ResponseConversationCreateInterface) => {
-                if (response?.status) {
-                    setId(response?.data?.id);
-                    setIsGroup(response?.data?.type === 'group');
-                    setTitle(response?.data?.name);
-                    setImage(response?.data?.picture);
-                    setConversationUsers(response?.data?.users);
-                }
-            });
-        }
-    }, [createNewConversation, username, usernames]);
+    const openProfilePhoto = useOpenProfilePhoto();
+    const navigation = useNavigation();
+    const { bottom, top } = useSafeAreaInsets();
 
-    useEffect(() => createConversation(), [createConversation]);
-
-    const onPhotoPress = useCallback(
-        () => openPhoto(image),
-        [image, openPhoto]
-    );
-
-    const openConversationDetail = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.ConversationDetailsScreen, {
-            conversationId: id
-        });
-    }, [id, navigateTo]);
-
-    const animation = useMemo(
-        (): string => (!isTyping ? 'fadeIn' : 'fadeOut'),
-        [isTyping]
-    );
-
-    const TitleComponent = useCallback((): JSX.Element => {
-        if (isGroup && !title) {
-            return (
-                <TouchableOpacity
-                    onPress={openConversationDetail}
-                    style={ConversationScreenStyle.headerUsersView}
-                >
-                    {conversationUsers.map((value) => (
-                        <View
-                            key={value.username}
-                            style={ConversationScreenStyle.headerUsersItemView}
-                        >
-                            <FastImage
-                                source={{ uri: value?.profilePhoto }}
-                                style={
-                                    ConversationScreenStyle.headerUsersItemImage
-                                }
-                            />
-                            <Text
-                                style={
-                                    ConversationScreenStyle.headerUsersItemText
-                                }
-                            >
-                                {value.firstname}
-                            </Text>
-                        </View>
-                    ))}
-                </TouchableOpacity>
-            );
-        }
-        return (
-            <Animatable.Text animation={animation} duration={300}>
-                <TouchableOpacity onPress={openConversationDetail}>
-                    <Text style={ConversationScreenStyle.headerTitle}>
-                        {title}
-                    </Text>
-                </TouchableOpacity>
-            </Animatable.Text>
-        );
-    }, [animation, conversationUsers, isGroup, openConversationDetail, title]);
+    const [messages, setMessages] = useState<Array<MessageItemProps>>([]);
 
     useEffect(
         () =>
             navigation.setOptions({
-                headerRight: () => (
-                    <View style={ConversationScreenStyle.headerRightView}>
-                        <View style={ConversationScreenStyle.headerRightRow}>
-                            {isTyping ? (
-                                <TypingIndicator
-                                    conversationId={id}
-                                    type={TypingIndicatorEnum.Chat}
-                                />
-                            ) : (
-                                <TitleComponent />
-                            )}
-                        </View>
+                headerStyle: {
+                    height: top + 100,
+                    ...ConversationScreenStyle.header
+                },
+                title: (
+                    <View style={ConversationScreenStyle.titleView}>
                         <TouchableOpacity
-                            disabled={!image}
-                            onPress={onPhotoPress}
+                            onPress={() => openProfilePhoto(name, profilePhoto)}
+                            style={ConversationScreenStyle.titleView}
                         >
                             <FastImage
-                                source={{ uri: image }}
+                                source={{ uri: profilePhoto }}
                                 style={ConversationScreenStyle.image}
                             />
+                            <Text style={ConversationScreenStyle.name}>
+                                {name}
+                            </Text>
                         </TouchableOpacity>
+                        <Text style={ConversationScreenStyle.status}>
+                            In this chat 12 minutes ago
+                        </Text>
                     </View>
                 )
             }),
-        [TitleComponent, id, image, isTyping, navigation, onPhotoPress]
+        [name, navigation, openProfilePhoto, profilePhoto, top]
+    );
+
+    const loadMessages = useCallback(() => {
+        getRequestUser<MessagesResponseInterface>(
+            `messages/${conversationId}`
+        ).subscribe((response: MessagesResponseInterface) => {
+            if (response?.status) {
+                setMessages(response?.data);
+            }
+        });
+    }, [conversationId]);
+
+    const loadMessagesByUsernames = useCallback(() => {
+        getRequestUser<MessagesByUsernamesResponseInterface>(
+            `messages/${user}/${username}`
+        ).subscribe((response: MessagesByUsernamesResponseInterface) => {
+            if (response?.status) {
+                // Set conversation id after creating or getting conversation
+                navigation.setParams({
+                    conversationId: response?.conversationId
+                } as undefined);
+
+                setMessages(response?.data);
+            }
+        });
+    }, [navigation, user, username]);
+
+    useEffect(() => {
+        if (username) {
+            return loadMessagesByUsernames();
+        }
+
+        return () => {};
+    }, [loadMessagesByUsernames, username]);
+
+    // loadMessages has conversationId dependency that would cause redundant load
+    useEffect(() => {
+        if (!username) {
+            return loadMessages();
+        }
+
+        return () => {};
+    }, [loadMessages, username]);
+
+    const { renderMessageItem, keyMessageExtractor } = useRenderMesages();
+
+    const sendMessage = useCallback(
+        (message: string, buffer: string, fileName: string) => {
+            postRequestUser<ResponseInterface, SendMessageInterface>(
+                'message',
+                {
+                    sender: user,
+                    name: firstname,
+                    conversationId,
+                    message,
+                    buffer,
+                    fileName
+                }
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    loadMessages();
+                }
+            });
+        },
+        [conversationId, firstname, loadMessages, user]
     );
 
     return (
-        <SafeAreaView edges={['top', 'bottom']}>
-            <KeyboardAvoidingView keyboardVerticalOffset={55}>
-                <View style={ConversationScreenStyle.container}>
-                    {!!id && <ConversationList conversationId={id} />}
+        <View
+            style={[
+                ConversationScreenStyle.container,
+                {
+                    paddingBottom: bottom - 15
+                }
+            ]}
+        >
+            <KeyboardAvoidingView keyboardVerticalOffset={98}>
+                <View style={ConversationScreenStyle.content}>
+                    <FlashList
+                        data={messages}
+                        renderItem={renderMessageItem}
+                        keyExtractor={keyMessageExtractor}
+                        estimatedItemSize={68}
+                        inverted
+                        showsVerticalScrollIndicator={false}
+                    />
+                    <ChatInput onSend={sendMessage} />
                 </View>
             </KeyboardAvoidingView>
-        </SafeAreaView>
+        </View>
     );
 };

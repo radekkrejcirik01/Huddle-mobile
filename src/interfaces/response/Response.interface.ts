@@ -1,4 +1,3 @@
-import { ConversationDataProps } from '@components/conversation/ConversationList/ConversationList.props';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
@@ -6,6 +5,7 @@ import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.
 import { HuddleInteractionInterface } from '@screens/account/HuddleScreen/HuddleScreen.props';
 import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
+import { MessageItemProps } from '@screens/account/ConversationScreen/ConversationScreen.props';
 
 export interface ResponseInterface {
     status: string;
@@ -61,17 +61,6 @@ export interface ResponseHuddlesCommentsGetInterface {
     mentions?: Array<Mention>;
 }
 
-export interface ResponseGetPersonInviteInterface {
-    status: string;
-    message: string;
-    data?: {
-        sender: string;
-        receiver: string;
-        type: string;
-        accepted: number;
-    };
-}
-
 export interface ResponseChatsGetInterface {
     status: string;
     message: string;
@@ -81,7 +70,14 @@ export interface ResponseChatsGetInterface {
 export interface MessagesResponseInterface {
     status: string;
     message: string;
-    data?: Array<ConversationDataProps>;
+    data?: Array<MessageItemProps>;
+}
+
+export interface MessagesByUsernamesResponseInterface {
+    status: string;
+    message: string;
+    data?: Array<MessageItemProps>;
+    conversationId?: number;
 }
 
 export interface ResponseNotificationsGetInterface {
@@ -101,12 +97,6 @@ export interface ConversationDetailsInterface {
     }>;
     createdBy: string;
     type: string;
-}
-
-export interface ResponseConversationCreateInterface {
-    status: string;
-    message: string;
-    data?: ConversationDetailsInterface;
 }
 
 export interface ResponseGetConversationDetailsInterface {

@@ -1,14 +1,8 @@
 export interface ChatsListDataProps {
     id: number;
-    usernames: Array<{
-        username: string;
-        firstname: string;
-        profilePhoto: string;
-    }>;
     name: string;
-    picture: string;
-    message: string;
+    profilePhoto?: string;
+    lastMessage?: string;
+    isRead?: number;
     time: string;
-    isRead: number;
-    type: string;
 }

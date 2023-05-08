@@ -17,25 +17,25 @@ import {
     TapGestureHandler,
     TapGestureHandlerGestureEvent
 } from 'react-native-gesture-handler';
+import { useModal } from '@hooks/useModal';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import COLORS from '@constants/COLORS';
 import {
-    ConversationItemProps,
+    MessageListItemProps,
     ReactionsInterface
-} from '@components/conversation/ConversationItem/ConversationItem.props';
-import { ConversationItemStyle } from '@components/conversation/ConversationItem/ConversationItem.style';
+} from '@components/conversation/MessagesLisItem/MessageListItem.props';
+import { MessageListItemStyle } from '@components/conversation/MessagesLisItem/MessageListItem.style';
 import { ReducerProps } from '@store/index/index.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { postRequest } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { MessageReactInterface } from '@interfaces/post/Post.inteface';
-import { useModal } from '@hooks/useModal';
 import { Modal } from '@components/general/Modal/Modal';
 import { ReactionsContent } from '@components/conversation/ReactionsContent/ReactionsContent';
-import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 
-export const ConversationItem = ({
+export const MessageListItem = ({
     item
-}: ConversationItemProps): JSX.Element => {
+}: MessageListItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
     const { conversationId } = useSelector(
         (state: ReducerProps) => state.conversation
@@ -107,7 +107,7 @@ export const ConversationItem = ({
 
     const rightContainer = useMemo(
         (): StyleProp<ViewStyle> => [
-            ConversationItemStyle.alignFlexEnd,
+            MessageListItemStyle.alignFlexEnd,
             {
                 backgroundColor: isDarkMode ? COLORS.MAIN_BLUE : COLORS.WHITE
             }
@@ -124,10 +124,10 @@ export const ConversationItem = ({
 
     const viewStyle = useMemo(
         (): StyleProp<ViewStyle> => [
-            ConversationItemStyle.item,
+            MessageListItemStyle.item,
             isDarkMode
-                ? ConversationItemStyle.darkBorder
-                : ConversationItemStyle.lightBorder,
+                ? MessageListItemStyle.darkBorder
+                : MessageListItemStyle.lightBorder,
             renderRight ? rightContainer : leftContainer,
             item?.url && {
                 padding: 0,
@@ -139,7 +139,7 @@ export const ConversationItem = ({
 
     const textStyle = useMemo(
         (): StyleProp<TextStyle> => [
-            ConversationItemStyle.text,
+            MessageListItemStyle.text,
             renderRight && textColor
         ],
         [renderRight, textColor]
@@ -248,13 +248,7 @@ export const ConversationItem = ({
 
     return (
         <View>
-            <View style={!isOutbound && ConversationItemStyle.row}>
-                {!isOutbound && (
-                    <FastImage
-                        source={{ uri: item.profilePhoto }}
-                        style={ConversationItemStyle.profilePhoto}
-                    />
-                )}
+            <View style={!isOutbound && MessageListItemStyle.row}>
                 {(item?.message || item?.url) && (
                     <TouchableOpacity
                         activeOpacity={1}
@@ -275,7 +269,7 @@ export const ConversationItem = ({
                                 {item?.url ? (
                                     <FastImage
                                         source={{ uri: item.url }}
-                                        style={ConversationItemStyle.image}
+                                        style={MessageListItemStyle.image}
                                     />
                                 ) : (
                                     <Text style={textStyle}>
@@ -288,7 +282,7 @@ export const ConversationItem = ({
                 )}
             </View>
             {!isOutbound && (
-                <Text style={ConversationItemStyle.senderText}>
+                <Text style={MessageListItemStyle.senderText}>
                     {item.sender}
                 </Text>
             )}
@@ -297,19 +291,19 @@ export const ConversationItem = ({
                     onPress={showModal}
                     style={[
                         isOutbound
-                            ? ConversationItemStyle.alignFlexEnd
-                            : ConversationItemStyle.alignFlexStart
+                            ? MessageListItemStyle.alignFlexEnd
+                            : MessageListItemStyle.alignFlexStart
                     ]}
                 >
                     <Animatable.Text
                         animation="bounceIn"
-                        style={ConversationItemStyle.reactionText}
+                        style={MessageListItemStyle.reactionText}
                     >
                         {reactionsText}
                     </Animatable.Text>
                 </TouchableOpacity>
             )}
-            <View style={isOutbound && ConversationItemStyle.readView}>
+            <View style={isOutbound && MessageListItemStyle.readView}>
                 {!!item?.readBy?.length &&
                     item?.readBy?.map((value) => {
                         if (value.username !== username) {
@@ -317,7 +311,7 @@ export const ConversationItem = ({
                                 <FastImage
                                     key={value.username}
                                     source={{ uri: value.profilePhoto }}
-                                    style={ConversationItemStyle.readImage}
+                                    style={MessageListItemStyle.readImage}
                                 />
                             );
                         }
@@ -327,7 +321,7 @@ export const ConversationItem = ({
             <Modal
                 isVisible={modalVisible}
                 content={<ReactionsContent values={reactions} />}
-                style={ConversationItemStyle.modal}
+                style={MessageListItemStyle.modal}
                 onClose={hideModal}
             />
         </View>

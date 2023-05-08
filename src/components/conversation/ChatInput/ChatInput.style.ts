@@ -1,14 +1,20 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const ConversationListStyle = StyleSheet.create({
-    contentContainer: {
-        paddingTop: 40,
-        paddingHorizontal: 12,
-        paddingBottom: 20
+export const ChatInputStyle = StyleSheet.create({
+    container: {
+        paddingTop: 10,
+        paddingBottom: 15
     },
-    bottomContainer: {
+    inputContainer: {
         marginHorizontal: 10,
+        paddingVertical: 5,
+        paddingLeft: 10,
+        paddingRight: 20,
+        borderRadius: 25,
+        borderWidth: 1,
+        borderColor: COLORS.BLACK_200,
+        backgroundColor: COLORS.BLACK,
         flexDirection: 'row'
     },
     iconsButtonsView: {
@@ -22,18 +28,6 @@ export const ConversationListStyle = StyleSheet.create({
     iconButton: {
         marginRight: 12,
         justifyContent: 'flex-end'
-    },
-    inputContainer: {
-        flex: 1,
-        marginBottom: 5,
-        padding: 5,
-        paddingLeft: 10,
-        paddingRight: 20,
-        borderRadius: 25,
-        borderWidth: 1,
-        borderColor: COLORS.BLACK_200,
-        backgroundColor: COLORS.BLACK,
-        flexDirection: 'row'
     },
     input: {
         margin: 2,

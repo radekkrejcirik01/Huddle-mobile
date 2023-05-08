@@ -6,13 +6,9 @@ export const ProfileTitle: StackNavigationOptions = {
     headerTitle: 'Profile'
 };
 
-export const FriendsOptions: StackNavigationOptions = {
+export const PeopleOptions: StackNavigationOptions = {
     headerTitle: 'People',
     headerRight: () => <PeoplePlus />
-};
-
-export const ConversationDetailsOptions: StackNavigationOptions = {
-    title: 'Details'
 };
 
 export const NotificationsTitle: StackNavigationOptions = {

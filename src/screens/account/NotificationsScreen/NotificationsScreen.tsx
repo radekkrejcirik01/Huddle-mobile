@@ -1,10 +1,13 @@
 import React, { useCallback, useState } from 'react';
-import { Alert, RefreshControl, View } from 'react-native';
+import { RefreshControl, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { ReducerProps } from '@store/index/index.props';
 import { useNavigation } from '@hooks/useNavigation';
 import { useRefresh } from '@hooks/useRefresh';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
+import { useOpenChat } from '@hooks/useOpenChat';
+import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { NotificationsScreenStyle } from '@screens/account/NotificationsScreen/NotificationsScreen.style';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
@@ -22,14 +25,13 @@ import {
     HuddleConfirmPostInterface
 } from '@interfaces/post/Post.inteface';
 import { NotificationListItem } from '@components/notifications/NotificationListItem/NotificationListItem';
-import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
-import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 
 export const NotificationsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const openProfilePhoto = useOpenProfilePhoto();
+    const openChat = useOpenChat();
 
     const [data, setData] = useState<Array<NotificationsListProps>>([]);
 
@@ -43,10 +45,7 @@ export const NotificationsScreen = (): JSX.Element => {
         });
     }, [username]);
 
-    const { navigateTo } = useNavigation(
-        RootStackNavigatorEnum.AccountStack,
-        loadNotifications
-    );
+    useNavigation(RootStackNavigatorEnum.AccountStack, loadNotifications);
 
     const { openHuddleFromNotification } = useRenderHuddles(loadNotifications);
 
@@ -68,10 +67,6 @@ export const NotificationsScreen = (): JSX.Element => {
         },
         [loadNotifications, username]
     );
-
-    const openChat = useCallback((item: NotificationsListProps) => {
-        Alert.alert('Open chat');
-    }, []);
 
     const confirmHuddle = useCallback(
         (item: NotificationsListProps) => {
@@ -99,7 +94,9 @@ export const NotificationsScreen = (): JSX.Element => {
                     openProfilePhoto(item.senderName, item?.profilePhoto)
                 }
                 onAcceptPersonInvite={() => acceptPersonInvite(item)}
-                onOpenChat={() => openChat(item)}
+                onOpenChat={() =>
+                    openChat(item.senderName, item?.profilePhoto, item?.sender)
+                }
                 onOpenHuddle={() => openHuddleFromNotification(item)}
                 onConfirmHuddle={() => confirmHuddle(item)}
             />

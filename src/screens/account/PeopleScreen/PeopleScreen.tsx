@@ -1,23 +1,23 @@
-import React, { useCallback, useState } from 'react';
-import { Alert, RefreshControl, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { RefreshControl, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import FastImage from 'react-native-fast-image';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
+import { useOpenChat } from '@hooks/useOpenChat';
 import { PeopleScreenStyle } from '@screens/account/PeopleScreen/PeopleScreen.style';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { useNavigation } from '@hooks/useNavigation';
-import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponsePeopleGetInterface } from '@interfaces/response/Response.interface';
 import { ReducerProps } from '@store/index/index.props';
-import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 
 export const PeopleScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
+    const openChat = useOpenChat();
     const openProfilePhoto = useOpenProfilePhoto();
 
     const [inputValue, setInputValue] = useState<string>();
@@ -39,10 +39,7 @@ export const PeopleScreen = (): JSX.Element => {
         });
     }, [username]);
 
-    const { navigateTo } = useNavigation(
-        RootStackNavigatorEnum.AccountStack,
-        loadPeople
-    );
+    useEffect(() => loadPeople(), [loadPeople]);
 
     const filterData = (value: string) => {
         setInputValue(value);
@@ -61,9 +58,12 @@ export const PeopleScreen = (): JSX.Element => {
         }, 1000);
     }, [loadPeople]);
 
-    const onItemPress = useCallback((item: PeopleListItemProps) => {
-        Alert.alert('open chat');
-    }, []);
+    const onItemPress = useCallback(
+        (item: PeopleListItemProps) => {
+            openChat(item.firstname, item?.profilePhoto, item?.username);
+        },
+        [openChat]
+    );
 
     const renderItem = ({
         item

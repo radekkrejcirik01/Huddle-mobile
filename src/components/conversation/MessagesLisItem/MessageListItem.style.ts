@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 import SHADOW from '@constants/SHADOW';
 
-export const ConversationItemStyle = StyleSheet.create({
+export const MessageListItemStyle = StyleSheet.create({
     item: {
         maxWidth: '75%',
         marginBottom: 5,

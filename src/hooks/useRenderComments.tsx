@@ -1,9 +1,10 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Alert, RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import Clipboard from '@react-native-clipboard/clipboard';
+import { useRefresh } from '@hooks/useRefresh';
 import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
 import { HuddleCommentsListItem } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
@@ -16,7 +17,7 @@ import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
 export const useRenderComments = (
     huddleId: number,
     refreshComments: () => void,
-    onRefresh: () => void,
+    loadComments: () => void,
     mention: (value: Mention) => void
 ): {
     renderCommentItem: ({
@@ -28,17 +29,8 @@ export const useRenderComments = (
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const openProfilePhoto = useOpenProfilePhoto();
+    const { refreshing, onRefresh } = useRefresh(loadComments);
     const { showActionSheetWithOptions } = useActionSheet();
-
-    const [refreshing, setRefreshing] = useState(false);
-
-    const refresh = useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-            onRefresh();
-        }, 1000);
-    }, [onRefresh]);
 
     const pressCommentLike = useCallback(
         (value: boolean, item: CommentItemInterface) => {
@@ -128,11 +120,11 @@ export const useRenderComments = (
         (): JSX.Element => (
             <RefreshControl
                 refreshing={refreshing}
-                onRefresh={refresh}
+                onRefresh={onRefresh}
                 tintColor="white"
             />
         ),
-        [refresh, refreshing]
+        [onRefresh, refreshing]
     );
 
     return { renderCommentItem, keyCommentExtractor, refreshControl };

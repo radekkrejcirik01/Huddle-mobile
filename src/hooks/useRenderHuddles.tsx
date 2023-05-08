@@ -1,7 +1,11 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Alert, RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
+import { useActionSheet } from '@expo/react-native-action-sheet';
+import { useNavigation } from '@hooks/useNavigation';
+import { useRefresh } from '@hooks/useRefresh';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
@@ -10,13 +14,11 @@ import { HuddleInteractPostInterface } from '@interfaces/post/Post.inteface';
 import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem';
 import { SmallHuddleListItem } from '@components/huddles/SmallHuddleListItem/SmallHuddleListItem';
 import { ReducerProps } from '@store/index/index.props';
-import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
-import { useActionSheet } from '@expo/react-native-action-sheet';
 
 export const useRenderHuddles = (
-    onRefresh?: () => void
+    loadHuddles?: () => void
 ): {
     renderLargeItem: ({
         item
@@ -33,16 +35,8 @@ export const useRenderHuddles = (
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const { showActionSheetWithOptions } = useActionSheet();
-
-    const [refreshing, setRefreshing] = useState(false);
-
-    const refresh = useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-            onRefresh();
-        }, 1000);
-    }, [onRefresh]);
+    const { refreshing, onRefresh } = useRefresh(loadHuddles);
+    const openProfilePhoto = useOpenProfilePhoto();
 
     const openHuddleFromNotification = (item: NotificationsListProps) => {};
 
@@ -128,12 +122,14 @@ export const useRenderHuddles = (
                 item={item}
                 created={item?.createdBy === username}
                 onPressCard={() => openHuddle(item)}
-                onPressProfilePhoto={() => Alert.alert('open chat')}
+                onPressProfilePhoto={() =>
+                    openProfilePhoto(item.name, item?.profilePhoto)
+                }
                 onItemLongPress={() => itemLongPress(item)}
                 onPressInteract={() => onPressInteract(item)}
             />
         ),
-        [itemLongPress, onPressInteract, openHuddle, username]
+        [itemLongPress, onPressInteract, openHuddle, openProfilePhoto, username]
     );
 
     const renderSmallItem = useCallback(
@@ -149,11 +145,11 @@ export const useRenderHuddles = (
         (): JSX.Element => (
             <RefreshControl
                 refreshing={refreshing}
-                onRefresh={refresh}
+                onRefresh={onRefresh}
                 tintColor="white"
             />
         ),
-        [refresh, refreshing]
+        [onRefresh, refreshing]
     );
 
     return {

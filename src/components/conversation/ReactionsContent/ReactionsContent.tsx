@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, Text, TouchableHighlight, View } from 'react-native';
 import { ReactionsContentProps } from '@components/conversation/ReactionsContent/ReactionsContent.props';
-import { ReactionsInterface } from '@components/conversation/ConversationItem/ConversationItem.props';
+import { ReactionsInterface } from '@components/conversation/MessagesLisItem/MessageListItem.props';
 import { ReactionsContentStyle } from '@components/conversation/ReactionsContent/ReactionsContent.style';
 
 export const ReactionsContent = ({
