@@ -19,19 +19,6 @@ export const ChatInput = ({ onSend }: ChatInputProps): JSX.Element => {
         Keyboard.dismiss();
     }, [message, onSend]);
 
-    const openPhoto = useCallback(() => {
-        ImagePicker.openCamera({
-            cropping: true,
-            freeStyleCropEnabled: true,
-            compressImageQuality: 0.5,
-            waitAnimationEnd: false,
-            cropperChooseText: 'Send'
-        }).then(async (image) => {
-            const base64 = await fs.readFile(image?.path, 'base64');
-            onSend('', base64, image?.filename);
-        });
-    }, [onSend]);
-
     const openGallery = useCallback(() => {
         ImagePicker.openPicker({
             cropping: true,
@@ -48,23 +35,12 @@ export const ChatInput = ({ onSend }: ChatInputProps): JSX.Element => {
     return (
         <View style={ChatInputStyle.container}>
             <View style={ChatInputStyle.inputContainer}>
-                <View style={[ChatInputStyle.iconsButtonsView]}>
-                    <IconButton
-                        icon={IconEnum.PHOTO}
-                        onPress={openPhoto}
-                        size={24}
-                        style={[
-                            ChatInputStyle.photoIcon,
-                            ChatInputStyle.iconButton
-                        ]}
-                    />
-                    <IconButton
-                        icon={IconEnum.GALLERY}
-                        onPress={openGallery}
-                        size={20}
-                        style={ChatInputStyle.iconButton}
-                    />
-                </View>
+                <IconButton
+                    icon={IconEnum.GALLERY}
+                    onPress={openGallery}
+                    size={20}
+                    style={ChatInputStyle.galleryIcon}
+                />
                 <TextInput
                     value={message}
                     onChangeText={setMessage}

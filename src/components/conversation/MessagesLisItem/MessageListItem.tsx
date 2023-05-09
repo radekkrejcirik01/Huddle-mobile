@@ -1,234 +1,59 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-    Alert,
-    StyleProp,
-    Text,
-    TextStyle,
-    View,
-    ViewStyle
-} from 'react-native';
+import React, { useCallback } from 'react';
+import { Alert, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import Clipboard from '@react-native-clipboard/clipboard';
 import FastImage from 'react-native-fast-image';
-import * as Animatable from 'react-native-animatable';
 import {
     State,
     TapGestureHandler,
     TapGestureHandlerGestureEvent
 } from 'react-native-gesture-handler';
-import { useModal } from '@hooks/useModal';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
-import COLORS from '@constants/COLORS';
-import {
-    MessageListItemProps,
-    ReactionsInterface
-} from '@components/conversation/MessagesLisItem/MessageListItem.props';
+import { MessageListItemProps } from '@components/conversation/MessagesLisItem/MessageListItem.props';
 import { MessageListItemStyle } from '@components/conversation/MessagesLisItem/MessageListItem.style';
 import { ReducerProps } from '@store/index/index.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { postRequest } from '@utils/Axios/Axios.service';
-import { ResponseInterface } from '@interfaces/response/Response.interface';
-import { MessageReactInterface } from '@interfaces/post/Post.inteface';
-import { Modal } from '@components/general/Modal/Modal';
-import { ReactionsContent } from '@components/conversation/ReactionsContent/ReactionsContent';
+import { getLocalTimeFromUTCUnix } from '@functions/getLocalTimeFromUTCUnix';
 
 export const MessageListItem = ({
     item
 }: MessageListItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
-    const { conversationId } = useSelector(
-        (state: ReducerProps) => state.conversation
-    );
-    const { modalVisible, showModal, hideModal } = useModal();
+
     const openPhoto = useOpenProfilePhoto();
-
     const { showActionSheetWithOptions } = useActionSheet();
-
-    const isDarkMode = true;
-
-    const [reactions, setReactions] = useState<Array<ReactionsInterface>>();
-    const [reactionsText, setReactionsText] = useState<string>();
 
     const isImage = !!item?.url;
     const isOutbound = item.sender === username;
-    const renderRight = useMemo(() => isOutbound, [isOutbound]);
 
-    useEffect(() => {
-        const reactionsValue = reactions || item.reactedBy || [];
-        setReactions(reactionsValue);
+    const showActionSheet = useCallback(() => {
+        const options = [!isImage && 'Copy', 'Report', 'Cancel'].filter(
+            Boolean
+        );
 
-        let numberOfLikes = 0;
-        let numberOfLoves = 0;
-        for (let i = 0; i < reactionsValue.length; i += 1) {
-            if (reactionsValue[i].reaction === '👍') {
-                numberOfLikes += 1;
-            } else {
-                numberOfLoves += 1;
-            }
-        }
-
-        if (!!numberOfLikes && !numberOfLoves) {
-            if (numberOfLikes > 1) {
-                setReactionsText(`👍${numberOfLikes}`);
-            } else {
-                setReactionsText('👍');
-            }
-        }
-        if (!numberOfLikes && !!numberOfLoves) {
-            if (numberOfLoves > 1) {
-                setReactionsText(`❤️${numberOfLoves}`);
-            } else {
-                setReactionsText('❤️');
-            }
-        }
-        if (!!numberOfLikes && !!numberOfLoves) {
-            if (numberOfLikes > 1 && numberOfLoves > 1) {
-                setReactionsText(`❤️${numberOfLoves} 👍${numberOfLikes}`);
-            }
-            if (numberOfLikes > 1 && numberOfLoves === 1) {
-                setReactionsText(`❤ 👍${numberOfLikes}️`);
-            }
-            if (numberOfLikes === 1 && numberOfLoves > 1) {
-                setReactionsText(`❤${numberOfLoves} 👍️`);
-            }
-            if (numberOfLikes === 1 && numberOfLoves === 1) {
-                setReactionsText(`❤️ 👍`);
-            }
-        }
-    }, [item.reactedBy, reactions]);
-
-    const leftContainer = useMemo(
-        (): StyleProp<ViewStyle> => ({
-            backgroundColor: isDarkMode ? COLORS.BLACK : COLORS.MAIN_BLUE
-        }),
-        [isDarkMode]
-    );
-
-    const rightContainer = useMemo(
-        (): StyleProp<ViewStyle> => [
-            MessageListItemStyle.alignFlexEnd,
-            {
-                backgroundColor: isDarkMode ? COLORS.MAIN_BLUE : COLORS.WHITE
-            }
-        ],
-        [isDarkMode]
-    );
-
-    const textColor = useMemo(
-        (): StyleProp<TextStyle> => ({
-            color: isDarkMode ? COLORS.WHITE : COLORS.MAIN_BLUE
-        }),
-        [isDarkMode]
-    );
-
-    const viewStyle = useMemo(
-        (): StyleProp<ViewStyle> => [
-            MessageListItemStyle.item,
-            isDarkMode
-                ? MessageListItemStyle.darkBorder
-                : MessageListItemStyle.lightBorder,
-            renderRight ? rightContainer : leftContainer,
-            item?.url && {
-                padding: 0,
-                paddingHorizontal: 0
-            }
-        ],
-        [isDarkMode, renderRight, rightContainer, leftContainer, item?.url]
-    );
-
-    const textStyle = useMemo(
-        (): StyleProp<TextStyle> => [
-            MessageListItemStyle.text,
-            renderRight && textColor
-        ],
-        [renderRight, textColor]
-    );
-
-    const performLike = useCallback(
-        (value = '❤️') => {
-            for (let i = 0; i < reactions.length; i += 1) {
-                if (
-                    reactions[i].username === username &&
-                    reactions[i].reaction === value.toString()
-                ) {
-                    return;
-                }
-            }
-            setReactions([
-                ...reactions,
-                { username, reaction: value.toString() }
-            ]);
-            postRequest<ResponseInterface, MessageReactInterface>(
-                'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/react/message',
-                {
-                    username,
-                    conversationId,
-                    messageId: item?.id,
-                    reaction: value.toString()
-                }
-            ).subscribe();
-        },
-        [conversationId, item?.id, reactions, username]
-    );
-
-    const showOutboundActionSheet = useCallback(() => {
-        if (isImage) {
-            return;
-        }
-
-        const options = ['Copy', 'Cancel'];
         showActionSheetWithOptions(
             {
                 options,
-                cancelButtonIndex: 1,
+                cancelButtonIndex: 2,
                 userInterfaceStyle: 'dark'
             },
             (selectedIndex: number) => {
                 if (selectedIndex === 0) {
                     Clipboard.setString(item?.message);
+                }
+                if (selectedIndex === 1) {
+                    Alert.alert(
+                        'Thank you for reporting. Our team will take a look 🙂'
+                    );
                 }
             }
         );
     }, [isImage, item?.message, showActionSheetWithOptions]);
 
-    const showInboundActionSheet = useCallback(() => {
-        const options = [
-            'React ❤',
-            'React 👍',
-            !isImage && 'Copy',
-            'Report',
-            'Cancel'
-        ].filter(Boolean);
-
-        showActionSheetWithOptions(
-            {
-                options,
-                cancelButtonIndex: options?.length - 1,
-                userInterfaceStyle: 'dark'
-            },
-            (selectedIndex: number) => {
-                if (selectedIndex === 0) {
-                    performLike();
-                }
-                if (selectedIndex === 1) {
-                    performLike('👍');
-                }
-                if (selectedIndex === options.indexOf('Copy')) {
-                    Clipboard.setString(item?.message);
-                }
-                if (selectedIndex === options.indexOf('Report')) {
-                    Alert.alert(
-                        'Thank you for reporting this message. Our team will take a look 🙂'
-                    );
-                }
-            }
-        );
-    }, [isImage, item?.message, performLike, showActionSheetWithOptions]);
-
     const onPhotoPress = useCallback(() => {
         if (isImage) {
-            openPhoto(item?.url);
+            openPhoto('', item?.url);
         }
     }, [isImage, item?.url, openPhoto]);
 
@@ -240,90 +65,53 @@ export const MessageListItem = ({
                 !isImage &&
                 event.nativeEvent.state === State.ACTIVE
             ) {
-                performLike();
+                Alert.alert('double tap');
             }
         },
-        [isImage, isOutbound, performLike]
+        [isImage, isOutbound]
     );
 
     return (
-        <View>
-            <View style={!isOutbound && MessageListItemStyle.row}>
-                {(item?.message || item?.url) && (
-                    <TouchableOpacity
-                        activeOpacity={1}
-                        onLongPress={
-                            isOutbound
-                                ? showOutboundActionSheet
-                                : showInboundActionSheet
-                        }
-                        onPress={onPhotoPress}
-                        style={viewStyle}
-                    >
-                        <TapGestureHandler
-                            onHandlerStateChange={onDoubleTap}
-                            numberOfTaps={2}
-                            maxDurationMs={200}
-                        >
-                            <View>
-                                {item?.url ? (
-                                    <FastImage
-                                        source={{ uri: item.url }}
-                                        style={MessageListItemStyle.image}
-                                    />
-                                ) : (
-                                    <Text style={textStyle}>
-                                        {item.message}
-                                    </Text>
-                                )}
-                            </View>
-                        </TapGestureHandler>
-                    </TouchableOpacity>
-                )}
-            </View>
-            {!isOutbound && (
-                <Text style={MessageListItemStyle.senderText}>
-                    {item.sender}
-                </Text>
-            )}
-            {!!reactionsText && (
-                <TouchableOpacity
-                    onPress={showModal}
-                    style={[
-                        isOutbound
-                            ? MessageListItemStyle.alignFlexEnd
-                            : MessageListItemStyle.alignFlexStart
-                    ]}
+        <View
+            style={[
+                MessageListItemStyle.container,
+                isOutbound && MessageListItemStyle.outboundView
+            ]}
+        >
+            <TouchableOpacity
+                activeOpacity={1}
+                onPress={onPhotoPress}
+                onLongPress={showActionSheet}
+                style={[
+                    MessageListItemStyle.messageView,
+                    isOutbound
+                        ? MessageListItemStyle.outboundMessageColor
+                        : MessageListItemStyle.inboundMessageColor,
+                    item?.url && MessageListItemStyle.imageView
+                ]}
+            >
+                <TapGestureHandler
+                    onHandlerStateChange={onDoubleTap}
+                    numberOfTaps={2}
+                    maxDurationMs={200}
                 >
-                    <Animatable.Text
-                        animation="bounceIn"
-                        style={MessageListItemStyle.reactionText}
-                    >
-                        {reactionsText}
-                    </Animatable.Text>
-                </TouchableOpacity>
-            )}
-            <View style={isOutbound && MessageListItemStyle.readView}>
-                {!!item?.readBy?.length &&
-                    item?.readBy?.map((value) => {
-                        if (value.username !== username) {
-                            return (
-                                <FastImage
-                                    key={value.username}
-                                    source={{ uri: value.profilePhoto }}
-                                    style={MessageListItemStyle.readImage}
-                                />
-                            );
-                        }
-                        return null;
-                    })}
-            </View>
-            <Modal
-                isVisible={modalVisible}
-                content={<ReactionsContent values={reactions} />}
-                style={MessageListItemStyle.modal}
-                onClose={hideModal}
-            />
+                    <View>
+                        {item?.url ? (
+                            <FastImage
+                                source={{ uri: item.url }}
+                                style={MessageListItemStyle.image}
+                            />
+                        ) : (
+                            <Text style={MessageListItemStyle.messageText}>
+                                {item.message}
+                            </Text>
+                        )}
+                    </View>
+                </TapGestureHandler>
+            </TouchableOpacity>
+            <Text style={MessageListItemStyle.timeText}>
+                {getLocalTimeFromUTCUnix(item?.time).fromNow()}
+            </Text>
         </View>
     );
 };

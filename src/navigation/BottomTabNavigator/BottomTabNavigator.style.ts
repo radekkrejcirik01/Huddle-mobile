@@ -5,7 +5,7 @@ export const BottomTabNavigatorStyle = StyleSheet.create({
     tabBar: {
         bottom: 5, // Lift the bottom bar
         marginTop: 10,
-        paddingHorizontal: '12%',
+        paddingHorizontal: '18%',
         borderTopWidth: 0,
         backgroundColor: COLORS.TRANSPARENT
     },

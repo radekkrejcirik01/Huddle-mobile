@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
-import { FlashList } from '@shopify/flash-list';
 import { useSelector } from 'react-redux';
+import { FlashList } from '@shopify/flash-list';
 import { useRenderChats } from '@hooks/useRenderChats';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
 import { getRequestUser } from '@utils/Axios/Axios.service';
