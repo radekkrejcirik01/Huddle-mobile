@@ -55,12 +55,12 @@ export const useRenderHuddles = (
                     receiver: createdBy
                 }
             ).subscribe((response: ResponseInterface) => {
-                if (response?.status && onRefresh) {
-                    onRefresh();
+                if (response?.status && loadHuddles) {
+                    loadHuddles();
                 }
             });
         },
-        [onRefresh, username]
+        [loadHuddles, username]
     );
 
     const removeInteraction = useCallback(
@@ -68,12 +68,12 @@ export const useRenderHuddles = (
             deleteRequestUser<ResponseInterface>(
                 `interaction/${huddleId}/${username}`
             ).subscribe((response: ResponseInterface) => {
-                if (response?.status && onRefresh) {
-                    onRefresh();
+                if (response?.status && loadHuddles) {
+                    loadHuddles();
                 }
             });
         },
-        [onRefresh, username]
+        [loadHuddles, username]
     );
 
     const onPressInteract = useCallback(
