@@ -3,30 +3,41 @@ import COLORS from '@constants/COLORS';
 
 export const ProfileTabHeaderStyle = StyleSheet.create({
     container: {
-        paddingTop: 5,
-        paddingHorizontal: 12,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+        alignItems: 'center'
     },
-    imageContainer: {
+    profileContent: {
         flex: 1,
-        alignItems: 'flex-start'
+        paddingHorizontal: 12,
+        alignItems: 'center'
     },
     image: {
-        width: 90,
-        height: 90,
-        borderRadius: 40,
+        width: 55,
+        height: 55,
+        borderRadius: 65,
         backgroundColor: COLORS.GRAY_100
     },
-    usernameText: {
-        marginLeft: 20,
-        fontSize: 16,
+    nameText: {
+        fontSize: 24,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
-    buttonContainer: {
-        flex: 1,
-        marginRight: 4,
-        alignItems: 'flex-end'
+    buttonsContainer: {
+        width: '80%',
+        marginVertical: 12,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
+    },
+    buttonView: {
+        margin: 4,
+        padding: 10,
+        borderRadius: 10,
+        backgroundColor: COLORS.GRAY_400,
+        justifyContent: 'center'
+    },
+    buttonText: {
+        fontSize: 13,
+        color: COLORS.WHITE,
+        fontWeight: 'bold'
     }
 });

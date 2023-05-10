@@ -2,33 +2,35 @@ import React, { useCallback } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
-import { SafeAreaView } from '@components/general/SafeAreaView/SafeAreaView';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
+import { useNavigation } from '@hooks/useNavigation';
 import { ReducerProps } from '@store/index/index.props';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { ProfileTabHeaderStyle } from '@components/profile/ProfileTabHeader/ProfileTabHeader.style';
-import { IconEnum } from '@components/general/Icon/Icon.enum';
-import { IconButton } from '@components/general/IconButton/IconButton';
-import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const ProfileTabHeader = (): JSX.Element => {
-    const { firstname, username, profilePhoto } = useSelector(
+    const { firstname, profilePhoto } = useSelector(
         (state: ReducerProps) => state.user.user
     );
 
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const openProfilePhoto = useOpenProfilePhoto();
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
-    const openProfile = useCallback(
+    const openPeopleScreen = useCallback(
+        () => navigateTo(AccountStackNavigatorEnum.PeopleScreen),
+        [navigateTo]
+    );
+
+    const openProfileDetails = useCallback(
         () => navigateTo(AccountStackNavigatorEnum.ProfileDetailScreen),
         [navigateTo]
     );
 
     return (
-        <SafeAreaView style={ProfileTabHeaderStyle.container}>
-            <View style={ProfileTabHeaderStyle.imageContainer}>
+        <View style={ProfileTabHeaderStyle.container}>
+            <View style={ProfileTabHeaderStyle.profileContent}>
                 <TouchableOpacity
                     onPress={() => openProfilePhoto(firstname, profilePhoto)}
                 >
@@ -39,19 +41,34 @@ export const ProfileTabHeader = (): JSX.Element => {
                         style={ProfileTabHeaderStyle.image}
                     />
                 </TouchableOpacity>
+                <Text style={ProfileTabHeaderStyle.nameText}>{firstname}</Text>
             </View>
-            <TouchableOpacity onPress={openProfile}>
-                <Text style={ProfileTabHeaderStyle.usernameText}>
-                    {username}
-                </Text>
-            </TouchableOpacity>
-            <View style={ProfileTabHeaderStyle.buttonContainer}>
-                <IconButton
-                    icon={IconEnum.MORE}
-                    onPress={openProfile}
-                    size={22}
-                />
+            <View style={ProfileTabHeaderStyle.buttonsContainer}>
+                <TouchableOpacity
+                    onPress={openPeopleScreen}
+                    style={ProfileTabHeaderStyle.buttonView}
+                >
+                    <Text style={ProfileTabHeaderStyle.buttonText}>
+                        Add people 👨‍👩‍👧‍👦
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={openProfileDetails}
+                    style={ProfileTabHeaderStyle.buttonView}
+                >
+                    <Text style={ProfileTabHeaderStyle.buttonText}>
+                        Edit Profile 🖋️
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {}}
+                    style={ProfileTabHeaderStyle.buttonView}
+                >
+                    <Text style={ProfileTabHeaderStyle.buttonText}>
+                        Huddles visibility 👀
+                    </Text>
+                </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
