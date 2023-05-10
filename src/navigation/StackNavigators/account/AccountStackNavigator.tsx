@@ -12,7 +12,6 @@ import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
 import { ProfilePhotoScreen } from '@screens/account/ProfilePhotoScreen/ProfilePhotoScreen';
 import { ConversationScreen } from '@screens/account/ConversationScreen/ConversationScreen';
 import { HuddleScreen } from '@screens/account/HuddleScreen/HuddleScreen';
-import { PictureScreen } from '@screens/account/PictureScreen/PictureScreen';
 import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
 import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/DeleteAccountScreen';
@@ -24,11 +23,12 @@ import {
     PeopleOptions,
     ProfileTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
+import { NavigatorScreenOptions } from '@navigation/RootNavigator/RootStackNavigator.options';
 
 const Account = createStackNavigator<ParamListBase>();
 
 export const AccountStackNavigator = (): JSX.Element => (
-    <Account.Navigator>
+    <Account.Navigator screenOptions={NavigatorScreenOptions}>
         <Account.Screen
             name={AccountStackNavigatorEnum.AccountScreen}
             component={AccountScreen}
@@ -50,16 +50,6 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...NoTitle }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.ProfilePhotoScreen}
-            component={ProfilePhotoScreen}
-            options={{ ...NavigationScreenHeader, ...NoTitle }}
-        />
-        <Account.Screen
-            name={AccountStackNavigatorEnum.PeopleScreen}
-            component={PeopleScreen}
-            options={{ ...NavigationScreenHeader, ...PeopleOptions }}
-        />
-        <Account.Screen
             name={AccountStackNavigatorEnum.ChangePasswordScreen}
             component={ChangePasswordScreen}
             options={{ ...NavigationScreenHeader, ...ChangePasswordTitle }}
@@ -70,13 +60,18 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...NotificationsTitle }}
         />
         <Account.Screen
+            name={AccountStackNavigatorEnum.PeopleScreen}
+            component={PeopleScreen}
+            options={{ ...NavigationScreenHeader, ...PeopleOptions }}
+        />
+        <Account.Screen
             name={AccountStackNavigatorEnum.ProfileDetailScreen}
             component={ProfileDetailsScreen}
             options={{ ...NavigationScreenHeader, ...ProfileTitle }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.PictureScreen}
-            component={PictureScreen}
+            name={AccountStackNavigatorEnum.ProfilePhotoScreen}
+            component={ProfilePhotoScreen}
             options={{ ...NavigationScreenHeader, ...NoTitle }}
         />
     </Account.Navigator>
