@@ -7,7 +7,6 @@ import { useNavigation } from '@hooks/useNavigation';
 import { useRefresh } from '@hooks/useRefresh';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { useOpenChat } from '@hooks/useOpenChat';
-import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { NotificationsScreenStyle } from '@screens/account/NotificationsScreen/NotificationsScreen.style';
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
@@ -26,6 +25,7 @@ import {
 } from '@interfaces/post/Post.inteface';
 import { NotificationListItem } from '@components/notifications/NotificationListItem/NotificationListItem';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
 export const NotificationsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -45,9 +45,10 @@ export const NotificationsScreen = (): JSX.Element => {
         });
     }, [username]);
 
-    useNavigation(RootStackNavigatorEnum.AccountStack, loadNotifications);
-
-    const { openHuddleFromNotification } = useRenderHuddles(loadNotifications);
+    const { navigateTo } = useNavigation(
+        RootStackNavigatorEnum.AccountStack,
+        loadNotifications
+    );
 
     const { refreshing, onRefresh } = useRefresh(loadNotifications);
 
@@ -66,6 +67,15 @@ export const NotificationsScreen = (): JSX.Element => {
             });
         },
         [loadNotifications, username]
+    );
+
+    const openHuddleFromNotification = useCallback(
+        (item: NotificationsListProps) => {
+            navigateTo(AccountStackNavigatorEnum.HuddleScreen, {
+                huddleId: item?.huddleId
+            });
+        },
+        [navigateTo]
     );
 
     const confirmHuddle = useCallback(

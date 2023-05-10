@@ -29,6 +29,15 @@ export const NotificationListItem = ({
         if (item.type === NotificationTypeEnum.HUDDLE_CONFIRMED) {
             return `${item.senderName} confirmed a huddle:\n${item.what}`;
         }
+        if (item.type === NotificationTypeEnum.HUDDLE_COMMENTED) {
+            return `${item.senderName} add a comment:\n${item.what}`;
+        }
+        if (item.type === NotificationTypeEnum.HUDDLE_MENTION_COMMENTED) {
+            return `${item.senderName} mentioned you:\n${item.what}`;
+        }
+        if (item.type === NotificationTypeEnum.COMMENT_LIKED) {
+            return `${item.senderName} liked your comment:\n${item.what}`;
+        }
         return '';
     };
 
@@ -44,7 +53,10 @@ export const NotificationListItem = ({
 
             if (
                 item.type === NotificationTypeEnum.HUDDLE_INTERACTED ||
-                item.type === NotificationTypeEnum.HUDDLE_CONFIRMED
+                item.type === NotificationTypeEnum.HUDDLE_CONFIRMED ||
+                item.type === NotificationTypeEnum.HUDDLE_COMMENTED ||
+                item.type === NotificationTypeEnum.HUDDLE_MENTION_COMMENTED ||
+                item.type === NotificationTypeEnum.COMMENT_LIKED
             ) {
                 return onOpenHuddle();
             }
@@ -73,9 +85,16 @@ export const NotificationListItem = ({
             if (item.type === NotificationTypeEnum.HUDDLE_INTERACTED) {
                 return onConfirmHuddle();
             }
+            if (
+                item.type === NotificationTypeEnum.HUDDLE_COMMENTED ||
+                item.type === NotificationTypeEnum.HUDDLE_MENTION_COMMENTED ||
+                item.type === NotificationTypeEnum.COMMENT_LIKED
+            ) {
+                return onOpenHuddle();
+            }
             return null;
         },
-        [onAcceptPersonInvite, onConfirmHuddle, onOpenChat]
+        [onAcceptPersonInvite, onConfirmHuddle, onOpenChat, onOpenHuddle]
     );
 
     const getButtonText = (item: NotificationsListProps): string => {
@@ -96,6 +115,13 @@ export const NotificationListItem = ({
         }
         if (item.type === NotificationTypeEnum.HUDDLE_INTERACTED) {
             return 'Confirm';
+        }
+        if (
+            item.type === NotificationTypeEnum.HUDDLE_COMMENTED ||
+            item.type === NotificationTypeEnum.HUDDLE_MENTION_COMMENTED ||
+            item.type === NotificationTypeEnum.COMMENT_LIKED
+        ) {
+            return 'Open';
         }
         return '';
     };

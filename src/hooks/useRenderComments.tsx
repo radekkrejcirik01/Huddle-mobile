@@ -48,7 +48,7 @@ export const useRenderComments = (
                 });
             } else {
                 deleteRequestUser<ResponseInterface>(
-                    `huddle/comment/like/${item?.id}/${username}`
+                    `like/${item?.id}/${username}`
                 ).subscribe(() => {
                     refreshComments();
                 });

@@ -30,7 +30,7 @@ export const ProfileScreen = (): JSX.Element => {
     const loadHuddles = useCallback(() => {
         if (username) {
             getRequestUser<ResponseHuddlesGetInterface>(
-                `huddles/user/${username}`
+                `user-huddles/${username}`
             ).subscribe((response: ResponseHuddlesGetInterface) => {
                 if (response?.status) {
                     setHuddles(response?.data);

@@ -15,7 +15,6 @@ import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/Lar
 import { SmallHuddleListItem } from '@components/huddles/SmallHuddleListItem/SmallHuddleListItem';
 import { ReducerProps } from '@store/index/index.props';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
 
 export const useRenderHuddles = (
     loadHuddles?: () => void
@@ -28,7 +27,6 @@ export const useRenderHuddles = (
     }: ListRenderItemInfo<HuddleItemInterface>) => JSX.Element;
     keyExtractor: (item: HuddleItemInterface, index: number) => string;
     refreshControl: JSX.Element;
-    openHuddleFromNotification: (item: NotificationsListProps) => void;
     onPressInteract: (item: HuddleItemInterface) => void;
 } => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -37,8 +35,6 @@ export const useRenderHuddles = (
     const { showActionSheetWithOptions } = useActionSheet();
     const { refreshing, onRefresh } = useRefresh(loadHuddles);
     const openProfilePhoto = useOpenProfilePhoto();
-
-    const openHuddleFromNotification = (item: NotificationsListProps) => {};
 
     const openHuddle = useCallback(
         (item: HuddleItemInterface) => {
@@ -70,7 +66,7 @@ export const useRenderHuddles = (
     const removeInteraction = useCallback(
         (huddleId: number) => {
             deleteRequestUser<ResponseInterface>(
-                `huddle/interaction/${username}/${huddleId}`
+                `interaction/${huddleId}/${username}`
             ).subscribe((response: ResponseInterface) => {
                 if (response?.status && onRefresh) {
                     onRefresh();
@@ -157,7 +153,6 @@ export const useRenderHuddles = (
         renderSmallItem,
         keyExtractor,
         refreshControl,
-        openHuddleFromNotification,
         onPressInteract
     };
 };

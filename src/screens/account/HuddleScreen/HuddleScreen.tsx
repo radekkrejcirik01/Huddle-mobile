@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { Alert, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -17,6 +23,7 @@ import {
 } from '@utils/Axios/Axios.service';
 import {
     ResponseHuddlesCommentsGetInterface,
+    ResponseHuddlesGetInterface,
     ResponseHuddlesInteractionsGetInterface,
     ResponseInterface
 } from '@interfaces/response/Response.interface';
@@ -43,7 +50,7 @@ import { CommentInput } from '@components/huddles/CommentInput/CommentInput';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
 
 export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
-    const { huddle } = route.params;
+    const { huddle, huddleId } = route.params;
 
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
@@ -67,14 +74,34 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const editedWhere = useRef<string>(huddle?.where);
     const editedWhen = useRef<string>(huddle?.when);
 
-    const created = huddle?.createdBy === username;
+    const created = useMemo((): boolean => {
+        if (huddle) {
+            return huddle?.createdBy === username;
+        }
+
+        return true;
+    }, [huddle, username]);
 
     const commentsListRef = useRef(null);
+
+    useEffect(() => {
+        if (!huddle) {
+            getRequestUser<ResponseHuddlesGetInterface>(
+                `huddle/${huddleId}/${username}`
+            ).subscribe((response: ResponseHuddlesGetInterface) => {
+                if (response?.status) {
+                    navigation.setParams({
+                        huddle: response?.data
+                    } as undefined);
+                }
+            });
+        }
+    }, [huddle, huddleId, navigation, username]);
 
     const loadInteractions = useCallback(() => {
         if (created) {
             getRequestUser<ResponseHuddlesInteractionsGetInterface>(
-                `huddle/interactions/${huddle?.id}`
+                `interactions/${huddle?.id}`
             ).subscribe((response: ResponseHuddlesInteractionsGetInterface) => {
                 if (response?.status) {
                     setConfirmedUser(response?.confirmedUser);
@@ -90,7 +117,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
 
     const loadComments = useCallback(() => {
         getRequestUser<ResponseHuddlesCommentsGetInterface>(
-            `huddle/comments/${huddle?.id}/${username}`
+            `comments/${huddle?.id}/${username}`
         ).subscribe((response: ResponseHuddlesCommentsGetInterface) => {
             if (response?.status) {
                 setComments(response?.data);
@@ -100,9 +127,11 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     }, [huddle?.id, username]);
 
     const load = useCallback(() => {
-        loadInteractions();
-        loadComments();
-    }, [loadComments, loadInteractions]);
+        if (huddle?.id) {
+            loadInteractions();
+            loadComments();
+        }
+    }, [huddle?.id, loadComments, loadInteractions]);
 
     useEffect(() => load(), [load]);
 

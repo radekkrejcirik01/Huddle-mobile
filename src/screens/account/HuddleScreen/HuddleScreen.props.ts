@@ -6,6 +6,7 @@ export interface HuddleScreenProps {
         {
             params: {
                 huddle: HuddleItemInterface;
+                huddleId: number;
             };
         },
         'params'

@@ -71,7 +71,7 @@ export const ConversationScreen = ({
 
     const loadMessages = useCallback(() => {
         getRequestUser<MessagesResponseInterface>(
-            `messages/${conversationId}`
+            `conversation/${conversationId}`
         ).subscribe((response: MessagesResponseInterface) => {
             if (response?.status) {
                 setMessages(response?.data);
