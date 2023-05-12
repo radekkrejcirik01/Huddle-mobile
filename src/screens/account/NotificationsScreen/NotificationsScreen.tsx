@@ -57,8 +57,9 @@ export const NotificationsScreen = (): JSX.Element => {
             putRequestUser<ResponseInterface, AcceptPersonInviteInterface>(
                 'person',
                 {
+                    id: item?.eventId,
                     sender: username,
-                    receiver: item.sender
+                    receiver: item?.sender
                 }
             ).subscribe((response) => {
                 if (response?.status) {
@@ -72,7 +73,7 @@ export const NotificationsScreen = (): JSX.Element => {
     const openHuddleFromNotification = useCallback(
         (item: NotificationsListProps) => {
             navigateTo(AccountStackNavigatorEnum.HuddleScreen, {
-                huddleId: item?.huddleId
+                huddleId: item?.eventId
             });
         },
         [navigateTo]
@@ -83,7 +84,7 @@ export const NotificationsScreen = (): JSX.Element => {
             postRequestUser<ResponseInterface, HuddleConfirmPostInterface>(
                 'huddle/confirm',
                 {
-                    huddleId: item?.huddleId,
+                    huddleId: item?.eventId,
                     sender: username,
                     receiver: item?.sender
                 }

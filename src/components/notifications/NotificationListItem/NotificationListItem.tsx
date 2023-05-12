@@ -20,23 +20,23 @@ export const NotificationListItem = ({
         if (item.type === NotificationTypeEnum.PERSON_INVITE) {
             return `${item.senderName} sends a friend invite`;
         }
-        if (item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPTED) {
+        if (item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPT) {
             return `${item.senderName} accepted a friend invite`;
         }
-        if (item.type === NotificationTypeEnum.HUDDLE_INTERACTED) {
+        if (item.type === NotificationTypeEnum.HUDDLE_INTERACT) {
             return `${item.senderName} tapped to a huddle:\n${item.what}`;
         }
-        if (item.type === NotificationTypeEnum.HUDDLE_CONFIRMED) {
+        if (item.type === NotificationTypeEnum.HUDDLE_CONFIRM) {
             return `${item.senderName} confirmed a huddle:\n${item.what}`;
         }
-        if (item.type === NotificationTypeEnum.HUDDLE_COMMENTED) {
-            return `${item.senderName} add a comment:\n${item.what}`;
+        if (item.type === NotificationTypeEnum.COMMENT) {
+            return `${item.senderName} add a comment:\n${item.comment}`;
         }
-        if (item.type === NotificationTypeEnum.HUDDLE_MENTION_COMMENTED) {
-            return `${item.senderName} mentioned you:\n${item.what}`;
+        if (item.type === NotificationTypeEnum.COMMENT_MENTION) {
+            return `${item.senderName} mentioned you:\n${item.comment}`;
         }
-        if (item.type === NotificationTypeEnum.COMMENT_LIKED) {
-            return `${item.senderName} liked your comment:\n${item.what}`;
+        if (item.type === NotificationTypeEnum.COMMENT_LIKE) {
+            return `${item.senderName} liked your comment:\n${item.comment}`;
         }
         return '';
     };
@@ -47,16 +47,16 @@ export const NotificationListItem = ({
                 return onOpenAccount();
             }
 
-            if (item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPTED) {
+            if (item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPT) {
                 return onOpenChat();
             }
 
             if (
-                item.type === NotificationTypeEnum.HUDDLE_INTERACTED ||
-                item.type === NotificationTypeEnum.HUDDLE_CONFIRMED ||
-                item.type === NotificationTypeEnum.HUDDLE_COMMENTED ||
-                item.type === NotificationTypeEnum.HUDDLE_MENTION_COMMENTED ||
-                item.type === NotificationTypeEnum.COMMENT_LIKED
+                item.type === NotificationTypeEnum.HUDDLE_INTERACT ||
+                item.type === NotificationTypeEnum.HUDDLE_CONFIRM ||
+                item.type === NotificationTypeEnum.COMMENT ||
+                item.type === NotificationTypeEnum.COMMENT_MENTION ||
+                item.type === NotificationTypeEnum.COMMENT_LIKE
             ) {
                 return onOpenHuddle();
             }
@@ -74,21 +74,21 @@ export const NotificationListItem = ({
                 return onAcceptPersonInvite();
             }
             if (
-                item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPTED ||
+                item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPT ||
                 // When a friend confirmed Huddle
-                item.type === NotificationTypeEnum.HUDDLE_CONFIRMED ||
+                item.type === NotificationTypeEnum.HUDDLE_CONFIRM ||
                 // When a user confirmed Huddle
                 !!item?.confirmed
             ) {
                 return onOpenChat();
             }
-            if (item.type === NotificationTypeEnum.HUDDLE_INTERACTED) {
+            if (item.type === NotificationTypeEnum.HUDDLE_INTERACT) {
                 return onConfirmHuddle();
             }
             if (
-                item.type === NotificationTypeEnum.HUDDLE_COMMENTED ||
-                item.type === NotificationTypeEnum.HUDDLE_MENTION_COMMENTED ||
-                item.type === NotificationTypeEnum.COMMENT_LIKED
+                item.type === NotificationTypeEnum.COMMENT ||
+                item.type === NotificationTypeEnum.COMMENT_MENTION ||
+                item.type === NotificationTypeEnum.COMMENT_LIKE
             ) {
                 return onOpenHuddle();
             }
@@ -105,21 +105,21 @@ export const NotificationListItem = ({
             return `Accept`;
         }
         if (
-            item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPTED ||
+            item.type === NotificationTypeEnum.PERSON_INVITE_ACCEPT ||
             // When a friend confirmed Huddle
-            item.type === NotificationTypeEnum.HUDDLE_CONFIRMED ||
+            item.type === NotificationTypeEnum.HUDDLE_CONFIRM ||
             // When a user confirmed Huddle
             !!item?.confirmed
         ) {
             return 'Message';
         }
-        if (item.type === NotificationTypeEnum.HUDDLE_INTERACTED) {
+        if (item.type === NotificationTypeEnum.HUDDLE_INTERACT) {
             return 'Confirm';
         }
         if (
-            item.type === NotificationTypeEnum.HUDDLE_COMMENTED ||
-            item.type === NotificationTypeEnum.HUDDLE_MENTION_COMMENTED ||
-            item.type === NotificationTypeEnum.COMMENT_LIKED
+            item.type === NotificationTypeEnum.COMMENT ||
+            item.type === NotificationTypeEnum.COMMENT_MENTION ||
+            item.type === NotificationTypeEnum.COMMENT_LIKE
         ) {
             return 'Open';
         }

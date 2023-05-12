@@ -85,7 +85,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const commentsListRef = useRef(null);
 
     useEffect(() => {
-        if (!huddle) {
+        if (!huddle && huddleId) {
             getRequestUser<ResponseHuddlesGetInterface>(
                 `huddle/${huddleId}/${username}`
             ).subscribe((response: ResponseHuddlesGetInterface) => {

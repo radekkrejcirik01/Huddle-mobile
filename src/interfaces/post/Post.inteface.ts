@@ -72,6 +72,7 @@ export interface SendMessageInterface {
 }
 
 export interface AcceptPersonInviteInterface {
+    id: number;
     sender: string;
     receiver: string;
 }

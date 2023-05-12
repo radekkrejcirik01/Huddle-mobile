@@ -2,7 +2,7 @@ import { NotificationTypeEnum } from '@enums/notifications/NotificationType.enum
 
 export interface NotificationsListProps {
     id: number;
-    huddleId?: number;
+    eventId: number;
     sender: string;
     senderName: string;
     profilePhoto?: string;
@@ -10,5 +10,6 @@ export interface NotificationsListProps {
     what?: string;
     accepted?: number;
     confirmed?: number;
+    comment?: string;
     created: string;
 }
