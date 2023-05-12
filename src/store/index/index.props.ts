@@ -14,10 +14,9 @@ export interface User {
         username: string;
         profilePhoto: string;
     };
-    people: number;
-    huddles: number;
-    notifications: number;
-    unreadMessages: number;
+    peopleNumber: number;
+    notificationsNumber: number;
+    unreadMessagesNumber: number;
 }
 
 export interface SelectUsers {

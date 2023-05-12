@@ -14,7 +14,6 @@ export interface HuddleScreenProps {
 }
 
 export interface HuddleInteractionInterface {
-    id?: number;
     username: string;
     name: string;
     profilePhoto: string;

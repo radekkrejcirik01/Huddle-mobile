@@ -13,7 +13,7 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { ReducerProps } from '@store/index/index.props';
 
 export const HuddlesTabHeader = (): JSX.Element => {
-    const { notifications, people } = useSelector(
+    const { notificationsNumber, peopleNumber } = useSelector(
         (state: ReducerProps) => state.user
     );
 
@@ -39,7 +39,7 @@ export const HuddlesTabHeader = (): JSX.Element => {
                         style={HuddlesTabHeaderStyle.iconButton}
                     >
                         <Icon name={IconEnum.BELL} size={25} />
-                        <Badge value={notifications} />
+                        <Badge value={notificationsNumber} />
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={openPeople}
@@ -49,7 +49,7 @@ export const HuddlesTabHeader = (): JSX.Element => {
                             People
                         </Text>
                         <Text style={HuddlesTabHeaderStyle.peopleNumber}>
-                            {people}
+                            {peopleNumber}
                         </Text>
                     </TouchableOpacity>
                 </View>

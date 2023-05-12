@@ -8,10 +8,9 @@ const initialState: User = {
         username: null,
         profilePhoto: null
     },
-    people: null,
-    huddles: null,
-    notifications: null,
-    unreadMessages: null
+    peopleNumber: null,
+    notificationsNumber: null,
+    unreadMessagesNumber: null
 };
 
 export const UserReducer = createSlice({
@@ -21,27 +20,18 @@ export const UserReducer = createSlice({
         setUserToken: (state, action) => {
             state.token = action.payload;
         },
-        setFirstnameAction: (state, action) => {
-            state.user.firstname = action.payload;
-        },
-        setUsernameAction: (state, action) => {
-            state.user.username = action.payload;
+        setUserStateAction: (state, action) => {
+            action.payload.token = action.payload.user.username;
+            return action.payload;
         },
         setProfilePhotoAction: (state, action) => {
             state.user.profilePhoto = action.payload;
         },
-        setPeopleAction: (state, action) => {
-            state.people = action.payload;
+        setNotificationsNumberAction: (state, action) => {
+            state.notificationsNumber = action.payload;
         },
-        setHuddlesAction: (state, action) => {
-            state.huddles = action.payload;
-        },
-        setUnreadMessagesAction: (state, action) => {
-            state.unreadMessages = action.payload;
-        },
-        setUserStateAction: (state, action) => {
-            action.payload.token = action.payload.user.username;
-            return action.payload;
+        setPeopleNumberAction: (state, action) => {
+            state.peopleNumber = action.payload;
         },
         resetUserState: () => initialState
     }
@@ -49,13 +39,10 @@ export const UserReducer = createSlice({
 
 export const {
     setUserToken,
-    setFirstnameAction,
-    setUsernameAction,
     setProfilePhotoAction,
-    setPeopleAction,
-    setHuddlesAction,
-    setUnreadMessagesAction,
     setUserStateAction,
+    setNotificationsNumberAction,
+    setPeopleNumberAction,
     resetUserState
 } = UserReducer.actions;
 

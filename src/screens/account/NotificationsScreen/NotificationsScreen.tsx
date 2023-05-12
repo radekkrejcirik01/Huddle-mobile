@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { RefreshControl, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import { ReducerProps } from '@store/index/index.props';
 import { useNavigation } from '@hooks/useNavigation';
@@ -17,7 +17,8 @@ import {
 } from '@utils/Axios/Axios.service';
 import {
     ResponseInterface,
-    ResponseNotificationsGetInterface
+    ResponseNotificationsGetInterface,
+    ResponsePeopleNumberGetInterface
 } from '@interfaces/response/Response.interface';
 import {
     AcceptPersonInviteInterface,
@@ -26,9 +27,14 @@ import {
 import { NotificationListItem } from '@components/notifications/NotificationListItem/NotificationListItem';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import {
+    setNotificationsNumberAction,
+    setPeopleNumberAction
+} from '@store/UserReducer';
 
 export const NotificationsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
+    const dispatch = useDispatch();
 
     const openProfilePhoto = useOpenProfilePhoto();
     const openChat = useOpenChat();
@@ -44,6 +50,22 @@ export const NotificationsScreen = (): JSX.Element => {
             }
         });
     }, [username]);
+
+    const getPeopleNumber = useCallback(() => {
+        getRequestUser<ResponsePeopleNumberGetInterface>(
+            `people-number/${username}`
+        ).subscribe((response: ResponsePeopleNumberGetInterface) => {
+            if (response?.status) {
+                dispatch(setPeopleNumberAction(response?.peopleNumber));
+            }
+        });
+    }, [dispatch, username]);
+
+    useEffect(() => {
+        dispatch(setNotificationsNumberAction(0));
+
+        return () => {};
+    }, [dispatch]);
 
     const { navigateTo } = useNavigation(
         RootStackNavigatorEnum.AccountStack,
@@ -64,10 +86,11 @@ export const NotificationsScreen = (): JSX.Element => {
             ).subscribe((response) => {
                 if (response?.status) {
                     loadNotifications();
+                    getPeopleNumber();
                 }
             });
         },
-        [loadNotifications, username]
+        [getPeopleNumber, loadNotifications, username]
     );
 
     const openHuddleFromNotification = useCallback(

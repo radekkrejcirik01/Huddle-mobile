@@ -61,7 +61,7 @@ export const useRenderInteractions = (
 
     const keyInteractionExtractor = (
         item: HuddleInteractionInterface
-    ): string => item?.id?.toString();
+    ): string => item?.username?.toString();
 
     return { renderInteractionItem, keyInteractionExtractor };
 };

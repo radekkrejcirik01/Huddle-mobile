@@ -29,6 +29,12 @@ export interface ResponseUserGetInterface {
     };
 }
 
+export interface ResponsePeopleNumberGetInterface {
+    status: string;
+    message: string;
+    peopleNumber?: number;
+}
+
 export interface ResponsePeopleGetInterface {
     status: string;
     message: string;
