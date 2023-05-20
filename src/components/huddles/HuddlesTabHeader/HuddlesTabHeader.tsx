@@ -26,9 +26,7 @@ export const HuddlesTabHeader = (): JSX.Element => {
     );
 
     return (
-        <View
-            style={[HuddlesTabHeaderStyle.container, { paddingTop: top + 5 }]}
-        >
+        <View style={[HuddlesTabHeaderStyle.container, { paddingTop: top }]}>
             <View style={HuddlesTabHeaderStyle.header}>
                 <Text style={HuddlesTabHeaderStyle.content}>Huddles 👋</Text>
                 <TouchableOpacity onPress={openNotifications}>
