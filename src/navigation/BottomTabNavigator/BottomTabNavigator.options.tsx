@@ -68,3 +68,21 @@ export const ChatsTabOptions: BottomTabNavigationOptions = {
         <Text style={{ fontSize: focused ? 24 : 19 }}>💬</Text>
     )
 };
+
+export const PeopleTabOptions: BottomTabNavigationOptions = {
+    tabBarLabel: ({ focused }) => (
+        <Text
+            style={[
+                BottomTabNavigatorStyle.tabLabel,
+                // eslint-disable-next-line react-native/no-inline-styles
+                { opacity: focused ? 1 : 0.7 }
+            ]}
+        >
+            Friends
+        </Text>
+    ),
+    tabBarIcon: ({ focused }) => (
+        // eslint-disable-next-line react-native/no-inline-styles
+        <Text style={{ fontSize: focused ? 24 : 19 }}>👨‍👩‍👧‍👦</Text>
+    )
+};

@@ -2,6 +2,9 @@ import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
 export const HuddlesTabHeaderStyle = StyleSheet.create({
+    container: {
+        paddingVertical: 5
+    },
     header: {
         paddingTop: 5,
         paddingHorizontal: 15,
@@ -11,27 +14,7 @@ export const HuddlesTabHeaderStyle = StyleSheet.create({
         justifyContent: 'space-between'
     },
     content: {
-        fontSize: 26,
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
-    },
-    row: {
-        flexDirection: 'row'
-    },
-    iconButton: {
-        marginRight: 20
-    },
-    peopleView: {
-        alignItems: 'center'
-    },
-    peopleText: {
-        fontSize: 12.5,
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
-    },
-    peopleNumber: {
-        fontSize: 12.5,
-        opacity: 0.9,
+        fontSize: 24,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     }

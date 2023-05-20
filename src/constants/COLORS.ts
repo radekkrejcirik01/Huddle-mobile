@@ -7,7 +7,7 @@ export default {
     MAIN_BROWN: '#cc6600',
     MAIN_BLUE_100: '#735def',
     MAIN_ORANGE: '#ff8c1a',
-    MAIN_GREEN: '#009900',
+    MAIN_GREEN: '#00b300',
     WHITE: '#ffffff',
     GRAY_100: '#262626',
     GRAY_300: '#0d0d0d',

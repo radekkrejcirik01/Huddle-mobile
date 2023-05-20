@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { SafeAreaView } from '@components/general/SafeAreaView/SafeAreaView';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@hooks/useNavigation';
 import { HuddlesTabHeaderStyle } from '@components/huddles/HuddlesTabHeader/HuddlesTabHeader.style';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
-import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { Icon } from '@components/general/Icon/Icon';
@@ -13,47 +13,29 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { ReducerProps } from '@store/index/index.props';
 
 export const HuddlesTabHeader = (): JSX.Element => {
-    const { notificationsNumber, peopleNumber } = useSelector(
+    const { notificationsNumber } = useSelector(
         (state: ReducerProps) => state.user
     );
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
+    const { top } = useSafeAreaInsets();
 
     const openNotifications = useCallback(
         () => navigateTo(AccountStackNavigatorEnum.NotificationsScreen),
         [navigateTo]
     );
 
-    const openPeople = useCallback(
-        () => navigateTo(AccountStackNavigatorEnum.PeopleScreen),
-        [navigateTo]
-    );
-
     return (
-        <SafeAreaView>
+        <View
+            style={[HuddlesTabHeaderStyle.container, { paddingTop: top + 5 }]}
+        >
             <View style={HuddlesTabHeaderStyle.header}>
-                <Text style={HuddlesTabHeaderStyle.content}>Huddles</Text>
-                <View style={HuddlesTabHeaderStyle.row}>
-                    <TouchableOpacity
-                        onPress={openNotifications}
-                        style={HuddlesTabHeaderStyle.iconButton}
-                    >
-                        <Icon name={IconEnum.BELL} size={25} />
-                        <Badge value={notificationsNumber} />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={openPeople}
-                        style={HuddlesTabHeaderStyle.peopleView}
-                    >
-                        <Text style={HuddlesTabHeaderStyle.peopleText}>
-                            People
-                        </Text>
-                        <Text style={HuddlesTabHeaderStyle.peopleNumber}>
-                            {peopleNumber}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                <Text style={HuddlesTabHeaderStyle.content}>Huddles 👋</Text>
+                <TouchableOpacity onPress={openNotifications}>
+                    <Icon name={IconEnum.BELL} size={25} />
+                    <Badge value={notificationsNumber} />
+                </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
