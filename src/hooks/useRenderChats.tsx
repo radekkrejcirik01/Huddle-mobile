@@ -9,18 +9,17 @@ import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/A
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const useRenderChats = (
-    loadChats: () => void
+    chats: Array<ChatsListDataProps>,
+    loadChats: (lastId?: number) => void
 ): {
     renderChatItem: ({
         item
     }: ListRenderItemInfo<ChatsListDataProps>) => JSX.Element;
     keyChatExtractor: (item: ChatsListDataProps, index: number) => string;
     refreshControl: JSX.Element;
+    onEndReached: () => void;
 } => {
-    const { navigateTo } = useNavigation(
-        RootStackNavigatorEnum.AccountStack,
-        loadChats
-    );
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const { refreshing, onRefresh } = useRefresh(loadChats);
 
     const openConversation = useCallback(
@@ -55,5 +54,11 @@ export const useRenderChats = (
         [onRefresh, refreshing]
     );
 
-    return { renderChatItem, keyChatExtractor, refreshControl };
+    const onEndReached = useCallback(() => {
+        if (chats?.length >= 15) {
+            loadChats(chats[chats?.length - 1].id);
+        }
+    }, [chats, loadChats]);
+
+    return { renderChatItem, keyChatExtractor, refreshControl, onEndReached };
 };

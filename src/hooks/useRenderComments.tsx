@@ -15,9 +15,10 @@ import { ReducerProps } from '@store/index/index.props';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
 
 export const useRenderComments = (
+    comments: Array<CommentItemInterface>,
     huddleId: number,
     refreshComments: () => void,
-    loadComments: () => void,
+    loadComments: (lastId?: number) => void,
     mention: (value: Mention) => void
 ): {
     renderCommentItem: ({
@@ -25,6 +26,7 @@ export const useRenderComments = (
     }: ListRenderItemInfo<CommentItemInterface>) => JSX.Element;
     keyCommentExtractor: (item: CommentItemInterface) => string;
     refreshControl: JSX.Element;
+    onEndReached: () => void;
 } => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
@@ -127,5 +129,16 @@ export const useRenderComments = (
         [onRefresh, refreshing]
     );
 
-    return { renderCommentItem, keyCommentExtractor, refreshControl };
+    const onEndReached = useCallback(() => {
+        if (comments?.length >= 15) {
+            loadComments(comments[comments?.length - 1].id);
+        }
+    }, [comments, loadComments]);
+
+    return {
+        renderCommentItem,
+        keyCommentExtractor,
+        refreshControl,
+        onEndReached
+    };
 };

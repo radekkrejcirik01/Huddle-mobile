@@ -1,7 +1,7 @@
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
-import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
+import { PeopleItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { HuddleInteractionInterface } from '@screens/account/HuddleScreen/HuddleScreen.props';
 import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
@@ -38,7 +38,7 @@ export interface ResponsePeopleNumberGetInterface {
 export interface ResponsePeopleGetInterface {
     status: string;
     message: string;
-    data?: Array<PeopleListItemProps>;
+    data?: Array<PeopleItemProps>;
 }
 
 export interface ResponseHuddlesGetInterface {

@@ -1,15 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { RefreshControl, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
-import FastImage from 'react-native-fast-image';
-import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
-import { useOpenChat } from '@hooks/useOpenChat';
+import { FlashList } from '@shopify/flash-list';
+import { useRenderPeople } from '@hooks/useRenderPeople';
 import { PeopleScreenStyle } from '@screens/account/PeopleScreen/PeopleScreen.style';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
-import { PeopleListItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { PeopleItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponsePeopleGetInterface } from '@interfaces/response/Response.interface';
 import { ReducerProps } from '@store/index/index.props';
@@ -17,81 +14,58 @@ import { ReducerProps } from '@store/index/index.props';
 export const PeopleScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
-    const openChat = useOpenChat();
-    const openProfilePhoto = useOpenProfilePhoto();
-
     const [inputValue, setInputValue] = useState<string>();
 
-    const [data, setData] = useState<Array<PeopleListItemProps>>([]);
-    const [filteredData, setFilteredData] = useState<
-        Array<PeopleListItemProps>
-    >([]);
-    const [refreshing, setRefreshing] = useState(false);
+    const [data, setData] = useState<Array<PeopleItemProps>>([]);
+    const [filteredData, setFilteredData] = useState<Array<PeopleItemProps>>(
+        []
+    );
 
-    const loadPeople = useCallback(() => {
-        getRequestUser<ResponsePeopleGetInterface>(
-            `people/${username}`
-        ).subscribe((response: ResponsePeopleGetInterface) => {
-            if (response?.status) {
-                setData(response?.data);
-                setFilteredData(response?.data);
+    const loadPeople = useCallback(
+        (lastId?: number) => {
+            let endpoint = `people/${username}`;
+            if (lastId) {
+                endpoint += `/${lastId}`;
             }
-        });
-    }, [username]);
+
+            getRequestUser<ResponsePeopleGetInterface>(endpoint).subscribe(
+                (response: ResponsePeopleGetInterface) => {
+                    if (response?.status && !!response?.data?.length) {
+                        if (lastId) {
+                            setData((value) => value.concat(response?.data));
+                        } else {
+                            setData(response?.data);
+                            setFilteredData(response?.data);
+                        }
+                    }
+                }
+            );
+        },
+        [username]
+    );
 
     useEffect(() => loadPeople(), [loadPeople]);
 
-    const filterData = (value: string) => {
-        setInputValue(value);
-        const text = value.toLowerCase();
-        const filteredName = data.filter((item: PeopleListItemProps) =>
-            item.username.toLowerCase().match(text)
-        );
-        setFilteredData(filteredName);
-    };
+    const filterData = useCallback(
+        (value: string) => {
+            setInputValue(value);
 
-    const refresh = useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-            loadPeople();
-        }, 1000);
-    }, [loadPeople]);
+            const text = value.toLowerCase();
+            const filteredName = data.filter((item: PeopleItemProps) =>
+                item.name.toLowerCase().match(text)
+            );
 
-    const onItemPress = useCallback(
-        (item: PeopleListItemProps) => {
-            openChat(item.firstname, item?.profilePhoto, item?.username);
+            setFilteredData(filteredName);
         },
-        [openChat]
+        [data]
     );
 
-    const renderItem = ({
-        item
-    }: ListRenderItemInfo<PeopleListItemProps>): JSX.Element => (
-        <TouchableOpacity
-            onPress={() => onItemPress(item)}
-            style={PeopleScreenStyle.itemView}
-        >
-            <View>
-                <Text style={PeopleScreenStyle.itemTextName}>
-                    {item.firstname}
-                </Text>
-                <Text style={PeopleScreenStyle.itemTextUsername}>
-                    {item.username}
-                </Text>
-            </View>
-            <TouchableOpacity
-                onPress={() =>
-                    openProfilePhoto(item.firstname, item?.profilePhoto)
-                }
-            >
-                <FastImage
-                    source={{ uri: item.profilePhoto }}
-                    style={PeopleScreenStyle.itemImage}
-                />
-            </TouchableOpacity>
-        </TouchableOpacity>
-    );
+    const {
+        renderPeopleItem,
+        keyPeopleExtractor,
+        refreshControl,
+        onEndReached
+    } = useRenderPeople(data, loadPeople);
 
     return (
         <View style={PeopleScreenStyle.container}>
@@ -105,18 +79,11 @@ export const PeopleScreen = (): JSX.Element => {
             />
             <FlashList
                 data={filteredData}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={refresh}
-                        tintColor="white"
-                    />
-                }
-                renderItem={renderItem}
-                keyExtractor={(item: PeopleListItemProps) =>
-                    item?.username?.toString()
-                }
+                renderItem={renderPeopleItem}
+                refreshControl={refreshControl}
+                keyExtractor={keyPeopleExtractor}
                 estimatedItemSize={68}
+                onEndReached={onEndReached}
                 contentContainerStyle={PeopleScreenStyle.listContentContainer}
             />
         </View>

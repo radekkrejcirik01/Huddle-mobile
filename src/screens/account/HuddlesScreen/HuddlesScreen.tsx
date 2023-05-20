@@ -1,9 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Keyboard, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
-import { useNotifications } from '@hooks/useNotifications';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { HuddlesScreenStyle } from '@screens/account/HuddlesScreen/HuddlesScreen.style';
 import { HuddlesTabHeader } from '@components/huddles/HuddlesTabHeader/HuddlesTabHeader';
@@ -22,24 +20,40 @@ export const HuddlesScreen = (): JSX.Element => {
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
     const [startHuddle, setStartHuddle] = useState<boolean>(false);
 
-    const loadHuddles = useCallback(() => {
-        if (username) {
-            getRequestUser<ResponseHuddlesGetInterface>(
-                `huddles/${username}`
-            ).subscribe((response: ResponseHuddlesGetInterface) => {
-                if (response?.status) {
-                    setHuddles(response?.data);
+    const loadHuddles = useCallback(
+        (lastId?: number) => {
+            if (username) {
+                let endpoint = `huddles/${username}`;
+                if (lastId) {
+                    endpoint += `/${lastId}`;
                 }
-            });
-        }
-    }, [username]);
 
-    useFocusEffect(useCallback(() => loadHuddles(), [loadHuddles]));
+                getRequestUser<ResponseHuddlesGetInterface>(endpoint).subscribe(
+                    (response: ResponseHuddlesGetInterface) => {
+                        if (response?.status && !!response?.data?.length) {
+                            if (lastId) {
+                                setHuddles((value) =>
+                                    value.concat(response?.data)
+                                );
+                            } else {
+                                setHuddles(response?.data);
+                            }
+                        }
+                    }
+                );
+            }
+        },
+        [username]
+    );
 
-    useNotifications(() => {}, loadHuddles);
+    useEffect(() => loadHuddles(), [loadHuddles]);
 
-    const { renderLargeItem, keyExtractor, refreshControl } =
-        useRenderHuddles(loadHuddles);
+    const {
+        renderLargeItem,
+        keyExtractor,
+        refreshControl,
+        onEndReachedLargeItem
+    } = useRenderHuddles(huddles, loadHuddles);
 
     const hideStartHuddle = () => {
         Keyboard.dismiss();
@@ -57,6 +71,7 @@ export const HuddlesScreen = (): JSX.Element => {
                 refreshControl={refreshControl}
                 estimatedItemSize={68}
                 showsVerticalScrollIndicator={false}
+                onEndReached={onEndReachedLargeItem}
                 ItemSeparatorComponent={() => <ItemSeparator space={20} />}
                 ListEmptyComponent={
                     <Text style={HuddlesScreenStyle.description}>

@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { MessageListItem } from '@components/conversation/MessagesLisItem/MessageListItem';
 import { MessageItemProps } from '@screens/account/ConversationScreen/ConversationScreen.props';
 
-export const useRenderMesages = (): {
+export const useRenderMesages = (
+    messages: Array<MessageItemProps>,
+    loadMessages: (lastId?: number) => void
+): {
     renderMessageItem: ({
         item
     }: ListRenderItemInfo<MessageItemProps>) => JSX.Element;
     keyMessageExtractor: (item: MessageItemProps, index: number) => string;
+    onEndReached: () => void;
 } => {
     const renderMessageItem = ({
         item
@@ -18,5 +22,11 @@ export const useRenderMesages = (): {
     const keyMessageExtractor = (item: MessageItemProps): string =>
         item?.id?.toString();
 
-    return { renderMessageItem, keyMessageExtractor };
+    const onEndReached = useCallback(() => {
+        if (messages?.length >= 20) {
+            loadMessages(messages[messages?.length - 1].id);
+        }
+    }, [loadMessages, messages]);
+
+    return { renderMessageItem, keyMessageExtractor, onEndReached };
 };

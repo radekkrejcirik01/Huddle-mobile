@@ -1,8 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Keyboard, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useMessaging } from '@hooks/useMessaging';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
@@ -27,22 +26,41 @@ export const ProfileScreen = (): JSX.Element => {
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
     const [startHuddle, setStartHuddle] = useState<boolean>(false);
 
-    const loadHuddles = useCallback(() => {
-        if (username) {
-            getRequestUser<ResponseHuddlesGetInterface>(
-                `user-huddles/${username}`
-            ).subscribe((response: ResponseHuddlesGetInterface) => {
-                if (response?.status) {
-                    setHuddles(response?.data);
+    const loadHuddles = useCallback(
+        (lastId?: number) => {
+            if (username) {
+                let endpoint = `user-huddles/${username}`;
+                if (lastId) {
+                    endpoint += `/${lastId}`;
                 }
-            });
-        }
-    }, [username]);
 
-    useFocusEffect(useCallback(() => loadHuddles(), [loadHuddles]));
+                getRequestUser<ResponseHuddlesGetInterface>(endpoint).subscribe(
+                    (response: ResponseHuddlesGetInterface) => {
+                        if (response?.status && !!response?.data?.length) {
+                            if (lastId) {
+                                setHuddles((value) =>
+                                    value.concat(response?.data)
+                                );
+                            } else {
+                                setHuddles(response?.data);
+                            }
+                        }
+                    }
+                );
+            }
+        },
+        [username]
+    );
 
-    const { renderSmallItem, keyExtractor, refreshControl } =
-        useRenderHuddles(loadHuddles);
+    useEffect(() => loadHuddles(), [loadHuddles]);
+
+    const {
+        renderSmallItem,
+        keyExtractor,
+        refreshControl,
+        onScrollBeginDrag,
+        onEndReachedSmallItem
+    } = useRenderHuddles(huddles, loadHuddles);
 
     const hideStartHuddle = () => {
         Keyboard.dismiss();
@@ -87,6 +105,8 @@ export const ProfileScreen = (): JSX.Element => {
                 refreshControl={refreshControl}
                 estimatedItemSize={68}
                 showsVerticalScrollIndicator={false}
+                onScrollBeginDrag={onScrollBeginDrag}
+                onEndReached={onEndReachedSmallItem}
                 ListEmptyComponent={
                     <Text style={ProfileScreenStyle.description}>
                         your Huddles will appear{'\n'}here 👋

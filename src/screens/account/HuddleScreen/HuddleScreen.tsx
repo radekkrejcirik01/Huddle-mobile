@@ -115,16 +115,29 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const { renderInteractionItem, keyInteractionExtractor } =
         useRenderInteractions(huddle, !!confirmedUser, loadInteractions);
 
-    const loadComments = useCallback(() => {
-        getRequestUser<ResponseHuddlesCommentsGetInterface>(
-            `comments/${huddle?.id}/${username}`
-        ).subscribe((response: ResponseHuddlesCommentsGetInterface) => {
-            if (response?.status) {
-                setComments(response?.data);
-                setMentions(response?.mentions);
+    const loadComments = useCallback(
+        (lastId?: number) => {
+            let endpoint = `comments/${huddle?.id}/${username}`;
+            if (lastId) {
+                endpoint += `/${lastId}`;
             }
-        });
-    }, [huddle?.id, username]);
+
+            getRequestUser<ResponseHuddlesCommentsGetInterface>(
+                endpoint
+            ).subscribe((response: ResponseHuddlesCommentsGetInterface) => {
+                if (response?.status && !!response?.data?.length) {
+                    if (lastId) {
+                        setComments((value) => value.concat(response?.data));
+                    } else {
+                        setComments(response?.data);
+                    }
+
+                    setMentions(response?.mentions);
+                }
+            });
+        },
+        [huddle?.id, username]
+    );
 
     const load = useCallback(() => {
         if (huddle?.id) {
@@ -233,8 +246,12 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
         return itemsHeight + separatorsHeight;
     }, [interactions?.length]);
 
-    const { renderCommentItem, keyCommentExtractor, refreshControl } =
-        useRenderComments(huddle?.id, loadComments, load, setMention);
+    const {
+        renderCommentItem,
+        keyCommentExtractor,
+        refreshControl,
+        onEndReached
+    } = useRenderComments(comments, huddle?.id, loadComments, load, setMention);
 
     const onSend = useCallback(() => {
         loadComments();
@@ -377,6 +394,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                 estimatedItemSize={68}
                 refreshControl={refreshControl}
                 showsVerticalScrollIndicator={false}
+                onEndReached={onEndReached}
                 ItemSeparatorComponent={() => <ItemSeparator space={30} />}
                 ListEmptyComponent={
                     <Text style={HuddleScreenStyle.emptyListText}>

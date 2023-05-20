@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { Alert, RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
@@ -17,7 +17,8 @@ import { ReducerProps } from '@store/index/index.props';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const useRenderHuddles = (
-    loadHuddles?: () => void
+    huddles?: Array<HuddleItemInterface>,
+    loadHuddles?: (lastId?: number) => void
 ): {
     renderLargeItem: ({
         item
@@ -28,6 +29,9 @@ export const useRenderHuddles = (
     keyExtractor: (item: HuddleItemInterface, index: number) => string;
     refreshControl: JSX.Element;
     onPressInteract: (item: HuddleItemInterface) => void;
+    onEndReachedLargeItem: () => void;
+    onScrollBeginDrag: () => void;
+    onEndReachedSmallItem: () => void;
 } => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
@@ -35,6 +39,8 @@ export const useRenderHuddles = (
     const { showActionSheetWithOptions } = useActionSheet();
     const { refreshing, onRefresh } = useRefresh(loadHuddles);
     const openProfilePhoto = useOpenProfilePhoto();
+
+    const scrollBeginDragged = useRef<boolean>(false);
 
     const openHuddle = useCallback(
         (item: HuddleItemInterface) => {
@@ -148,11 +154,30 @@ export const useRenderHuddles = (
         [onRefresh, refreshing]
     );
 
+    const onEndReachedLargeItem = useCallback(() => {
+        if (huddles?.length >= 10) {
+            loadHuddles(huddles[huddles?.length - 1].id);
+        }
+    }, [huddles, loadHuddles]);
+
+    const onScrollBeginDrag = useCallback(() => {
+        scrollBeginDragged.current = true;
+    }, []);
+
+    const onEndReachedSmallItem = useCallback(() => {
+        if (huddles?.length && scrollBeginDragged.current) {
+            loadHuddles(huddles[huddles?.length - 1].id);
+        }
+    }, [huddles, loadHuddles]);
+
     return {
         renderLargeItem,
         renderSmallItem,
         keyExtractor,
         refreshControl,
-        onPressInteract
+        onPressInteract,
+        onEndReachedLargeItem,
+        onScrollBeginDrag,
+        onEndReachedSmallItem
     };
 };

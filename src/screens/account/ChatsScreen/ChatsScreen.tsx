@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList } from '@shopify/flash-list';
@@ -18,18 +18,32 @@ export const ChatsScreen = (): JSX.Element => {
 
     const [chats, setChats] = useState<Array<ChatsListDataProps>>([]);
 
-    const loadChats = useCallback(() => {
-        getRequestUser<ResponseInterface>(`chats/${username}`).subscribe(
-            (response: ResponseChatsGetInterface) => {
-                if (response?.status) {
-                    setChats(response?.data);
-                }
+    const loadChats = useCallback(
+        (lastId?: number) => {
+            let endpoint = `chats/${username}`;
+            if (lastId) {
+                endpoint += `/${lastId}`;
             }
-        );
-    }, [username]);
 
-    const { renderChatItem, keyChatExtractor, refreshControl } =
-        useRenderChats(loadChats);
+            getRequestUser<ResponseInterface>(endpoint).subscribe(
+                (response: ResponseChatsGetInterface) => {
+                    if (response?.status && !!response?.data?.length) {
+                        if (lastId) {
+                            setChats((value) => value.concat(response?.data));
+                        } else {
+                            setChats(response?.data);
+                        }
+                    }
+                }
+            );
+        },
+        [username]
+    );
+
+    useEffect(() => loadChats(), [loadChats]);
+
+    const { renderChatItem, keyChatExtractor, refreshControl, onEndReached } =
+        useRenderChats(chats, loadChats);
 
     return (
         <View style={ChatsScreenStyle.container}>
@@ -39,8 +53,9 @@ export const ChatsScreen = (): JSX.Element => {
                 renderItem={renderChatItem}
                 keyExtractor={keyChatExtractor}
                 refreshControl={refreshControl}
-                showsVerticalScrollIndicator={false}
                 estimatedItemSize={68}
+                showsVerticalScrollIndicator={false}
+                onEndReached={onEndReached}
                 contentContainerStyle={ChatsScreenStyle.contentContainer}
             />
         </View>

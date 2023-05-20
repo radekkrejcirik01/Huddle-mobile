@@ -69,15 +69,29 @@ export const ConversationScreen = ({
         [name, navigation, openProfilePhoto, profilePhoto, top]
     );
 
-    const loadMessages = useCallback(() => {
-        getRequestUser<MessagesResponseInterface>(
-            `conversation/${conversationId}`
-        ).subscribe((response: MessagesResponseInterface) => {
-            if (response?.status) {
-                setMessages(response?.data);
+    const loadMessages = useCallback(
+        (lastId?: number) => {
+            let endpoint = `conversation/${conversationId}`;
+            if (lastId) {
+                endpoint += `/${lastId}`;
             }
-        });
-    }, [conversationId]);
+
+            getRequestUser<MessagesResponseInterface>(endpoint).subscribe(
+                (response: MessagesResponseInterface) => {
+                    if (response?.status && !!response?.data?.length) {
+                        if (lastId) {
+                            setMessages((value) =>
+                                value.concat(response?.data)
+                            );
+                        } else {
+                            setMessages(response?.data);
+                        }
+                    }
+                }
+            );
+        },
+        [conversationId]
+    );
 
     const loadMessagesByUsernames = useCallback(() => {
         getRequestUser<MessagesByUsernamesResponseInterface>(
@@ -111,7 +125,8 @@ export const ConversationScreen = ({
         return () => {};
     }, [loadMessages, username]);
 
-    const { renderMessageItem, keyMessageExtractor } = useRenderMesages();
+    const { renderMessageItem, keyMessageExtractor, onEndReached } =
+        useRenderMesages(messages, loadMessages);
 
     const sendMessage = useCallback(
         (message: string, buffer: string, fileName: string) => {
@@ -152,6 +167,7 @@ export const ConversationScreen = ({
                         estimatedItemSize={68}
                         inverted
                         showsVerticalScrollIndicator={false}
+                        onEndReached={onEndReached}
                     />
                     <ChatInput onSend={sendMessage} />
                 </View>

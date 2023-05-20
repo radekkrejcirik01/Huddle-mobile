@@ -7,7 +7,7 @@ export const ProfileTitle: StackNavigationOptions = {
 };
 
 export const PeopleOptions: StackNavigationOptions = {
-    headerTitle: 'People',
+    headerTitle: 'People 👨‍👩‍👧‍👦',
     headerRight: () => <PeoplePlus />
 };
 

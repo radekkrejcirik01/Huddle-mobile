@@ -27,13 +27,15 @@ import { setPeopleNumberAction } from '@store/UserReducer';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const useRenderNotifications = (
-    loadNotifications: () => void
+    notifications: Array<NotificationsListProps>,
+    loadNotifications: (lastId?: number) => void
 ): {
     renderNotificationItem: ({
         item
     }: ListRenderItemInfo<NotificationsListProps>) => JSX.Element;
     keyNotificationExtractor: (item: NotificationsListProps) => string;
     refreshControl: JSX.Element;
+    onEndReached: () => void;
 } => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
     const dispatch = useDispatch();
@@ -140,5 +142,16 @@ export const useRenderNotifications = (
         [onRefresh, refreshing]
     );
 
-    return { renderNotificationItem, keyNotificationExtractor, refreshControl };
+    const onEndReached = useCallback(() => {
+        if (notifications?.length >= 20) {
+            loadNotifications(notifications[notifications?.length - 1].id);
+        }
+    }, [loadNotifications, notifications]);
+
+    return {
+        renderNotificationItem,
+        keyNotificationExtractor,
+        refreshControl,
+        onEndReached
+    };
 };
