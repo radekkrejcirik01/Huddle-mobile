@@ -108,7 +108,7 @@ export const useRenderComments = (
                     )
                 }
                 onItemLongPress={() => itemLongPress(item)}
-                likeValue={item?.liked}
+                liked={item?.liked}
                 onPressLike={(value: boolean) => pressCommentLike(value, item)}
             />
         ),

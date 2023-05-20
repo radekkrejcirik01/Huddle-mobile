@@ -3,7 +3,10 @@ import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.pro
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { PeopleItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
 import { HuddleInteractionInterface } from '@screens/account/HuddleScreen/HuddleScreen.props';
-import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
+import {
+    CommentItemInterface,
+    CommentLikeInterface
+} from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
 import { MessageItemProps } from '@screens/account/ConversationScreen/ConversationScreen.props';
 
@@ -65,6 +68,12 @@ export interface ResponseHuddlesCommentsGetInterface {
     message: string;
     data?: Array<CommentItemInterface>;
     mentions?: Array<Mention>;
+}
+
+export interface ResponseHuddleCommentLikesGetInterface {
+    status: string;
+    message: string;
+    data?: Array<CommentLikeInterface>;
 }
 
 export interface ResponseChatsGetInterface {
