@@ -75,7 +75,7 @@ export const LargeHuddleListItem = ({
             <View style={LargeHuddleListItemStyle.leftContainer}>
                 <View>
                     <Text style={LargeHuddleListItemStyle.whatText}>
-                        {item?.id}
+                        {item?.what}
                     </Text>
                     <Text style={LargeHuddleListItemStyle.whereText}>
                         {item?.where}
