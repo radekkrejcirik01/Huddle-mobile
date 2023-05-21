@@ -1,12 +1,13 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { SafeAreaView } from '@components/general/SafeAreaView/SafeAreaView';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ChatsTabHeaderStyle } from '@components/chats/ChatsTabHeader/ChatsTabHeader.style';
 
-export const ChatsTabHeader = (): JSX.Element => (
-    <SafeAreaView>
-        <View style={ChatsTabHeaderStyle.header}>
-            <Text style={ChatsTabHeaderStyle.content}>Chats</Text>
+export const ChatsTabHeader = (): JSX.Element => {
+    const { top } = useSafeAreaInsets();
+    return (
+        <View style={[ChatsTabHeaderStyle.header, { paddingTop: top + 5 }]}>
+            <Text style={ChatsTabHeaderStyle.title}>💬</Text>
         </View>
-    </SafeAreaView>
-);
+    );
+};

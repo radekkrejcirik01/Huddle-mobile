@@ -1,9 +1,8 @@
 import { StyleSheet } from 'react-native';
 
-export const PeopleScreenStyle = StyleSheet.create({
+export const FriendsScreenStyle = StyleSheet.create({
     container: {
-        flex: 1,
-        paddingTop: 10
+        flex: 1
     },
     input: {
         paddingLeft: 10,

@@ -8,7 +8,7 @@ import {
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { ProfileDetailsScreen } from '@screens/account/ProfileDetailsScreen/ProfileDetailsScreen';
 import { NotificationsScreen } from '@screens/account/NotificationsScreen/NotificationsScreen';
-import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
+import { FriendsScreen } from '@screens/account/FriendsScreen/FriendsScreen';
 import { ProfilePhotoScreen } from '@screens/account/ProfilePhotoScreen/ProfilePhotoScreen';
 import { ConversationScreen } from '@screens/account/ConversationScreen/ConversationScreen';
 import { HuddleScreen } from '@screens/account/HuddleScreen/HuddleScreen';
@@ -19,8 +19,8 @@ import {
     AccountTitle,
     ChangePasswordTitle,
     DeleteAccountTitle,
+    FriendsOptions,
     NotificationsTitle,
-    PeopleOptions,
     ProfileTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
 import { NavigatorScreenOptions } from '@navigation/RootNavigator/RootStackNavigator.options';
@@ -45,6 +45,11 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...DeleteAccountTitle }}
         />
         <Account.Screen
+            name={AccountStackNavigatorEnum.FriendsScreen}
+            component={FriendsScreen}
+            options={{ ...NavigationScreenHeader, ...FriendsOptions }}
+        />
+        <Account.Screen
             name={AccountStackNavigatorEnum.HuddleScreen}
             component={HuddleScreen}
             options={{ ...NavigationScreenHeader, ...NoTitle }}
@@ -58,11 +63,6 @@ export const AccountStackNavigator = (): JSX.Element => (
             name={AccountStackNavigatorEnum.NotificationsScreen}
             component={NotificationsScreen}
             options={{ ...NavigationScreenHeader, ...NotificationsTitle }}
-        />
-        <Account.Screen
-            name={AccountStackNavigatorEnum.PeopleScreen}
-            component={PeopleScreen}
-            options={{ ...NavigationScreenHeader, ...PeopleOptions }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.ProfileDetailScreen}

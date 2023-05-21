@@ -69,7 +69,7 @@ export const ChatsTabOptions: BottomTabNavigationOptions = {
     )
 };
 
-export const PeopleTabOptions: BottomTabNavigationOptions = {
+export const FriendsTabOptions: BottomTabNavigationOptions = {
     tabBarLabel: ({ focused }) => (
         <Text
             style={[

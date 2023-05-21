@@ -1,7 +1,7 @@
 import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
-import { PeopleItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
+import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
 import { HuddleInteractionInterface } from '@screens/account/HuddleScreen/HuddleScreen.props';
 import {
     CommentItemInterface,
@@ -38,22 +38,16 @@ export interface ResponsePeopleNumberGetInterface {
     peopleNumber?: number;
 }
 
-export interface ResponsePeopleGetInterface {
+export interface ResponseFriendsGetInterface {
     status: string;
     message: string;
-    data?: Array<PeopleItemProps>;
+    data?: Array<FriendsItemProps>;
 }
 
 export interface ResponseHuddlesGetInterface {
     status: string;
     message: string;
     data?: Array<HuddleItemInterface>;
-}
-
-export interface ResponseHuddleGetInterface {
-    status: string;
-    message: string;
-    data?: HuddleItemInterface;
 }
 
 export interface ResponseHuddlesInteractionsGetInterface {
@@ -99,25 +93,6 @@ export interface ResponseNotificationsGetInterface {
     status: string;
     message: string;
     data?: Array<NotificationsListProps>;
-}
-
-export interface ConversationDetailsInterface {
-    id: number;
-    name: string;
-    picture: string;
-    users: Array<{
-        username: string;
-        firstname: string;
-        profilePhoto: string;
-    }>;
-    createdBy: string;
-    type: string;
-}
-
-export interface ResponseGetConversationDetailsInterface {
-    status: string;
-    message: string;
-    data?: ConversationDetailsInterface;
 }
 
 export interface ResponseUploadImageInterface {

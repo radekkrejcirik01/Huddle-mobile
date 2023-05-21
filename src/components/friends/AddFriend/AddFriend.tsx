@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Alert, Keyboard, Text, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useModal } from '@hooks/useModal';
+import { useNavigation } from '@hooks/useNavigation';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { IconButton } from '@components/general/IconButton/IconButton';
-import { PeoplePlusStyle } from '@components/people/PeoplePlus/PeoplePlus.style';
-import { useModal } from '@hooks/useModal';
 import COLORS from '@constants/COLORS';
 import { Modal } from '@components/general/Modal/Modal';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
@@ -12,11 +12,11 @@ import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { AddPersonInvitePostInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
-import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { AddFriendStyle } from '@components/friends/AddFriend/AddFriend.style';
 
-export const PeoplePlus = (): JSX.Element => {
+export const AddFriend = (): JSX.Element => {
     const { username: user } = useSelector(
         (state: ReducerProps) => state.user.user
     );
@@ -70,12 +70,12 @@ export const PeoplePlus = (): JSX.Element => {
 
     const content = useMemo(
         (): JSX.Element => (
-            <View style={PeoplePlusStyle.modalContainer}>
-                <View style={PeoplePlusStyle.inputContainer}>
-                    <Text style={PeoplePlusStyle.title}>Username</Text>
-                    <View style={PeoplePlusStyle.inputView}>
+            <View style={AddFriendStyle.modalContainer}>
+                <View style={AddFriendStyle.inputContainer}>
+                    <Text style={AddFriendStyle.title}>Username</Text>
+                    <View style={AddFriendStyle.inputView}>
                         <Text>✉️</Text>
-                        <Text style={PeoplePlusStyle.hashtag}>@</Text>
+                        <Text style={AddFriendStyle.hashtag}>@</Text>
                         <TextInput
                             autoFocus
                             value={username}
@@ -84,15 +84,15 @@ export const PeoplePlus = (): JSX.Element => {
                             autoCapitalize="none"
                             keyboardAppearance="light"
                             selectionColor={COLORS.WHITE}
-                            style={PeoplePlusStyle.input}
+                            style={AddFriendStyle.input}
                         />
                     </View>
                 </View>
                 <TouchableOpacity
                     onPress={onSend}
-                    style={PeoplePlusStyle.sendButton}
+                    style={AddFriendStyle.sendButton}
                 >
-                    <Text style={PeoplePlusStyle.sendButtonText}>
+                    <Text style={AddFriendStyle.sendButtonText}>
                         Send invite
                     </Text>
                 </TouchableOpacity>
@@ -103,12 +103,7 @@ export const PeoplePlus = (): JSX.Element => {
 
     return (
         <>
-            <IconButton
-                icon={IconEnum.PLUS}
-                onPress={showModal}
-                size={25}
-                style={PeoplePlusStyle.iconButton}
-            />
+            <IconButton icon={IconEnum.PLUS} onPress={showModal} size={24} />
             <Modal
                 isVisible={modalVisible}
                 content={content}

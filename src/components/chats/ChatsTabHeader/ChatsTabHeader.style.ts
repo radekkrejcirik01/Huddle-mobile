@@ -3,13 +3,11 @@ import COLORS from '@constants/COLORS';
 
 export const ChatsTabHeaderStyle = StyleSheet.create({
     header: {
-        height: 50, // height of image in ProfileTabHeader
-        paddingLeft: 10,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
+        paddingHorizontal: 15,
+        paddingBottom: 10,
+        alignItems: 'center'
     },
-    content: {
+    title: {
         fontSize: 26,
         color: COLORS.WHITE,
         fontWeight: 'bold'

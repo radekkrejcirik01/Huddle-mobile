@@ -1,10 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const PeoplePlusStyle = StyleSheet.create({
-    iconButton: {
-        marginHorizontal: 12
-    },
+export const AddFriendStyle = StyleSheet.create({
     modalContainer: {
         flex: 1,
         padding: 15,

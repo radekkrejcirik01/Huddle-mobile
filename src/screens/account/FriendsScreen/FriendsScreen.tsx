@@ -1,35 +1,39 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useRoute } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
-import { useRenderPeople } from '@hooks/useRenderPeople';
-import { PeopleScreenStyle } from '@screens/account/PeopleScreen/PeopleScreen.style';
+import { useRenderFriends } from '@hooks/useRenderFriends';
+import { FriendsScreenStyle } from '@screens/account/FriendsScreen/FriendsScreen.style';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
-import { PeopleItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
+import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
 import { getRequestUser } from '@utils/Axios/Axios.service';
-import { ResponsePeopleGetInterface } from '@interfaces/response/Response.interface';
+import { ResponseFriendsGetInterface } from '@interfaces/response/Response.interface';
 import { ReducerProps } from '@store/index/index.props';
+import { FriendsTabHeader } from '@components/friends/FriendsTabHeader/FriendsTabHeader';
 
-export const PeopleScreen = (): JSX.Element => {
+export const FriendsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
+
+    const route = useRoute();
 
     const [inputValue, setInputValue] = useState<string>();
 
-    const [data, setData] = useState<Array<PeopleItemProps>>([]);
-    const [filteredData, setFilteredData] = useState<Array<PeopleItemProps>>(
+    const [data, setData] = useState<Array<FriendsItemProps>>([]);
+    const [filteredData, setFilteredData] = useState<Array<FriendsItemProps>>(
         []
     );
 
-    const loadPeople = useCallback(
+    const loadFriends = useCallback(
         (lastId?: number) => {
             let endpoint = `people/${username}`;
             if (lastId) {
                 endpoint += `/${lastId}`;
             }
 
-            getRequestUser<ResponsePeopleGetInterface>(endpoint).subscribe(
-                (response: ResponsePeopleGetInterface) => {
+            getRequestUser<ResponseFriendsGetInterface>(endpoint).subscribe(
+                (response: ResponseFriendsGetInterface) => {
                     if (response?.status && !!response?.data?.length) {
                         if (lastId) {
                             setData((value) => value.concat(response?.data));
@@ -44,14 +48,14 @@ export const PeopleScreen = (): JSX.Element => {
         [username]
     );
 
-    useEffect(() => loadPeople(), [loadPeople]);
+    useEffect(() => loadFriends(), [loadFriends]);
 
     const filterData = useCallback(
         (value: string) => {
             setInputValue(value);
 
             const text = value.toLowerCase();
-            const filteredName = data.filter((item: PeopleItemProps) =>
+            const filteredName = data.filter((item: FriendsItemProps) =>
                 item.name.toLowerCase().match(text)
             );
 
@@ -61,30 +65,31 @@ export const PeopleScreen = (): JSX.Element => {
     );
 
     const {
-        renderPeopleItem,
-        keyPeopleExtractor,
+        renderFriendsItem,
+        keyFriendsExtractor,
         refreshControl,
         onEndReached
-    } = useRenderPeople(data, loadPeople);
+    } = useRenderFriends(data, loadFriends);
 
     return (
-        <View style={PeopleScreenStyle.container}>
+        <View style={FriendsScreenStyle.container}>
+            {route.name === 'FriendsTab' && <FriendsTabHeader />}
             <Input
                 iconLeft={<Text>🔍</Text>}
                 placeholder="Who you looking for?..."
                 value={inputValue}
                 onChange={filterData}
                 inputType={InputTypeEnum.TEXT}
-                inputStyle={PeopleScreenStyle.input}
+                inputStyle={FriendsScreenStyle.input}
             />
             <FlashList
                 data={filteredData}
-                renderItem={renderPeopleItem}
+                renderItem={renderFriendsItem}
                 refreshControl={refreshControl}
-                keyExtractor={keyPeopleExtractor}
+                keyExtractor={keyFriendsExtractor}
                 estimatedItemSize={68}
                 onEndReached={onEndReached}
-                contentContainerStyle={PeopleScreenStyle.listContentContainer}
+                contentContainerStyle={FriendsScreenStyle.listContentContainer}
             />
         </View>
     );

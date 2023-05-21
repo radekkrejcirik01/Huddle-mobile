@@ -4,12 +4,12 @@ import { BottomTabNavigatorEnum } from '@navigation/BottomTabNavigator/BottomTab
 import { ProfileScreen } from '@screens/account/ProfileScreen/ProfileScreen';
 import { HuddlesScreen } from '@screens/account/HuddlesScreen/HuddlesScreen';
 import { ChatsScreen } from '@screens/account/ChatsScreen/ChatsScreen';
-import { PeopleScreen } from '@screens/account/PeopleScreen/PeopleScreen';
+import { FriendsScreen } from '@screens/account/FriendsScreen/FriendsScreen';
 import {
     BottomTabNavigatorOptions,
     ChatsTabOptions,
+    FriendsTabOptions,
     HuddlesTabOptions,
-    PeopleTabOptions,
     ProfileTabOptions
 } from '@navigation/BottomTabNavigator/BottomTabNavigator.options';
 
@@ -37,9 +37,9 @@ export const BottomTabNavigator = (): JSX.Element => {
                 options={ChatsTabOptions}
             />
             <TabBar.Screen
-                name={BottomTabNavigatorEnum.PeopleTab}
-                component={PeopleScreen}
-                options={PeopleTabOptions}
+                name={BottomTabNavigatorEnum.FriendsTab}
+                component={FriendsScreen}
+                options={FriendsTabOptions}
             />
         </TabBar.Navigator>
     );

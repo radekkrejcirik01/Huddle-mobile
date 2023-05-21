@@ -3,9 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const ProfileScreenStyle = StyleSheet.create({
     container: {
-        flex: 1,
-        paddingTop: 5,
-        paddingHorizontal: 5
+        flex: 1
     },
     contentHeaderView: {
         paddingLeft: 5,
@@ -16,23 +14,6 @@ export const ProfileScreenStyle = StyleSheet.create({
         justifyContent: 'space-between'
     },
     title: {
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
-    },
-    addButtonView: {
-        marginTop: 5,
-        marginLeft: 5,
-        paddingVertical: 6,
-        paddingHorizontal: 8,
-        borderRadius: 15,
-        backgroundColor: COLORS.BUTTON_BLUE,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    plusIcon: {
-        marginRight: 4
-    },
-    addButtonText: {
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },

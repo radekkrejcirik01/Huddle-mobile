@@ -4,34 +4,34 @@ import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { useOpenChat } from '@hooks/useOpenChat';
 import { useRefresh } from '@hooks/useRefresh';
-import { PeopleItemProps } from '@screens/account/PeopleScreen/PeopleScreen.props';
-import { PeopleListItem } from '@components/people/PeopleListItem/PeopleListItem';
+import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
+import { FriendsListItem } from '@components/friends/FriendsListItem/FriendsListItem';
 
-export const useRenderPeople = (
-    people: Array<PeopleItemProps>,
-    loadPeople: (lastId?: number) => void
+export const useRenderFriends = (
+    friends: Array<FriendsItemProps>,
+    loadFriends: (lastId?: number) => void
 ): {
-    renderPeopleItem: ({
+    renderFriendsItem: ({
         item
-    }: ListRenderItemInfo<PeopleItemProps>) => JSX.Element;
-    keyPeopleExtractor: (item: PeopleItemProps) => string;
+    }: ListRenderItemInfo<FriendsItemProps>) => JSX.Element;
+    keyFriendsExtractor: (item: FriendsItemProps) => string;
     refreshControl: JSX.Element;
     onEndReached: () => void;
 } => {
     const openProfilePhoto = useOpenProfilePhoto();
     const openChat = useOpenChat();
-    const { refreshing, onRefresh } = useRefresh(loadPeople);
+    const { refreshing, onRefresh } = useRefresh(loadFriends);
 
     const onItemPress = useCallback(
-        (item: PeopleItemProps) => {
+        (item: FriendsItemProps) => {
             openChat(item.name, item?.profilePhoto, item?.username);
         },
         [openChat]
     );
 
-    const renderPeopleItem = useCallback(
-        ({ item }: ListRenderItemInfo<PeopleItemProps>): JSX.Element => (
-            <PeopleListItem
+    const renderFriendsItem = useCallback(
+        ({ item }: ListRenderItemInfo<FriendsItemProps>): JSX.Element => (
+            <FriendsListItem
                 item={item}
                 onItemPress={() => onItemPress(item)}
                 onPhotoPress={() =>
@@ -42,7 +42,7 @@ export const useRenderPeople = (
         [onItemPress, openProfilePhoto]
     );
 
-    const keyPeopleExtractor = (item: PeopleItemProps): string =>
+    const keyFriendsExtractor = (item: FriendsItemProps): string =>
         item?.id?.toString();
 
     const refreshControl = useMemo(
@@ -57,14 +57,14 @@ export const useRenderPeople = (
     );
 
     const onEndReached = useCallback(() => {
-        if (people?.length >= 20) {
-            loadPeople(people[people?.length - 1].id);
+        if (friends?.length >= 20) {
+            loadFriends(friends[friends?.length - 1].id);
         }
-    }, [loadPeople, people]);
+    }, [friends, loadFriends]);
 
     return {
-        renderPeopleItem,
-        keyPeopleExtractor,
+        renderFriendsItem,
+        keyFriendsExtractor,
         refreshControl,
         onEndReached
     };

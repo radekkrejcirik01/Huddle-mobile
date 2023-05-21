@@ -6,15 +6,23 @@ export const ProfileTabHeaderStyle = StyleSheet.create({
         alignItems: 'center'
     },
     profileContent: {
-        flex: 1,
-        paddingHorizontal: 12,
-        alignItems: 'center'
+        paddingHorizontal: 15,
+        paddingBottom: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    flex: {
+        flex: 1
     },
     image: {
-        width: 55,
-        height: 55,
+        width: 50,
+        height: 50,
         borderRadius: 65,
-        backgroundColor: COLORS.GRAY_100
+        backgroundColor: COLORS.GRAY_400
+    },
+    menuView: {
+        flex: 1,
+        alignItems: 'flex-end'
     },
     nameText: {
         fontSize: 24,

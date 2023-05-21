@@ -2,10 +2,10 @@ export enum AccountStackNavigatorEnum {
     AccountScreen = 'AccountScreen',
     ConversationScreen = 'ConversationScreen',
     DeleteAccountScreen = 'DeleteAccountScreen',
+    FriendsScreen = 'FriendsScreen',
     HuddleScreen = 'HuddleScreen',
     ChangePasswordScreen = 'ChangePasswordScreen',
     NotificationsScreen = 'NotificationsScreen',
-    PeopleScreen = 'PeopleScreen',
     ProfileDetailScreen = 'ProfileDetailScreen',
     ProfilePhotoScreen = 'ProfilePhotoScreen'
 }

@@ -8,7 +8,6 @@ import {
     LargeHuddlesListItemDefaultProps
 } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem.props';
 import { LargeHuddleListItemStyle } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem.style';
-import COLORS from '@constants/COLORS';
 
 export const LargeHuddleListItem = ({
     item,
@@ -72,51 +71,54 @@ export const LargeHuddleListItem = ({
             onLongPress={onItemLongPress}
             style={[LargeHuddleListItemStyle.container, style]}
         >
-            <View style={LargeHuddleListItemStyle.leftContainer}>
-                <View>
-                    <Text style={LargeHuddleListItemStyle.whatText}>
-                        {item?.what}
-                    </Text>
-                    <Text style={LargeHuddleListItemStyle.whereText}>
-                        {item?.where}
-                    </Text>
-                    <Text style={LargeHuddleListItemStyle.whenText}>
-                        {item?.when}
-                    </Text>
-                </View>
-                <View style={LargeHuddleListItemStyle.nameView}>
-                    <Text style={LargeHuddleListItemStyle.nameText}>
-                        {item?.name}
-                    </Text>
+            <View style={LargeHuddleListItemStyle.content}>
+                <View style={LargeHuddleListItemStyle.row}>
+                    <View>
+                        <TouchableOpacity
+                            activeOpacity={0.9}
+                            onPress={onPressProfilePhoto}
+                        >
+                            <FastImage
+                                source={{ uri: item?.profilePhoto }}
+                                style={LargeHuddleListItemStyle.image}
+                            />
+                        </TouchableOpacity>
+                        <View style={LargeHuddleListItemStyle.nameView}>
+                            <Text
+                                style={LargeHuddleListItemStyle.nameText}
+                                adjustsFontSizeToFit
+                                numberOfLines={1}
+                            >
+                                Radek
+                            </Text>
+                        </View>
+                    </View>
+                    <View style={LargeHuddleListItemStyle.infoView}>
+                        <Text style={LargeHuddleListItemStyle.whatText}>
+                            {item?.what}
+                        </Text>
+                        <Text style={LargeHuddleListItemStyle.whenText}>
+                            {item?.when}
+                        </Text>
+                    </View>
                 </View>
                 {!!item?.commentsNumber && !hideCommentsNumber && (
-                    <Text style={{ color: COLORS.WHITE }}>
+                    <Text style={LargeHuddleListItemStyle.commentsText}>
                         {item?.commentsNumber}{' '}
                         {item?.commentsNumber > 1 ? 'comments' : 'comment'}
                     </Text>
                 )}
             </View>
-            <View style={LargeHuddleListItemStyle.rightContainer}>
+            {!created && (
                 <TouchableOpacity
-                    activeOpacity={0.9}
-                    onPress={onPressProfilePhoto}
+                    onPress={interact}
+                    style={LargeHuddleListItemStyle.handView}
                 >
-                    <FastImage
-                        source={{ uri: item?.profilePhoto }}
-                        style={LargeHuddleListItemStyle.image}
-                    />
+                    <Text style={LargeHuddleListItemStyle.handText}>
+                        {interactedText}
+                    </Text>
                 </TouchableOpacity>
-                {!created && (
-                    <TouchableOpacity
-                        onPress={interact}
-                        style={LargeHuddleListItemStyle.handView}
-                    >
-                        <Text style={LargeHuddleListItemStyle.handText}>
-                            {interactedText}
-                        </Text>
-                    </TouchableOpacity>
-                )}
-            </View>
+            )}
         </TouchableOpacity>
     );
 };

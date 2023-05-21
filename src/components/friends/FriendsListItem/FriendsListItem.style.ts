@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const PeopleListItemStyle = StyleSheet.create({
+export const FriendsListItemStyle = StyleSheet.create({
     view: {
         marginHorizontal: 12,
         paddingVertical: 10,

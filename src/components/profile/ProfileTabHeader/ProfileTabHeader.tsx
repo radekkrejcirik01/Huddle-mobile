@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FastImage from 'react-native-fast-image';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { useNavigation } from '@hooks/useNavigation';
@@ -9,6 +10,8 @@ import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/A
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { ProfileTabHeaderStyle } from '@components/profile/ProfileTabHeader/ProfileTabHeader.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { IconButton } from '@components/general/IconButton/IconButton';
+import { IconEnum } from '@components/general/Icon/Icon.enum';
 
 export const ProfileTabHeader = (): JSX.Element => {
     const { firstname, profilePhoto } = useSelector(
@@ -17,11 +20,7 @@ export const ProfileTabHeader = (): JSX.Element => {
 
     const openProfilePhoto = useOpenProfilePhoto();
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
-
-    const openPeopleScreen = useCallback(
-        () => navigateTo(AccountStackNavigatorEnum.PeopleScreen),
-        [navigateTo]
-    );
+    const { top } = useSafeAreaInsets();
 
     const openProfileDetails = useCallback(
         () => navigateTo(AccountStackNavigatorEnum.ProfileDetailScreen),
@@ -29,8 +28,11 @@ export const ProfileTabHeader = (): JSX.Element => {
     );
 
     return (
-        <View style={ProfileTabHeaderStyle.container}>
+        <View
+            style={[ProfileTabHeaderStyle.container, { paddingTop: top + 5 }]}
+        >
             <View style={ProfileTabHeaderStyle.profileContent}>
+                <View style={ProfileTabHeaderStyle.flex} />
                 <TouchableOpacity
                     onPress={() => openProfilePhoto(firstname, profilePhoto)}
                 >
@@ -41,15 +43,24 @@ export const ProfileTabHeader = (): JSX.Element => {
                         style={ProfileTabHeaderStyle.image}
                     />
                 </TouchableOpacity>
-                <Text style={ProfileTabHeaderStyle.nameText}>{firstname}</Text>
+                <View style={ProfileTabHeaderStyle.menuView}>
+                    <IconButton
+                        icon={IconEnum.MENU}
+                        size={22}
+                        onPress={openProfileDetails}
+                    />
+                </View>
             </View>
+            <Text style={ProfileTabHeaderStyle.nameText}>{firstname}</Text>
             <View style={ProfileTabHeaderStyle.buttonsContainer}>
                 <TouchableOpacity
-                    onPress={openPeopleScreen}
+                    onPress={() =>
+                        navigateTo(AccountStackNavigatorEnum.FriendsScreen)
+                    }
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>
-                        Add people 👨‍👩‍👧‍👦
+                        Add friends 👨‍👩‍👧‍👦
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
