@@ -8,8 +8,5 @@ export const FriendsScreenStyle = StyleSheet.create({
         paddingLeft: 10,
         fontSize: 14,
         fontWeight: '500'
-    },
-    listContentContainer: {
-        paddingTop: 15
     }
 });

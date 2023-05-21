@@ -5,8 +5,6 @@ export const FriendsListItemStyle = StyleSheet.create({
     view: {
         marginHorizontal: 12,
         paddingVertical: 10,
-        borderTopWidth: 1,
-        borderTopColor: COLORS.BLACK_200,
         flexDirection: 'row',
         alignItems: 'center'
     },

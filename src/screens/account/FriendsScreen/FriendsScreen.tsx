@@ -89,7 +89,6 @@ export const FriendsScreen = (): JSX.Element => {
                 keyExtractor={keyFriendsExtractor}
                 estimatedItemSize={68}
                 onEndReached={onEndReached}
-                contentContainerStyle={FriendsScreenStyle.listContentContainer}
             />
         </View>
     );
