@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -22,11 +22,6 @@ export const ProfileTabHeader = (): JSX.Element => {
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const { top } = useSafeAreaInsets();
 
-    const openProfileDetails = useCallback(
-        () => navigateTo(AccountStackNavigatorEnum.ProfileDetailScreen),
-        [navigateTo]
-    );
-
     return (
         <View
             style={[ProfileTabHeaderStyle.container, { paddingTop: top + 5 }]}
@@ -47,7 +42,9 @@ export const ProfileTabHeader = (): JSX.Element => {
                     <IconButton
                         icon={IconEnum.MENU}
                         size={22}
-                        onPress={openProfileDetails}
+                        onPress={() =>
+                            navigateTo(AccountStackNavigatorEnum.SettingsScreen)
+                        }
                     />
                 </View>
             </View>
@@ -64,7 +61,9 @@ export const ProfileTabHeader = (): JSX.Element => {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={openProfileDetails}
+                    onPress={() =>
+                        navigateTo(AccountStackNavigatorEnum.EditProfileScreen)
+                    }
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>

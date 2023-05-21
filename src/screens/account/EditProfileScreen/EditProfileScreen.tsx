@@ -5,7 +5,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import fs from 'react-native-fs';
 import FastImage from 'react-native-fast-image';
 import { ListItem } from '@components/general/ListItem/ListItem';
-import { ProfileDetailsScreenStyle } from '@screens/account/ProfileDetailsScreen/ProfileDetailsScreen.style';
+import { EditProfileScreenStyle } from '@screens/account/EditProfileScreen/EditProfileScreen.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { resetUserState, setProfilePhotoAction } from '@store/UserReducer';
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
@@ -24,7 +24,7 @@ import {
     UploadProfileImageInterface
 } from '@interfaces/post/Post.inteface';
 
-export const ProfileDetailsScreen = (): JSX.Element => {
+export const EditProfileScreen = (): JSX.Element => {
     const { firstname, username, profilePhoto } = useSelector(
         (state: ReducerProps) => state.user.user
     );
@@ -79,24 +79,22 @@ export const ProfileDetailsScreen = (): JSX.Element => {
     }, [dispatch, username, token]);
 
     return (
-        <View style={ProfileDetailsScreenStyle.container}>
-            <View style={ProfileDetailsScreenStyle.infoContainer}>
+        <View style={EditProfileScreenStyle.container}>
+            <View style={EditProfileScreenStyle.infoContainer}>
                 <TouchableOpacity onPress={changeProfilePhoto}>
                     <FastImage
                         source={{
                             uri: profilePhoto
                         }}
-                        style={ProfileDetailsScreenStyle.image}
+                        style={EditProfileScreenStyle.image}
                     />
                 </TouchableOpacity>
-                <Text style={ProfileDetailsScreenStyle.firstname}>
+                <Text style={EditProfileScreenStyle.firstname}>
                     {firstname}
                 </Text>
-                <Text style={ProfileDetailsScreenStyle.username}>
-                    @{username}
-                </Text>
+                <Text style={EditProfileScreenStyle.username}>@{username}</Text>
             </View>
-            <View style={ProfileDetailsScreenStyle.buttons}>
+            <View style={EditProfileScreenStyle.buttons}>
                 <ListItem
                     title="Account"
                     hasArrow

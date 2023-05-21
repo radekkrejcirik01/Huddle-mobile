@@ -6,7 +6,7 @@ import {
     NoTitle
 } from '@navigation/StackNavigators/StackNavigator.options';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { ProfileDetailsScreen } from '@screens/account/ProfileDetailsScreen/ProfileDetailsScreen';
+import { EditProfileScreen } from '@screens/account/EditProfileScreen/EditProfileScreen';
 import { NotificationsScreen } from '@screens/account/NotificationsScreen/NotificationsScreen';
 import { FriendsScreen } from '@screens/account/FriendsScreen/FriendsScreen';
 import { ProfilePhotoScreen } from '@screens/account/ProfilePhotoScreen/ProfilePhotoScreen';
@@ -15,13 +15,15 @@ import { HuddleScreen } from '@screens/account/HuddleScreen/HuddleScreen';
 import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
 import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/DeleteAccountScreen';
+import { SettingsScreen } from '@screens/account/SettingsScreen/SettingsScreen';
 import {
     AccountTitle,
     ChangePasswordTitle,
     DeleteAccountTitle,
+    EditProfileTitle,
     FriendsOptions,
     NotificationsTitle,
-    ProfileTitle
+    SettingsTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
 import { NavigatorScreenOptions } from '@navigation/RootNavigator/RootStackNavigator.options';
 
@@ -45,6 +47,11 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...DeleteAccountTitle }}
         />
         <Account.Screen
+            name={AccountStackNavigatorEnum.EditProfileScreen}
+            component={EditProfileScreen}
+            options={{ ...NavigationScreenHeader, ...EditProfileTitle }}
+        />
+        <Account.Screen
             name={AccountStackNavigatorEnum.FriendsScreen}
             component={FriendsScreen}
             options={{ ...NavigationScreenHeader, ...FriendsOptions }}
@@ -65,14 +72,14 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...NotificationsTitle }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.ProfileDetailScreen}
-            component={ProfileDetailsScreen}
-            options={{ ...NavigationScreenHeader, ...ProfileTitle }}
-        />
-        <Account.Screen
             name={AccountStackNavigatorEnum.ProfilePhotoScreen}
             component={ProfilePhotoScreen}
             options={{ ...NavigationScreenHeader, ...NoTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.SettingsScreen}
+            component={SettingsScreen}
+            options={{ ...NavigationScreenHeader, ...SettingsTitle }}
         />
     </Account.Navigator>
 );
