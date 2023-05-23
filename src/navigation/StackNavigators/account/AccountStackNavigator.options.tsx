@@ -18,12 +18,24 @@ export const FriendsOptions: StackNavigationOptions = {
     headerRight: () => <AddFriend />
 };
 
+export const HideFromTitle: StackNavigationOptions = {
+    headerTitle: 'Hide from'
+};
+
 export const ChangePasswordTitle: StackNavigationOptions = {
     headerTitle: 'Change password'
 };
 
+export const MutedTitle: StackNavigationOptions = {
+    headerTitle: 'Muted'
+};
+
 export const NotificationsTitle: StackNavigationOptions = {
     headerTitle: 'Notifications'
+};
+
+export const PrivacyTitle: StackNavigationOptions = {
+    headerTitle: 'Privacy'
 };
 
 export const SettingsTitle: StackNavigationOptions = {

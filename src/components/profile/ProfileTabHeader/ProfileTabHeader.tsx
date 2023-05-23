@@ -75,7 +75,7 @@ export const ProfileTabHeader = (): JSX.Element => {
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>
-                        Huddles visibility 👀
+                        Start a chat 💬
                     </Text>
                 </TouchableOpacity>
             </View>

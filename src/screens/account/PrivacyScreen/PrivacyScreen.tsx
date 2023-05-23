@@ -1,4 +1,4 @@
 import React from 'react';
 import { View } from 'react-native';
 
-export const NotificationsScreen = (): JSX.Element => <View />;
+export const PrivacyScreen = (): JSX.Element => <View />;

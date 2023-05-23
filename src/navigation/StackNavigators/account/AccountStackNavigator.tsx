@@ -16,13 +16,19 @@ import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
 import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/DeleteAccountScreen';
 import { SettingsScreen } from '@screens/account/SettingsScreen/SettingsScreen';
+import { PrivacyScreen } from '@screens/account/PrivacyScreen/PrivacyScreen';
+import { HideFromScreen } from '@screens/account/HideFromScreen/HideFromScreen';
+import { MutedScreen } from '@screens/account/MutedScreen/MutedScreen';
 import {
     AccountTitle,
     ChangePasswordTitle,
     DeleteAccountTitle,
     EditProfileTitle,
     FriendsOptions,
+    HideFromTitle,
+    MutedTitle,
     NotificationsTitle,
+    PrivacyTitle,
     SettingsTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
 import { NavigatorScreenOptions } from '@navigation/RootNavigator/RootStackNavigator.options';
@@ -57,6 +63,11 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...FriendsOptions }}
         />
         <Account.Screen
+            name={AccountStackNavigatorEnum.HideFromScreen}
+            component={HideFromScreen}
+            options={{ ...NavigationScreenHeader, ...HideFromTitle }}
+        />
+        <Account.Screen
             name={AccountStackNavigatorEnum.HuddleScreen}
             component={HuddleScreen}
             options={{ ...NavigationScreenHeader, ...NoTitle }}
@@ -67,9 +78,19 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...ChangePasswordTitle }}
         />
         <Account.Screen
+            name={AccountStackNavigatorEnum.MutedScreen}
+            component={MutedScreen}
+            options={{ ...NavigationScreenHeader, ...MutedTitle }}
+        />
+        <Account.Screen
             name={AccountStackNavigatorEnum.NotificationsScreen}
             component={NotificationsScreen}
             options={{ ...NavigationScreenHeader, ...NotificationsTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.PrivacyScreen}
+            component={PrivacyScreen}
+            options={{ ...NavigationScreenHeader, ...PrivacyTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.ProfilePhotoScreen}
