@@ -15,7 +15,7 @@ export const HuddlesScreenStyle = StyleSheet.create({
     },
     listContentContainer: {
         paddingTop: 10,
-        paddingHorizontal: 15
+        paddingHorizontal: 18
     },
     addHuddleTouchableOpacity: {
         zIndex: 1,

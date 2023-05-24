@@ -97,9 +97,6 @@ export const LargeHuddleListItem = ({
                         <Text style={LargeHuddleListItemStyle.whatText}>
                             {item?.what}
                         </Text>
-                        <Text style={LargeHuddleListItemStyle.whenText}>
-                            {item?.when}
-                        </Text>
                     </View>
                 </View>
                 {!!item?.commentsNumber && !hideCommentsNumber && (

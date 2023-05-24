@@ -11,8 +11,6 @@ export interface AddPersonInvitePostInterface {
 export interface AddHuddlePostInterface {
     sender: string;
     what: string;
-    where: string;
-    when: string;
 }
 
 export interface HuddleInteractPostInterface {
@@ -24,16 +22,6 @@ export interface HuddleInteractPostInterface {
 export interface HuddleUpdatePutInterface {
     id: number;
     what: string;
-    where: string;
-    when: string;
-}
-
-export interface HuddleRepostPutInterface {
-    id: number;
-}
-
-export interface HuddleRemoveConfirmPutInterface {
-    id: number;
 }
 
 export interface HuddleConfirmPostInterface {
@@ -75,13 +63,6 @@ export interface AcceptPersonInviteInterface {
     id: number;
     sender: string;
     receiver: string;
-}
-
-export interface MessageReactInterface {
-    username: string;
-    conversationId: number;
-    messageId: number;
-    reaction: string;
 }
 
 export interface DeviceInterface {

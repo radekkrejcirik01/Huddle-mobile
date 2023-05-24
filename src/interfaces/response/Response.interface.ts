@@ -1,4 +1,3 @@
-import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
@@ -19,16 +18,10 @@ export interface ResponseUserGetInterface {
     status: string;
     message: string;
     data?: {
-        user: {
-            id: number;
-            username: string;
-            firstname: string;
-            profilePhoto: string;
-        };
-        people: number;
-        huddles: number;
-        notifications: number;
-        unreadMessages: number;
+        id: number;
+        username: string;
+        firstname: string;
+        profilePhoto: string;
     };
 }
 
@@ -54,7 +47,6 @@ export interface ResponseHuddlesInteractionsGetInterface {
     status: string;
     message: string;
     data?: Array<HuddleInteractionInterface>;
-    confirmedUser?: HuddleInteractionInterface;
 }
 
 export interface ResponseHuddlesCommentsGetInterface {
@@ -87,12 +79,6 @@ export interface MessagesByUsernamesResponseInterface {
     message: string;
     data?: Array<MessageItemProps>;
     conversationId?: number;
-}
-
-export interface ResponseNotificationsGetInterface {
-    status: string;
-    message: string;
-    data?: Array<NotificationsListProps>;
 }
 
 export interface ResponseUploadImageInterface {

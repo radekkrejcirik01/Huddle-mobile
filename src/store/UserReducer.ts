@@ -7,10 +7,7 @@ const initialState: User = {
         firstname: null,
         username: null,
         profilePhoto: null
-    },
-    peopleNumber: null,
-    notificationsNumber: null,
-    unreadMessagesNumber: null
+    }
 };
 
 export const UserReducer = createSlice({
@@ -20,18 +17,12 @@ export const UserReducer = createSlice({
         setUserToken: (state, action) => {
             state.token = action.payload;
         },
-        setUserStateAction: (state, action) => {
-            action.payload.token = action.payload.user.username;
-            return action.payload;
-        },
+        setUserStateAction: (state, action) => ({
+            token: action.payload.username,
+            user: action.payload
+        }),
         setProfilePhotoAction: (state, action) => {
             state.user.profilePhoto = action.payload;
-        },
-        setNotificationsNumberAction: (state, action) => {
-            state.notificationsNumber = action.payload;
-        },
-        setPeopleNumberAction: (state, action) => {
-            state.peopleNumber = action.payload;
         },
         resetUserState: () => initialState
     }
@@ -41,8 +32,6 @@ export const {
     setUserToken,
     setProfilePhotoAction,
     setUserStateAction,
-    setNotificationsNumberAction,
-    setPeopleNumberAction,
     resetUserState
 } = UserReducer.actions;
 

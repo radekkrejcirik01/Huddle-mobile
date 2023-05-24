@@ -3,7 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const LargeHuddleListItemStyle = StyleSheet.create({
     container: {
-        height: 165,
+        height: 145,
         width: '100%',
         padding: 15,
         paddingLeft: 12,
@@ -44,12 +44,6 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
     },
     whatText: {
         fontSize: 18,
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
-    },
-    whenText: {
-        marginTop: 5,
-        fontSize: 14,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },

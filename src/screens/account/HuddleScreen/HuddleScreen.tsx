@@ -11,7 +11,6 @@ import { useNavigation } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
-import { useOpenChat } from '@hooks/useOpenChat';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { useRenderInteractions } from '@hooks/useRenderInteractions';
 import { useRenderComments } from '@hooks/useRenderComments';
@@ -28,12 +27,7 @@ import {
     ResponseInterface
 } from '@interfaces/response/Response.interface';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { HuddleInteractionsListItem } from '@components/huddles/HuddleInteractionsListItem/HuddleInteractionsListItem';
-import {
-    HuddleRemoveConfirmPutInterface,
-    HuddleRepostPutInterface,
-    HuddleUpdatePutInterface
-} from '@interfaces/post/Post.inteface';
+import { HuddleUpdatePutInterface } from '@interfaces/post/Post.inteface';
 import { HuddleEditableCard } from '@components/huddles/HuddleEditableCard/HuddleEditableCard';
 import {
     HuddleInteractionInterface,
@@ -42,7 +36,6 @@ import {
 import { HuddleScreenStyle } from '@screens/account/HuddleScreen/HuddleScreen.style';
 import { ReducerProps } from '@store/index/index.props';
 import { Back } from '@components/general/Back/Back';
-import { SwipeableView } from '@components/general/SwipeableView/SwipeableView';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
@@ -55,24 +48,18 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const navigation = useNavigation();
-    const openChat = useOpenChat();
     const openProfilePhoto = useOpenProfilePhoto();
     const { bottom } = useSafeAreaInsets();
 
     const [interactions, setInteractions] = useState<
         Array<HuddleInteractionInterface>
     >([]);
-    const [confirmedUser, setConfirmedUser] =
-        useState<HuddleInteractionInterface>();
     const [comments, setComments] = useState<Array<CommentItemInterface>>([]);
     const [mention, setMention] = useState<Mention>(null);
     const [mentions, setMentions] = useState<Array<Mention>>([]);
-    const [canceled, setCanceled] = useState<boolean>(!!huddle?.canceled);
     const [editing, setEditing] = useState<boolean>(false);
 
     const editedWhat = useRef<string>(huddle?.what);
-    const editedWhere = useRef<string>(huddle?.where);
-    const editedWhen = useRef<string>(huddle?.when);
 
     const created = useMemo((): boolean => {
         if (huddle) {
@@ -104,7 +91,6 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                 `interactions/${huddle?.id}`
             ).subscribe((response: ResponseHuddlesInteractionsGetInterface) => {
                 if (response?.status) {
-                    setConfirmedUser(response?.confirmedUser);
                     setInteractions(response?.data);
                 }
             });
@@ -113,7 +99,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
 
     const { onPressInteract } = useRenderHuddles();
     const { renderInteractionItem, keyInteractionExtractor } =
-        useRenderInteractions(huddle, !!confirmedUser, loadInteractions);
+        useRenderInteractions();
 
     const loadComments = useCallback(
         (lastId?: number) => {
@@ -150,15 +136,11 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
 
     const saveHuddle = useCallback(() => {
         huddle.what = editedWhat?.current;
-        huddle.where = editedWhere?.current;
-        huddle.when = editedWhen?.current;
         setEditing(false);
 
         putRequestUser<ResponseInterface, HuddleUpdatePutInterface>('huddle', {
             id: huddle?.id,
-            what: editedWhat?.current,
-            where: editedWhere?.current,
-            when: editedWhen?.current
+            what: editedWhat?.current
         }).subscribe();
     }, [huddle]);
 
@@ -224,22 +206,11 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
         [created, deleteHuddleMessage, editing, navigation, saveHuddle]
     );
 
-    const removeConfirm = useCallback(
-        () =>
-            putRequestUser<ResponseInterface, HuddleRemoveConfirmPutInterface>(
-                'huddle/confirm',
-                {
-                    id: huddle?.id
-                }
-            ).subscribe((response: ResponseInterface) => {
-                if (response?.status) {
-                    loadInteractions();
-                }
-            }),
-        [huddle?.id, loadInteractions]
-    );
-
     const getInteractionsListHeight = useCallback((): number => {
+        if (!interactions?.length) {
+            return 2;
+        }
+
         const itemsHeight = interactions?.length * 45;
         const separatorsHeight = (interactions?.length - 1) * 15;
 
@@ -261,21 +232,6 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
         });
     }, [comments?.length, loadComments]);
 
-    const repostHuddle = useCallback(
-        () =>
-            putRequestUser<ResponseInterface, HuddleRepostPutInterface>(
-                'huddle/post',
-                {
-                    id: huddle?.id
-                }
-            ).subscribe((response: ResponseInterface) => {
-                if (response?.status) {
-                    setCanceled(false);
-                }
-            }),
-        [huddle?.id]
-    );
-
     return (
         <View
             style={[
@@ -293,14 +249,6 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                     whatValue={huddle?.what}
                                     onWhatChange={(text) => {
                                         editedWhat.current = text;
-                                    }}
-                                    whereValue={huddle?.where}
-                                    onWhereChange={(text) => {
-                                        editedWhere.current = text;
-                                    }}
-                                    whenValue={huddle?.when}
-                                    onWhenChange={(text) => {
-                                        editedWhen.current = text;
                                     }}
                                     style={HuddleScreenStyle.huddleListItem}
                                 />
@@ -324,64 +272,24 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                         </View>
                         {created && (
                             <>
-                                {!!confirmedUser && (
-                                    <>
-                                        <Text style={HuddleScreenStyle.title}>
-                                            Confirmed ✅
-                                        </Text>
-                                        <SwipeableView
-                                            text="Remove"
-                                            onAction={removeConfirm}
-                                            style={
-                                                HuddleScreenStyle.swipeableView
-                                            }
-                                        >
-                                            <HuddleInteractionsListItem
-                                                item={confirmedUser}
-                                                onPressPhoto={() =>
-                                                    openProfilePhoto(
-                                                        confirmedUser.name,
-                                                        confirmedUser?.profilePhoto
-                                                    )
-                                                }
-                                                isConfirmed={!!confirmedUser}
-                                                onOpenChat={() =>
-                                                    openChat(
-                                                        confirmedUser.name,
-                                                        confirmedUser?.profilePhoto,
-                                                        confirmedUser?.username
-                                                    )
-                                                }
-                                            />
-                                        </SwipeableView>
-                                    </>
-                                )}
-                                {!!interactions?.length && (
-                                    <>
-                                        <Text style={HuddleScreenStyle.title}>
-                                            Interactions 👋
-                                        </Text>
-                                        <View
-                                            style={{
-                                                height: getInteractionsListHeight()
-                                            }}
-                                        >
-                                            <FlashList
-                                                data={interactions}
-                                                renderItem={
-                                                    renderInteractionItem
-                                                }
-                                                keyExtractor={
-                                                    keyInteractionExtractor
-                                                }
-                                                estimatedItemSize={68}
-                                                ItemSeparatorComponent={() => (
-                                                    <ItemSeparator space={15} />
-                                                )}
-                                            />
-                                        </View>
-                                    </>
-                                )}
+                                <Text style={HuddleScreenStyle.title}>
+                                    Interactions 👋
+                                </Text>
+                                <View
+                                    style={{
+                                        height: getInteractionsListHeight()
+                                    }}
+                                >
+                                    <FlashList
+                                        data={interactions}
+                                        renderItem={renderInteractionItem}
+                                        keyExtractor={keyInteractionExtractor}
+                                        estimatedItemSize={68}
+                                        ItemSeparatorComponent={() => (
+                                            <ItemSeparator space={15} />
+                                        )}
+                                    />
+                                </View>
                             </>
                         )}
                         <Text style={HuddleScreenStyle.title}>Comments 💬</Text>
@@ -396,11 +304,6 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                 showsVerticalScrollIndicator={false}
                 onEndReached={onEndReached}
                 ItemSeparatorComponent={() => <ItemSeparator space={30} />}
-                ListEmptyComponent={
-                    <Text style={HuddleScreenStyle.emptyListText}>
-                        No comments yet
-                    </Text>
-                }
                 contentContainerStyle={HuddleScreenStyle.listContentContainer}
             />
             <KeyboardAvoidingView keyboardVerticalOffset={42}>
@@ -411,14 +314,6 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                     mentions={mentions}
                 />
             </KeyboardAvoidingView>
-            {canceled && (
-                <TouchableOpacity
-                    onPress={repostHuddle}
-                    style={HuddleScreenStyle.repostView}
-                >
-                    <Text style={HuddleScreenStyle.repostText}>Post again</Text>
-                </TouchableOpacity>
-            )}
         </View>
     );
 };

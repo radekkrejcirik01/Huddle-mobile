@@ -13,10 +13,6 @@ import { HuddleEditableCardStyle } from '@components/huddles/HuddleEditableCard/
 export const HuddleEditableCard = ({
     whatValue,
     onWhatChange,
-    whereValue,
-    onWhereChange,
-    whenValue,
-    onWhenChange,
     style
 }: HuddleEditableCardProps): JSX.Element => {
     const { profilePhoto } = useSelector(
@@ -34,23 +30,6 @@ export const HuddleEditableCard = ({
                     onChangeText={onWhatChange}
                     selectionColor={COLORS.BUTTON_BLUE}
                     style={HuddleEditableCardStyle.primaryInput}
-                />
-                <TextInput
-                    placeholder="Anywhere"
-                    autoCorrect={false}
-                    defaultValue={whereValue}
-                    onChangeText={onWhereChange}
-                    selectionColor={COLORS.BUTTON_BLUE}
-                    style={HuddleEditableCardStyle.secondaryInput}
-                />
-                <TextInput
-                    placeholder="Anytime"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    defaultValue={whenValue}
-                    onChangeText={onWhenChange}
-                    selectionColor={COLORS.BUTTON_BLUE}
-                    style={HuddleEditableCardStyle.secondaryInput}
                 />
             </View>
             <FastImage

@@ -16,16 +16,12 @@ export const StartHuddleModalScreen = ({
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const what = useRef<string>();
-    const where = useRef<string>();
-    const when = useRef<string>();
 
     const addHuddle = useCallback(() => {
         onClose();
         postRequestUser<ResponseInterface, AddHuddlePostInterface>('huddle', {
             sender: username,
-            what: what?.current,
-            where: where?.current,
-            when: when?.current
+            what: what?.current
         }).subscribe();
     }, [onClose, username]);
 
@@ -43,12 +39,6 @@ export const StartHuddleModalScreen = ({
             <HuddleEditableCard
                 onWhatChange={(text) => {
                     what.current = text;
-                }}
-                onWhereChange={(text) => {
-                    where.current = text;
-                }}
-                onWhenChange={(text) => {
-                    when.current = text;
                 }}
             />
             <TouchableOpacity
