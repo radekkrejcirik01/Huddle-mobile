@@ -8,6 +8,7 @@ import {
 } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
 import { MessageItemProps } from '@screens/account/ConversationScreen/ConversationScreen.props';
+import { InviteItemProps } from '@screens/account/InvitesScreen/InvitesScreen.props';
 
 export interface ResponseInterface {
     status: string;
@@ -25,16 +26,16 @@ export interface ResponseUserGetInterface {
     };
 }
 
-export interface ResponsePeopleNumberGetInterface {
-    status: string;
-    message: string;
-    peopleNumber?: number;
-}
-
 export interface ResponseFriendsGetInterface {
     status: string;
     message: string;
     data?: Array<FriendsItemProps>;
+}
+
+export interface ResponseInvitesGetInterface {
+    status: string;
+    message: string;
+    data?: Array<InviteItemProps>;
 }
 
 export interface ResponseHuddlesGetInterface {

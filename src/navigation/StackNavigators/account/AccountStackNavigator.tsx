@@ -19,6 +19,7 @@ import { SettingsScreen } from '@screens/account/SettingsScreen/SettingsScreen';
 import { PrivacyScreen } from '@screens/account/PrivacyScreen/PrivacyScreen';
 import { HideFromScreen } from '@screens/account/HideFromScreen/HideFromScreen';
 import { MutedScreen } from '@screens/account/MutedScreen/MutedScreen';
+import { InvitesScreen } from '@screens/account/InvitesScreen/InvitesScreen';
 import {
     AccountTitle,
     ChangePasswordTitle,
@@ -26,6 +27,7 @@ import {
     EditProfileTitle,
     FriendsOptions,
     HideFromTitle,
+    InvitesTitle,
     MutedTitle,
     NotificationsTitle,
     PrivacyTitle,
@@ -76,6 +78,11 @@ export const AccountStackNavigator = (): JSX.Element => (
             name={AccountStackNavigatorEnum.ChangePasswordScreen}
             component={ChangePasswordScreen}
             options={{ ...NavigationScreenHeader, ...ChangePasswordTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.InvitesScreen}
+            component={InvitesScreen}
+            options={{ ...NavigationScreenHeader, ...InvitesTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.MutedScreen}

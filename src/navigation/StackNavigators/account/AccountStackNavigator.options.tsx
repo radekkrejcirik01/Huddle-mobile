@@ -26,6 +26,10 @@ export const ChangePasswordTitle: StackNavigationOptions = {
     headerTitle: 'Change password'
 };
 
+export const InvitesTitle: StackNavigationOptions = {
+    headerTitle: 'Invites'
+};
+
 export const MutedTitle: StackNavigationOptions = {
     headerTitle: 'Muted'
 };

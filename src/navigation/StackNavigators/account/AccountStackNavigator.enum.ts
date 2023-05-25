@@ -7,6 +7,7 @@ export enum AccountStackNavigatorEnum {
     HideFromScreen = 'HideFromScreen',
     HuddleScreen = 'HuddleScreen',
     ChangePasswordScreen = 'ChangePasswordScreen',
+    InvitesScreen = 'InvitesScreen',
     MutedScreen = 'MutedScreen',
     NotificationsScreen = 'NotificationsScreen',
     PrivacyScreen = 'PrivacyScreen',
