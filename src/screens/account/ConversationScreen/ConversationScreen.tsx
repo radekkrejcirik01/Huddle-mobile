@@ -78,13 +78,16 @@ export const ConversationScreen = ({
 
             getRequestUser<MessagesResponseInterface>(endpoint).subscribe(
                 (response: MessagesResponseInterface) => {
-                    if (response?.status && !!response?.data?.length) {
-                        if (lastId) {
+                    if (response?.status) {
+                        if (!lastId) {
+                            setMessages(response?.data);
+                            return;
+                        }
+
+                        if (lastId && !!response?.data?.length) {
                             setMessages((value) =>
                                 value.concat(response?.data)
                             );
-                        } else {
-                            setMessages(response?.data);
                         }
                     }
                 }

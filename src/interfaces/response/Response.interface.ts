@@ -30,6 +30,7 @@ export interface ResponseFriendsGetInterface {
     status: string;
     message: string;
     data?: Array<FriendsItemProps>;
+    invitesNumber?: number;
 }
 
 export interface ResponseInvitesGetInterface {

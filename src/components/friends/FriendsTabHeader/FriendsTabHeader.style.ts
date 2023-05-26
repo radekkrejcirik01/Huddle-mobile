@@ -9,9 +9,22 @@ export const FriendsTabHeaderStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between'
     },
+    invitesView: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'flex-start'
+    },
+    titleView: {
+        flex: 1,
+        alignItems: 'center'
+    },
     title: {
         fontSize: 26,
         color: COLORS.WHITE,
         fontWeight: 'bold'
+    },
+    addFriendView: {
+        flex: 1,
+        alignItems: 'flex-end'
     }
 });

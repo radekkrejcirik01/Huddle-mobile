@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useRoute } from '@react-navigation/native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useRenderFriends } from '@hooks/useRenderFriends';
 import { FriendsScreenStyle } from '@screens/account/FriendsScreen/FriendsScreen.style';
@@ -24,6 +24,7 @@ export const FriendsScreen = (): JSX.Element => {
     const [filteredData, setFilteredData] = useState<Array<FriendsItemProps>>(
         []
     );
+    const [invitesNumber, setInvitesNumber] = useState<number>();
 
     const loadFriends = useCallback(
         (lastId?: number) => {
@@ -34,12 +35,17 @@ export const FriendsScreen = (): JSX.Element => {
 
             getRequestUser<ResponseFriendsGetInterface>(endpoint).subscribe(
                 (response: ResponseFriendsGetInterface) => {
-                    if (response?.status && !!response?.data?.length) {
-                        if (lastId) {
-                            setData((value) => value.concat(response?.data));
-                        } else {
+                    if (response?.status) {
+                        setInvitesNumber(response?.invitesNumber);
+
+                        if (!lastId) {
                             setData(response?.data);
                             setFilteredData(response?.data);
+                            return;
+                        }
+
+                        if (lastId && !!response?.data?.length) {
+                            setData((value) => value.concat(response?.data));
                         }
                     }
                 }
@@ -48,7 +54,7 @@ export const FriendsScreen = (): JSX.Element => {
         [username]
     );
 
-    useEffect(() => loadFriends(), [loadFriends]);
+    useFocusEffect(useCallback(() => loadFriends(), [loadFriends]));
 
     const filterData = useCallback(
         (value: string) => {
@@ -73,7 +79,9 @@ export const FriendsScreen = (): JSX.Element => {
 
     return (
         <View style={FriendsScreenStyle.container}>
-            {route.name === 'FriendsTab' && <FriendsTabHeader />}
+            {route.name === 'FriendsTab' && (
+                <FriendsTabHeader invitesNumber={invitesNumber} />
+            )}
             <Input
                 iconLeft={<Text>🔍</Text>}
                 placeholder="Who you looking for?..."

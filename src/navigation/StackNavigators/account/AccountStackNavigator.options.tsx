@@ -14,7 +14,7 @@ export const EditProfileTitle: StackNavigationOptions = {
 };
 
 export const FriendsOptions: StackNavigationOptions = {
-    headerTitle: 'Friends 👨‍👩‍👧‍👦',
+    headerTitle: 'Friends',
     headerRight: () => <AddFriend />
 };
 

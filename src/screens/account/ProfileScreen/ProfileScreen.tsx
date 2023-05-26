@@ -29,13 +29,16 @@ export const ProfileScreen = (): JSX.Element => {
 
                 getRequestUser<ResponseHuddlesGetInterface>(endpoint).subscribe(
                     (response: ResponseHuddlesGetInterface) => {
-                        if (response?.status && !!response?.data?.length) {
-                            if (lastId) {
+                        if (response?.status) {
+                            if (!lastId) {
+                                setHuddles(response?.data);
+                                return;
+                            }
+
+                            if (lastId && !!response?.data?.length) {
                                 setHuddles((value) =>
                                     value.concat(response?.data)
                                 );
-                            } else {
-                                setHuddles(response?.data);
                             }
                         }
                     }

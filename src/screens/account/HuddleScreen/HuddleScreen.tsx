@@ -111,14 +111,17 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
             getRequestUser<ResponseHuddlesCommentsGetInterface>(
                 endpoint
             ).subscribe((response: ResponseHuddlesCommentsGetInterface) => {
-                if (response?.status && !!response?.data?.length) {
-                    if (lastId) {
-                        setComments((value) => value.concat(response?.data));
-                    } else {
+                if (response?.status) {
+                    setMentions(response?.mentions);
+
+                    if (!lastId) {
                         setComments(response?.data);
+                        return;
                     }
 
-                    setMentions(response?.mentions);
+                    if (lastId && !!response?.data?.length) {
+                        setComments((value) => value.concat(response?.data));
+                    }
                 }
             });
         },
