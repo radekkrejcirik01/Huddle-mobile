@@ -9,6 +9,7 @@ import {
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
 import { MessageItemProps } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { InviteItemProps } from '@screens/account/InvitesScreen/InvitesScreen.props';
+import { HiddenItemProps } from '@screens/account/ShowHuddlesScreen/ShowHuddlesScreen.props';
 
 export interface ResponseInterface {
     status: string;
@@ -31,6 +32,12 @@ export interface ResponseFriendsGetInterface {
     message: string;
     data?: Array<FriendsItemProps>;
     invitesNumber?: number;
+}
+
+export interface ResponseShowPeopleGetInterface {
+    status: string;
+    message: string;
+    data?: Array<HiddenItemProps>;
 }
 
 export interface ResponseInvitesGetInterface {

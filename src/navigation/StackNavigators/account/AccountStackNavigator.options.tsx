@@ -18,8 +18,8 @@ export const FriendsOptions: StackNavigationOptions = {
     headerRight: () => <AddFriend />
 };
 
-export const HideFromTitle: StackNavigationOptions = {
-    headerTitle: 'Hide from'
+export const ShowTitle: StackNavigationOptions = {
+    headerTitle: 'Show'
 };
 
 export const ChangePasswordTitle: StackNavigationOptions = {

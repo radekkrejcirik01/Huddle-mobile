@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import { ScrollView, Text, View } from 'react-native';
+import { useNavigation } from '@hooks/useNavigation';
 import { Icon } from '@components/general/Icon/Icon';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { SettingsScreenStyle } from '@screens/account/SettingsScreen/SettingsScreen.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
@@ -19,8 +19,8 @@ export const SettingsScreen = (): JSX.Element => {
         navigateTo(AccountStackNavigatorEnum.PrivacyScreen);
     }, [navigateTo]);
 
-    const openHideFrom = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.HideFromScreen);
+    const openShowHuddlesFrom = useCallback(() => {
+        navigateTo(AccountStackNavigatorEnum.ShowHuddlesScreen);
     }, [navigateTo]);
 
     const openMuted = useCallback(() => {
@@ -35,6 +35,7 @@ export const SettingsScreen = (): JSX.Element => {
         <ScrollView contentContainerStyle={SettingsScreenStyle.container}>
             <View style={SettingsScreenStyle.box}>
                 <TouchableOpacity
+                    hitSlop={{}}
                     onPress={openAccount}
                     style={SettingsScreenStyle.view}
                 >
@@ -51,6 +52,7 @@ export const SettingsScreen = (): JSX.Element => {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
+                    hitSlop={{}}
                     onPress={openPrivacy}
                     style={SettingsScreenStyle.view}
                 >
@@ -69,14 +71,13 @@ export const SettingsScreen = (): JSX.Element => {
             </View>
             <View style={SettingsScreenStyle.box}>
                 <TouchableOpacity
-                    onPress={openHideFrom}
+                    hitSlop={{}}
+                    onPress={openShowHuddlesFrom}
                     style={SettingsScreenStyle.view}
                 >
                     <View style={SettingsScreenStyle.titleView}>
                         <Text style={SettingsScreenStyle.titleEmoji}>👀</Text>
-                        <Text style={SettingsScreenStyle.titleText}>
-                            Hide from
-                        </Text>
+                        <Text style={SettingsScreenStyle.titleText}>Show</Text>
                     </View>
                     <Icon
                         name={IconEnum.BACK_RIGHT}
@@ -85,6 +86,7 @@ export const SettingsScreen = (): JSX.Element => {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
+                    hitSlop={{}}
                     onPress={openMuted}
                     style={SettingsScreenStyle.view}
                 >
@@ -101,6 +103,7 @@ export const SettingsScreen = (): JSX.Element => {
             </View>
             <View style={SettingsScreenStyle.box}>
                 <TouchableOpacity
+                    hitSlop={{}}
                     onPress={openNotifications}
                     style={SettingsScreenStyle.view}
                 >

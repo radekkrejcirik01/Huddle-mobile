@@ -24,12 +24,6 @@ export interface HuddleUpdatePutInterface {
     what: string;
 }
 
-export interface HuddleConfirmPostInterface {
-    huddleId: number;
-    sender: string;
-    receiver: string;
-}
-
 export interface HuddleAddCommentPostInterface {
     sender: string;
     huddleId: number;
@@ -48,6 +42,11 @@ export interface HuddleLikeCommentPostInterface {
     receiver: string;
     commentId: number;
     huddleId: number;
+}
+
+export interface ShowPeopleUpdatePutInterface {
+    user: string;
+    usernames: Array<string>;
 }
 
 export interface SendMessageInterface {

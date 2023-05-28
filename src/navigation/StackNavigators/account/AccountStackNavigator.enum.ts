@@ -4,7 +4,6 @@ export enum AccountStackNavigatorEnum {
     DeleteAccountScreen = 'DeleteAccountScreen',
     EditProfileScreen = 'EditProfileScreen',
     FriendsScreen = 'FriendsScreen',
-    HideFromScreen = 'HideFromScreen',
     HuddleScreen = 'HuddleScreen',
     ChangePasswordScreen = 'ChangePasswordScreen',
     InvitesScreen = 'InvitesScreen',
@@ -12,5 +11,6 @@ export enum AccountStackNavigatorEnum {
     NotificationsScreen = 'NotificationsScreen',
     PrivacyScreen = 'PrivacyScreen',
     ProfilePhotoScreen = 'ProfilePhotoScreen',
-    SettingsScreen = 'SettingsScreen'
+    SettingsScreen = 'SettingsScreen',
+    ShowHuddlesScreen = 'ShowHuddlesScreen'
 }

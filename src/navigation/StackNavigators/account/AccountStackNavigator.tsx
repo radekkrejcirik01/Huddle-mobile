@@ -17,7 +17,7 @@ import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/Chan
 import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/DeleteAccountScreen';
 import { SettingsScreen } from '@screens/account/SettingsScreen/SettingsScreen';
 import { PrivacyScreen } from '@screens/account/PrivacyScreen/PrivacyScreen';
-import { HideFromScreen } from '@screens/account/HideFromScreen/HideFromScreen';
+import { ShowHuddlesScreen } from '@screens/account/ShowHuddlesScreen/ShowHuddlesScreen';
 import { MutedScreen } from '@screens/account/MutedScreen/MutedScreen';
 import { InvitesScreen } from '@screens/account/InvitesScreen/InvitesScreen';
 import {
@@ -26,12 +26,12 @@ import {
     DeleteAccountTitle,
     EditProfileTitle,
     FriendsOptions,
-    HideFromTitle,
     InvitesTitle,
     MutedTitle,
     NotificationsTitle,
     PrivacyTitle,
-    SettingsTitle
+    SettingsTitle,
+    ShowTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
 import { NavigatorScreenOptions } from '@navigation/RootNavigator/RootStackNavigator.options';
 
@@ -65,9 +65,9 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...FriendsOptions }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.HideFromScreen}
-            component={HideFromScreen}
-            options={{ ...NavigationScreenHeader, ...HideFromTitle }}
+            name={AccountStackNavigatorEnum.ShowHuddlesScreen}
+            component={ShowHuddlesScreen}
+            options={{ ...NavigationScreenHeader, ...ShowTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.HuddleScreen}
