@@ -4,16 +4,11 @@ import COLORS from '@constants/COLORS';
 export const AddHuddleStyle = StyleSheet.create({
     view: {
         paddingVertical: 6,
-        paddingHorizontal: 8,
+        paddingHorizontal: 15,
         borderRadius: 15,
-        backgroundColor: COLORS.GRAY_100,
-        flexDirection: 'row',
-        alignItems: 'center'
+        backgroundColor: COLORS.GRAY_100
     },
-    plusIcon: {
-        marginRight: 4
-    },
-    addButtonText: {
+    createText: {
         color: COLORS.WHITE,
         fontWeight: 'bold'
     }

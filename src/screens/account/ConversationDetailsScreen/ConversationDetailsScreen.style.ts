@@ -1,8 +1,14 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const SettingsScreenStyle = StyleSheet.create({
+export const ConversationDetailsScreenStyle = StyleSheet.create({
+    headerTitle: {
+        fontSize: 20,
+        color: COLORS.WHITE,
+        fontWeight: 'bold'
+    },
     container: {
+        paddingTop: 5,
         paddingHorizontal: 15
     },
     box: {
@@ -30,7 +36,16 @@ export const SettingsScreenStyle = StyleSheet.create({
         color: COLORS.WHITE,
         fontWeight: '500'
     },
+    titleImage: {
+        width: 25,
+        height: 25,
+        marginRight: 10,
+        borderRadius: 20
+    },
     icon: {
         opacity: 0.5
+    },
+    switch: {
+        transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }]
     }
 });

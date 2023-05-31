@@ -8,9 +8,8 @@ export const HuddlesTabHeader = (): JSX.Element => {
     const { top } = useSafeAreaInsets();
 
     return (
-        <View style={[HuddlesTabHeaderStyle.header, { paddingTop: top + 5 }]}>
-            <View style={HuddlesTabHeaderStyle.flex} />
-            <Text style={HuddlesTabHeaderStyle.title}>👋</Text>
+        <View style={[HuddlesTabHeaderStyle.header, { paddingTop: top + 50 }]}>
+            <Text style={HuddlesTabHeaderStyle.title}>Huddles 👋</Text>
             <View style={HuddlesTabHeaderStyle.addHuddleView}>
                 <AddHuddle />
             </View>

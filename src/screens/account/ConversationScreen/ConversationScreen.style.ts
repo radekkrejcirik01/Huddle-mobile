@@ -14,24 +14,11 @@ export const ConversationScreenStyle = StyleSheet.create({
         height: '100%'
     },
     titleView: {
-        marginTop: 5,
         alignItems: 'center'
     },
     image: {
         height: 55,
         width: 55,
         borderRadius: 30
-    },
-    name: {
-        marginTop: 5,
-        color: COLORS.WHITE,
-        fontWeight: '500'
-    },
-    status: {
-        marginTop: 5,
-        fontSize: 11,
-        opacity: 0.7,
-        color: COLORS.WHITE,
-        fontWeight: '500'
     }
 });

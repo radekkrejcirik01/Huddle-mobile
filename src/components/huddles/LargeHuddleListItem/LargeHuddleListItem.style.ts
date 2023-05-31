@@ -8,7 +8,7 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         padding: 15,
         paddingLeft: 12,
         borderRadius: 20,
-        backgroundColor: COLORS.MAIN_ORANGE,
+        backgroundColor: COLORS.GRAY_100,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
@@ -20,17 +20,17 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         flexDirection: 'row'
     },
     image: {
-        height: 60,
-        width: 60,
+        height: 50,
+        width: 50,
         borderRadius: 30
     },
     nameView: {
-        width: 60, // width of the profile image
+        width: 50, // width of the profile image
+        marginTop: 10,
         alignItems: 'center'
     },
     nameText: {
-        marginTop: 5,
-        fontSize: 16,
+        fontSize: 14,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
@@ -51,7 +51,7 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 14,
         borderRadius: 30,
-        backgroundColor: COLORS.MAIN_WHITE,
+        backgroundColor: COLORS.GRAY_400,
         alignSelf: 'flex-end',
         justifyContent: 'center',
         alignItems: 'center'

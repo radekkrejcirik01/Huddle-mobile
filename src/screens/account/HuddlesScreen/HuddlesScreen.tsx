@@ -75,7 +75,7 @@ export const HuddlesScreen = (): JSX.Element => {
                 estimatedItemSize={68}
                 showsVerticalScrollIndicator={false}
                 onEndReached={onEndReachedLargeItem}
-                ItemSeparatorComponent={() => <ItemSeparator space={20} />}
+                ItemSeparatorComponent={() => <ItemSeparator space={15} />}
                 ListEmptyComponent={
                     <Text style={HuddlesScreenStyle.description}>
                         active Huddles will appear{'\n'}here 👋

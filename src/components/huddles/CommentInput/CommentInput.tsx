@@ -190,6 +190,7 @@ export const CommentInput = ({
                         data={filteredData}
                         renderItem={renderMentionItem}
                         estimatedItemSize={55}
+                        keyboardShouldPersistTaps="always"
                         ItemSeparatorComponent={() => (
                             <ItemSeparator space={15} />
                         )}

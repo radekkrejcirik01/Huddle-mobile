@@ -11,6 +11,7 @@ import { NotificationsScreen } from '@screens/account/NotificationsScreen/Notifi
 import { FriendsScreen } from '@screens/account/FriendsScreen/FriendsScreen';
 import { ProfilePhotoScreen } from '@screens/account/ProfilePhotoScreen/ProfilePhotoScreen';
 import { ConversationScreen } from '@screens/account/ConversationScreen/ConversationScreen';
+import { ConversationDetailsScreen } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen';
 import { HuddleScreen } from '@screens/account/HuddleScreen/HuddleScreen';
 import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { ChangePasswordScreen } from '@screens/account/ChangePasswordScreen/ChangePasswordScreen';
@@ -47,6 +48,11 @@ export const AccountStackNavigator = (): JSX.Element => (
         <Account.Screen
             name={AccountStackNavigatorEnum.ConversationScreen}
             component={ConversationScreen}
+            options={{ ...NavigationScreenHeader }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.ConversationDetailsScreen}
+            component={ConversationDetailsScreen}
             options={{ ...NavigationScreenHeader }}
         />
         <Account.Screen

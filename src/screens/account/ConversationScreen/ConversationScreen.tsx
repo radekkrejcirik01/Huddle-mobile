@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation as useDefaultNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
+import { useNavigation } from '@hooks/useNavigation';
 import { useRenderMesages } from '@hooks/useRenderMesages';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import {
@@ -23,6 +23,8 @@ import {
 import { ChatInput } from '@components/conversation/ChatInput/ChatInput';
 import { SendMessageInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const ConversationScreen = ({
     route
@@ -33,8 +35,8 @@ export const ConversationScreen = ({
         (state: ReducerProps) => state.user.user
     );
 
-    const openProfilePhoto = useOpenProfilePhoto();
-    const navigation = useNavigation();
+    const navigation = useDefaultNavigation();
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const { bottom, top } = useSafeAreaInsets();
 
     const [messages, setMessages] = useState<Array<MessageItemProps>>([]);
@@ -42,31 +44,34 @@ export const ConversationScreen = ({
     useEffect(
         () =>
             navigation.setOptions({
-                headerStyle: {
-                    height: top + 100,
-                    ...ConversationScreenStyle.header
-                },
                 title: (
                     <View style={ConversationScreenStyle.titleView}>
                         <TouchableOpacity
-                            onPress={() => openProfilePhoto(name, profilePhoto)}
+                            onPress={() =>
+                                navigateTo(
+                                    AccountStackNavigatorEnum.ConversationDetailsScreen,
+                                    {
+                                        conversationId,
+                                        name,
+                                        profilePhoto
+                                    }
+                                )
+                            }
                             style={ConversationScreenStyle.titleView}
                         >
                             <FastImage
                                 source={{ uri: profilePhoto }}
-                                style={ConversationScreenStyle.image}
+                                style={{
+                                    width: 40,
+                                    height: 40,
+                                    borderRadius: 20
+                                }}
                             />
-                            <Text style={ConversationScreenStyle.name}>
-                                {name}
-                            </Text>
                         </TouchableOpacity>
-                        <Text style={ConversationScreenStyle.status}>
-                            In this chat 12 minutes ago
-                        </Text>
                     </View>
                 )
             }),
-        [name, navigation, openProfilePhoto, profilePhoto, top]
+        [conversationId, name, navigateTo, navigation, profilePhoto]
     );
 
     const loadMessages = useCallback(

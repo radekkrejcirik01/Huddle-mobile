@@ -40,6 +40,12 @@ export interface ResponseShowPeopleGetInterface {
     data?: Array<HiddenItemProps>;
 }
 
+export interface ResponseIsConversationMutedGetInterface {
+    status: string;
+    message: string;
+    muted: boolean;
+}
+
 export interface ResponseInvitesGetInterface {
     status: string;
     message: string;

@@ -10,7 +10,6 @@ import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
 import { ProfileTabHeader } from '@components/profile/ProfileTabHeader/ProfileTabHeader';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
-import { AddHuddle } from '@components/huddles/AddHuddle/AddHuddle';
 
 export const ProfileScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -68,7 +67,6 @@ export const ProfileScreen = (): JSX.Element => {
                             <Text style={ProfileScreenStyle.title}>
                                 Your Huddles
                             </Text>
-                            <AddHuddle />
                         </View>
                     </>
                 }
