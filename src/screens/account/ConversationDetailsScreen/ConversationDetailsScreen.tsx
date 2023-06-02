@@ -28,14 +28,14 @@ export const ConversationDetailsScreen = ({
     const navigation = useNavigation();
     const openProfile = useOpenProfilePhoto();
 
-    const [notificationsOn, setNotificationsOn] = useState<boolean>(true);
+    const [muted, setMuted] = useState<boolean>(false);
 
     const loadIsConversationMuted = useCallback(() => {
         getRequestUser<ResponseIsConversationMutedGetInterface>(
-            `muted/${username}/${conversationId}`
+            `muted-conversation/${username}/${conversationId}`
         ).subscribe((response: ResponseIsConversationMutedGetInterface) => {
             if (response?.status) {
-                setNotificationsOn(!response?.muted);
+                setMuted(response?.muted);
             }
         });
     }, [conversationId, username]);
@@ -54,7 +54,7 @@ export const ConversationDetailsScreen = ({
 
     const updateNotifications = useCallback(
         (value: boolean) => {
-            setNotificationsOn(value);
+            setMuted(value);
             postRequestUser<
                 ResponseInterface,
                 ConversationNotificationsPostInterface
@@ -78,11 +78,11 @@ export const ConversationDetailsScreen = ({
                             📲
                         </Text>
                         <Text style={ConversationDetailsScreenStyle.titleText}>
-                            Notifications
+                            Mute messages
                         </Text>
                     </View>
                     <Switch
-                        value={notificationsOn}
+                        value={muted}
                         onValueChange={updateNotifications}
                         trackColor={{
                             true: COLORS.BUTTON_BLUE

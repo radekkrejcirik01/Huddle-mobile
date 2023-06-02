@@ -49,6 +49,11 @@ export interface ShowPeopleUpdatePutInterface {
     usernames: Array<string>;
 }
 
+export interface MuteHuddlesPostInterface {
+    user: string;
+    muted: string;
+}
+
 export interface ConversationNotificationsPostInterface {
     user: string;
     conversationId: number;

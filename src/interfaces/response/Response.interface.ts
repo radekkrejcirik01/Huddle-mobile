@@ -10,6 +10,7 @@ import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
 import { MessageItemProps } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { InviteItemProps } from '@screens/account/InvitesScreen/InvitesScreen.props';
 import { HiddenItemProps } from '@screens/account/ShowHuddlesScreen/ShowHuddlesScreen.props';
+import { MutedHuddlesItemProps } from '@screens/account/MutedHuddlesScreen/MutedHuddlesScreen.props';
 
 export interface ResponseInterface {
     status: string;
@@ -38,6 +39,12 @@ export interface ResponseShowPeopleGetInterface {
     status: string;
     message: string;
     data?: Array<HiddenItemProps>;
+}
+
+export interface ResponseMutedHuddlesGetInterface {
+    status: string;
+    message: string;
+    data?: Array<MutedHuddlesItemProps>;
 }
 
 export interface ResponseIsConversationMutedGetInterface {

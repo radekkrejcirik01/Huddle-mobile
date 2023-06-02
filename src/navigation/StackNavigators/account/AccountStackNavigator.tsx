@@ -19,7 +19,7 @@ import { DeleteAccountScreen } from '@screens/account/DeleteAccountScreen/Delete
 import { SettingsScreen } from '@screens/account/SettingsScreen/SettingsScreen';
 import { PrivacyScreen } from '@screens/account/PrivacyScreen/PrivacyScreen';
 import { ShowHuddlesScreen } from '@screens/account/ShowHuddlesScreen/ShowHuddlesScreen';
-import { MutedScreen } from '@screens/account/MutedScreen/MutedScreen';
+import { MutedHuddlesScreen } from '@screens/account/MutedHuddlesScreen/MutedHuddlesScreen';
 import { InvitesScreen } from '@screens/account/InvitesScreen/InvitesScreen';
 import {
     AccountTitle,
@@ -91,8 +91,8 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...InvitesTitle }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.MutedScreen}
-            component={MutedScreen}
+            name={AccountStackNavigatorEnum.MutedHuddlesScreen}
+            component={MutedHuddlesScreen}
             options={{ ...NavigationScreenHeader, ...MutedTitle }}
         />
         <Account.Screen

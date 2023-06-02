@@ -10,7 +10,10 @@ import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScree
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
-import { HuddleInteractPostInterface } from '@interfaces/post/Post.inteface';
+import {
+    HuddleInteractPostInterface,
+    MuteHuddlesPostInterface
+} from '@interfaces/post/Post.inteface';
 import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem';
 import { SmallHuddleListItem } from '@components/huddles/SmallHuddleListItem/SmallHuddleListItem';
 import { ReducerProps } from '@store/index/index.props';
@@ -93,14 +96,35 @@ export const useRenderHuddles = (
         [interact, removeInteraction]
     );
 
+    const muteHuddles = useCallback(
+        (mute: string) => {
+            postRequestUser<ResponseInterface, MuteHuddlesPostInterface>(
+                'mute-huddles',
+                {
+                    user: username,
+                    muted: mute
+                }
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) loadHuddles();
+            });
+        },
+        [loadHuddles, username]
+    );
+
     const itemLongPress = useCallback(
         (item: HuddleItemInterface) => {
-            const options = ['Report', `Mute`, 'Cancel'];
+            const options = [
+                'Report',
+                `Mute`,
+                'Mute notifications only',
+                'Cancel'
+            ];
 
             showActionSheetWithOptions(
                 {
                     options,
-                    cancelButtonIndex: 2,
+                    title: `${item.name}'s Huddles`,
+                    cancelButtonIndex: 3,
                     userInterfaceStyle: 'dark'
                 },
                 (selectedIndex: number) => {
@@ -110,12 +134,15 @@ export const useRenderHuddles = (
                         );
                     }
                     if (selectedIndex === 1) {
-                        Alert.alert('Huddles from Radek are muted');
+                        muteHuddles(item.createdBy);
+                    }
+                    if (selectedIndex === 2) {
+                        Alert.alert('Muted notifications only');
                     }
                 }
             );
         },
-        [showActionSheetWithOptions]
+        [muteHuddles, showActionSheetWithOptions]
     );
 
     const renderLargeItem = useCallback(

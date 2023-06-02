@@ -24,7 +24,7 @@ export const SettingsScreen = (): JSX.Element => {
     }, [navigateTo]);
 
     const openMuted = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.MutedScreen);
+        navigateTo(AccountStackNavigatorEnum.MutedHuddlesScreen);
     }, [navigateTo]);
 
     const openNotifications = useCallback(() => {

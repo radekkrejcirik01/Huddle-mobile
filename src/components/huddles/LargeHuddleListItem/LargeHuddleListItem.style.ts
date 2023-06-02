@@ -3,12 +3,12 @@ import COLORS from '@constants/COLORS';
 
 export const LargeHuddleListItemStyle = StyleSheet.create({
     container: {
-        height: 145,
+        height: 200,
         width: '100%',
         padding: 15,
         paddingLeft: 12,
         borderRadius: 20,
-        backgroundColor: COLORS.GRAY_100,
+        backgroundColor: COLORS.PASTEL_RED,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
@@ -18,6 +18,9 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
     },
     row: {
         flexDirection: 'row'
+    },
+    flexEnd: {
+        alignItems: 'flex-end'
     },
     image: {
         height: 50,
@@ -34,22 +37,26 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
-    commentsText: {
-        fontSize: 14,
-        color: COLORS.WHITE
-    },
-    infoView: {
+    whatView: {
         flex: 1,
         paddingLeft: 15
     },
     whatText: {
-        fontSize: 18,
+        fontSize: 20,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
+    commentsText: {
+        margin: 5,
+        fontSize: 14,
+        color: COLORS.WHITE
+    },
+    flex: {
+        flex: 1
+    },
     handView: {
-        paddingVertical: 12,
-        paddingHorizontal: 14,
+        paddingVertical: 16,
+        paddingHorizontal: 18,
         borderRadius: 30,
         backgroundColor: COLORS.GRAY_400,
         alignSelf: 'flex-end',
@@ -57,7 +64,7 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         alignItems: 'center'
     },
     handText: {
-        fontSize: 22,
+        fontSize: 24,
         color: COLORS.MAIN_ORANGE
     }
 });

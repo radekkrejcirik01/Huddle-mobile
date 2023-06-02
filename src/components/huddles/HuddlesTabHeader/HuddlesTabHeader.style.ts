@@ -4,7 +4,6 @@ import COLORS from '@constants/COLORS';
 export const HuddlesTabHeaderStyle = StyleSheet.create({
     header: {
         paddingHorizontal: 20,
-        paddingBottom: 100,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
@@ -13,7 +12,7 @@ export const HuddlesTabHeaderStyle = StyleSheet.create({
         flex: 1
     },
     title: {
-        fontSize: 26,
+        fontSize: 25,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },

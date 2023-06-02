@@ -89,33 +89,45 @@ export const LargeHuddleListItem = ({
                                 adjustsFontSizeToFit
                                 numberOfLines={1}
                             >
-                                Radek
+                                {item.name}
                             </Text>
                         </View>
                     </View>
-                    <View style={LargeHuddleListItemStyle.infoView}>
-                        <Text style={LargeHuddleListItemStyle.whatText}>
+                    <View style={LargeHuddleListItemStyle.whatView}>
+                        <Text
+                            style={LargeHuddleListItemStyle.whatText}
+                            adjustsFontSizeToFit
+                        >
                             {item?.what}
                         </Text>
                     </View>
                 </View>
-                {!!item?.commentsNumber && !hideCommentsNumber && (
-                    <Text style={LargeHuddleListItemStyle.commentsText}>
-                        {item?.commentsNumber}{' '}
-                        {item?.commentsNumber > 1 ? 'comments' : 'comment'}
-                    </Text>
-                )}
-            </View>
-            {!created && (
-                <TouchableOpacity
-                    onPress={interact}
-                    style={LargeHuddleListItemStyle.handView}
+                <View
+                    style={[
+                        LargeHuddleListItemStyle.row,
+                        LargeHuddleListItemStyle.flexEnd
+                    ]}
                 >
-                    <Text style={LargeHuddleListItemStyle.handText}>
-                        {interactedText}
-                    </Text>
-                </TouchableOpacity>
-            )}
+                    {!!item?.commentsNumber && !hideCommentsNumber && (
+                        <Text style={LargeHuddleListItemStyle.commentsText}>
+                            {item?.commentsNumber}{' '}
+                            {item?.commentsNumber > 1 ? 'comments' : 'comment'}
+                        </Text>
+                    )}
+                    {!created && (
+                        <View style={LargeHuddleListItemStyle.flex}>
+                            <TouchableOpacity
+                                onPress={interact}
+                                style={LargeHuddleListItemStyle.handView}
+                            >
+                                <Text style={LargeHuddleListItemStyle.handText}>
+                                    {interactedText}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                </View>
+            </View>
         </TouchableOpacity>
     );
 };

@@ -22,5 +22,9 @@ export default {
     BLACK_100: '#4d4d4d',
     BLACK_200: '#262626',
     BLACK_300: '#1a1a1a',
-    BUTTON_BLUE: '#0099ff'
+    BUTTON_BLUE: '#0099ff',
+    PASTEL_PURPLE: '#A275E3',
+    PASTEL_ORANGE: '#FF9D76',
+    PASTEL_BLUE: '#7692E4',
+    PASTEL_RED: '#FD5959'
 };
