@@ -28,6 +28,19 @@ export interface ResponseUserGetInterface {
     };
 }
 
+export interface ResponseUserNotificationsGetInterface {
+    status: string;
+    message: string;
+    data?: {
+        friendsInvitesNotifications: number;
+        newHuddlesNotifications: number;
+        interactionsNotifications: number;
+        commentsNotifications: number;
+        mentionsNotifications: number;
+        messagesNotifications: number;
+    };
+}
+
 export interface ResponseFriendsGetInterface {
     status: string;
     message: string;

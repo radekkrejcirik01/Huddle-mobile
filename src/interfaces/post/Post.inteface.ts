@@ -3,6 +3,12 @@ export interface UserPostInterface {
     firstname: string;
 }
 
+export interface UserNotificationPutInterface {
+    username: string;
+    notification: string;
+    value: number;
+}
+
 export interface AddPersonInvitePostInterface {
     sender: string;
     receiver: string;
