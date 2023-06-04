@@ -1,6 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { getHuddleColor } from '@hooks/getHuddleColor';
 import { StartHuddleModalScreenStyle } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen.style';
 import { ReducerProps } from '@store/index/index.props';
 import { postRequestUser } from '@utils/Axios/Axios.service';
@@ -17,13 +18,17 @@ export const StartHuddleModalScreen = ({
 
     const what = useRef<string>();
 
+    const number = Math.floor(Math.random() * (3 + 1));
+    const { primaryColor, secondaryColor } = getHuddleColor(number);
+
     const addHuddle = useCallback(() => {
         onClose();
         postRequestUser<ResponseInterface, AddHuddlePostInterface>('huddle', {
             sender: username,
-            what: what?.current
+            what: what?.current,
+            color: number
         }).subscribe();
-    }, [onClose, username]);
+    }, [number, onClose, username]);
 
     const onPressAddCard = useCallback(() => {
         if (what?.current) {
@@ -40,6 +45,8 @@ export const StartHuddleModalScreen = ({
                 onWhatChange={(text) => {
                     what.current = text;
                 }}
+                style={{ backgroundColor: primaryColor }}
+                styleInput={{ backgroundColor: secondaryColor }}
             />
             <TouchableOpacity
                 onPress={onPressAddCard}

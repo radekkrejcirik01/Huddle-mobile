@@ -13,7 +13,8 @@ import { HuddleEditableCardStyle } from '@components/huddles/HuddleEditableCard/
 export const HuddleEditableCard = ({
     whatValue,
     onWhatChange,
-    style
+    style,
+    styleInput
 }: HuddleEditableCardProps): JSX.Element => {
     const { profilePhoto } = useSelector(
         (state: ReducerProps) => state.user.user
@@ -29,7 +30,7 @@ export const HuddleEditableCard = ({
                     defaultValue={whatValue}
                     onChangeText={onWhatChange}
                     selectionColor={COLORS.BUTTON_BLUE}
-                    style={HuddleEditableCardStyle.primaryInput}
+                    style={[HuddleEditableCardStyle.primaryInput, styleInput]}
                 />
             </View>
             <FastImage

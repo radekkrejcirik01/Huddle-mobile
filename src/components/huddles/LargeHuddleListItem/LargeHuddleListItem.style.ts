@@ -8,7 +8,7 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         padding: 15,
         paddingLeft: 12,
         borderRadius: 20,
-        backgroundColor: COLORS.PASTEL_RED,
+        backgroundColor: COLORS.GRAY_100,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },

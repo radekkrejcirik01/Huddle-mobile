@@ -7,7 +7,7 @@ export const HuddleEditableCardStyle = StyleSheet.create({
         width: '100%',
         padding: 15,
         borderRadius: 20,
-        backgroundColor: COLORS.MAIN_ORANGE,
+        backgroundColor: COLORS.GRAY_100,
         flexDirection: 'row'
     },
     inputsContainer: {
@@ -21,8 +21,7 @@ export const HuddleEditableCardStyle = StyleSheet.create({
         paddingRight: 15,
         borderRadius: 15,
         fontSize: 16,
-        color: COLORS.MAIN_BROWN,
-        backgroundColor: COLORS.MAIN_WHITE,
+        color: COLORS.WHITE,
         alignSelf: 'flex-start',
         fontWeight: 'bold'
     },

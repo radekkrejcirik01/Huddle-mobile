@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { useActionSheet } from '@expo/react-native-action-sheet';
+import { getHuddleColor } from '@hooks/getHuddleColor';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import {
     LargeHuddleListItemProps,
@@ -22,6 +23,7 @@ export const LargeHuddleListItem = ({
     const [interacted, setInteracted] = useState<boolean>();
 
     const { showActionSheetWithOptions } = useActionSheet();
+    const { primaryColor, secondaryColor } = getHuddleColor(item.color);
 
     useEffect(() => setInteracted(!!item?.interacted), [item?.interacted]);
 
@@ -69,7 +71,11 @@ export const LargeHuddleListItem = ({
             disabled={!onPressCard}
             onPress={onPressCard}
             onLongPress={onItemLongPress}
-            style={[LargeHuddleListItemStyle.container, style]}
+            style={[
+                LargeHuddleListItemStyle.container,
+                { backgroundColor: primaryColor },
+                style
+            ]}
         >
             <View style={LargeHuddleListItemStyle.content}>
                 <View style={LargeHuddleListItemStyle.row}>
@@ -118,7 +124,10 @@ export const LargeHuddleListItem = ({
                         <View style={LargeHuddleListItemStyle.flex}>
                             <TouchableOpacity
                                 onPress={interact}
-                                style={LargeHuddleListItemStyle.handView}
+                                style={[
+                                    LargeHuddleListItemStyle.handView,
+                                    { backgroundColor: secondaryColor }
+                                ]}
                             >
                                 <Text style={LargeHuddleListItemStyle.handText}>
                                     {interactedText}

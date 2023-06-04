@@ -4,6 +4,7 @@ export interface HuddleEditableCardProps {
     whatValue?: string;
     onWhatChange: (value: string) => void;
     style?: StyleProp<ViewStyle>;
+    styleInput?: StyleProp<ViewStyle>;
 }
 
 export const HuddleEditableCardDefaultProps: Omit<
@@ -11,5 +12,6 @@ export const HuddleEditableCardDefaultProps: Omit<
     'onWhatChange'
 > = {
     whatValue: null,
-    style: {}
+    style: {},
+    styleInput: {}
 };
