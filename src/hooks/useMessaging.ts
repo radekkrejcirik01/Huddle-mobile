@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
-import { postRequest } from '@utils/Axios/Axios.service';
+import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ReducerProps } from '@store/index/index.props';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { DeviceInterface } from '@interfaces/post/Post.inteface';
@@ -22,17 +22,13 @@ export const useMessaging = (): {
     };
 
     const registerDevice = useCallback(
-        (fcmToken: string) => {
-            postRequest<ResponseInterface, DeviceInterface>(
-                'https://2df57yatfl.execute-api.eu-central-1.amazonaws.com/pushnotifications/device/register',
-                {
-                    username,
-                    deviceToken: fcmToken
-                }
-            ).subscribe(() => {
+        (fcmToken: string) =>
+            postRequestUser<ResponseInterface, DeviceInterface>('device', {
+                username,
+                deviceToken: fcmToken
+            }).subscribe(() => {
                 dispatch(setDeviceTokenAction(fcmToken));
-            });
-        },
+            }),
         [dispatch, username]
     );
 

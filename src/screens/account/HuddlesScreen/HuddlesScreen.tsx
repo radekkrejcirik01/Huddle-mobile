@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Keyboard, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList } from '@shopify/flash-list';
+import { useMessaging } from '@hooks/useMessaging';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { HuddlesScreenStyle } from '@screens/account/HuddlesScreen/HuddlesScreen.style';
 import { HuddlesTabHeader } from '@components/huddles/HuddlesTabHeader/HuddlesTabHeader';
@@ -16,6 +17,8 @@ import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 
 export const HuddlesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
+
+    useMessaging();
 
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
     const [startHuddle, setStartHuddle] = useState<boolean>(false);

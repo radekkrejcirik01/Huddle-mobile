@@ -14,15 +14,12 @@ import { ReducerProps } from '@store/index/index.props';
 import { useNavigation } from '@hooks/useNavigation';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { postRequest } from '@utils/Axios/Axios.service';
+import { deleteRequestUser, postRequest } from '@utils/Axios/Axios.service';
 import {
     ResponseInterface,
     ResponseUploadImageInterface
 } from '@interfaces/response/Response.interface';
-import {
-    DeviceInterface,
-    UploadProfileImageInterface
-} from '@interfaces/post/Post.inteface';
+import { UploadProfileImageInterface } from '@interfaces/post/Post.inteface';
 
 export const EditProfileScreen = (): JSX.Element => {
     const { firstname, username, profilePhoto } = useSelector(
@@ -69,14 +66,8 @@ export const EditProfileScreen = (): JSX.Element => {
         dispatch(resetUserState());
         PersistStorage.setItem(PersistStorageKeys.TOKEN, '').catch();
 
-        postRequest<ResponseInterface, DeviceInterface>(
-            'https://2df57yatfl.execute-api.eu-central-1.amazonaws.com/pushnotifications/device/delete',
-            {
-                username,
-                deviceToken: token
-            }
-        ).subscribe();
-    }, [dispatch, username, token]);
+        deleteRequestUser<ResponseInterface>(`device/${username}`).subscribe();
+    }, [dispatch, username]);
 
     return (
         <View style={EditProfileScreenStyle.container}>

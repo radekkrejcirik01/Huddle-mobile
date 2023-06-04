@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FlashList } from '@shopify/flash-list';
-import { useMessaging } from '@hooks/useMessaging';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { ProfileScreenStyle } from '@screens/account/ProfileScreen/ProfileScreen.style';
 import { ReducerProps } from '@store/index/index.props';
@@ -13,8 +12,6 @@ import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScree
 
 export const ProfileScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
-
-    useMessaging();
 
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
 
