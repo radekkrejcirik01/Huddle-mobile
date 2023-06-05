@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { AppState, StatusBar } from 'react-native';
-import notifee from '@notifee/react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import store from '@store/index/index';
 import { BAR_STYLE } from '@app/App.const';
 import { Navigation } from '@navigation/index';
@@ -20,7 +20,7 @@ const App = () => {
             (nextAppState) => {
                 if (nextAppState === 'active') {
                     if (isiOS()) {
-                        notifee.setBadgeCount(0);
+                        PushNotificationIOS.setApplicationIconBadgeNumber(0);
                     }
                 }
             }

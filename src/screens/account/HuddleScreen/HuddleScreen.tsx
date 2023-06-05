@@ -235,6 +235,10 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
         });
     }, [comments?.length, loadComments]);
 
+    if (!huddle) {
+        return null;
+    }
+
     return (
         <View
             style={[

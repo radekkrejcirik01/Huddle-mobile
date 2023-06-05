@@ -1,5 +1,5 @@
 import React from 'react';
-import { NativeModules, Text } from 'react-native';
+import { Text } from 'react-native';
 import Toast, {
     ToastConfig,
     ToastConfigParams
@@ -8,9 +8,6 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { ToastMessageStyle } from '@components/general/ToastMessage/ToastMessage.style';
 
 export const ToastMessage = (): JSX.Element => {
-    const { StatusBarManager } = NativeModules;
-    const height = StatusBarManager.HEIGHT - 30;
-
     const toastConfig: ToastConfig = {
         success: (
             internalState: ToastConfigParams<{
@@ -22,12 +19,7 @@ export const ToastMessage = (): JSX.Element => {
             <TouchableOpacity
                 activeOpacity={1}
                 onPress={internalState?.onPress}
-                style={[
-                    ToastMessageStyle.touchableOpacity,
-                    {
-                        top: height
-                    }
-                ]}
+                style={ToastMessageStyle.touchableOpacity}
             >
                 {internalState?.text1 && (
                     <Text style={ToastMessageStyle.title}>
