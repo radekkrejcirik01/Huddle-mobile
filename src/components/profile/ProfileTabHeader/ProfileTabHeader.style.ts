@@ -6,7 +6,7 @@ export const ProfileTabHeaderStyle = StyleSheet.create({
         alignItems: 'center'
     },
     profileContent: {
-        paddingHorizontal: 15,
+        paddingHorizontal: 5,
         paddingBottom: 20,
         flexDirection: 'row',
         justifyContent: 'space-between'

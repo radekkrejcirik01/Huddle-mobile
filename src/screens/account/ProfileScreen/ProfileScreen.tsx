@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlashList } from '@shopify/flash-list';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { ProfileScreenStyle } from '@screens/account/ProfileScreen/ProfileScreen.style';
@@ -12,6 +13,8 @@ import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScree
 
 export const ProfileScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
+
+    const { top } = useSafeAreaInsets();
 
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
 
@@ -55,18 +58,10 @@ export const ProfileScreen = (): JSX.Element => {
     } = useRenderHuddles(huddles, loadHuddles);
 
     return (
-        <View style={ProfileScreenStyle.container}>
+        <View style={[ProfileScreenStyle.container, { paddingTop: top }]}>
             <FlashList
-                ListHeaderComponent={
-                    <>
-                        <ProfileTabHeader />
-                        <View style={ProfileScreenStyle.contentHeaderView}>
-                            <Text style={ProfileScreenStyle.title}>
-                                Your Huddles
-                            </Text>
-                        </View>
-                    </>
-                }
+                ListHeaderComponent={<ProfileTabHeader />}
+                ListHeaderComponentStyle={ProfileScreenStyle.header}
                 data={huddles}
                 extraData={huddles}
                 renderItem={renderSmallItem}
@@ -77,6 +72,7 @@ export const ProfileScreen = (): JSX.Element => {
                 showsVerticalScrollIndicator={false}
                 onScrollBeginDrag={onScrollBeginDrag}
                 onEndReached={onEndReachedSmallItem}
+                contentContainerStyle={ProfileScreenStyle.listContentContainer}
                 ListEmptyComponent={
                     <Text style={ProfileScreenStyle.description}>
                         your Huddles will appear{'\n'}here 👋

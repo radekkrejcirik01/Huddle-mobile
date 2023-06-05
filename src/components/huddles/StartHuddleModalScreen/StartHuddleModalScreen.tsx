@@ -1,7 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { getHuddleColor } from '@hooks/getHuddleColor';
 import { StartHuddleModalScreenStyle } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen.style';
 import { ReducerProps } from '@store/index/index.props';
 import { postRequestUser } from '@utils/Axios/Axios.service';
@@ -12,23 +11,23 @@ import { HuddleEditableCard } from '@components/huddles/HuddleEditableCard/Huddl
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const StartHuddleModalScreen = ({
-    onClose
+    onClose,
+    colorNumber,
+    primaryColor,
+    secondaryColor
 }: StartHuddleModalScreenProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const what = useRef<string>();
-
-    const number = Math.floor(Math.random() * (3 + 1));
-    const { primaryColor, secondaryColor } = getHuddleColor(number);
 
     const addHuddle = useCallback(() => {
         onClose();
         postRequestUser<ResponseInterface, AddHuddlePostInterface>('huddle', {
             sender: username,
             what: what?.current,
-            color: number
+            color: colorNumber
         }).subscribe();
-    }, [number, onClose, username]);
+    }, [colorNumber, onClose, username]);
 
     const onPressAddCard = useCallback(() => {
         if (what?.current) {

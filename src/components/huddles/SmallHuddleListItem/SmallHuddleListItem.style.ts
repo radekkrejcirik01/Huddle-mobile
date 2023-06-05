@@ -4,25 +4,16 @@ import COLORS from '@constants/COLORS';
 
 export const SmallHuddleListItemStyle = StyleSheet.create({
     container: {
-        // ProfileScreen's padding horizontal is 5
-        width: DIMENSIONS.width / 3 - 10,
-        height: DIMENSIONS.width / 3 - 10,
+        // ProfileScreen has horizontal padding
+        width: DIMENSIONS.width / 3 - 8,
+        height: DIMENSIONS.width / 3 - 8,
         margin: 2.5,
         padding: 10,
         borderRadius: 15,
-        backgroundColor: COLORS.MAIN_ORANGE
-    },
-    flex: {
-        flex: 1
+        flexDirection: 'row'
     },
     whatText: {
         color: COLORS.WHITE,
         fontWeight: 'bold'
-    },
-    image: {
-        width: 42,
-        height: 42,
-        borderRadius: 15,
-        alignSelf: 'flex-end'
     }
 });

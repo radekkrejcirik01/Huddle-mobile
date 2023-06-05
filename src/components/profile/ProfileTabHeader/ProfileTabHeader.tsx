@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FastImage from 'react-native-fast-image';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { useNavigation } from '@hooks/useNavigation';
@@ -20,12 +19,9 @@ export const ProfileTabHeader = (): JSX.Element => {
 
     const openProfilePhoto = useOpenProfilePhoto();
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
-    const { top } = useSafeAreaInsets();
 
     return (
-        <View
-            style={[ProfileTabHeaderStyle.container, { paddingTop: top + 5 }]}
-        >
+        <View style={ProfileTabHeaderStyle.container}>
             <View style={ProfileTabHeaderStyle.profileContent}>
                 <View style={ProfileTabHeaderStyle.flex} />
                 <TouchableOpacity

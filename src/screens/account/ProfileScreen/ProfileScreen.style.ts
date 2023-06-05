@@ -5,17 +5,12 @@ export const ProfileScreenStyle = StyleSheet.create({
     container: {
         flex: 1
     },
-    contentHeaderView: {
-        paddingLeft: 5,
-        paddingBottom: 10,
-        paddingRight: 12,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
+    header: {
+        paddingBottom: 20
     },
-    title: {
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
+    listContentContainer: {
+        paddingTop: 10,
+        paddingHorizontal: 5
     },
     description: {
         marginTop: 100,
