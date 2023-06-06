@@ -16,6 +16,7 @@ export interface AddPersonInvitePostInterface {
 
 export interface AddHuddlePostInterface {
     sender: string;
+    name: string;
     what: string;
     color: number;
 }

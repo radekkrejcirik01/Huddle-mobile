@@ -16,7 +16,9 @@ export const StartHuddleModalScreen = ({
     primaryColor,
     secondaryColor
 }: StartHuddleModalScreenProps): JSX.Element => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
+    const { firstname, username } = useSelector(
+        (state: ReducerProps) => state.user.user
+    );
 
     const what = useRef<string>();
 
@@ -24,10 +26,11 @@ export const StartHuddleModalScreen = ({
         onClose();
         postRequestUser<ResponseInterface, AddHuddlePostInterface>('huddle', {
             sender: username,
+            name: firstname,
             what: what?.current,
             color: colorNumber
         }).subscribe();
-    }, [colorNumber, onClose, username]);
+    }, [colorNumber, firstname, onClose, username]);
 
     const onPressAddCard = useCallback(() => {
         if (what?.current) {
