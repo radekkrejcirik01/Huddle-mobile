@@ -1,45 +1,31 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
-import SHADOW from '@constants/SHADOW';
 
 export const MessageListItemStyle = StyleSheet.create({
-    container: {
-        marginHorizontal: 10,
-        marginBottom: 5
+    paddingTop: {
+        paddingTop: 15
     },
-    outboundView: {
-        alignItems: 'flex-end'
-    },
-    messageView: {
-        ...SHADOW.CHAT_ITEM,
+    view: {
         maxWidth: '75%',
-        paddingVertical: 12,
-        paddingHorizontal: 15,
-        borderRadius: 18
+        paddingHorizontal: 10,
+        paddingTop: 10,
+        paddingBottom: 6,
+        borderRadius: 18,
+        backgroundColor: COLORS.BLACK_200,
+        alignSelf: 'flex-start'
     },
-    inboundMessageColor: {
-        backgroundColor: COLORS.BLACK
-    },
-    outboundMessageColor: {
-        backgroundColor: COLORS.MAIN_BLUE
-    },
-    imageView: {
-        padding: 0,
-        paddingHorizontal: 0
-    },
-    image: {
-        width: 175,
-        height: 175,
-        borderRadius: 15,
-        backgroundColor: COLORS.GRAY_100
+    flexEnd: {
+        alignSelf: 'flex-end'
     },
     messageText: {
-        color: COLORS.WHITE,
-        fontWeight: '600'
+        marginBottom: 4,
+        fontSize: 15,
+        color: COLORS.WHITE
     },
     timeText: {
-        margin: 2,
         fontSize: 11,
-        color: COLORS.WHITE
+        opacity: 0.7,
+        color: COLORS.WHITE,
+        alignSelf: 'flex-end'
     }
 });

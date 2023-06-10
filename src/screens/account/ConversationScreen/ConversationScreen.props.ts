@@ -18,6 +18,6 @@ export interface MessageItemProps {
     id: number;
     sender: string;
     message: string;
-    time: string;
+    time: number;
     url?: string;
 }

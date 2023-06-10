@@ -2,10 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useNavigation as useDefaultNavigation } from '@react-navigation/native';
-import FastImage from 'react-native-fast-image';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useNavigation } from '@hooks/useNavigation';
 import { useRenderMesages } from '@hooks/useRenderMesages';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import {
@@ -13,7 +11,6 @@ import {
     MessageItemProps
 } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { ConversationScreenStyle } from '@screens/account/ConversationScreen/ConversationScreen.style';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { getRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
 import {
     MessagesByUsernamesResponseInterface,
@@ -23,8 +20,8 @@ import {
 import { ChatInput } from '@components/conversation/ChatInput/ChatInput';
 import { SendMessageInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
-import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
+import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
+import { ConversationHeader } from '@components/conversation/ConversationHeader/ConversationHeader';
 
 export const ConversationScreen = ({
     route
@@ -36,42 +33,21 @@ export const ConversationScreen = ({
     );
 
     const navigation = useDefaultNavigation();
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
-    const { bottom, top } = useSafeAreaInsets();
+    const { bottom } = useSafeAreaInsets();
 
     const [messages, setMessages] = useState<Array<MessageItemProps>>([]);
 
     useEffect(
         () =>
             navigation.setOptions({
-                title: (
-                    <View style={ConversationScreenStyle.titleView}>
-                        <TouchableOpacity
-                            onPress={() =>
-                                navigateTo(
-                                    AccountStackNavigatorEnum.ConversationDetailsScreen,
-                                    {
-                                        conversationId,
-                                        name,
-                                        profilePhoto
-                                    }
-                                )
-                            }
-                            style={ConversationScreenStyle.titleView}
-                        >
-                            <FastImage
-                                source={{ uri: profilePhoto }}
-                                style={{
-                                    width: 40,
-                                    height: 40,
-                                    borderRadius: 20
-                                }}
-                            />
-                        </TouchableOpacity>
-                    </View>
+                headerLeft: () => (
+                    <ConversationHeader
+                        name={name}
+                        profilePhoto={profilePhoto}
+                    />
                 )
             }),
-        [conversationId, name, navigateTo, navigation, profilePhoto]
+        [name, navigation, profilePhoto]
     );
 
     const loadMessages = useCallback(
@@ -166,7 +142,7 @@ export const ConversationScreen = ({
                 }
             ]}
         >
-            <KeyboardAvoidingView keyboardVerticalOffset={98}>
+            <KeyboardAvoidingView keyboardVerticalOffset={42}>
                 <View style={ConversationScreenStyle.content}>
                     <FlashList
                         data={messages}
@@ -175,6 +151,12 @@ export const ConversationScreen = ({
                         estimatedItemSize={68}
                         inverted
                         showsVerticalScrollIndicator={false}
+                        contentContainerStyle={
+                            ConversationScreenStyle.listContainer
+                        }
+                        ItemSeparatorComponent={() => (
+                            <ItemSeparator space={2} />
+                        )}
                         onEndReached={onEndReached}
                     />
                     <ChatInput onSend={sendMessage} />

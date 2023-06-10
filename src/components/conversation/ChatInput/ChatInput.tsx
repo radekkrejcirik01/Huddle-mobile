@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Keyboard, Text, TextInput, View } from 'react-native';
+import { Text, TextInput, View } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import fs from 'react-native-fs';
 import COLORS from '@constants/COLORS';
@@ -16,7 +16,6 @@ export const ChatInput = ({ onSend }: ChatInputProps): JSX.Element => {
         onSend(message);
 
         setMessage(null);
-        Keyboard.dismiss();
     }, [message, onSend]);
 
     const openGallery = useCallback(() => {

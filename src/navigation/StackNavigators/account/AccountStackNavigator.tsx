@@ -48,7 +48,7 @@ export const AccountStackNavigator = (): JSX.Element => (
         <Account.Screen
             name={AccountStackNavigatorEnum.ConversationScreen}
             component={ConversationScreen}
-            options={{ ...NavigationScreenHeader }}
+            options={{ ...NavigationScreenHeader, ...NoTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.ConversationDetailsScreen}
