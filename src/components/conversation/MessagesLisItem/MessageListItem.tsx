@@ -34,7 +34,9 @@ export const MessageListItem = ({
                 onPress={onPhotoPress}
                 style={[
                     MessageListItemStyle.view,
-                    isOutbound && MessageListItemStyle.flexEnd
+                    isOutbound && MessageListItemStyle.flexEnd,
+                    item?.message?.length < 30 &&
+                        MessageListItemStyle.longMessage
                 ]}
             >
                 <Text style={MessageListItemStyle.messageText}>

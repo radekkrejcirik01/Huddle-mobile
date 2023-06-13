@@ -4,5 +4,5 @@ export interface ChatsListDataProps {
     profilePhoto?: string;
     lastMessage?: string;
     isRead?: number;
-    time: string;
+    time: number;
 }

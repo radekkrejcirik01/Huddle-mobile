@@ -5,7 +5,6 @@ export const ChatsScreenStyle = StyleSheet.create({
         flex: 1
     },
     contentContainer: {
-        paddingTop: 15,
-        paddingHorizontal: 5
+        paddingHorizontal: 15
     }
 });

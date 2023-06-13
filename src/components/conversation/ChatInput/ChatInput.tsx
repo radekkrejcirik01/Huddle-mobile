@@ -9,7 +9,7 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { ChatInputProps } from '@components/conversation/ChatInput/ChatInput.props';
 import { ChatInputStyle } from '@components/conversation/ChatInput/ChatInput.style';
 
-export const ChatInput = ({ onSend }: ChatInputProps): JSX.Element => {
+export const ChatInput = ({ onSend, name }: ChatInputProps): JSX.Element => {
     const [message, setMessage] = useState<string>();
 
     const send = useCallback(() => {
@@ -34,27 +34,32 @@ export const ChatInput = ({ onSend }: ChatInputProps): JSX.Element => {
     return (
         <View style={ChatInputStyle.container}>
             <View style={ChatInputStyle.inputContainer}>
-                <IconButton
-                    icon={IconEnum.GALLERY}
-                    onPress={openGallery}
-                    size={20}
-                    style={ChatInputStyle.galleryIcon}
-                />
                 <TextInput
                     value={message}
                     onChangeText={setMessage}
                     multiline
-                    placeholder="Message..."
-                    placeholderTextColor={COLORS.WHITE}
+                    placeholder={`Message ${name}`}
+                    placeholderTextColor={COLORS.LIGHTGRAY_100}
                     selectionColor={COLORS.WHITE}
                     style={ChatInputStyle.input}
                 />
-                <View style={ChatInputStyle.sendView}>
+                <View
+                    style={[
+                        ChatInputStyle.sendView,
+                        !message && ChatInputStyle.sendOpacity
+                    ]}
+                >
                     <TouchableOpacity disabled={!message} onPress={send}>
-                        <Text style={ChatInputStyle.send}>Send</Text>
+                        <Text style={ChatInputStyle.sendText}>Send</Text>
                     </TouchableOpacity>
                 </View>
             </View>
+            <IconButton
+                icon={IconEnum.GALLERY}
+                onPress={openGallery}
+                size={20}
+                style={ChatInputStyle.galleryIcon}
+            />
         </View>
     );
 };

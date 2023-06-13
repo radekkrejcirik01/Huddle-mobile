@@ -24,16 +24,7 @@ export const ProfileTabHeader = (): JSX.Element => {
         <View style={ProfileTabHeaderStyle.container}>
             <View style={ProfileTabHeaderStyle.profileContent}>
                 <View style={ProfileTabHeaderStyle.flex} />
-                <TouchableOpacity
-                    onPress={() => openProfilePhoto(firstname, profilePhoto)}
-                >
-                    <FastImage
-                        source={{
-                            uri: profilePhoto
-                        }}
-                        style={ProfileTabHeaderStyle.image}
-                    />
-                </TouchableOpacity>
+                <Text style={ProfileTabHeaderStyle.nameText}>{firstname}</Text>
                 <View style={ProfileTabHeaderStyle.menuView}>
                     <IconButton
                         icon={IconEnum.MENU}
@@ -44,7 +35,16 @@ export const ProfileTabHeader = (): JSX.Element => {
                     />
                 </View>
             </View>
-            <Text style={ProfileTabHeaderStyle.nameText}>{firstname}</Text>
+            <TouchableOpacity
+                onPress={() => openProfilePhoto(firstname, profilePhoto)}
+            >
+                <FastImage
+                    source={{
+                        uri: profilePhoto
+                    }}
+                    style={ProfileTabHeaderStyle.image}
+                />
+            </TouchableOpacity>
             <View style={ProfileTabHeaderStyle.buttonsContainer}>
                 <TouchableOpacity
                     onPress={() =>
@@ -53,7 +53,7 @@ export const ProfileTabHeader = (): JSX.Element => {
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>
-                        Add friends 👨‍👩‍👧‍👦
+                        Add friend 👨‍👩‍👧‍👦
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -63,7 +63,7 @@ export const ProfileTabHeader = (): JSX.Element => {
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>
-                        Edit Profile 🖋️
+                        Create Huddle 👋
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -71,7 +71,7 @@ export const ProfileTabHeader = (): JSX.Element => {
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>
-                        Start a chat 💬
+                        New chat 💬
                     </Text>
                 </TouchableOpacity>
             </View>

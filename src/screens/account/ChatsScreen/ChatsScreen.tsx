@@ -1,6 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlashList } from '@shopify/flash-list';
 import { useRenderChats } from '@hooks/useRenderChats';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
@@ -12,9 +14,12 @@ import {
 import { ReducerProps } from '@store/index/index.props';
 import { ChatsScreenStyle } from '@screens/account/ChatsScreen/ChatsScreen.style';
 import { ChatsTabHeader } from '@components/chats/ChatsTabHeader/ChatsTabHeader';
+import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 
 export const ChatsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
+
+    const { top } = useSafeAreaInsets();
 
     const [chats, setChats] = useState<Array<ChatsListDataProps>>([]);
 
@@ -40,13 +45,13 @@ export const ChatsScreen = (): JSX.Element => {
         [username]
     );
 
-    useEffect(() => loadChats(), [loadChats]);
+    useFocusEffect(useCallback(() => loadChats(), [loadChats]));
 
     const { renderChatItem, keyChatExtractor, refreshControl, onEndReached } =
         useRenderChats(chats, loadChats);
 
     return (
-        <View style={ChatsScreenStyle.container}>
+        <View style={[ChatsScreenStyle.container, { top: top + 5 }]}>
             <ChatsTabHeader />
             <FlashList
                 data={chats}
@@ -56,6 +61,7 @@ export const ChatsScreen = (): JSX.Element => {
                 estimatedItemSize={68}
                 showsVerticalScrollIndicator={false}
                 onEndReached={onEndReached}
+                ItemSeparatorComponent={() => <ItemSeparator space={20} />}
                 contentContainerStyle={ChatsScreenStyle.contentContainer}
             />
         </View>

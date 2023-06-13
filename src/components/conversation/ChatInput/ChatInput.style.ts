@@ -4,22 +4,24 @@ import COLORS from '@constants/COLORS';
 export const ChatInputStyle = StyleSheet.create({
     container: {
         paddingTop: 10,
-        paddingBottom: 15
+        paddingBottom: 15,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     inputContainer: {
+        flex: 1,
         marginHorizontal: 10,
-        paddingVertical: 5,
-        paddingHorizontal: 20,
+        paddingVertical: 4,
+        paddingLeft: 10,
+        paddingRight: 15,
         borderRadius: 25,
-        borderWidth: 1,
-        borderColor: COLORS.BLACK_200,
-        backgroundColor: COLORS.BLACK,
+        backgroundColor: COLORS.BLACK_300,
         flexDirection: 'row'
     },
     galleryIcon: {
-        marginRight: 10,
-        paddingBottom: 6,
-        justifyContent: 'flex-end'
+        marginLeft: 5,
+        marginRight: 25,
+        opacity: 0.8
     },
     input: {
         margin: 2,
@@ -33,7 +35,10 @@ export const ChatInputStyle = StyleSheet.create({
         paddingBottom: 6,
         justifyContent: 'flex-end'
     },
-    send: {
+    sendOpacity: {
+        opacity: 0.6
+    },
+    sendText: {
         fontSize: 16,
         color: COLORS.WHITE,
         fontWeight: '700'

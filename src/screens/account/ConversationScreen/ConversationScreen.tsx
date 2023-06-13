@@ -21,6 +21,8 @@ import { ChatInput } from '@components/conversation/ChatInput/ChatInput';
 import { SendMessageInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
+import { IconEnum } from '@components/general/Icon/Icon.enum';
+import { IconButton } from '@components/general/IconButton/IconButton';
 import { ConversationHeader } from '@components/conversation/ConversationHeader/ConversationHeader';
 
 export const ConversationScreen = ({
@@ -40,10 +42,18 @@ export const ConversationScreen = ({
     useEffect(
         () =>
             navigation.setOptions({
-                headerLeft: () => (
+                title: (
                     <ConversationHeader
                         name={name}
                         profilePhoto={profilePhoto}
+                    />
+                ),
+                headerRight: () => (
+                    <IconButton
+                        icon={IconEnum.HEART}
+                        onPress={() => {}}
+                        size={22}
+                        style={ConversationScreenStyle.heartIcon}
                     />
                 )
             }),
@@ -159,7 +169,7 @@ export const ConversationScreen = ({
                         )}
                         onEndReached={onEndReached}
                     />
-                    <ChatInput onSend={sendMessage} />
+                    <ChatInput name={name} onSend={sendMessage} />
                 </View>
             </KeyboardAvoidingView>
         </View>

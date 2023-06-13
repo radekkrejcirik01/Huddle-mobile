@@ -3,16 +3,15 @@ import COLORS from '@constants/COLORS';
 
 export const HuddlesTabHeaderStyle = StyleSheet.create({
     header: {
+        paddingVertical: 10,
         paddingHorizontal: 20,
+        paddingBottom: 25,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-    flex: {
-        flex: 1
-    },
     title: {
-        fontSize: 25,
+        fontSize: 26,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
