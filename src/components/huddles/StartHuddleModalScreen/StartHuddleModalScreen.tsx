@@ -12,9 +12,7 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 
 export const StartHuddleModalScreen = ({
     onClose,
-    colorNumber,
-    primaryColor,
-    secondaryColor
+    color
 }: StartHuddleModalScreenProps): JSX.Element => {
     const { firstname, username } = useSelector(
         (state: ReducerProps) => state.user.user
@@ -28,9 +26,9 @@ export const StartHuddleModalScreen = ({
             sender: username,
             name: firstname,
             what: what?.current,
-            color: colorNumber
+            color
         }).subscribe();
-    }, [colorNumber, firstname, onClose, username]);
+    }, [color, firstname, onClose, username]);
 
     const onPressAddCard = useCallback(() => {
         if (what?.current) {
@@ -47,8 +45,7 @@ export const StartHuddleModalScreen = ({
                 onWhatChange={(text) => {
                     what.current = text;
                 }}
-                style={{ backgroundColor: primaryColor }}
-                styleInput={{ backgroundColor: secondaryColor }}
+                color={color}
             />
             <TouchableOpacity
                 onPress={onPressAddCard}

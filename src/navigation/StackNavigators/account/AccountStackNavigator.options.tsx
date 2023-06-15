@@ -1,6 +1,6 @@
 import React from 'react';
 import { StackNavigationOptions } from '@react-navigation/stack';
-import { AddFriend } from '@components/friends/AddFriend/AddFriend';
+import { AddFriends } from '@components/friends/AddFriends/AddFriends';
 
 export const AccountTitle: StackNavigationOptions = {
     headerTitle: 'Account'
@@ -15,7 +15,7 @@ export const EditProfileTitle: StackNavigationOptions = {
 
 export const FriendsOptions: StackNavigationOptions = {
     headerTitle: 'Friends',
-    headerRight: () => <AddFriend />
+    headerRight: () => <AddFriends />
 };
 
 export const ShowTitle: StackNavigationOptions = {

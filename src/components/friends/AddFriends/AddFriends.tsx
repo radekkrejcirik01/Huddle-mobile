@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { useModal } from '@hooks/useModal';
 import { useNavigation } from '@hooks/useNavigation';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
-import { IconButton } from '@components/general/IconButton/IconButton';
 import COLORS from '@constants/COLORS';
 import { Modal } from '@components/general/Modal/Modal';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
@@ -14,9 +13,11 @@ import { AddPersonInvitePostInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { AddFriendStyle } from '@components/friends/AddFriend/AddFriend.style';
+import { AddFriendsStyle } from '@components/friends/AddFriends/AddFriends.style';
+import { Icon } from '@components/general/Icon/Icon';
+import { Badge } from '@components/general/Badge/Badge';
 
-export const AddFriend = (): JSX.Element => {
+export const AddFriends = (): JSX.Element => {
     const { username: user } = useSelector(
         (state: ReducerProps) => state.user.user
     );
@@ -70,12 +71,12 @@ export const AddFriend = (): JSX.Element => {
 
     const content = useMemo(
         (): JSX.Element => (
-            <View style={AddFriendStyle.modalContainer}>
-                <View style={AddFriendStyle.inputContainer}>
-                    <Text style={AddFriendStyle.title}>Username</Text>
-                    <View style={AddFriendStyle.inputView}>
+            <View style={AddFriendsStyle.modalContainer}>
+                <View style={AddFriendsStyle.inputContainer}>
+                    <Text style={AddFriendsStyle.title}>Username</Text>
+                    <View style={AddFriendsStyle.inputView}>
                         <Text>✉️</Text>
-                        <Text style={AddFriendStyle.hashtag}>@</Text>
+                        <Text style={AddFriendsStyle.at}>@</Text>
                         <TextInput
                             autoFocus
                             value={username}
@@ -84,15 +85,15 @@ export const AddFriend = (): JSX.Element => {
                             autoCapitalize="none"
                             keyboardAppearance="light"
                             selectionColor={COLORS.WHITE}
-                            style={AddFriendStyle.input}
+                            style={AddFriendsStyle.input}
                         />
                     </View>
                 </View>
                 <TouchableOpacity
                     onPress={onSend}
-                    style={AddFriendStyle.sendButton}
+                    style={AddFriendsStyle.sendButton}
                 >
-                    <Text style={AddFriendStyle.sendButtonText}>
+                    <Text style={AddFriendsStyle.sendButtonText}>
                         Send invite
                     </Text>
                 </TouchableOpacity>
@@ -102,14 +103,30 @@ export const AddFriend = (): JSX.Element => {
     );
 
     return (
-        <>
-            <IconButton icon={IconEnum.PLUS} onPress={showModal} size={24} />
+        <View style={AddFriendsStyle.view}>
+            <TouchableOpacity
+                onPress={showModal}
+                style={AddFriendsStyle.addView}
+            >
+                <Text style={AddFriendsStyle.addText}>
+                    Add<Text style={AddFriendsStyle.letterSpacing}>🧍‍♀️🧍‍♂️</Text>
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() =>
+                    navigateTo(AccountStackNavigatorEnum.InvitesScreen)
+                }
+                style={AddFriendsStyle.invitesView}
+            >
+                <Icon name={IconEnum.PROFILE} size={22} />
+                <Badge value={1} />
+            </TouchableOpacity>
             <Modal
                 isVisible={modalVisible}
                 content={content}
                 backdropOpacity={0.7}
                 onClose={hideKeyboardAndModal}
             />
-        </>
+        </View>
     );
 };

@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const AddHuddleStyle = StyleSheet.create({
+export const AddChatsStyle = StyleSheet.create({
     view: {
         marginLeft: 20,
         paddingVertical: 6,

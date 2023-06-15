@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useFocusEffect, useRoute } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useRenderFriends } from '@hooks/useRenderFriends';
 import { FriendsScreenStyle } from '@screens/account/FriendsScreen/FriendsScreen.style';
@@ -11,12 +11,9 @@ import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.p
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseFriendsGetInterface } from '@interfaces/response/Response.interface';
 import { ReducerProps } from '@store/index/index.props';
-import { FriendsTabHeader } from '@components/friends/FriendsTabHeader/FriendsTabHeader';
 
 export const FriendsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
-
-    const route = useRoute();
 
     const [inputValue, setInputValue] = useState<string>();
 
@@ -24,7 +21,6 @@ export const FriendsScreen = (): JSX.Element => {
     const [filteredData, setFilteredData] = useState<Array<FriendsItemProps>>(
         []
     );
-    const [invitesNumber, setInvitesNumber] = useState<number>();
 
     const loadFriends = useCallback(
         (lastId?: number) => {
@@ -36,8 +32,6 @@ export const FriendsScreen = (): JSX.Element => {
             getRequestUser<ResponseFriendsGetInterface>(endpoint).subscribe(
                 (response: ResponseFriendsGetInterface) => {
                     if (response?.status) {
-                        setInvitesNumber(response?.invitesNumber);
-
                         if (!lastId) {
                             setData(response?.data);
                             setFilteredData(response?.data);
@@ -79,9 +73,6 @@ export const FriendsScreen = (): JSX.Element => {
 
     return (
         <View style={FriendsScreenStyle.container}>
-            {route.name === 'FriendsTab' && (
-                <FriendsTabHeader invitesNumber={invitesNumber} />
-            )}
             <Input
                 iconLeft={<Text>🔍</Text>}
                 placeholder="Who you looking for?..."

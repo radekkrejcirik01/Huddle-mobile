@@ -47,5 +47,8 @@ export const ProfileTabHeaderStyle = StyleSheet.create({
         fontSize: 13,
         color: COLORS.WHITE,
         fontWeight: 'bold'
+    },
+    letterSpacing: {
+        letterSpacing: -8
     }
 });

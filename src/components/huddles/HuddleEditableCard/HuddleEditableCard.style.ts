@@ -3,7 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const HuddleEditableCardStyle = StyleSheet.create({
     container: {
-        height: 165,
+        height: 180,
         width: '100%',
         padding: 15,
         borderRadius: 20,
@@ -22,19 +22,6 @@ export const HuddleEditableCardStyle = StyleSheet.create({
         borderRadius: 15,
         fontSize: 16,
         color: COLORS.WHITE,
-        alignSelf: 'flex-start',
-        fontWeight: 'bold'
-    },
-    secondaryInput: {
-        width: '80%',
-        marginTop: 8,
-        paddingVertical: 6,
-        paddingLeft: 10,
-        paddingRight: 15,
-        borderRadius: 13,
-        fontSize: 15,
-        color: COLORS.MAIN_BROWN,
-        backgroundColor: COLORS.MAIN_WHITE,
         alignSelf: 'flex-start',
         fontWeight: 'bold'
     },

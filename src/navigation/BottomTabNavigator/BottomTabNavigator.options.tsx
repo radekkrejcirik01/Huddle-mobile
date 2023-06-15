@@ -2,13 +2,20 @@ import React from 'react';
 import { Text } from 'react-native';
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { BottomTabNavigatorStyle } from '@navigation/BottomTabNavigator/BottomTabNavigator.style';
+import COLORS from '@constants/COLORS';
+import { AddHuddle } from '@components/huddles/AddHuddle/AddHuddle';
+import { AddChats } from '@components/chats/AddChats/AddChats';
+import { AddFriends } from '@components/friends/AddFriends/AddFriends';
 
 export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
-    headerShown: false,
-    tabBarStyle: BottomTabNavigatorStyle.tabBar
+    headerTintColor: COLORS.WHITE,
+    headerStyle: BottomTabNavigatorStyle.header,
+    tabBarStyle: BottomTabNavigatorStyle.tabBar,
+    title: null
 };
 
 export const ProfileTabOptions: BottomTabNavigationOptions = {
+    headerShown: false,
     tabBarLabel: ({ focused }) => (
         <Text
             style={[
@@ -27,6 +34,10 @@ export const ProfileTabOptions: BottomTabNavigationOptions = {
 };
 
 export const HuddlesTabOptions: BottomTabNavigationOptions = {
+    headerLeft: () => <AddHuddle />,
+    headerRight: () => (
+        <Text style={BottomTabNavigatorStyle.rightTitleText}>huddles</Text>
+    ),
     tabBarLabel: ({ focused }) => (
         <Text
             style={[
@@ -52,6 +63,10 @@ export const HuddlesTabOptions: BottomTabNavigationOptions = {
 };
 
 export const ChatsTabOptions: BottomTabNavigationOptions = {
+    headerLeft: () => <AddChats />,
+    headerRight: () => (
+        <Text style={BottomTabNavigatorStyle.rightTitleText}>chats</Text>
+    ),
     tabBarLabel: ({ focused }) => (
         <Text
             style={[
@@ -70,6 +85,10 @@ export const ChatsTabOptions: BottomTabNavigationOptions = {
 };
 
 export const FriendsTabOptions: BottomTabNavigationOptions = {
+    headerLeft: () => <AddFriends />,
+    headerRight: () => (
+        <Text style={BottomTabNavigatorStyle.rightTitleText}>friends</Text>
+    ),
     tabBarLabel: ({ focused }) => (
         <Text
             style={[
@@ -83,6 +102,13 @@ export const FriendsTabOptions: BottomTabNavigationOptions = {
     ),
     tabBarIcon: ({ focused }) => (
         // eslint-disable-next-line react-native/no-inline-styles
-        <Text style={{ fontSize: focused ? 24 : 19 }}>👨‍👩‍👧‍👦</Text>
+        <Text
+            style={{
+                fontSize: focused ? 24 : 20,
+                letterSpacing: focused ? -14 : -12
+            }}
+        >
+            🧍‍♂️🧍‍♀️
+        </Text>
     )
 };

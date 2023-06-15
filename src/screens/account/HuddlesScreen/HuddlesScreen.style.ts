@@ -3,7 +3,8 @@ import COLORS from '@constants/COLORS';
 
 export const HuddlesScreenStyle = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        paddingTop: 15
     },
     description: {
         marginTop: 100,

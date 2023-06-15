@@ -257,6 +257,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                     onWhatChange={(text) => {
                                         editedWhat.current = text;
                                     }}
+                                    color={huddle.color}
                                     style={HuddleScreenStyle.huddleListItem}
                                 />
                             ) : (

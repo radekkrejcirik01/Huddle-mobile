@@ -2,6 +2,7 @@ import React from 'react';
 import { TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
+import { getHuddleColor } from '@hooks/getHuddleColor';
 import { ReducerProps } from '@store/index/index.props';
 import COLORS from '@constants/COLORS';
 import {
@@ -13,15 +14,23 @@ import { HuddleEditableCardStyle } from '@components/huddles/HuddleEditableCard/
 export const HuddleEditableCard = ({
     whatValue,
     onWhatChange,
-    style,
-    styleInput
+    color,
+    style
 }: HuddleEditableCardProps): JSX.Element => {
     const { profilePhoto } = useSelector(
         (state: ReducerProps) => state.user.user
     );
 
+    const { primaryColor, secondaryColor } = getHuddleColor(color);
+
     return (
-        <View style={[HuddleEditableCardStyle.container, style]}>
+        <View
+            style={[
+                HuddleEditableCardStyle.container,
+                { backgroundColor: primaryColor },
+                style
+            ]}
+        >
             <View style={HuddleEditableCardStyle.inputsContainer}>
                 <TextInput
                     autoFocus
@@ -30,7 +39,10 @@ export const HuddleEditableCard = ({
                     defaultValue={whatValue}
                     onChangeText={onWhatChange}
                     selectionColor={COLORS.BUTTON_BLUE}
-                    style={[HuddleEditableCardStyle.primaryInput, styleInput]}
+                    style={[
+                        HuddleEditableCardStyle.primaryInput,
+                        { backgroundColor: secondaryColor }
+                    ]}
                 />
             </View>
             <FastImage

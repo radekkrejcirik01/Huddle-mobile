@@ -3,15 +3,14 @@ import { StyleProp, ViewStyle } from 'react-native';
 export interface HuddleEditableCardProps {
     whatValue?: string;
     onWhatChange: (value: string) => void;
+    color: number;
     style?: StyleProp<ViewStyle>;
-    styleInput?: StyleProp<ViewStyle>;
 }
 
 export const HuddleEditableCardDefaultProps: Omit<
     HuddleEditableCardProps,
-    'onWhatChange'
+    'onWhatChange' | 'color'
 > = {
     whatValue: null,
-    style: {},
-    styleInput: {}
+    style: {}
 };

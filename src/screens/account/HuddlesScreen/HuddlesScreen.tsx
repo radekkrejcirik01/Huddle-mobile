@@ -1,12 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlashList } from '@shopify/flash-list';
 import { useMessaging } from '@hooks/useMessaging';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { HuddlesScreenStyle } from '@screens/account/HuddlesScreen/HuddlesScreen.style';
-import { HuddlesTabHeader } from '@components/huddles/HuddlesTabHeader/HuddlesTabHeader';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { ReducerProps } from '@store/index/index.props';
 import { getRequestUser } from '@utils/Axios/Axios.service';
@@ -15,8 +13,6 @@ import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 
 export const HuddlesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
-
-    const { top } = useSafeAreaInsets();
 
     useMessaging();
 
@@ -61,8 +57,7 @@ export const HuddlesScreen = (): JSX.Element => {
     } = useRenderHuddles(huddles, loadHuddles);
 
     return (
-        <View style={[HuddlesScreenStyle.container, { top: top + 5 }]}>
-            <HuddlesTabHeader />
+        <View style={HuddlesScreenStyle.container}>
             <FlashList
                 data={huddles}
                 extraData={huddles}

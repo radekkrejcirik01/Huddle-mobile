@@ -3,7 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const LargeHuddleListItemStyle = StyleSheet.create({
     container: {
-        height: 190,
+        height: 180,
         width: '100%',
         padding: 15,
         paddingLeft: 12,

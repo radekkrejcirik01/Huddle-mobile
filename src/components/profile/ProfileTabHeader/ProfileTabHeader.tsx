@@ -53,7 +53,10 @@ export const ProfileTabHeader = (): JSX.Element => {
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>
-                        Add friend 👨‍👩‍👧‍👦
+                        Add friend
+                        <Text style={ProfileTabHeaderStyle.letterSpacing}>
+                            🧍‍♀️🧍‍♂️
+                        </Text>
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -67,7 +70,9 @@ export const ProfileTabHeader = (): JSX.Element => {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => {}}
+                    onPress={() =>
+                        navigateTo(AccountStackNavigatorEnum.FriendsScreen)
+                    }
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>

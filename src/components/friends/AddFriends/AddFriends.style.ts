@@ -1,7 +1,30 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const AddFriendStyle = StyleSheet.create({
+export const AddFriendsStyle = StyleSheet.create({
+    view: {
+        marginLeft: 20,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    addView: {
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 15,
+        backgroundColor: COLORS.GRAY_100
+    },
+    addText: {
+        color: COLORS.WHITE,
+        fontWeight: 'bold'
+    },
+    letterSpacing: {
+        letterSpacing: -8
+    },
+    invitesView: {
+        marginLeft: 8,
+        flexDirection: 'row',
+        alignItems: 'flex-start'
+    },
     modalContainer: {
         flex: 1,
         padding: 15,
@@ -28,7 +51,7 @@ export const AddFriendStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    hashtag: {
+    at: {
         paddingLeft: 10,
         fontSize: 16,
         color: COLORS.WHITE,
@@ -45,7 +68,7 @@ export const AddFriendStyle = StyleSheet.create({
     sendButton: {
         padding: 12,
         borderRadius: 20,
-        backgroundColor: COLORS.MAIN_WHITE,
+        backgroundColor: COLORS.BUTTON_BLUE,
         alignItems: 'center'
     },
     sendButtonText: {

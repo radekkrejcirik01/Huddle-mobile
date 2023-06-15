@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlashList } from '@shopify/flash-list';
 import { useRenderChats } from '@hooks/useRenderChats';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
@@ -13,13 +12,10 @@ import {
 } from '@interfaces/response/Response.interface';
 import { ReducerProps } from '@store/index/index.props';
 import { ChatsScreenStyle } from '@screens/account/ChatsScreen/ChatsScreen.style';
-import { ChatsTabHeader } from '@components/chats/ChatsTabHeader/ChatsTabHeader';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 
 export const ChatsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
-
-    const { top } = useSafeAreaInsets();
 
     const [chats, setChats] = useState<Array<ChatsListDataProps>>([]);
 
@@ -51,8 +47,7 @@ export const ChatsScreen = (): JSX.Element => {
         useRenderChats(chats, loadChats);
 
     return (
-        <View style={[ChatsScreenStyle.container, { top: top + 5 }]}>
-            <ChatsTabHeader />
+        <View style={ChatsScreenStyle.container}>
             <FlashList
                 data={chats}
                 renderItem={renderChatItem}
