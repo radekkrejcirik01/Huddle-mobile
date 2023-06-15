@@ -39,6 +39,7 @@ export const HuddleEditableCard = ({
                     defaultValue={whatValue}
                     onChangeText={onWhatChange}
                     selectionColor={COLORS.BUTTON_BLUE}
+                    placeholderTextColor={COLORS.WHITE}
                     style={[
                         HuddleEditableCardStyle.primaryInput,
                         { backgroundColor: secondaryColor }

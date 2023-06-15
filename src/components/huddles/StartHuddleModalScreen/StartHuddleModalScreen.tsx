@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { StartHuddleModalScreenStyle } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen.style';
@@ -11,12 +11,13 @@ import { HuddleEditableCard } from '@components/huddles/HuddleEditableCard/Huddl
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const StartHuddleModalScreen = ({
-    onClose,
-    color
+    onClose
 }: StartHuddleModalScreenProps): JSX.Element => {
     const { firstname, username } = useSelector(
         (state: ReducerProps) => state.user.user
     );
+
+    const [selectedColor, setSelectedColor] = useState<number>(0);
 
     const what = useRef<string>();
 
@@ -26,9 +27,9 @@ export const StartHuddleModalScreen = ({
             sender: username,
             name: firstname,
             what: what?.current,
-            color
+            color: selectedColor
         }).subscribe();
-    }, [color, firstname, onClose, username]);
+    }, [firstname, onClose, selectedColor, username]);
 
     const onPressAddCard = useCallback(() => {
         if (what?.current) {
@@ -45,8 +46,46 @@ export const StartHuddleModalScreen = ({
                 onWhatChange={(text) => {
                     what.current = text;
                 }}
-                color={color}
+                color={selectedColor}
             />
+            <View style={StartHuddleModalScreenStyle.colorsView}>
+                <TouchableOpacity
+                    onPress={() => setSelectedColor(0)}
+                    style={[
+                        StartHuddleModalScreenStyle.colorView,
+                        StartHuddleModalScreenStyle.redBackground,
+                        selectedColor === 0 &&
+                            StartHuddleModalScreenStyle.borderWidth
+                    ]}
+                />
+                <TouchableOpacity
+                    onPress={() => setSelectedColor(1)}
+                    style={[
+                        StartHuddleModalScreenStyle.colorView,
+                        StartHuddleModalScreenStyle.orangeBackground,
+                        selectedColor === 1 &&
+                            StartHuddleModalScreenStyle.borderWidth
+                    ]}
+                />
+                <TouchableOpacity
+                    onPress={() => setSelectedColor(2)}
+                    style={[
+                        StartHuddleModalScreenStyle.colorView,
+                        StartHuddleModalScreenStyle.blueBackground,
+                        selectedColor === 2 &&
+                            StartHuddleModalScreenStyle.borderWidth
+                    ]}
+                />
+                <TouchableOpacity
+                    onPress={() => setSelectedColor(3)}
+                    style={[
+                        StartHuddleModalScreenStyle.colorView,
+                        StartHuddleModalScreenStyle.purpleBackground,
+                        selectedColor === 3 &&
+                            StartHuddleModalScreenStyle.borderWidth
+                    ]}
+                />
+            </View>
             <TouchableOpacity
                 onPress={onPressAddCard}
                 style={StartHuddleModalScreenStyle.addButtonView}
