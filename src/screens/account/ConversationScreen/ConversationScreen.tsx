@@ -48,9 +48,11 @@ export const ConversationScreen = ({
                         profilePhoto={profilePhoto}
                     />
                 ),
-                headerRight: () => (
-                    <ConversationLike conversationId={conversationId} />
-                )
+                ...(conversationId && {
+                    headerRight: () => (
+                        <ConversationLike conversationId={conversationId} />
+                    )
+                })
             }),
         [conversationId, name, navigation, profilePhoto]
     );
