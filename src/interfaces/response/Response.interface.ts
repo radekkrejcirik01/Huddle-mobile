@@ -102,6 +102,12 @@ export interface ResponseChatsGetInterface {
     data?: Array<ChatsListDataProps>;
 }
 
+export interface ResponseConversationLikedInterface {
+    status: string;
+    message: string;
+    isLiked?: number;
+}
+
 export interface MessagesResponseInterface {
     status: string;
     message: string;

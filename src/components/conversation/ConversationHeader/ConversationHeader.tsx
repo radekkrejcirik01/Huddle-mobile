@@ -9,6 +9,7 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
 export const ConversationHeader = ({
+    conversationId,
     name,
     profilePhoto
 }: ConversationHeaderProps): JSX.Element => {
@@ -20,6 +21,7 @@ export const ConversationHeader = ({
                 navigateTo(
                     AccountStackNavigatorEnum.ConversationDetailsScreen,
                     {
+                        conversationId,
                         name,
                         profilePhoto
                     }

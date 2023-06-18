@@ -69,11 +69,15 @@ export interface ConversationNotificationsPostInterface {
 
 export interface SendMessageInterface {
     sender: string;
-    name: string;
     conversationId: number;
     message: string;
     buffer?: string;
     fileName?: string;
+}
+
+export interface ConversationLikePostInterface {
+    sender: string;
+    conversationId: number;
 }
 
 export interface AcceptPersonInviteInterface {

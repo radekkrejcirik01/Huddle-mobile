@@ -5,8 +5,6 @@ import COLORS from '@constants/COLORS';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { ChatsItemProps } from '@components/chats/ChatsItem/ChatsItem.props';
 import { ChatsItemStyle } from '@components/chats/ChatsItem/ChatsItem.style';
-import { TypingIndicator } from '@components/general/TypingIndicator/TypingIndicator';
-import { TypingIndicatorEnum } from '@components/general/TypingIndicator/TypingIndicator.enum';
 import { getLocalTimeFromUTCUnix } from '@functions/getLocalTimeFromUTCUnix';
 
 export const ChatsItem = ({ item, onPress }: ChatsItemProps): JSX.Element => {
@@ -44,11 +42,8 @@ export const ChatsItem = ({ item, onPress }: ChatsItemProps): JSX.Element => {
                     <Text style={[ChatsItemStyle.message, opacityStyle]}>
                         {item?.lastMessage}
                     </Text>
-                    <TypingIndicator
-                        conversationId={item?.id}
-                        type={TypingIndicatorEnum.Messages}
-                    />
                 </View>
+                {!!item.isLiked && <Text>❤️</Text>}
             </View>
         </TouchableOpacity>
     );

@@ -1,9 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 export const ConversationScreenStyle = StyleSheet.create({
-    heartIcon: {
-        marginRight: 25
-    },
     container: {
         paddingTop: 10
     },

@@ -7,8 +7,8 @@ export const ConversationHeaderStyle = StyleSheet.create({
         alignItems: 'center'
     },
     image: {
-        width: 32,
-        height: 32,
+        width: 40,
+        height: 40,
         borderRadius: 20
     },
     nameText: {

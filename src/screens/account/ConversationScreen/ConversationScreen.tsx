@@ -21,16 +21,15 @@ import { ChatInput } from '@components/conversation/ChatInput/ChatInput';
 import { SendMessageInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
-import { IconEnum } from '@components/general/Icon/Icon.enum';
-import { IconButton } from '@components/general/IconButton/IconButton';
 import { ConversationHeader } from '@components/conversation/ConversationHeader/ConversationHeader';
+import { ConversationLike } from '@components/conversation/ConversationLike/ConversationLike';
 
 export const ConversationScreen = ({
     route
 }: ConversationScreenProps): JSX.Element => {
     const { conversationId, name, profilePhoto, username } = route.params;
 
-    const { firstname, username: user } = useSelector(
+    const { username: user } = useSelector(
         (state: ReducerProps) => state.user.user
     );
 
@@ -44,20 +43,16 @@ export const ConversationScreen = ({
             navigation.setOptions({
                 title: (
                     <ConversationHeader
+                        conversationId={conversationId}
                         name={name}
                         profilePhoto={profilePhoto}
                     />
                 ),
                 headerRight: () => (
-                    <IconButton
-                        icon={IconEnum.HEART}
-                        onPress={() => {}}
-                        size={22}
-                        style={ConversationScreenStyle.heartIcon}
-                    />
+                    <ConversationLike conversationId={conversationId} />
                 )
             }),
-        [name, navigation, profilePhoto]
+        [conversationId, name, navigation, profilePhoto]
     );
 
     const loadMessages = useCallback(
@@ -128,7 +123,6 @@ export const ConversationScreen = ({
                 'message',
                 {
                     sender: user,
-                    name: firstname,
                     conversationId,
                     message,
                     buffer,
@@ -140,7 +134,7 @@ export const ConversationScreen = ({
                 }
             });
         },
-        [conversationId, firstname, loadMessages, user]
+        [conversationId, loadMessages, user]
     );
 
     return (
