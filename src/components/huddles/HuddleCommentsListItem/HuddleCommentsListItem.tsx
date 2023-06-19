@@ -93,7 +93,7 @@ export const HuddleCommentsListItem = ({
                 content={
                     <LikesModalContent id={item.id} hideModal={hideModal} />
                 }
-                backdropOpacity={0.7}
+                backdropOpacity={0}
                 onClose={hideModal}
                 style={{
                     margin: 0,

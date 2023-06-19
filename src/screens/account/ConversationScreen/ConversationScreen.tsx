@@ -37,6 +37,7 @@ export const ConversationScreen = ({
     const { bottom } = useSafeAreaInsets();
 
     const [messages, setMessages] = useState<Array<MessageItemProps>>([]);
+    const [refreshList, setRefreshList] = useState<boolean>(false);
 
     useEffect(
         () =>
@@ -116,8 +117,29 @@ export const ConversationScreen = ({
         return () => {};
     }, [loadMessages, username]);
 
+    const addReaction = useCallback(
+        (messageId: number, value: string) => {
+            const index = messages.findIndex(
+                (message: MessageItemProps) => message.id === messageId
+            );
+
+            if (!messages[index]?.reactions?.length) {
+                messages[index].reactions = [value];
+            } else {
+                messages[index].reactions = [
+                    ...messages[index].reactions,
+                    value
+                ];
+            }
+
+            setMessages(messages);
+            setRefreshList(!refreshList);
+        },
+        [messages, refreshList]
+    );
+
     const { renderMessageItem, keyMessageExtractor, onEndReached } =
-        useRenderMesages(messages, loadMessages);
+        useRenderMesages(messages, conversationId, loadMessages, addReaction);
 
     const sendMessage = useCallback(
         (message: string, buffer: string, fileName: string) => {
@@ -152,6 +174,7 @@ export const ConversationScreen = ({
                 <View style={ConversationScreenStyle.content}>
                     <FlashList
                         data={messages}
+                        extraData={refreshList}
                         renderItem={renderMessageItem}
                         keyExtractor={keyMessageExtractor}
                         estimatedItemSize={68}

@@ -45,6 +45,18 @@ export const MessageListItem = ({
                 <Text style={MessageListItemStyle.timeText}>
                     {getLocalTimeFromUTCUnix(item.time).format('HH:mm')}
                 </Text>
+                {!!item?.reactions?.length && (
+                    <View style={MessageListItemStyle.reactionsView}>
+                        {item.reactions.map((value: string) => (
+                            <Text
+                                key={value}
+                                style={MessageListItemStyle.reactionText}
+                            >
+                                {value}
+                            </Text>
+                        ))}
+                    </View>
+                )}
             </TouchableOpacity>
         </View>
     );

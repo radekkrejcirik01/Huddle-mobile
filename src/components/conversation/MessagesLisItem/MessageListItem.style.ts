@@ -32,5 +32,12 @@ export const MessageListItemStyle = StyleSheet.create({
         opacity: 0.8,
         color: COLORS.WHITE,
         fontWeight: '500'
+    },
+    reactionsView: {
+        marginHorizontal: 2,
+        flexDirection: 'row'
+    },
+    reactionText: {
+        marginLeft: 2
     }
 });

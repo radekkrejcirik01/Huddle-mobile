@@ -75,6 +75,15 @@ export interface SendMessageInterface {
     fileName?: string;
 }
 
+export interface MessageInteractionPostInterface {
+    sender: string;
+    receiver: string;
+    message: string;
+    conversationId: number;
+    messageId: number;
+    value: string;
+}
+
 export interface ConversationLikePostInterface {
     sender: string;
     conversationId: number;

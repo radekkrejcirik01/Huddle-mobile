@@ -20,4 +20,5 @@ export interface MessageItemProps {
     message: string;
     time: number;
     url?: string;
+    reactions?: Array<string>;
 }

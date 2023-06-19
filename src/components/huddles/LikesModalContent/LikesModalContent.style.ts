@@ -6,7 +6,7 @@ export const LikesModalContentStyle = StyleSheet.create({
         height: '45%',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        backgroundColor: COLORS.BLACK
+        backgroundColor: COLORS.BLACK_200
     },
     title: {
         padding: 20,
