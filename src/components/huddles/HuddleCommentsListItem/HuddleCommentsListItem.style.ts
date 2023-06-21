@@ -74,5 +74,9 @@ export const HuddleCommentsListItemStyle = StyleSheet.create({
     },
     heartText: {
         fontSize: 12
+    },
+    modal: {
+        margin: 0,
+        justifyContent: 'flex-end'
     }
 });

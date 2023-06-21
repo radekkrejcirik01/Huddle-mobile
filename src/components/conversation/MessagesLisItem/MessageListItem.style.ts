@@ -16,7 +16,7 @@ export const MessageListItemStyle = StyleSheet.create({
     },
     flexEnd: {
         alignSelf: 'flex-end',
-        backgroundColor: '#3366ff'
+        backgroundColor: COLORS.MESSAGE_BLUE
     },
     longMessage: {
         flexDirection: 'row',

@@ -9,6 +9,7 @@ export default {
     MAIN_BLUE_100: '#735def',
     MAIN_ORANGE: '#ff8c1a',
     MAIN_GREEN: '#00b300',
+    MESSAGE_BLUE: '#3366ff',
     WHITE: '#ffffff',
     GRAY_100: '#262626',
     GRAY_300: '#0d0d0d',

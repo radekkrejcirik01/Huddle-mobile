@@ -9,7 +9,7 @@ export const SmallHuddleListItemStyle = StyleSheet.create({
         height: DIMENSIONS.width / 3 - 8,
         margin: 2.5,
         padding: 10,
-        borderRadius: 15,
+        borderRadius: 12,
         flexDirection: 'row'
     },
     whatText: {

@@ -93,12 +93,9 @@ export const HuddleCommentsListItem = ({
                 content={
                     <LikesModalContent id={item.id} hideModal={hideModal} />
                 }
-                backdropOpacity={0}
+                backdropOpacity={0.2}
                 onClose={hideModal}
-                style={{
-                    margin: 0,
-                    justifyContent: 'flex-end'
-                }}
+                style={HuddleCommentsListItemStyle.modal}
             />
         </TouchableOpacity>
     );

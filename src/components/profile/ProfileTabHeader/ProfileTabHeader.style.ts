@@ -38,7 +38,8 @@ export const ProfileTabHeaderStyle = StyleSheet.create({
     },
     buttonView: {
         margin: 4,
-        padding: 10,
+        paddingVertical: 8,
+        paddingHorizontal: 10,
         borderRadius: 18,
         backgroundColor: COLORS.BLACK_200,
         justifyContent: 'center'

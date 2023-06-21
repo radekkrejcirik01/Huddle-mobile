@@ -26,10 +26,10 @@ export const HuddleInteractionsListItemStyle = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 10,
         borderRadius: 20,
-        backgroundColor: COLORS.BUTTON_BLUE
+        backgroundColor: COLORS.BLACK_200
     },
     buttonText: {
         color: COLORS.WHITE,
-        fontWeight: 'bold'
+        fontWeight: '600'
     }
 });
