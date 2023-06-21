@@ -27,6 +27,10 @@ export const ChatsItemStyle = StyleSheet.create({
         color: COLORS.WHITE,
         fontWeight: '500'
     },
+    sentIcon: {
+        top: -2, // fit the layout
+        left: 4
+    },
     time: {
         maxWidth: '65%',
         paddingBottom: 5,

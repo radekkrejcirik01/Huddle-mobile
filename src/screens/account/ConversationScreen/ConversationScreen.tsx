@@ -18,7 +18,10 @@ import {
     ResponseInterface
 } from '@interfaces/response/Response.interface';
 import { ChatInput } from '@components/conversation/ChatInput/ChatInput';
-import { SendMessageInterface } from '@interfaces/post/Post.inteface';
+import {
+    LastReadMessagePostInterface,
+    SendMessageInterface
+} from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 import { ConversationHeader } from '@components/conversation/ConversationHeader/ConversationHeader';
@@ -58,6 +61,22 @@ export const ConversationScreen = ({
         [conversationId, name, navigation, profilePhoto]
     );
 
+    const updateLastReadMessage = useCallback(
+        (idConversation: number, idMessage: number) => {
+            if (idConversation && idMessage) {
+                postRequestUser<
+                    ResponseInterface,
+                    LastReadMessagePostInterface
+                >('last-read-message', {
+                    username: user,
+                    conversationId: idConversation,
+                    messageId: idMessage
+                }).subscribe();
+            }
+        },
+        [user]
+    );
+
     const loadMessages = useCallback(
         (lastId?: number) => {
             let endpoint = `conversation/${conversationId}`;
@@ -69,6 +88,13 @@ export const ConversationScreen = ({
                 (response: MessagesResponseInterface) => {
                     if (response?.status) {
                         if (!lastId) {
+                            if (response?.data?.length) {
+                                updateLastReadMessage(
+                                    conversationId,
+                                    response.data[0].id
+                                );
+                            }
+
                             setMessages(response?.data);
                             return;
                         }
@@ -82,7 +108,7 @@ export const ConversationScreen = ({
                 }
             );
         },
-        [conversationId]
+        [conversationId, updateLastReadMessage]
     );
 
     const loadMessagesByUsernames = useCallback(() => {
@@ -96,9 +122,16 @@ export const ConversationScreen = ({
                 } as undefined);
 
                 setMessages(response?.data);
+
+                if (response?.data?.length) {
+                    updateLastReadMessage(
+                        response.conversationId,
+                        response.data[0].id
+                    );
+                }
             }
         });
-    }, [navigation, user, username]);
+    }, [navigation, updateLastReadMessage, user, username]);
 
     useEffect(() => {
         if (username) {

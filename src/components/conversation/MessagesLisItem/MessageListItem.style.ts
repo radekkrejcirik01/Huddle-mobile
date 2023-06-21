@@ -37,6 +37,9 @@ export const MessageListItemStyle = StyleSheet.create({
         marginHorizontal: 2,
         flexDirection: 'row'
     },
+    sentIcon: {
+        marginLeft: 4
+    },
     reactionText: {
         marginLeft: 2
     }

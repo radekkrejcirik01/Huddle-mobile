@@ -21,4 +21,5 @@ export interface MessageItemProps {
     time: number;
     url?: string;
     reactions?: Array<string>;
+    readBy?: Array<string>;
 }

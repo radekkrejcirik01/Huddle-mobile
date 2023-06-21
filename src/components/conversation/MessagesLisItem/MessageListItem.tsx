@@ -7,6 +7,8 @@ import { ReducerProps } from '@store/index/index.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { getLocalTimeFromUTCUnix } from '@functions/getLocalTimeFromUTCUnix';
 import { MessageListItemStyle } from '@components/conversation/MessagesLisItem/MessageListItem.style';
+import { IconEnum } from '@components/general/Icon/Icon.enum';
+import { Icon } from '@components/general/Icon/Icon';
 
 export const MessageListItem = ({
     item,
@@ -45,6 +47,20 @@ export const MessageListItem = ({
                 <Text style={MessageListItemStyle.timeText}>
                     {getLocalTimeFromUTCUnix(item.time).format('HH:mm')}
                 </Text>
+                {isOutbound &&
+                    (item?.readBy?.length ? (
+                        <Icon
+                            name={IconEnum.SENT_BLUE}
+                            size={19}
+                            style={MessageListItemStyle.sentIcon}
+                        />
+                    ) : (
+                        <Icon
+                            name={IconEnum.SENT}
+                            size={19}
+                            style={MessageListItemStyle.sentIcon}
+                        />
+                    ))}
                 {!!item?.reactions?.length && (
                     <View style={MessageListItemStyle.reactionsView}>
                         {item.reactions.map((value: string) => (

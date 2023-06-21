@@ -3,4 +3,5 @@ import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.pro
 export interface ChatsItemProps {
     item: ChatsListDataProps;
     onPress: (item: ChatsListDataProps) => void;
+    hasSeen: boolean;
 }

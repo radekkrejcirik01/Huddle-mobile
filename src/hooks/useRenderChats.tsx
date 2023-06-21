@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { RefreshControl } from 'react-native';
+import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useNavigation } from '@hooks/useNavigation';
 import { useRefresh } from '@hooks/useRefresh';
@@ -7,6 +8,7 @@ import { ChatsItem } from '@components/chats/ChatsItem/ChatsItem';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
+import { ReducerProps } from '@store/index/index.props';
 
 export const useRenderChats = (
     chats: Array<ChatsListDataProps>,
@@ -19,6 +21,8 @@ export const useRenderChats = (
     refreshControl: JSX.Element;
     onEndReached: () => void;
 } => {
+    const { username } = useSelector((state: ReducerProps) => state.user.user);
+
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const { refreshing, onRefresh } = useRefresh(loadChats);
 
@@ -35,9 +39,13 @@ export const useRenderChats = (
 
     const renderChatItem = useCallback(
         ({ item }: ListRenderItemInfo<ChatsListDataProps>): JSX.Element => (
-            <ChatsItem item={item} onPress={openConversation} />
+            <ChatsItem
+                item={item}
+                onPress={openConversation}
+                hasSeen={item.sender === username}
+            />
         ),
-        [openConversation]
+        [openConversation, username]
     );
 
     const keyChatExtractor = (item: ChatsListDataProps): string =>

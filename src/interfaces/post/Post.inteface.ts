@@ -84,6 +84,12 @@ export interface MessageInteractionPostInterface {
     value: string;
 }
 
+export interface LastReadMessagePostInterface {
+    username: string;
+    conversationId: number;
+    messageId: number;
+}
+
 export interface ConversationLikePostInterface {
     sender: string;
     conversationId: number;
