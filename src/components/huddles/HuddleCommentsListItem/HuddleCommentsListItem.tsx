@@ -5,10 +5,10 @@ import { useModal } from '@hooks/useModal';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { HuddleCommentsListItemProps } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
 import { HuddleCommentsListItemStyle } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.style';
-import { getLocalTimeFromUTC } from '@functions/getLocalTimeFromUTC';
 import { LikeComponent } from '@components/huddles/LikeComponent/LikeComponent';
 import { Modal } from '@components/general/Modal/Modal';
 import { LikesModalContent } from '@components/huddles/LikesModalContent/LikesModalContent';
+import { getLocalTimeFromUTCUnix } from '@functions/getLocalTimeFromUTCUnix';
 
 export const HuddleCommentsListItem = ({
     item,
@@ -48,7 +48,7 @@ export const HuddleCommentsListItem = ({
                             </Text>
                         </TouchableOpacity>
                         <Text style={HuddleCommentsListItemStyle.timeText}>
-                            {getLocalTimeFromUTC(item.time).fromNow()}
+                            {getLocalTimeFromUTCUnix(item.time).fromNow()}
                         </Text>
                         {!!item?.mention && (
                             <TouchableOpacity

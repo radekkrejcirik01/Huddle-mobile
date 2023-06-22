@@ -73,7 +73,7 @@ export const AddFriendsStyle = StyleSheet.create({
     },
     sendButtonText: {
         fontSize: 15,
-        color: COLORS.GRAY_100,
+        color: COLORS.WHITE,
         fontWeight: '600'
     }
 });

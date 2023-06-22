@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { Alert, RefreshControl } from 'react-native';
+import { RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useActionSheet } from '@expo/react-native-action-sheet';
@@ -59,36 +59,54 @@ export const useRenderComments = (
         [huddleId, refreshComments, username]
     );
 
+    const deleteComment = useCallback(
+        (id: number) => {
+            deleteRequestUser<ResponseInterface>(
+                `huddle-comment/${id}`
+            ).subscribe(() => {
+                refreshComments();
+            });
+        },
+        [refreshComments]
+    );
+
     const itemLongPress = useCallback(
         (item: CommentItemInterface) => {
-            const options = ['Report', 'Copy', 'Reply', 'Cancel'];
+            const commentByUser = item.sender === username;
+            const options = [
+                'Copy',
+                !commentByUser && 'Reply',
+                commentByUser && 'Delete',
+                'Cancel'
+            ].filter(Boolean);
 
             showActionSheetWithOptions(
                 {
                     options,
-                    cancelButtonIndex: 3,
+                    cancelButtonIndex: 2,
+                    ...(commentByUser && {
+                        destructiveButtonIndex: 1
+                    }),
                     userInterfaceStyle: 'dark'
                 },
                 (selectedIndex: number) => {
-                    if (selectedIndex === 0) {
-                        Alert.alert(
-                            'Thank you for reporting, our team will take a look 🧡'
-                        );
-                    }
-                    if (selectedIndex === 1) {
-                        Clipboard.setString(item?.message);
-                    }
-                    if (selectedIndex === 2) {
+                    if (options[selectedIndex] === 'Reply') {
                         mention({
                             username: item?.sender,
                             name: item?.name,
                             profilePhoto: item?.profilePhoto
                         });
                     }
+                    if (options[selectedIndex] === 'Delete') {
+                        deleteComment(item.id);
+                    }
+                    if (options[selectedIndex] === 'Copy') {
+                        Clipboard.setString(item?.message);
+                    }
                 }
             );
         },
-        [mention, showActionSheetWithOptions]
+        [deleteComment, mention, showActionSheetWithOptions, username]
     );
 
     const renderCommentItem = useCallback(

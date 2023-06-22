@@ -20,7 +20,7 @@ export interface CommentItemInterface {
     };
     likesNumber?: number;
     liked?: number;
-    time: string;
+    time: number;
 }
 
 export interface CommentLikeInterface {
