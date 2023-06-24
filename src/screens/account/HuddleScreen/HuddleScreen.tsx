@@ -59,7 +59,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const [mentions, setMentions] = useState<Array<Mention>>([]);
     const [editing, setEditing] = useState<boolean>(false);
 
-    const editedWhat = useRef<string>(huddle?.what);
+    const editedTopic = useRef<string>(huddle?.topic);
 
     const created = useMemo((): boolean => {
         if (huddle) {
@@ -138,12 +138,12 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     useEffect(() => load(), [load]);
 
     const saveHuddle = useCallback(() => {
-        huddle.what = editedWhat?.current;
+        huddle.topic = editedTopic?.current;
         setEditing(false);
 
         putRequestUser<ResponseInterface, HuddleUpdatePutInterface>('huddle', {
             id: huddle?.id,
-            what: editedWhat?.current
+            topic: editedTopic?.current
         }).subscribe();
     }, [huddle]);
 
@@ -253,9 +253,9 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                         <View style={HuddleScreenStyle.margin20}>
                             {editing ? (
                                 <HuddleEditableCard
-                                    whatValue={huddle?.what}
-                                    onWhatChange={(text) => {
-                                        editedWhat.current = text;
+                                    topicValue={huddle?.topic}
+                                    onTopicChange={(text) => {
+                                        editedTopic.current = text;
                                     }}
                                     color={huddle.color}
                                     style={HuddleScreenStyle.huddleListItem}

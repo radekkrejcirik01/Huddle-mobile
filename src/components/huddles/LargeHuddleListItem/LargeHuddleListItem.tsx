@@ -89,22 +89,16 @@ export const LargeHuddleListItem = ({
                                 style={LargeHuddleListItemStyle.image}
                             />
                         </TouchableOpacity>
-                        <View style={LargeHuddleListItemStyle.nameView}>
-                            <Text
-                                style={LargeHuddleListItemStyle.nameText}
-                                adjustsFontSizeToFit
-                                numberOfLines={1}
-                            >
-                                {item.name}
-                            </Text>
-                        </View>
                     </View>
-                    <View style={LargeHuddleListItemStyle.whatView}>
+                    <View style={LargeHuddleListItemStyle.titleView}>
                         <Text
-                            style={LargeHuddleListItemStyle.whatText}
+                            style={LargeHuddleListItemStyle.titleText}
                             adjustsFontSizeToFit
                         >
-                            {item?.what}
+                            {item?.name}
+                        </Text>
+                        <Text style={LargeHuddleListItemStyle.topicText}>
+                            topic: {item.topic}
                         </Text>
                     </View>
                 </View>

@@ -3,7 +3,7 @@ export interface HuddleItemInterface {
     createdBy: string;
     profilePhoto: string;
     name: string;
-    what: string;
+    topic: string;
     color: number;
     commentsNumber?: number;
     interacted?: number;

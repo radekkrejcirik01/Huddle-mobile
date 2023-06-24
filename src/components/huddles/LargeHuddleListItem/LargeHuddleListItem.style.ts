@@ -27,24 +27,19 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         width: 50,
         borderRadius: 30
     },
-    nameView: {
-        width: 50, // width of the profile image
-        marginTop: 2,
-        alignItems: 'center'
-    },
-    nameText: {
-        fontSize: 14,
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
-    },
-    whatView: {
+    titleView: {
         flex: 1,
-        paddingLeft: 15
+        paddingLeft: 10
     },
-    whatText: {
+    titleText: {
         fontSize: 20,
         color: COLORS.WHITE,
         fontWeight: 'bold'
+    },
+    topicText: {
+        fontSize: 14.5,
+        color: COLORS.WHITE,
+        fontWeight: '600'
     },
     commentsText: {
         margin: 5,

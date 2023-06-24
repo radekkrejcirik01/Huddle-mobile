@@ -17,7 +17,7 @@ export interface AddPersonInvitePostInterface {
 export interface AddHuddlePostInterface {
     sender: string;
     name: string;
-    what: string;
+    topic: string;
     color: number;
 }
 
@@ -29,7 +29,7 @@ export interface HuddleInteractPostInterface {
 
 export interface HuddleUpdatePutInterface {
     id: number;
-    what: string;
+    topic: string;
 }
 
 export interface HuddleAddCommentPostInterface {

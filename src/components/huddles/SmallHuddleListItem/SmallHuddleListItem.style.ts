@@ -8,11 +8,13 @@ export const SmallHuddleListItemStyle = StyleSheet.create({
         width: DIMENSIONS.width / 3 - 8,
         height: DIMENSIONS.width / 3 - 8,
         margin: 2.5,
-        padding: 10,
+        paddingHorizontal: 20,
         borderRadius: 12,
-        flexDirection: 'row'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    whatText: {
+    topicText: {
+        bottom: 5,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     }

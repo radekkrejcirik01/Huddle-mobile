@@ -19,20 +19,20 @@ export const StartHuddleModalScreen = ({
 
     const [selectedColor, setSelectedColor] = useState<number>(0);
 
-    const what = useRef<string>();
+    const topic = useRef<string>();
 
     const addHuddle = useCallback(() => {
         onClose();
         postRequestUser<ResponseInterface, AddHuddlePostInterface>('huddle', {
             sender: username,
             name: firstname,
-            what: what?.current,
+            topic: topic?.current,
             color: selectedColor
         }).subscribe();
     }, [firstname, onClose, selectedColor, username]);
 
     const onPressAddCard = useCallback(() => {
-        if (what?.current) {
+        if (topic?.current) {
             addHuddle();
         } else {
             Alert.alert('Please add what would you like to do to start Huddle');
@@ -43,8 +43,8 @@ export const StartHuddleModalScreen = ({
         <View style={StartHuddleModalScreenStyle.screen}>
             <Text style={StartHuddleModalScreenStyle.huddleText}>Huddle</Text>
             <HuddleEditableCard
-                onWhatChange={(text) => {
-                    what.current = text;
+                onTopicChange={(text) => {
+                    topic.current = text;
                 }}
                 color={selectedColor}
             />

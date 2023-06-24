@@ -19,7 +19,9 @@ export const SmallHuddleListItem = ({
                 { backgroundColor: primaryColor }
             ]}
         >
-            <Text style={SmallHuddleListItemStyle.whatText}>{item?.what}</Text>
+            <Text style={SmallHuddleListItemStyle.topicText}>
+                {item?.topic}
+            </Text>
         </TouchableOpacity>
     );
 };

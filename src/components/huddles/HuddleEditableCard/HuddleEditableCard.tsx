@@ -12,8 +12,8 @@ import {
 import { HuddleEditableCardStyle } from '@components/huddles/HuddleEditableCard/HuddleEditableCard.style';
 
 export const HuddleEditableCard = ({
-    whatValue,
-    onWhatChange,
+    topicValue,
+    onTopicChange,
     color,
     style
 }: HuddleEditableCardProps): JSX.Element => {
@@ -34,10 +34,10 @@ export const HuddleEditableCard = ({
             <View style={HuddleEditableCardStyle.inputsContainer}>
                 <TextInput
                     autoFocus
-                    placeholder="What"
+                    placeholder="topic"
                     autoCorrect={false}
-                    defaultValue={whatValue}
-                    onChangeText={onWhatChange}
+                    defaultValue={topicValue}
+                    onChangeText={onTopicChange}
                     selectionColor={COLORS.BUTTON_BLUE}
                     placeholderTextColor={COLORS.WHITE}
                     style={[
