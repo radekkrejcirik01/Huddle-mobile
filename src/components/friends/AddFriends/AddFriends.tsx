@@ -1,14 +1,18 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Alert, Keyboard, Text, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 import { useModal } from '@hooks/useModal';
 import { useNavigation } from '@hooks/useNavigation';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import COLORS from '@constants/COLORS';
 import { Modal } from '@components/general/Modal/Modal';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { postRequestUser } from '@utils/Axios/Axios.service';
-import { ResponseInterface } from '@interfaces/response/Response.interface';
+import { getRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
+import {
+    ResponseInterface,
+    ResponseNumberInvitesGetInterface
+} from '@interfaces/response/Response.interface';
 import { AddPersonInvitePostInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
@@ -26,6 +30,19 @@ export const AddFriends = (): JSX.Element => {
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const [username, setUsername] = useState<string>();
+    const [badge, setBadge] = useState<number>(0);
+
+    const loadUnseenInvites = useCallback(() => {
+        getRequestUser<ResponseNumberInvitesGetInterface>(
+            `unseen-invites/${user}`
+        ).subscribe((response: ResponseNumberInvitesGetInterface) => {
+            if (response?.status) {
+                setBadge(response?.number);
+            }
+        });
+    }, [user]);
+
+    useFocusEffect(loadUnseenInvites);
 
     const hideKeyboardAndModal = useCallback(() => {
         setUsername('');
@@ -69,6 +86,12 @@ export const AddFriends = (): JSX.Element => {
         });
     }, [hideKeyboardAndModal, navigateTo, user, username]);
 
+    const openInvitesScreen = useCallback(() => {
+        navigateTo(AccountStackNavigatorEnum.InvitesScreen);
+
+        setTimeout(() => setBadge(0), 1000);
+    }, [navigateTo]);
+
     const content = useMemo(
         (): JSX.Element => (
             <View style={AddFriendsStyle.modalContainer}>
@@ -110,13 +133,11 @@ export const AddFriends = (): JSX.Element => {
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={() =>
-                    navigateTo(AccountStackNavigatorEnum.InvitesScreen)
-                }
+                onPress={openInvitesScreen}
                 style={AddFriendsStyle.invitesView}
             >
                 <Icon name={IconEnum.PROFILE} size={22} />
-                <Badge value={1} />
+                <Badge value={badge} />
             </TouchableOpacity>
             <Modal
                 isVisible={modalVisible}

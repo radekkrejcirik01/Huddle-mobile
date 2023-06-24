@@ -71,6 +71,12 @@ export interface ResponseInvitesGetInterface {
     data?: Array<InviteItemProps>;
 }
 
+export interface ResponseNumberInvitesGetInterface {
+    status: string;
+    message: string;
+    number?: number;
+}
+
 export interface ResponseHuddlesGetInterface {
     status: string;
     message: string;

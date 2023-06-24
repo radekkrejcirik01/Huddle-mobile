@@ -39,7 +39,7 @@ export const postRequestUser = <T, B>(
 
 export const putRequestUser = <T, B>(
     endpoint: string,
-    data: B,
+    data?: B,
     config?: AxiosRequestConfig
 ): Observable<T> =>
     defer(() =>
