@@ -20,15 +20,28 @@ export const InvitesScreen = (): JSX.Element => {
 
     const [invites, setInvites] = useState<Array<InviteItemProps>>([]);
 
-    const loadInvites = useCallback(() => {
-        getRequestUser<ResponseInvitesGetInterface>(
-            `invites/${user}`
-        ).subscribe((response: ResponseInvitesGetInterface) => {
-            if (response?.status) {
-                setInvites(response?.data);
+    const loadInvites = useCallback(
+        (lastId?: number) => {
+            let endpoint = `invites/${user}`;
+            if (lastId) {
+                endpoint += `/${lastId}`;
             }
-        });
-    }, [user]);
+
+            getRequestUser<ResponseInvitesGetInterface>(endpoint).subscribe(
+                (response: ResponseInvitesGetInterface) => {
+                    if (!lastId) {
+                        setInvites(response?.data);
+                        return;
+                    }
+
+                    if (lastId && !!response?.data?.length) {
+                        setInvites((value) => value.concat(response?.data));
+                    }
+                }
+            );
+        },
+        [user]
+    );
 
     const updateSeenInvites = useCallback(() => {
         putRequestUser<ResponseInterface, undefined>(
@@ -41,8 +54,12 @@ export const InvitesScreen = (): JSX.Element => {
         updateSeenInvites();
     }, [loadInvites, updateSeenInvites]);
 
-    const { renderInvitesItem, keyInviteExtractor, refreshControl } =
-        useRenderInvites(loadInvites);
+    const {
+        renderInvitesItem,
+        keyInviteExtractor,
+        refreshControl,
+        onEndReached
+    } = useRenderInvites(invites, loadInvites);
 
     return (
         <View style={InvitesScreenStyle.container}>
@@ -53,6 +70,7 @@ export const InvitesScreen = (): JSX.Element => {
                 estimatedItemSize={68}
                 refreshControl={refreshControl}
                 ItemSeparatorComponent={() => <ItemSeparator space={20} />}
+                onEndReached={onEndReached}
             />
         </View>
     );

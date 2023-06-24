@@ -12,13 +12,15 @@ import { AcceptPersonInviteInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 
 export const useRenderInvites = (
-    loadInvites: () => void
+    invites: Array<InviteItemProps>,
+    loadInvites: (lastId?: number) => void
 ): {
     renderInvitesItem: ({
         item
     }: ListRenderItemInfo<InviteItemProps>) => JSX.Element;
     keyInviteExtractor: (item: InviteItemProps) => string;
     refreshControl: JSX.Element;
+    onEndReached: () => void;
 } => {
     const { username: user } = useSelector(
         (state: ReducerProps) => state.user.user
@@ -72,5 +74,16 @@ export const useRenderInvites = (
         [onRefresh, refreshing]
     );
 
-    return { renderInvitesItem, keyInviteExtractor, refreshControl };
+    const onEndReached = useCallback(() => {
+        if (invites?.length >= 20) {
+            loadInvites(invites[invites?.length - 1].id);
+        }
+    }, [invites, loadInvites]);
+
+    return {
+        renderInvitesItem,
+        keyInviteExtractor,
+        refreshControl,
+        onEndReached
+    };
 };
