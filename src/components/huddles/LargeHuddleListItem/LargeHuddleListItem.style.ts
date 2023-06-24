@@ -29,7 +29,7 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
     },
     nameView: {
         width: 50, // width of the profile image
-        marginTop: 10,
+        marginTop: 2,
         alignItems: 'center'
     },
     nameText: {

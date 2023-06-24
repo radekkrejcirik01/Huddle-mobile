@@ -75,15 +75,12 @@ export const AddFriends = (): JSX.Element => {
                 <View style={AddFriendsStyle.inputContainer}>
                     <Text style={AddFriendsStyle.title}>Username</Text>
                     <View style={AddFriendsStyle.inputView}>
-                        <Text>✉️</Text>
-                        <Text style={AddFriendsStyle.at}>@</Text>
                         <TextInput
                             autoFocus
                             value={username}
                             onChangeText={setUsername}
                             autoCorrect={false}
                             autoCapitalize="none"
-                            keyboardAppearance="light"
                             selectionColor={COLORS.WHITE}
                             style={AddFriendsStyle.input}
                         />

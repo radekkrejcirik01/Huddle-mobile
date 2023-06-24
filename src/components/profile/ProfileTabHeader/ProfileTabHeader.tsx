@@ -11,8 +11,11 @@ import { ProfileTabHeaderStyle } from '@components/profile/ProfileTabHeader/Prof
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { IconButton } from '@components/general/IconButton/IconButton';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
+import { ProfileTabHeaderProps } from '@components/profile/ProfileTabHeader/ProfileTabHeader.props';
 
-export const ProfileTabHeader = (): JSX.Element => {
+export const ProfileTabHeader = ({
+    onCreateHuddle
+}: ProfileTabHeaderProps): JSX.Element => {
     const { firstname, profilePhoto } = useSelector(
         (state: ReducerProps) => state.user.user
     );
@@ -60,9 +63,7 @@ export const ProfileTabHeader = (): JSX.Element => {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() =>
-                        navigateTo(AccountStackNavigatorEnum.EditProfileScreen)
-                    }
+                    onPress={onCreateHuddle}
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>

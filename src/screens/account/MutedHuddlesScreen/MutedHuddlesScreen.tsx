@@ -34,9 +34,15 @@ export const MutedHuddlesScreen = (): JSX.Element => {
 
     return (
         <View style={MutedHuddlesScreenStyle.container}>
-            <Text style={MutedHuddlesScreenStyle.title}>
-                Mute Huddles from:
-            </Text>
+            {mutedPeople?.length ? (
+                <Text style={MutedHuddlesScreenStyle.title}>
+                    Muted Huddles from:
+                </Text>
+            ) : (
+                <Text style={MutedHuddlesScreenStyle.title}>
+                    No muted Huddles
+                </Text>
+            )}
             <FlashList
                 data={mutedPeople}
                 renderItem={renderMutedHuddlesItem}

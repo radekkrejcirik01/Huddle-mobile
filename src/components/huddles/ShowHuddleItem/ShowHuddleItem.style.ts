@@ -11,13 +11,12 @@ export const ShowHuddleItemStyle = StyleSheet.create({
         alignItems: 'center'
     },
     image: {
-        height: 30,
-        width: 30,
+        height: 35,
+        width: 35,
         borderRadius: 20
     },
     nameText: {
         marginLeft: 10,
-        fontSize: 12,
         color: COLORS.WHITE,
         fontWeight: '500'
     }

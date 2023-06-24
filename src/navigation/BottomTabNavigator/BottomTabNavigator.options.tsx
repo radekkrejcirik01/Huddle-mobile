@@ -29,7 +29,7 @@ export const ProfileTabOptions: BottomTabNavigationOptions = {
     ),
     tabBarIcon: ({ focused }) => (
         // eslint-disable-next-line react-native/no-inline-styles
-        <Text style={{ fontSize: focused ? 25 : 20 }}>🙍‍♂️</Text>
+        <Text style={{ fontSize: focused ? 25 : 20 }}>🙎‍♂️</Text>
     )
 };
 

@@ -6,8 +6,6 @@ import {
 
 export const ProfileAnimatedImageStyle = StyleSheet.create({
     animatedImage: {
-        height: HEADER_HEIGHT_EXPANDED + HEADER_HEIGHT_NARROWED,
-        borderBottomLeftRadius: 25,
-        borderBottomRightRadius: 25
+        height: HEADER_HEIGHT_EXPANDED + HEADER_HEIGHT_NARROWED
     }
 });

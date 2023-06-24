@@ -42,7 +42,7 @@ export const LargeHuddleListItem = ({
                 options,
                 cancelButtonIndex: 1,
                 userInterfaceStyle: 'dark',
-                title: 'Remove tap?'
+                title: 'Remove interaction'
             },
             (selectedIndex: number) => {
                 if (selectedIndex === 0) {

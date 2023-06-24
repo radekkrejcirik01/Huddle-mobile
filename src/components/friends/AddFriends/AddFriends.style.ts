@@ -48,22 +48,12 @@ export const AddFriendsStyle = StyleSheet.create({
         paddingHorizontal: 15,
         borderRadius: 35,
         backgroundColor: COLORS.GRAY_100,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    at: {
-        paddingLeft: 10,
-        fontSize: 16,
-        color: COLORS.WHITE,
-        fontWeight: '500'
+        justifyContent: 'center'
     },
     input: {
         fontSize: 16,
         color: COLORS.WHITE,
         fontWeight: '500'
-    },
-    flex: {
-        flex: 1
     },
     sendButton: {
         padding: 12,

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Keyboard, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlashList } from '@shopify/flash-list';
@@ -10,6 +10,8 @@ import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
 import { ProfileTabHeader } from '@components/profile/ProfileTabHeader/ProfileTabHeader';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
+import { StartHuddleModalScreen } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen';
+import { Modal } from '@components/general/Modal/Modal';
 
 export const ProfileScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -17,6 +19,12 @@ export const ProfileScreen = (): JSX.Element => {
     const { top } = useSafeAreaInsets();
 
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
+    const [startHuddle, setStartHuddle] = useState<boolean>(false);
+
+    const hideStartHuddle = () => {
+        Keyboard.dismiss();
+        setStartHuddle(false);
+    };
 
     const loadHuddles = useCallback(
         (lastId?: number) => {
@@ -60,7 +68,11 @@ export const ProfileScreen = (): JSX.Element => {
     return (
         <View style={[ProfileScreenStyle.container, { paddingTop: top }]}>
             <FlashList
-                ListHeaderComponent={<ProfileTabHeader />}
+                ListHeaderComponent={
+                    <ProfileTabHeader
+                        onCreateHuddle={() => setStartHuddle(true)}
+                    />
+                }
                 ListHeaderComponentStyle={ProfileScreenStyle.header}
                 data={huddles}
                 extraData={huddles}
@@ -78,6 +90,12 @@ export const ProfileScreen = (): JSX.Element => {
                         your Huddles will appear{'\n'}here 👋
                     </Text>
                 }
+            />
+            <Modal
+                isVisible={startHuddle}
+                content={<StartHuddleModalScreen onClose={hideStartHuddle} />}
+                backdropOpacity={0.7}
+                onClose={hideStartHuddle}
             />
         </View>
     );

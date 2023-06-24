@@ -113,18 +113,13 @@ export const useRenderHuddles = (
 
     const itemLongPress = useCallback(
         (item: HuddleItemInterface) => {
-            const options = [
-                'Report',
-                `Mute`,
-                'Mute notifications only',
-                'Cancel'
-            ];
+            const options = ['Report', `Mute`, 'Cancel'];
 
             showActionSheetWithOptions(
                 {
                     options,
                     title: `${item.name}'s Huddles`,
-                    cancelButtonIndex: 3,
+                    cancelButtonIndex: 2,
                     userInterfaceStyle: 'dark'
                 },
                 (selectedIndex: number) => {
@@ -135,9 +130,6 @@ export const useRenderHuddles = (
                     }
                     if (selectedIndex === 1) {
                         muteHuddles(item.createdBy);
-                    }
-                    if (selectedIndex === 2) {
-                        Alert.alert('Muted notifications only');
                     }
                 }
             );
