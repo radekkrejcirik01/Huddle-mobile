@@ -48,7 +48,7 @@ export const FriendsScreen = (): JSX.Element => {
         [username]
     );
 
-    useFocusEffect(useCallback(() => loadFriends(), [loadFriends]));
+    useFocusEffect(loadFriends);
 
     const filterData = useCallback(
         (value: string) => {

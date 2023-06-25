@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useMessaging } from '@hooks/useMessaging';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
@@ -47,7 +48,7 @@ export const HuddlesScreen = (): JSX.Element => {
         [username]
     );
 
-    useEffect(() => loadHuddles(), [loadHuddles]);
+    useFocusEffect(loadHuddles);
 
     const {
         renderLargeItem,

@@ -70,6 +70,7 @@ export const HuddleCommentsListItem = ({
                     </Text>
                     {!!item?.likesNumber && (
                         <TouchableOpacity
+                            onLongPress={showModal}
                             onPress={showModal}
                             style={HuddleCommentsListItemStyle.likesView}
                         >

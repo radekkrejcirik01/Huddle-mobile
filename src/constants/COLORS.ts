@@ -31,5 +31,5 @@ export default {
     PASTEL_BLUE: '#7692E4',
     PASTEL_BLUE_100: '#aabbee',
     PASTEL_RED: '#FD5959',
-    PASTEL_RED_100: '#feb3b3'
+    PASTEL_RED_100: '#fe9a9a'
 };

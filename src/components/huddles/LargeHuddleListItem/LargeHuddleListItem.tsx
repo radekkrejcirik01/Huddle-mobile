@@ -98,7 +98,7 @@ export const LargeHuddleListItem = ({
                             {item?.name}
                         </Text>
                         <Text style={LargeHuddleListItemStyle.topicText}>
-                            topic: {item.topic}
+                            {item.topic}
                         </Text>
                     </View>
                 </View>

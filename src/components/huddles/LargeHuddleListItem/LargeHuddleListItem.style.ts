@@ -37,7 +37,7 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         fontWeight: 'bold'
     },
     topicText: {
-        fontSize: 14.5,
+        fontSize: 15,
         color: COLORS.WHITE,
         fontWeight: '600'
     },

@@ -34,7 +34,6 @@ export const HuddleEditableCard = ({
             <View style={HuddleEditableCardStyle.inputsContainer}>
                 <TextInput
                     autoFocus
-                    placeholder="topic"
                     autoCorrect={false}
                     defaultValue={topicValue}
                     onChangeText={onTopicChange}

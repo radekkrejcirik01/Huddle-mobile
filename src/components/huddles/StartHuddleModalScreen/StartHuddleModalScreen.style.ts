@@ -4,6 +4,7 @@ import COLORS from '@constants/COLORS';
 export const StartHuddleModalScreenStyle = StyleSheet.create({
     screen: {
         flex: 1,
+        paddingTop: 20,
         paddingHorizontal: 15,
         backgroundColor: COLORS.BLACK,
         justifyContent: 'space-evenly'

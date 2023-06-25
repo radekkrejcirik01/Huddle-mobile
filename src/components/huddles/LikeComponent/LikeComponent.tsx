@@ -3,6 +3,8 @@ import { Text } from 'react-native';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { LikeComponentProps } from '@components/huddles/LikeComponent/LikeComponent.props';
 import { LikeComponentStyle } from '@components/huddles/LikeComponent/LikeComponent.style';
+import { Icon } from '@components/general/Icon/Icon';
+import { IconEnum } from '@components/general/Icon/Icon.enum';
 
 export const LikeComponent = ({
     value,
@@ -18,7 +20,11 @@ export const LikeComponent = ({
 
     return (
         <TouchableOpacity onPress={like} style={LikeComponentStyle.view}>
-            <Text>{liked ? '🧡' : '🤍'}</Text>
+            {liked ? (
+                <Text style={LikeComponentStyle.heartText}>🧡</Text>
+            ) : (
+                <Icon name={IconEnum.HEART} size={18} />
+            )}
         </TouchableOpacity>
     );
 };

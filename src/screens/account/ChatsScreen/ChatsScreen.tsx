@@ -41,7 +41,7 @@ export const ChatsScreen = (): JSX.Element => {
         [username]
     );
 
-    useFocusEffect(useCallback(() => loadChats(), [loadChats]));
+    useFocusEffect(loadChats);
 
     const { renderChatItem, keyChatExtractor, refreshControl, onEndReached } =
         useRenderChats(chats, loadChats);

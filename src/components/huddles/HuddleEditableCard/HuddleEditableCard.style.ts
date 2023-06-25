@@ -15,15 +15,15 @@ export const HuddleEditableCardStyle = StyleSheet.create({
         paddingRight: 10
     },
     primaryInput: {
-        width: '90%',
+        width: '85%',
+        marginTop: 10,
         paddingVertical: 8,
         paddingLeft: 10,
         paddingRight: 15,
         borderRadius: 15,
         fontSize: 16,
         color: COLORS.WHITE,
-        alignSelf: 'flex-start',
-        fontWeight: 'bold'
+        fontWeight: '500'
     },
     image: {
         height: 60,
