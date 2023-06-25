@@ -150,18 +150,26 @@ export const useNotifications = (
                             );
                             break;
                         case 'message':
-                            showToast(
-                                remoteMessage?.notification?.title,
-                                remoteMessage?.notification?.body,
-                                () =>
-                                    openConversation(
-                                        Number(
-                                            remoteMessage.data.conversationId
-                                        ),
-                                        remoteMessage.data.name,
-                                        remoteMessage.data.profilePhoto
-                                    )
-                            );
+                            if (
+                                navigationRef.current.getCurrentRoute().name !==
+                                    'ChatsTab' &&
+                                navigationRef.current.getCurrentRoute().name !==
+                                    'ConversationScreen'
+                            ) {
+                                showToast(
+                                    remoteMessage?.notification?.title,
+                                    remoteMessage?.notification?.body,
+                                    () =>
+                                        openConversation(
+                                            Number(
+                                                remoteMessage.data
+                                                    .conversationId
+                                            ),
+                                            remoteMessage.data.name,
+                                            remoteMessage.data.profilePhoto
+                                        )
+                                );
+                            }
                             break;
                         case 'people':
                             showToast(
@@ -185,7 +193,14 @@ export const useNotifications = (
                     }
                 }
             }),
-        [openConversation, openFriends, openHuddle, openInvites, showToast]
+        [
+            navigationRef,
+            openConversation,
+            openFriends,
+            openHuddle,
+            openInvites,
+            showToast
+        ]
     );
 
     return { initNotification };

@@ -1,7 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useNavigation as useDefaultNavigation } from '@react-navigation/native';
+import {
+    useIsFocused,
+    useNavigation as useDefaultNavigation
+} from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRenderMesages } from '@hooks/useRenderMesages';
@@ -37,10 +40,13 @@ export const ConversationScreen = ({
     );
 
     const navigation = useDefaultNavigation();
+    const isFocused = useIsFocused();
     const { bottom } = useSafeAreaInsets();
 
     const [messages, setMessages] = useState<Array<MessageItemProps>>([]);
     const [refreshList, setRefreshList] = useState<boolean>(false);
+
+    const interval = useRef(null);
 
     useEffect(
         () =>
@@ -81,6 +87,7 @@ export const ConversationScreen = ({
         (lastId?: number) => {
             let endpoint = `conversation/${conversationId}`;
             if (lastId) {
+                clearInterval(interval.current);
                 endpoint += `/${lastId}`;
             }
 
@@ -150,6 +157,22 @@ export const ConversationScreen = ({
         return () => {};
     }, [loadMessages, username]);
 
+    const startLoadingInterval = useCallback(() => {
+        clearInterval(interval.current);
+
+        interval.current = setInterval(() => {
+            loadMessages();
+        }, 3000);
+    }, [loadMessages]);
+
+    useEffect(() => startLoadingInterval(), [startLoadingInterval]);
+
+    useEffect(() => {
+        if (!isFocused) {
+            clearInterval(interval.current);
+        }
+    }, [isFocused]);
+
     const addReaction = useCallback(
         (messageId: number, value: string) => {
             const index = messages.findIndex(
@@ -206,6 +229,11 @@ export const ConversationScreen = ({
             <KeyboardAvoidingView keyboardVerticalOffset={42}>
                 <View style={ConversationScreenStyle.content}>
                     <FlashList
+                        onScroll={(e) => {
+                            if (e.nativeEvent.contentOffset.y === 0) {
+                                startLoadingInterval();
+                            }
+                        }}
                         data={messages}
                         extraData={refreshList}
                         renderItem={renderMessageItem}
