@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { NativeScrollEvent, NativeSyntheticEvent, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import {
     useIsFocused,
@@ -7,6 +7,7 @@ import {
 } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import moment from 'moment';
 import { useRenderMesages } from '@hooks/useRenderMesages';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import {
@@ -26,7 +27,6 @@ import {
     SendMessageInterface
 } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
-import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 import { ConversationHeader } from '@components/conversation/ConversationHeader/ConversationHeader';
 import { ConversationLike } from '@components/conversation/ConversationLike/ConversationLike';
 
@@ -47,6 +47,7 @@ export const ConversationScreen = ({
     const [refreshList, setRefreshList] = useState<boolean>(false);
 
     const interval = useRef(null);
+    const loadMessagesEnabled = useRef<boolean>(true);
 
     useEffect(
         () =>
@@ -85,35 +86,37 @@ export const ConversationScreen = ({
 
     const loadMessages = useCallback(
         (lastId?: number) => {
-            let endpoint = `conversation/${conversationId}`;
-            if (lastId) {
-                clearInterval(interval.current);
-                endpoint += `/${lastId}`;
-            }
+            if (loadMessagesEnabled.current) {
+                let endpoint = `conversation/${conversationId}`;
+                if (lastId) {
+                    clearInterval(interval.current);
+                    endpoint += `/${lastId}`;
+                }
 
-            getRequestUser<MessagesResponseInterface>(endpoint).subscribe(
-                (response: MessagesResponseInterface) => {
-                    if (response?.status) {
-                        if (!lastId) {
-                            if (response?.data?.length) {
-                                updateLastReadMessage(
-                                    conversationId,
-                                    response.data[0].id
-                                );
+                getRequestUser<MessagesResponseInterface>(endpoint).subscribe(
+                    (response: MessagesResponseInterface) => {
+                        if (response?.status) {
+                            if (!lastId) {
+                                if (response?.data?.length) {
+                                    updateLastReadMessage(
+                                        conversationId,
+                                        response.data[0].id
+                                    );
+                                }
+
+                                setMessages(response?.data);
+                                return;
                             }
 
-                            setMessages(response?.data);
-                            return;
-                        }
-
-                        if (lastId && !!response?.data?.length) {
-                            setMessages((value) =>
-                                value.concat(response?.data)
-                            );
+                            if (lastId && !!response?.data?.length) {
+                                setMessages((value) =>
+                                    value.concat(response?.data)
+                                );
+                            }
                         }
                     }
-                }
-            );
+                );
+            }
         },
         [conversationId, updateLastReadMessage]
     );
@@ -199,6 +202,19 @@ export const ConversationScreen = ({
 
     const sendMessage = useCallback(
         (message: string, buffer: string, fileName: string) => {
+            loadMessagesEnabled.current = false;
+
+            setMessages((value) => [
+                {
+                    id: value?.length ? value[0]?.id + 1 : 1,
+                    sender: user,
+                    message,
+                    time: moment().unix(),
+                    animate: true
+                },
+                ...(value?.length ? value : [])
+            ]);
+
             postRequestUser<ResponseInterface, SendMessageInterface>(
                 'message',
                 {
@@ -210,11 +226,21 @@ export const ConversationScreen = ({
                 }
             ).subscribe((response: ResponseInterface) => {
                 if (response?.status) {
+                    loadMessagesEnabled.current = true;
                     loadMessages();
                 }
             });
         },
         [conversationId, loadMessages, user]
+    );
+
+    const onScroll = useCallback(
+        (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+            if (e.nativeEvent.contentOffset.y === 0) {
+                startLoadingInterval();
+            }
+        },
+        [startLoadingInterval]
     );
 
     return (
@@ -229,24 +255,17 @@ export const ConversationScreen = ({
             <KeyboardAvoidingView keyboardVerticalOffset={42}>
                 <View style={ConversationScreenStyle.content}>
                     <FlashList
-                        onScroll={(e) => {
-                            if (e.nativeEvent.contentOffset.y === 0) {
-                                startLoadingInterval();
-                            }
-                        }}
                         data={messages}
                         extraData={refreshList}
                         renderItem={renderMessageItem}
                         keyExtractor={keyMessageExtractor}
                         estimatedItemSize={68}
                         inverted
+                        onScroll={onScroll}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={
                             ConversationScreenStyle.listContainer
                         }
-                        ItemSeparatorComponent={() => (
-                            <ItemSeparator space={2} />
-                        )}
                         onEndReached={onEndReached}
                     />
                     <ChatInput name={name} onSend={sendMessage} />

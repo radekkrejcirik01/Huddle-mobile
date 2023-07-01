@@ -11,6 +11,7 @@ import { HuddleEditableCard } from '@components/huddles/HuddleEditableCard/Huddl
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const StartHuddleModalScreen = ({
+    onCreate,
     onClose
 }: StartHuddleModalScreenProps): JSX.Element => {
     const { firstname, username } = useSelector(
@@ -28,8 +29,12 @@ export const StartHuddleModalScreen = ({
             name: firstname,
             topic: topic?.current,
             color: selectedColor
-        }).subscribe();
-    }, [firstname, onClose, selectedColor, username]);
+        }).subscribe((response: ResponseInterface) => {
+            if (response?.status) {
+                onCreate();
+            }
+        });
+    }, [firstname, onClose, onCreate, selectedColor, username]);
 
     const onPressAddCard = useCallback(() => {
         if (topic?.current) {

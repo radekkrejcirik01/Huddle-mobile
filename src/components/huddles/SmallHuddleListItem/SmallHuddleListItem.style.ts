@@ -15,6 +15,7 @@ export const SmallHuddleListItemStyle = StyleSheet.create({
     },
     topicText: {
         bottom: 5,
+        right: 2,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     }

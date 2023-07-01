@@ -4,12 +4,13 @@ import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import Clipboard from '@react-native-clipboard/clipboard';
-import { MessageListItem } from '@components/conversation/MessagesLisItem/MessageListItem';
 import { MessageItemProps } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { MessageInteractionPostInterface } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
+import { MessageListItemAnimated } from '@components/conversation/MessagesLisItemAnimated/MessageListItemAnimated';
+import { MessageListItem } from '@components/conversation/MessagesLisItem/MessageListItem';
 
 export const useRenderMesages = (
     messages: Array<MessageItemProps>,
@@ -88,18 +89,24 @@ export const useRenderMesages = (
     );
 
     const renderMessageItem = useCallback(
-        ({
-            item,
-            index
-        }: ListRenderItemInfo<MessageItemProps>): JSX.Element => (
-            <MessageListItem
-                item={item}
-                onLongPress={() => showActionSheet(item)}
-                hasSpace={
-                    messages[index]?.sender !== messages[index + 1]?.sender
-                }
-            />
-        ),
+        ({ item, index }: ListRenderItemInfo<MessageItemProps>): JSX.Element =>
+            item?.animate ? (
+                <MessageListItemAnimated
+                    item={item}
+                    onLongPress={() => showActionSheet(item)}
+                    hasSpace={
+                        messages[index]?.sender !== messages[index + 1]?.sender
+                    }
+                />
+            ) : (
+                <MessageListItem
+                    item={item}
+                    onLongPress={() => showActionSheet(item)}
+                    hasSpace={
+                        messages[index]?.sender !== messages[index + 1]?.sender
+                    }
+                />
+            ),
         [messages, showActionSheet]
     );
 

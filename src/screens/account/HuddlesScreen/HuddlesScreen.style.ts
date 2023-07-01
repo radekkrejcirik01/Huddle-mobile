@@ -3,8 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const HuddlesScreenStyle = StyleSheet.create({
     container: {
-        flex: 1,
-        paddingTop: 15
+        flex: 1
     },
     description: {
         marginTop: 100,
@@ -13,6 +12,10 @@ export const HuddlesScreenStyle = StyleSheet.create({
         alignSelf: 'center',
         fontWeight: 'bold',
         textAlign: 'center'
+    },
+    list: {
+        flex: 1,
+        paddingTop: 25
     },
     listContentContainer: {
         paddingHorizontal: 15,

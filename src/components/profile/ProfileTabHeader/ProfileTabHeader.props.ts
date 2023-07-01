@@ -1,3 +1,3 @@
 export interface ProfileTabHeaderProps {
-    onCreateHuddle: () => void;
+    onCreateHuddlePress: () => void;
 }

@@ -22,4 +22,5 @@ export interface MessageItemProps {
     url?: string;
     reactions?: Array<string>;
     readBy?: Array<string>;
+    animate?: boolean;
 }

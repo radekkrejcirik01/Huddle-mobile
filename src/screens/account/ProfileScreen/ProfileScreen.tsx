@@ -70,7 +70,7 @@ export const ProfileScreen = (): JSX.Element => {
             <FlashList
                 ListHeaderComponent={
                     <ProfileTabHeader
-                        onCreateHuddle={() => setStartHuddle(true)}
+                        onCreateHuddlePress={() => setStartHuddle(true)}
                     />
                 }
                 ListHeaderComponentStyle={ProfileScreenStyle.header}
@@ -93,7 +93,12 @@ export const ProfileScreen = (): JSX.Element => {
             />
             <Modal
                 isVisible={startHuddle}
-                content={<StartHuddleModalScreen onClose={hideStartHuddle} />}
+                content={
+                    <StartHuddleModalScreen
+                        onCreate={loadHuddles}
+                        onClose={hideStartHuddle}
+                    />
+                }
                 backdropOpacity={0.7}
                 onClose={hideStartHuddle}
             />

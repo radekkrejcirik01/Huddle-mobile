@@ -3,7 +3,6 @@ import { Text } from 'react-native';
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { BottomTabNavigatorStyle } from '@navigation/BottomTabNavigator/BottomTabNavigator.style';
 import COLORS from '@constants/COLORS';
-import { AddHuddle } from '@components/huddles/AddHuddle/AddHuddle';
 import { AddChats } from '@components/chats/AddChats/AddChats';
 import { AddFriends } from '@components/friends/AddFriends/AddFriends';
 
@@ -34,10 +33,7 @@ export const ProfileTabOptions: BottomTabNavigationOptions = {
 };
 
 export const HuddlesTabOptions: BottomTabNavigationOptions = {
-    headerLeft: () => <AddHuddle />,
-    headerRight: () => (
-        <Text style={BottomTabNavigatorStyle.rightTitleText}>huddles</Text>
-    ),
+    headerShown: false,
     tabBarLabel: ({ focused }) => (
         <Text
             style={[

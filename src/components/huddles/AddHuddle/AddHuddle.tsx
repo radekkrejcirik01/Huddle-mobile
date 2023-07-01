@@ -4,8 +4,9 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { StartHuddleModalScreen } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen';
 import { Modal } from '@components/general/Modal/Modal';
 import { AddHuddleStyle } from '@components/huddles/AddHuddle/AddHuddle.style';
+import { AddHuddleProps } from '@components/huddles/AddHuddle/AddHuddle.props';
 
-export const AddHuddle = (): JSX.Element => {
+export const AddHuddle = ({ onCreateHuddle }: AddHuddleProps): JSX.Element => {
     const [startHuddle, setStartHuddle] = useState<boolean>(false);
 
     const hideStartHuddle = () => {
@@ -23,7 +24,12 @@ export const AddHuddle = (): JSX.Element => {
             </TouchableOpacity>
             <Modal
                 isVisible={startHuddle}
-                content={<StartHuddleModalScreen onClose={hideStartHuddle} />}
+                content={
+                    <StartHuddleModalScreen
+                        onCreate={onCreateHuddle}
+                        onClose={hideStartHuddle}
+                    />
+                }
                 backdropOpacity={0.7}
                 onClose={hideStartHuddle}
             />

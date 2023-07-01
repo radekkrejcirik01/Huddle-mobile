@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useMessaging } from '@hooks/useMessaging';
@@ -11,11 +12,13 @@ import { ReducerProps } from '@store/index/index.props';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
+import { HuddlesHeader } from '@components/huddles/HuddlesHeader/HuddlesHeader';
 
 export const HuddlesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     useMessaging();
+    const { top } = useSafeAreaInsets();
 
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
 
@@ -58,24 +61,29 @@ export const HuddlesScreen = (): JSX.Element => {
     } = useRenderHuddles(huddles, loadHuddles);
 
     return (
-        <View style={HuddlesScreenStyle.container}>
-            <FlashList
-                data={huddles}
-                extraData={huddles}
-                renderItem={renderLargeItem}
-                keyExtractor={keyExtractor}
-                refreshControl={refreshControl}
-                estimatedItemSize={68}
-                showsVerticalScrollIndicator={false}
-                onEndReached={onEndReachedLargeItem}
-                ItemSeparatorComponent={() => <ItemSeparator space={15} />}
-                ListEmptyComponent={
-                    <Text style={HuddlesScreenStyle.description}>
-                        active Huddles will appear{'\n'}here 👋
-                    </Text>
-                }
-                contentContainerStyle={HuddlesScreenStyle.listContentContainer}
-            />
+        <View style={[HuddlesScreenStyle.container, { top }]}>
+            <HuddlesHeader onHuddleCreate={loadHuddles} />
+            <View style={HuddlesScreenStyle.list}>
+                <FlashList
+                    data={huddles}
+                    extraData={huddles}
+                    renderItem={renderLargeItem}
+                    keyExtractor={keyExtractor}
+                    refreshControl={refreshControl}
+                    estimatedItemSize={68}
+                    showsVerticalScrollIndicator={false}
+                    onEndReached={onEndReachedLargeItem}
+                    ItemSeparatorComponent={() => <ItemSeparator space={15} />}
+                    ListEmptyComponent={
+                        <Text style={HuddlesScreenStyle.description}>
+                            active Huddles will appear{'\n'}here 👋
+                        </Text>
+                    }
+                    contentContainerStyle={
+                        HuddlesScreenStyle.listContentContainer
+                    }
+                />
+            </View>
         </View>
     );
 };

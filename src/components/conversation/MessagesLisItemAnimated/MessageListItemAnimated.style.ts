@@ -1,10 +1,9 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const MessageListItemStyle = StyleSheet.create({
+export const MessageListItemAnimatedStyle = StyleSheet.create({
     paddingTop: {
-        paddingTop: 15,
-        marginBottom: 2
+        paddingTop: 15
     },
     marginBottom: {
         marginBottom: 2

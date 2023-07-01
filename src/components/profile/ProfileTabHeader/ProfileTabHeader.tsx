@@ -14,7 +14,7 @@ import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { ProfileTabHeaderProps } from '@components/profile/ProfileTabHeader/ProfileTabHeader.props';
 
 export const ProfileTabHeader = ({
-    onCreateHuddle
+    onCreateHuddlePress
 }: ProfileTabHeaderProps): JSX.Element => {
     const { firstname, profilePhoto } = useSelector(
         (state: ReducerProps) => state.user.user
@@ -63,7 +63,7 @@ export const ProfileTabHeader = ({
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={onCreateHuddle}
+                    onPress={onCreateHuddlePress}
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>
