@@ -74,7 +74,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     useEffect(() => {
         if (!huddle && huddleId) {
             getRequestUser<ResponseHuddlesGetInterface>(
-                `huddle/${huddleId}/${username}`
+                `huddle/${huddleId}`
             ).subscribe((response: ResponseHuddlesGetInterface) => {
                 if (response?.status) {
                     navigation.setParams({
@@ -103,7 +103,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
 
     const loadComments = useCallback(
         (lastId?: number) => {
-            let endpoint = `comments/${huddle?.id}/${username}`;
+            let endpoint = `comments/${huddle?.id}`;
             if (lastId) {
                 endpoint += `/${lastId}`;
             }
@@ -125,7 +125,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                 }
             });
         },
-        [huddle?.id, username]
+        [huddle?.id]
     );
 
     const load = useCallback(() => {

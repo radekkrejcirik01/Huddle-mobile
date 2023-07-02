@@ -17,11 +17,16 @@ export interface ResponseInterface {
     message: string;
 }
 
+export interface AuthResponseInterface {
+    status: string;
+    message: string;
+    token: string;
+}
+
 export interface ResponseUserGetInterface {
     status: string;
     message: string;
     data?: {
-        id: number;
         username: string;
         firstname: string;
         profilePhoto: string;

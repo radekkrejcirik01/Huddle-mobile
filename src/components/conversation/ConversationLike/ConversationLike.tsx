@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Text } from 'react-native';
-import { useSelector } from 'react-redux';
 import { IconButton } from '@components/general/IconButton/IconButton';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { ConversationLikeProps } from '@components/conversation/ConversationLike/ConversationLike.props';
@@ -16,24 +15,21 @@ import {
     ResponseInterface
 } from '@interfaces/response/Response.interface';
 import { ConversationLikePostInterface } from '@interfaces/post/Post.inteface';
-import { ReducerProps } from '@store/index/index.props';
 
 export const ConversationLike = ({
     conversationId
 }: ConversationLikeProps): JSX.Element => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-
     const [liked, setLiked] = useState<boolean>(null);
 
     useEffect(() => {
         getRequestUser<ResponseConversationLikedInterface>(
-            `conversation-like/${username}/${conversationId}`
+            `conversation-like/${conversationId}`
         ).subscribe((response: ResponseConversationLikedInterface) => {
             if (response?.status) {
                 setLiked(response?.isLiked === 1);
             }
         });
-    }, [conversationId, username]);
+    }, [conversationId]);
 
     const like = useCallback(() => {
         setLiked(true);
@@ -41,19 +37,18 @@ export const ConversationLike = ({
         postRequestUser<ResponseInterface, ConversationLikePostInterface>(
             'conversation-like',
             {
-                sender: username,
                 conversationId
             }
         ).subscribe();
-    }, [conversationId, username]);
+    }, [conversationId]);
 
     const unLike = useCallback(() => {
         setLiked(false);
 
         deleteRequestUser<ResponseInterface>(
-            `conversation-like/${username}/${conversationId}`
+            `conversation-like/${conversationId}`
         ).subscribe();
-    }, [conversationId, username]);
+    }, [conversationId]);
 
     if (liked === null) {
         return null;

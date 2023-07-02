@@ -13,7 +13,6 @@ import {
     TextInputKeyPressEventData,
     View
 } from 'react-native';
-import { useSelector } from 'react-redux';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
 import FastImage from 'react-native-fast-image';
 import COLORS from '@constants/COLORS';
@@ -26,10 +25,9 @@ import {
 import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import {
-    HuddleAddCommentPostInterface,
-    HuddleAddMentionCommentPostInterface
+    HuddleAddMentionCommentPostInterface,
+    HuddleCommentPostInterface
 } from '@interfaces/post/Post.inteface';
-import { ReducerProps } from '@store/index/index.props';
 import { CommentInputStyle } from '@components/huddles/CommentInput/CommentInput.style';
 
 export const CommentInput = ({
@@ -38,8 +36,6 @@ export const CommentInput = ({
     mention: mentionValue,
     mentions
 }: CommentInputProps): JSX.Element => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-
     const [commentMessage, setCommentMessage] = useState<string>();
     const [mentionSuggest, setMentionSuggest] = useState<boolean>();
     const [mention, setMention] = useState<Mention>(null);
@@ -75,10 +71,9 @@ export const CommentInput = ({
 
     const addComment = useCallback(
         () =>
-            postRequestUser<ResponseInterface, HuddleAddCommentPostInterface>(
-                'huddle/comment',
+            postRequestUser<ResponseInterface, HuddleCommentPostInterface>(
+                'comment',
                 {
-                    sender: username,
                     huddleId,
                     message: commentMessage
                 }
@@ -88,7 +83,7 @@ export const CommentInput = ({
                     onSend();
                 }
             }),
-        [commentMessage, huddleId, onSend, username]
+        [commentMessage, huddleId, onSend]
     );
 
     const addMentionComment = useCallback(
@@ -96,8 +91,7 @@ export const CommentInput = ({
             postRequestUser<
                 ResponseInterface,
                 HuddleAddMentionCommentPostInterface
-            >('huddle/comment/mention', {
-                sender: username,
+            >('comment-mention', {
                 receiver: mention?.username,
                 huddleId,
                 message: commentMessage
@@ -108,7 +102,7 @@ export const CommentInput = ({
                     onSend();
                 }
             }),
-        [commentMessage, huddleId, mention?.username, onSend, username]
+        [commentMessage, huddleId, mention?.username, onSend]
     );
 
     const renderMentionItem = useCallback(

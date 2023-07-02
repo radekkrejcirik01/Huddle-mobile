@@ -1,9 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
 import { FlashList } from '@shopify/flash-list';
 import { useRenderMutedHuddles } from '@hooks/useRenderMutedHuddles';
-import { ReducerProps } from '@store/index/index.props';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseMutedHuddlesGetInterface } from '@interfaces/response/Response.interface';
 import { MutedHuddlesScreenStyle } from '@screens/account/MutedHuddlesScreen/MutedHuddlesScreen.style';
@@ -11,23 +9,22 @@ import { MutedHuddlesItemProps } from '@screens/account/MutedHuddlesScreen/Muted
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 
 export const MutedHuddlesScreen = (): JSX.Element => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-
     const [mutedPeople, setMutedPeople] = useState<
         Array<MutedHuddlesItemProps>
     >([]);
 
-    const loadMutedHuddles = useCallback(() => {
+    const loadMutedHuddles = () =>
         getRequestUser<ResponseMutedHuddlesGetInterface>(
-            `muted-huddles/${username}`
+            'muted-huddles'
         ).subscribe((response: ResponseMutedHuddlesGetInterface) => {
             if (response?.status) {
                 setMutedPeople(response.data);
             }
         });
-    }, [username]);
 
-    useEffect(() => loadMutedHuddles(), [loadMutedHuddles]);
+    useEffect(() => {
+        loadMutedHuddles();
+    }, []);
 
     const { renderMutedHuddlesItem, refreshControl, keyMutedHuddlesExtractor } =
         useRenderMutedHuddles(loadMutedHuddles);

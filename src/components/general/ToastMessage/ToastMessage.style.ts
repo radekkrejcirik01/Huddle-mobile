@@ -8,7 +8,7 @@ export const ToastMessageStyle = StyleSheet.create({
         padding: 15,
         paddingVertical: 20,
         borderRadius: 10,
-        backgroundColor: COLORS.BUTTON_BLUE,
+        backgroundColor: COLORS.BLACK_200,
         justifyContent: 'center',
         alignSelf: 'center'
     },

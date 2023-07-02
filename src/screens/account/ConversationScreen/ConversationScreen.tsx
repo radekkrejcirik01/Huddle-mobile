@@ -24,7 +24,7 @@ import {
 import { ChatInput } from '@components/conversation/ChatInput/ChatInput';
 import {
     LastReadMessagePostInterface,
-    SendMessageInterface
+    MessagePostInterface
 } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { ConversationHeader } from '@components/conversation/ConversationHeader/ConversationHeader';
@@ -68,21 +68,20 @@ export const ConversationScreen = ({
         [conversationId, name, navigation, profilePhoto]
     );
 
-    const updateLastReadMessage = useCallback(
-        (idConversation: number, idMessage: number) => {
-            if (idConversation && idMessage) {
-                postRequestUser<
-                    ResponseInterface,
-                    LastReadMessagePostInterface
-                >('last-read-message', {
-                    username: user,
+    const updateLastReadMessage = (
+        idConversation: number,
+        idMessage: number
+    ) => {
+        if (idConversation && idMessage) {
+            postRequestUser<ResponseInterface, LastReadMessagePostInterface>(
+                'last-read-message',
+                {
                     conversationId: idConversation,
                     messageId: idMessage
-                }).subscribe();
-            }
-        },
-        [user]
-    );
+                }
+            ).subscribe();
+        }
+    };
 
     const loadMessages = useCallback(
         (lastId?: number) => {
@@ -118,12 +117,12 @@ export const ConversationScreen = ({
                 );
             }
         },
-        [conversationId, updateLastReadMessage]
+        [conversationId]
     );
 
     const loadMessagesByUsernames = useCallback(() => {
         getRequestUser<MessagesByUsernamesResponseInterface>(
-            `messages/${user}/${username}`
+            `messages/${username}`
         ).subscribe((response: MessagesByUsernamesResponseInterface) => {
             if (response?.status) {
                 // Set conversation id after creating or getting conversation
@@ -141,7 +140,7 @@ export const ConversationScreen = ({
                 }
             }
         });
-    }, [navigation, updateLastReadMessage, user, username]);
+    }, [navigation, username]);
 
     useEffect(() => {
         if (username) {
@@ -215,10 +214,9 @@ export const ConversationScreen = ({
                 ...(value?.length ? value : [])
             ]);
 
-            postRequestUser<ResponseInterface, SendMessageInterface>(
+            postRequestUser<ResponseInterface, MessagePostInterface>(
                 'message',
                 {
-                    sender: user,
                     conversationId,
                     message,
                     buffer,

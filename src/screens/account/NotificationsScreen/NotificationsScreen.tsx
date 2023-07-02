@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ScrollView, Switch, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
 import { ConversationDetailsScreenStyle } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import COLORS from '@constants/COLORS';
@@ -9,14 +8,11 @@ import {
     ResponseInterface,
     ResponseUserNotificationsGetInterface
 } from '@interfaces/response/Response.interface';
-import { ReducerProps } from '@store/index/index.props';
 import { UserNotificationPutInterface } from '@interfaces/post/Post.inteface';
 import { NotificationsScreenStyle } from '@screens/account/NotificationsScreen/NotificationsScreen.style';
 import { NotificationTypeEnum } from '@enums/notifications/NotificationType.enum';
 
 export const NotificationsScreen = (): JSX.Element => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-
     const [friendsInvites, setFriendsInvites] = useState<boolean>(true);
     const [newHuddles, setNewHuddles] = useState<boolean>(true);
     const [interactions, setInteractions] = useState<boolean>(true);
@@ -26,7 +22,7 @@ export const NotificationsScreen = (): JSX.Element => {
 
     useEffect(() => {
         getRequestUser<ResponseUserNotificationsGetInterface>(
-            `notifications/${username}`
+            'notifications'
         ).subscribe((response: ResponseUserNotificationsGetInterface) => {
             if (response?.status) {
                 setFriendsInvites(!!response?.data.friendsInvitesNotifications);
@@ -37,20 +33,16 @@ export const NotificationsScreen = (): JSX.Element => {
                 setMessages(!!response?.data.messagesNotifications);
             }
         });
-    }, [username]);
+    }, []);
 
-    const update = useCallback(
-        (type: NotificationTypeEnum, value: number) =>
-            putRequestUser<ResponseInterface, UserNotificationPutInterface>(
-                'notification',
-                {
-                    username,
-                    notification: type,
-                    value
-                }
-            ).subscribe(),
-        [username]
-    );
+    const update = (type: NotificationTypeEnum, value: number) =>
+        putRequestUser<ResponseInterface, UserNotificationPutInterface>(
+            'notification',
+            {
+                notification: type,
+                value
+            }
+        ).subscribe();
 
     const switchFriendsInvites = useCallback(() => {
         setFriendsInvites(!friendsInvites);
@@ -59,7 +51,7 @@ export const NotificationsScreen = (): JSX.Element => {
             NotificationTypeEnum.FRIENDS_INVITES_NOTIFICATIONS,
             friendsInvites ? 0 : 1
         );
-    }, [friendsInvites, update]);
+    }, [friendsInvites]);
 
     const switchNewHuddles = useCallback(() => {
         setNewHuddles(!newHuddles);
@@ -68,7 +60,7 @@ export const NotificationsScreen = (): JSX.Element => {
             NotificationTypeEnum.NEW_HUDDLES_NOTIFICATION,
             newHuddles ? 0 : 1
         );
-    }, [newHuddles, update]);
+    }, [newHuddles]);
 
     const switchInteractions = useCallback(() => {
         setInteractions(!interactions);
@@ -77,25 +69,25 @@ export const NotificationsScreen = (): JSX.Element => {
             NotificationTypeEnum.INTERACTIONS_NOTIFICATIONS,
             interactions ? 0 : 1
         );
-    }, [interactions, update]);
+    }, [interactions]);
 
     const switchComments = useCallback(() => {
         setComments(!comments);
 
         update(NotificationTypeEnum.COMMENTS_NOTIFICATIONS, comments ? 0 : 1);
-    }, [comments, update]);
+    }, [comments]);
 
     const switchMentions = useCallback(() => {
         setMentions(!mentions);
 
         update(NotificationTypeEnum.MENTIONS_NOTIFICATIONS, mentions ? 0 : 1);
-    }, [mentions, update]);
+    }, [mentions]);
 
     const switchMessages = useCallback(() => {
         setMessages(!messages);
 
         update(NotificationTypeEnum.MESSAGES_NOTIFICATIONS, messages ? 0 : 1);
-    }, [messages, update]);
+    }, [messages]);
 
     return (
         <ScrollView style={NotificationsScreenStyle.container}>

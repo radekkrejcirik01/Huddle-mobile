@@ -25,7 +25,7 @@ export const HuddlesScreen = (): JSX.Element => {
     const loadHuddles = useCallback(
         (lastId?: number) => {
             if (username) {
-                let endpoint = `huddles/${username}`;
+                let endpoint = 'huddles';
                 if (lastId) {
                     endpoint += `/${lastId}`;
                 }

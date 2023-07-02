@@ -7,25 +7,24 @@ import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseUserGetInterface } from '@interfaces/response/Response.interface';
 
 class PreloadServiceSingleton {
-    username: string = null;
-
     init = async () => {
         const token = await PersistStorage.getItem(PersistStorageKeys.TOKEN);
-        this.username = token;
         store.dispatch(setUserToken(token));
 
         if (token) {
-            this.loadUserObject(this.username);
+            this.loadUserObject();
+        } else {
+            SplashScreen.hide();
         }
     };
 
-    public loadUserObject = (username: string) => {
-        getRequestUser<ResponseUserGetInterface>(`user/${username}`).subscribe(
+    public loadUserObject = () => {
+        getRequestUser<ResponseUserGetInterface>('user').subscribe(
             (response: ResponseUserGetInterface) => {
                 if (response?.status) {
                     store.dispatch(setUserStateAction(response.data));
-                    SplashScreen.hide();
                 }
+                SplashScreen.hide();
             }
         );
     };

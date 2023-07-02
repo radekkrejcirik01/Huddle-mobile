@@ -1,34 +1,78 @@
 import React, { useCallback } from 'react';
-import { ScrollView } from 'react-native';
-import { useNavigation } from '@hooks/useNavigation';
+import { Alert, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import ImagePicker from 'react-native-image-crop-picker';
+import fs from 'react-native-fs';
+import FastImage from 'react-native-fast-image';
 import { ListItem } from '@components/general/ListItem/ListItem';
-import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { resetUserState, setProfilePhotoAction } from '@store/UserReducer';
+import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
+import {
+    ResponseInterface,
+    ResponseUploadImageInterface
+} from '@interfaces/response/Response.interface';
+import { ReducerProps } from '@store/index/index.props';
+import { UploadProfileImageInterface } from '@interfaces/post/Post.inteface';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { AccountScreenStyle } from '@screens/account/AccountScreen/AccountScreen.style';
+import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
+import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 
 export const AccountScreen = (): JSX.Element => {
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
+    const { firstname, username, profilePhoto } = useSelector(
+        (state: ReducerProps) => state.user.user
+    );
 
-    const openChangePassword = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.ChangePasswordScreen);
-    }, [navigateTo]);
+    const dispatch = useDispatch();
 
-    const openDeleteAccount = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.DeleteAccountScreen);
-    }, [navigateTo]);
+    const changeProfilePhoto = useCallback(() => {
+        ImagePicker.openPicker({
+            width: 500,
+            height: 500,
+            cropping: true,
+            waitAnimationEnd: false
+        }).then(async (image) => {
+            const base64 = await fs.readFile(image?.path, 'base64');
+            dispatch(setProfilePhotoAction(image?.path));
+
+            postRequestUser<
+                ResponseUploadImageInterface,
+                UploadProfileImageInterface
+            >('photo', {
+                buffer: base64,
+                fileName: image.filename
+            }).subscribe((response: ResponseUploadImageInterface) => {
+                if (!response?.status) {
+                    Alert.alert("Sorry, we couldn't upload this image 😔");
+                }
+            });
+        });
+    }, [dispatch]);
+
+    const logout = useCallback(() => {
+        deleteRequestUser<ResponseInterface>('device').subscribe(() => {
+            dispatch(resetUserState());
+            PersistStorage.setItem(PersistStorageKeys.TOKEN, '').catch();
+        });
+    }, [dispatch]);
 
     return (
-        <ScrollView style={AccountScreenStyle.container}>
-            <ListItem
-                title="Change password"
-                hasArrow
-                onPress={openChangePassword}
-            />
-            <ListItem
-                title="Delete account"
-                hasArrow
-                onPress={openDeleteAccount}
-            />
-        </ScrollView>
+        <View style={AccountScreenStyle.container}>
+            <View style={AccountScreenStyle.infoContainer}>
+                <TouchableOpacity onPress={changeProfilePhoto}>
+                    <FastImage
+                        source={{
+                            uri: profilePhoto
+                        }}
+                        style={AccountScreenStyle.image}
+                    />
+                </TouchableOpacity>
+                <Text style={AccountScreenStyle.firstname}>{firstname}</Text>
+                <Text style={AccountScreenStyle.username}>@{username}</Text>
+            </View>
+            <View style={AccountScreenStyle.buttons}>
+                <ListItem title="Logout" onPress={logout} hasArrow />
+            </View>
+        </View>
     );
 };

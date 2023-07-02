@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Alert, Keyboard, Text, TextInput, View } from 'react-native';
-import { useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import { useModal } from '@hooks/useModal';
 import { useNavigation } from '@hooks/useNavigation';
@@ -14,7 +13,6 @@ import {
     ResponseNumberInvitesGetInterface
 } from '@interfaces/response/Response.interface';
 import { AddPersonInvitePostInterface } from '@interfaces/post/Post.inteface';
-import { ReducerProps } from '@store/index/index.props';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { AddFriendsStyle } from '@components/friends/AddFriends/AddFriends.style';
@@ -22,27 +20,26 @@ import { Icon } from '@components/general/Icon/Icon';
 import { Badge } from '@components/general/Badge/Badge';
 
 export const AddFriends = (): JSX.Element => {
-    const { username: user } = useSelector(
-        (state: ReducerProps) => state.user.user
-    );
-
     const { modalVisible, showModal, hideModal } = useModal();
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const [username, setUsername] = useState<string>();
     const [badge, setBadge] = useState<number>(0);
 
-    const loadUnseenInvites = useCallback(() => {
+    const loadUnseenInvites = () =>
         getRequestUser<ResponseNumberInvitesGetInterface>(
-            `unseen-invites/${user}`
+            `unseen-invites`
         ).subscribe((response: ResponseNumberInvitesGetInterface) => {
             if (response?.status) {
                 setBadge(response?.number);
             }
         });
-    }, [user]);
 
-    useFocusEffect(loadUnseenInvites);
+    useFocusEffect(
+        useCallback(() => {
+            loadUnseenInvites();
+        }, [])
+    );
 
     const hideKeyboardAndModal = useCallback(() => {
         setUsername('');
@@ -54,7 +51,6 @@ export const AddFriends = (): JSX.Element => {
         postRequestUser<ResponseInterface, AddPersonInvitePostInterface>(
             '/person',
             {
-                sender: user,
                 receiver: username
             }
         ).subscribe((response: ResponseInterface) => {
@@ -84,7 +80,7 @@ export const AddFriends = (): JSX.Element => {
                 }
             }
         });
-    }, [hideKeyboardAndModal, navigateTo, user, username]);
+    }, [hideKeyboardAndModal, navigateTo, username]);
 
     const openInvitesScreen = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.InvitesScreen);

@@ -20,7 +20,7 @@ export const LikesModalContent = ({
 
     const loadLikes = useCallback(
         (lastId?: number) => {
-            let endpoint = `likes/${id}`;
+            let endpoint = `comment-likes/${id}`;
             if (lastId) {
                 endpoint += `/${lastId}`;
             }

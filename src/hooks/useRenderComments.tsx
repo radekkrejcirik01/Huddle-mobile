@@ -40,8 +40,7 @@ export const useRenderComments = (
                 postRequestUser<
                     ResponseInterface,
                     HuddleLikeCommentPostInterface
-                >('huddle/comment/like', {
-                    sender: username,
+                >('comment-like', {
                     receiver: item?.sender,
                     commentId: item?.id,
                     huddleId
@@ -50,22 +49,22 @@ export const useRenderComments = (
                 });
             } else {
                 deleteRequestUser<ResponseInterface>(
-                    `like/${item?.id}/${username}`
+                    `comment-like/${item?.id}`
                 ).subscribe(() => {
                     refreshComments();
                 });
             }
         },
-        [huddleId, refreshComments, username]
+        [huddleId, refreshComments]
     );
 
     const deleteComment = useCallback(
         (id: number) => {
-            deleteRequestUser<ResponseInterface>(
-                `huddle-comment/${id}`
-            ).subscribe(() => {
-                refreshComments();
-            });
+            deleteRequestUser<ResponseInterface>(`comment/${id}`).subscribe(
+                () => {
+                    refreshComments();
+                }
+            );
         },
         [refreshComments]
     );

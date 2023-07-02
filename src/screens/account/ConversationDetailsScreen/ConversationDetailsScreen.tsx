@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ScrollView, Switch, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
@@ -9,7 +8,6 @@ import { ConversationDetailsScreenProps } from '@screens/account/ConversationDet
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { Icon } from '@components/general/Icon/Icon';
-import { ReducerProps } from '@store/index/index.props';
 import { getRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
 import {
     ResponseInterface,
@@ -23,8 +21,6 @@ export const ConversationDetailsScreen = ({
 }: ConversationDetailsScreenProps): JSX.Element => {
     const { conversationId, name, profilePhoto } = route.params;
 
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-
     const navigation = useNavigation();
     const openProfile = useOpenProfilePhoto();
 
@@ -32,13 +28,13 @@ export const ConversationDetailsScreen = ({
 
     const loadIsConversationMuted = useCallback(() => {
         getRequestUser<ResponseIsConversationMutedGetInterface>(
-            `muted-conversation/${username}/${conversationId}`
+            `muted-conversation/${conversationId}`
         ).subscribe((response: ResponseIsConversationMutedGetInterface) => {
             if (response?.status) {
                 setMuted(response?.muted);
             }
         });
-    }, [conversationId, username]);
+    }, [conversationId]);
 
     useEffect(() => loadIsConversationMuted(), [loadIsConversationMuted]);
 
@@ -59,11 +55,10 @@ export const ConversationDetailsScreen = ({
                 ResponseInterface,
                 ConversationNotificationsPostInterface
             >('mute-conversation', {
-                user: username,
                 conversationId
             }).subscribe();
         },
-        [conversationId, username]
+        [conversationId]
     );
 
     return (

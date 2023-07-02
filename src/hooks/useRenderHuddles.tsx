@@ -60,7 +60,6 @@ export const useRenderHuddles = (
                 'huddle/interaction',
                 {
                     huddleId,
-                    sender: username,
                     receiver: createdBy
                 }
             ).subscribe((response: ResponseInterface) => {
@@ -69,20 +68,20 @@ export const useRenderHuddles = (
                 }
             });
         },
-        [loadHuddles, username]
+        [loadHuddles]
     );
 
     const removeInteraction = useCallback(
         (huddleId: number) => {
             deleteRequestUser<ResponseInterface>(
-                `interaction/${huddleId}/${username}`
+                `interaction/${huddleId}`
             ).subscribe((response: ResponseInterface) => {
                 if (response?.status && loadHuddles) {
                     loadHuddles();
                 }
             });
         },
-        [loadHuddles, username]
+        [loadHuddles]
     );
 
     const onPressInteract = useCallback(
@@ -101,14 +100,13 @@ export const useRenderHuddles = (
             postRequestUser<ResponseInterface, MuteHuddlesPostInterface>(
                 'mute-huddles',
                 {
-                    user: username,
                     muted: mute
                 }
             ).subscribe((response: ResponseInterface) => {
                 if (response?.status) loadHuddles();
             });
         },
-        [loadHuddles, username]
+        [loadHuddles]
     );
 
     const itemLongPress = useCallback(

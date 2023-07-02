@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
 import { RefreshControl } from 'react-native';
-import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { useRefresh } from '@hooks/useRefresh';
@@ -9,7 +8,6 @@ import { InviteListItem } from '@components/friends/InviteListItem/InviteListIte
 import { putRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { AcceptPersonInviteInterface } from '@interfaces/post/Post.inteface';
-import { ReducerProps } from '@store/index/index.props';
 
 export const useRenderInvites = (
     invites: Array<InviteItemProps>,
@@ -22,10 +20,6 @@ export const useRenderInvites = (
     refreshControl: JSX.Element;
     onEndReached: () => void;
 } => {
-    const { username: user } = useSelector(
-        (state: ReducerProps) => state.user.user
-    );
-
     const openProfile = useOpenProfilePhoto();
     const { refreshing, onRefresh } = useRefresh(loadInvites);
 
@@ -35,7 +29,6 @@ export const useRenderInvites = (
                 '/person',
                 {
                     id: invite.id,
-                    sender: user,
                     receiver: invite.user.username
                 }
             ).subscribe((response: ResponseInterface) => {
@@ -44,7 +37,7 @@ export const useRenderInvites = (
                 }
             });
         },
-        [loadInvites, user]
+        [loadInvites]
     );
 
     const renderInvitesItem = useCallback(

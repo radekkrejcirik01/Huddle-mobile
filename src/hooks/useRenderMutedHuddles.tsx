@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
 import { RefreshControl } from 'react-native';
-import { useSelector } from 'react-redux';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useRefresh } from '@hooks/useRefresh';
@@ -8,7 +7,6 @@ import { MutedHuddlesItemProps } from '@screens/account/MutedHuddlesScreen/Muted
 import { MuteHuddlesListItem } from '@components/settings/MuteHuddlesListItem/MuteHuddlesListItem';
 import { deleteRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
-import { ReducerProps } from '@store/index/index.props';
 
 export const useRenderMutedHuddles = (
     loadMutedHuddles: () => void
@@ -19,8 +17,6 @@ export const useRenderMutedHuddles = (
     keyMutedHuddlesExtractor: (item: MutedHuddlesItemProps) => string;
     refreshControl: JSX.Element;
 } => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-
     const { refreshing, onRefresh } = useRefresh(loadMutedHuddles);
     const { showActionSheetWithOptions } = useActionSheet();
 
@@ -37,7 +33,7 @@ export const useRenderMutedHuddles = (
                 (selectedIndex: number) => {
                     if (selectedIndex === 0) {
                         deleteRequestUser<ResponseInterface>(
-                            `muted-huddles/${username}/${user}`
+                            `muted-huddles/${user}`
                         ).subscribe((response: ResponseInterface) => {
                             if (response?.status) {
                                 loadMutedHuddles();
@@ -47,7 +43,7 @@ export const useRenderMutedHuddles = (
                 }
             );
         },
-        [loadMutedHuddles, showActionSheetWithOptions, username]
+        [loadMutedHuddles, showActionSheetWithOptions]
     );
 
     const renderMutedHuddlesItem = useCallback(

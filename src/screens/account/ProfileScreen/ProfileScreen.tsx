@@ -29,7 +29,7 @@ export const ProfileScreen = (): JSX.Element => {
     const loadHuddles = useCallback(
         (lastId?: number) => {
             if (username) {
-                let endpoint = `user-huddles/${username}`;
+                let endpoint = 'user-huddles';
                 if (lastId) {
                     endpoint += `/${lastId}`;
                 }

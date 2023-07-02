@@ -69,9 +69,9 @@ export const Input = forwardRef(
                     disabled={inputType !== InputTypeEnum.PASSWORD}
                 >
                     {isSecured ? (
-                        <Icon name={IconEnum.LOCK} size={25} />
+                        <Icon name={IconEnum.LOCK} size={24} />
                     ) : (
-                        <Icon name={IconEnum.UNLOCK} size={25} />
+                        <Icon name={IconEnum.UNLOCK} size={24} />
                     )}
                 </TouchableOpacity>
             );

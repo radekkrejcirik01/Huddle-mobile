@@ -17,10 +17,9 @@ export const UserReducer = createSlice({
         setUserToken: (state, action) => {
             state.token = action.payload;
         },
-        setUserStateAction: (state, action) => ({
-            token: action.payload.username,
-            user: action.payload
-        }),
+        setUserStateAction: (state, action) => {
+            state.user = action.payload;
+        },
         setProfilePhotoAction: (state, action) => {
             state.user.profilePhoto = action.payload;
         },

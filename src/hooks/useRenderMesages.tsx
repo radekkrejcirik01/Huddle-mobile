@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import { Alert } from 'react-native';
-import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -8,7 +7,6 @@ import { MessageItemProps } from '@screens/account/ConversationScreen/Conversati
 import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { MessageInteractionPostInterface } from '@interfaces/post/Post.inteface';
-import { ReducerProps } from '@store/index/index.props';
 import { MessageListItemAnimated } from '@components/conversation/MessagesLisItemAnimated/MessageListItemAnimated';
 import { MessageListItem } from '@components/conversation/MessagesLisItem/MessageListItem';
 
@@ -24,8 +22,6 @@ export const useRenderMesages = (
     keyMessageExtractor: (item: MessageItemProps, index: number) => string;
     onEndReached: () => void;
 } => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-
     const { showActionSheetWithOptions } = useActionSheet();
 
     const react = useCallback(
@@ -35,7 +31,6 @@ export const useRenderMesages = (
             postRequestUser<ResponseInterface, MessageInteractionPostInterface>(
                 'message-react',
                 {
-                    sender: username,
                     receiver: item.sender,
                     message: item.message,
                     conversationId,
@@ -44,7 +39,7 @@ export const useRenderMesages = (
                 }
             ).subscribe();
         },
-        [addReaction, conversationId, username]
+        [addReaction, conversationId]
     );
 
     const showActionSheet = useCallback(
