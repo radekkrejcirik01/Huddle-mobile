@@ -10,6 +10,7 @@ import { Navigation } from '@navigation/index';
 import { PreloadService } from '@utils/general/PreloadService';
 import { ToastMessage } from '@components/general/ToastMessage/ToastMessage';
 import { isiOS } from '@functions/checking-functions';
+import { UnreadMessagesService } from '@utils/general/UnreadMessagesService';
 
 const App = () => {
     PreloadService.init().catch();
@@ -21,6 +22,7 @@ const App = () => {
                 if (nextAppState === 'active') {
                     if (isiOS()) {
                         PushNotificationIOS.setApplicationIconBadgeNumber(0);
+                        UnreadMessagesService.loadUnread();
                     }
                 }
             }

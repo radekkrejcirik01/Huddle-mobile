@@ -50,10 +50,17 @@ export const AccountScreen = (): JSX.Element => {
     }, [dispatch]);
 
     const logout = useCallback(() => {
-        deleteRequestUser<ResponseInterface>('device').subscribe(() => {
-            dispatch(resetUserState());
-            PersistStorage.setItem(PersistStorageKeys.TOKEN, '').catch();
-        });
+        deleteRequestUser<ResponseInterface>('device').subscribe(
+            (response: ResponseInterface) => {
+                if (response?.status) {
+                    dispatch(resetUserState());
+                    PersistStorage.setItem(
+                        PersistStorageKeys.TOKEN,
+                        ''
+                    ).catch();
+                }
+            }
+        );
     }, [dispatch]);
 
     return (

@@ -1,4 +1,5 @@
 export enum LoginStackNavigatorEnum {
     LoginScreen = 'LoginScreen',
-    RegistrationScreen = 'RegistrationScreen'
+    RegistrationScreen = 'RegistrationScreen',
+    PrivacyScreen = 'PrivacyScreen'
 }

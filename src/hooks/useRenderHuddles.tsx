@@ -55,11 +55,12 @@ export const useRenderHuddles = (
     );
 
     const interact = useCallback(
-        (huddleId: number, createdBy: string) => {
+        (huddleId: number, topic: string, createdBy: string) => {
             postRequestUser<ResponseInterface, HuddleInteractPostInterface>(
                 'huddle/interaction',
                 {
                     huddleId,
+                    topic,
                     receiver: createdBy
                 }
             ).subscribe((response: ResponseInterface) => {
@@ -87,7 +88,7 @@ export const useRenderHuddles = (
     const onPressInteract = useCallback(
         (item: HuddleItemInterface) => {
             if (!item?.interacted) {
-                interact(item.id, item.createdBy);
+                interact(item.id, item.topic, item.createdBy);
             } else {
                 removeInteraction(item.id);
             }

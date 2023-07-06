@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Keyboard, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Toast from 'react-native-toast-message';
 import { useNavigation } from '@hooks/useNavigation';
@@ -60,35 +60,40 @@ export const LoginScreen = (): JSX.Element => {
     );
 
     return (
-        <>
-            <View style={LoginScreenStyle.inputsContainer}>
-                <Input
-                    placeholder="username"
-                    onChange={setUsername}
-                    inputType={InputTypeEnum.TEXT}
-                    iconRight={<Icon name={IconEnum.PROFILE} size={24} />}
-                />
-                <Input
-                    placeholder="password"
-                    onChange={setPassword}
-                    inputType={InputTypeEnum.PASSWORD}
-                    viewStyle={LoginScreenStyle.inputView}
-                />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View>
+                <View style={LoginScreenStyle.inputsContainer}>
+                    <Input
+                        placeholder="username"
+                        onChange={setUsername}
+                        inputType={InputTypeEnum.TEXT}
+                        iconRight={<Icon name={IconEnum.PROFILE} size={24} />}
+                        viewStyle={LoginScreenStyle.usernameInputView}
+                    />
+                    <Input
+                        placeholder="password"
+                        onChange={setPassword}
+                        inputType={InputTypeEnum.PASSWORD}
+                        viewStyle={LoginScreenStyle.passwordInputView}
+                    />
+                </View>
+                <TouchableOpacity
+                    onPress={loginPressed}
+                    style={LoginScreenStyle.loginButtonView}
+                >
+                    <Text style={LoginScreenStyle.loginButtonText}>
+                        Log in 👉
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={createAccount}
+                    style={LoginScreenStyle.registerButtonView}
+                >
+                    <Text style={LoginScreenStyle.registerButtonText}>
+                        Create account
+                    </Text>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity
-                onPress={loginPressed}
-                style={LoginScreenStyle.loginButtonView}
-            >
-                <Text style={LoginScreenStyle.loginButtonText}>Log in 👉</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={createAccount}
-                style={LoginScreenStyle.registerButtonView}
-            >
-                <Text style={LoginScreenStyle.registerButtonText}>
-                    Create account
-                </Text>
-            </TouchableOpacity>
-        </>
+        </TouchableWithoutFeedback>
     );
 };

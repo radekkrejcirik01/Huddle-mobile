@@ -14,7 +14,7 @@ export const AddChats = (): JSX.Element => {
             onPress={() => navigateTo(AccountStackNavigatorEnum.FriendsScreen)}
             style={AddChatsStyle.view}
         >
-            <Text style={AddChatsStyle.createText}>New 💬</Text>
+            <Text style={AddChatsStyle.createText}>Start 💬</Text>
         </TouchableOpacity>
     );
 };

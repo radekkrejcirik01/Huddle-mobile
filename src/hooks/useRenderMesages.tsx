@@ -56,7 +56,7 @@ export const useRenderMesages = (
             showActionSheetWithOptions(
                 {
                     options,
-                    cancelButtonIndex: 5,
+                    cancelButtonIndex: item?.url ? 4 : 5,
                     userInterfaceStyle: 'dark'
                 },
                 (selectedIndex: number) => {

@@ -27,6 +27,7 @@ export const AccountScreenStyle = StyleSheet.create({
         color: COLORS.WHITE
     },
     buttons: {
+        marginHorizontal: 15,
         paddingBottom: 100
     }
 });

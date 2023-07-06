@@ -1,29 +1,23 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { Alert, Keyboard, Text, TextInput, View } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { Keyboard, Text, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useModal } from '@hooks/useModal';
 import { useNavigation } from '@hooks/useNavigation';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
-import COLORS from '@constants/COLORS';
 import { Modal } from '@components/general/Modal/Modal';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { getRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
-import {
-    ResponseInterface,
-    ResponseNumberInvitesGetInterface
-} from '@interfaces/response/Response.interface';
-import { AddPersonInvitePostInterface } from '@interfaces/post/Post.inteface';
+import { getRequestUser } from '@utils/Axios/Axios.service';
+import { ResponseNumberInvitesGetInterface } from '@interfaces/response/Response.interface';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { AddFriendsStyle } from '@components/friends/AddFriends/AddFriends.style';
 import { Icon } from '@components/general/Icon/Icon';
 import { Badge } from '@components/general/Badge/Badge';
+import { AddFriendModalScreen } from '@components/friends/AddFriendModalScreen/AddFriendModalScreen';
 
 export const AddFriends = (): JSX.Element => {
     const { modalVisible, showModal, hideModal } = useModal();
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
-
-    const [username, setUsername] = useState<string>();
     const [badge, setBadge] = useState<number>(0);
 
     const loadUnseenInvites = () =>
@@ -42,81 +36,15 @@ export const AddFriends = (): JSX.Element => {
     );
 
     const hideKeyboardAndModal = useCallback(() => {
-        setUsername('');
         Keyboard.dismiss();
         hideModal();
     }, [hideModal]);
-
-    const onSend = useCallback(() => {
-        postRequestUser<ResponseInterface, AddPersonInvitePostInterface>(
-            '/person',
-            {
-                receiver: username
-            }
-        ).subscribe((response: ResponseInterface) => {
-            if (response?.status) {
-                if (response?.message?.includes('notifications')) {
-                    Alert.alert(response?.message, '', [
-                        {
-                            text: 'Go to noifications',
-                            onPress: () => {
-                                hideKeyboardAndModal();
-                                navigateTo(
-                                    AccountStackNavigatorEnum.NotificationsScreen
-                                );
-                            }
-                        },
-                        {
-                            text: 'OK',
-                            style: 'cancel'
-                        }
-                    ]);
-                } else {
-                    Alert.alert(response?.message);
-                }
-
-                if (response?.message?.includes('✅')) {
-                    hideKeyboardAndModal();
-                }
-            }
-        });
-    }, [hideKeyboardAndModal, navigateTo, username]);
 
     const openInvitesScreen = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.InvitesScreen);
 
         setTimeout(() => setBadge(0), 1000);
     }, [navigateTo]);
-
-    const content = useMemo(
-        (): JSX.Element => (
-            <View style={AddFriendsStyle.modalContainer}>
-                <View style={AddFriendsStyle.inputContainer}>
-                    <Text style={AddFriendsStyle.title}>Username</Text>
-                    <View style={AddFriendsStyle.inputView}>
-                        <TextInput
-                            autoFocus
-                            value={username}
-                            onChangeText={setUsername}
-                            autoCorrect={false}
-                            autoCapitalize="none"
-                            selectionColor={COLORS.WHITE}
-                            style={AddFriendsStyle.input}
-                        />
-                    </View>
-                </View>
-                <TouchableOpacity
-                    onPress={onSend}
-                    style={AddFriendsStyle.sendButton}
-                >
-                    <Text style={AddFriendsStyle.sendButtonText}>
-                        Send invite
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        ),
-        [onSend, username]
-    );
 
     return (
         <View style={AddFriendsStyle.view}>
@@ -137,7 +65,9 @@ export const AddFriends = (): JSX.Element => {
             </TouchableOpacity>
             <Modal
                 isVisible={modalVisible}
-                content={content}
+                content={
+                    <AddFriendModalScreen onClose={hideKeyboardAndModal} />
+                }
                 backdropOpacity={0.7}
                 onClose={hideKeyboardAndModal}
             />

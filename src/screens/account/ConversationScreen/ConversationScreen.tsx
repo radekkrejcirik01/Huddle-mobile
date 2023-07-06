@@ -15,7 +15,11 @@ import {
     MessageItemProps
 } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { ConversationScreenStyle } from '@screens/account/ConversationScreen/ConversationScreen.style';
-import { getRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
+import {
+    getRequestUser,
+    postRequestUser,
+    putRequestUser
+} from '@utils/Axios/Axios.service';
 import {
     MessagesByUsernamesResponseInterface,
     MessagesResponseInterface,
@@ -73,7 +77,7 @@ export const ConversationScreen = ({
         idMessage: number
     ) => {
         if (idConversation && idMessage) {
-            postRequestUser<ResponseInterface, LastReadMessagePostInterface>(
+            putRequestUser<ResponseInterface, LastReadMessagePostInterface>(
                 'last-read-message',
                 {
                     conversationId: idConversation,

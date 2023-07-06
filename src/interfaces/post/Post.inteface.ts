@@ -26,6 +26,7 @@ export interface AddHuddlePostInterface {
 
 export interface HuddleInteractPostInterface {
     huddleId: number;
+    topic: string;
     receiver: string;
 }
 

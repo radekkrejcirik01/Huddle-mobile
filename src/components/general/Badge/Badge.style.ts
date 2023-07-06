@@ -4,13 +4,14 @@ import COLORS from '@constants/COLORS';
 export const BadgeStyle = StyleSheet.create({
     view: {
         top: -5,
-        left: -10,
+        left: 15,
         paddingTop: 1,
         paddingHorizontal: 5,
         paddingBottom: 2,
         borderRadius: 10,
         backgroundColor: COLORS.RED,
-        alignItems: 'center'
+        position: 'absolute',
+        alignSelf: 'flex-end'
     },
     text: {
         fontSize: 12,

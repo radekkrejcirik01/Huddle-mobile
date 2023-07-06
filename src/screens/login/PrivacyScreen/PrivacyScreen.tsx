@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, Text } from 'react-native';
-import { PrivacyScreenStyle } from '@screens/account/PrivacyScreen/PrivacyScreen.style';
+import { PrivacyScreenStyle } from '@screens/login/PrivacyScreen/PrivacyScreen.style';
 
 export const PrivacyScreen = (): JSX.Element => (
     <ScrollView contentContainerStyle={PrivacyScreenStyle.contentContainer}>

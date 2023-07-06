@@ -3,6 +3,7 @@ import { Keyboard, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlashList } from '@shopify/flash-list';
+import { useModal } from '@hooks/useModal';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { ProfileScreenStyle } from '@screens/account/ProfileScreen/ProfileScreen.style';
 import { ReducerProps } from '@store/index/index.props';
@@ -12,19 +13,16 @@ import { ProfileTabHeader } from '@components/profile/ProfileTabHeader/ProfileTa
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
 import { StartHuddleModalScreen } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen';
 import { Modal } from '@components/general/Modal/Modal';
+import { AddFriendModalScreen } from '@components/friends/AddFriendModalScreen/AddFriendModalScreen';
 
 export const ProfileScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const { top } = useSafeAreaInsets();
+    const { modalVisible, showModal, hideModal } = useModal();
 
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
-    const [startHuddle, setStartHuddle] = useState<boolean>(false);
-
-    const hideStartHuddle = () => {
-        Keyboard.dismiss();
-        setStartHuddle(false);
-    };
+    const [modalContent, setModalContent] = useState<JSX.Element>(<></>);
 
     const loadHuddles = useCallback(
         (lastId?: number) => {
@@ -57,6 +55,26 @@ export const ProfileScreen = (): JSX.Element => {
 
     useEffect(() => loadHuddles(), [loadHuddles]);
 
+    const onModalClose = useCallback(() => {
+        Keyboard.dismiss();
+        hideModal();
+    }, [hideModal]);
+
+    const onCreateHuddlePress = useCallback(() => {
+        setModalContent(
+            <StartHuddleModalScreen
+                onCreate={loadHuddles}
+                onClose={onModalClose}
+            />
+        );
+        showModal();
+    }, [loadHuddles, onModalClose, showModal]);
+
+    const onAddFriendPress = useCallback(() => {
+        setModalContent(<AddFriendModalScreen onClose={onModalClose} />);
+        showModal();
+    }, [onModalClose, showModal]);
+
     const {
         renderSmallItem,
         keyExtractor,
@@ -70,7 +88,8 @@ export const ProfileScreen = (): JSX.Element => {
             <FlashList
                 ListHeaderComponent={
                     <ProfileTabHeader
-                        onCreateHuddlePress={() => setStartHuddle(true)}
+                        onCreateHuddlePress={onCreateHuddlePress}
+                        onAddFriendPress={onAddFriendPress}
                     />
                 }
                 ListHeaderComponentStyle={ProfileScreenStyle.header}
@@ -92,15 +111,10 @@ export const ProfileScreen = (): JSX.Element => {
                 }
             />
             <Modal
-                isVisible={startHuddle}
-                content={
-                    <StartHuddleModalScreen
-                        onCreate={loadHuddles}
-                        onClose={hideStartHuddle}
-                    />
-                }
+                isVisible={modalVisible}
+                content={modalContent}
                 backdropOpacity={0.7}
-                onClose={hideStartHuddle}
+                onClose={onModalClose}
             />
         </View>
     );

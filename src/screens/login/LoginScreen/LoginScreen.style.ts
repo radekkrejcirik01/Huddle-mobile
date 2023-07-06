@@ -6,8 +6,14 @@ export const LoginScreenStyle = StyleSheet.create({
         marginTop: '60%',
         paddingHorizontal: 40
     },
-    inputView: {
-        marginTop: 15
+    usernameInputView: {
+        borderRadius: 20,
+        backgroundColor: COLORS.BLACK_200
+    },
+    passwordInputView: {
+        marginTop: 15,
+        borderRadius: 20,
+        backgroundColor: COLORS.BLACK_200
     },
     loginButtonView: {
         marginTop: '20%',

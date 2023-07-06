@@ -278,7 +278,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                 />
                             )}
                         </View>
-                        {created && (
+                        {created && !editing && (
                             <>
                                 <Text style={HuddleScreenStyle.title}>
                                     Interactions 👋
@@ -300,10 +300,14 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                 </View>
                             </>
                         )}
-                        <Text style={HuddleScreenStyle.title}>Comments 💬</Text>
+                        {!editing && (
+                            <Text style={HuddleScreenStyle.title}>
+                                Comments 💬
+                            </Text>
+                        )}
                     </>
                 }
-                data={comments}
+                data={!editing && comments}
                 scrollEnabled={!editing}
                 renderItem={renderCommentItem}
                 keyExtractor={keyCommentExtractor}
@@ -314,14 +318,16 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                 ItemSeparatorComponent={() => <ItemSeparator space={30} />}
                 contentContainerStyle={HuddleScreenStyle.listContentContainer}
             />
-            <KeyboardAvoidingView keyboardVerticalOffset={42}>
-                <CommentInput
-                    huddleId={huddle?.id}
-                    onSend={onSend}
-                    mention={mention}
-                    mentions={mentions}
-                />
-            </KeyboardAvoidingView>
+            {!editing && (
+                <KeyboardAvoidingView keyboardVerticalOffset={42}>
+                    <CommentInput
+                        huddleId={huddle?.id}
+                        onSend={onSend}
+                        mention={mention}
+                        mentions={mentions}
+                    />
+                </KeyboardAvoidingView>
+            )}
         </View>
     );
 };

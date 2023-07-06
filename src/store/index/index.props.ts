@@ -5,6 +5,7 @@ export interface ReducerProps {
     navigationState: NavigationSate;
     conversation: Conversation;
     typing: Typing;
+    unreadMessages: UnreadMessages;
 }
 
 export interface User {
@@ -45,4 +46,8 @@ export interface Typing {
         username: string;
         value: number;
     }>;
+}
+
+export interface UnreadMessages {
+    unread: number;
 }

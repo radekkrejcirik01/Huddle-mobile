@@ -5,6 +5,7 @@ import { BottomTabNavigatorStyle } from '@navigation/BottomTabNavigator/BottomTa
 import COLORS from '@constants/COLORS';
 import { AddChats } from '@components/chats/AddChats/AddChats';
 import { AddFriends } from '@components/friends/AddFriends/AddFriends';
+import { ChatsTabIcon } from '@components/chats/ChatsTabIcon/ChatsTabIcon';
 
 export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
     headerTintColor: COLORS.WHITE,
@@ -76,7 +77,7 @@ export const ChatsTabOptions: BottomTabNavigationOptions = {
     ),
     tabBarIcon: ({ focused }) => (
         // eslint-disable-next-line react-native/no-inline-styles
-        <Text style={{ fontSize: focused ? 24 : 19 }}>💬</Text>
+        <ChatsTabIcon focused={focused} />
     )
 };
 

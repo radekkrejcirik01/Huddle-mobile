@@ -17,8 +17,8 @@ export const FriendsListItemStyle = StyleSheet.create({
         fontWeight: '600'
     },
     image: {
-        width: 35,
-        height: 35,
+        width: 32,
+        height: 32,
         borderRadius: 25
     }
 });

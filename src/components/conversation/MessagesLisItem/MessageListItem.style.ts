@@ -26,6 +26,19 @@ export const MessageListItemStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
+    imageView: {
+        paddingTop: 4,
+        paddingHorizontal: 4,
+        paddingBottom: 0,
+        borderRadius: 10,
+        flexDirection: 'column',
+        alignItems: 'flex-end'
+    },
+    image: {
+        width: 225,
+        height: 250,
+        borderRadius: 10
+    },
     messageText: {
         fontSize: 15,
         color: COLORS.WHITE
@@ -37,12 +50,15 @@ export const MessageListItemStyle = StyleSheet.create({
         color: COLORS.WHITE,
         fontWeight: '500'
     },
-    reactionsView: {
-        marginHorizontal: 2,
-        flexDirection: 'row'
+    imageRow: {
+        padding: 4
     },
     sentIcon: {
         marginLeft: 4
+    },
+    reactionsView: {
+        marginHorizontal: 2,
+        flexDirection: 'row'
     },
     reactionText: {
         marginLeft: 2

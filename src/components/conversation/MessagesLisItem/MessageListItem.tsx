@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import FastImage from 'react-native-fast-image';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { MessageListItemProps } from '@components/conversation/MessagesLisItem/MessageListItem.props';
 import { ReducerProps } from '@store/index/index.props';
@@ -43,41 +44,56 @@ export const MessageListItem = ({
                     MessageListItemStyle.view,
                     isOutbound && MessageListItemStyle.flexEnd,
                     item?.message?.length < 30 &&
-                        MessageListItemStyle.longMessage
+                        MessageListItemStyle.longMessage,
+                    isImage && MessageListItemStyle.imageView
                 ]}
             >
-                <Text style={MessageListItemStyle.messageText}>
-                    {item.message}
-                </Text>
-                <Text style={MessageListItemStyle.timeText}>
-                    {getLocalTimeFromUTCUnix(item.time).format('HH:mm')}
-                </Text>
-                {isOutbound &&
-                    (item?.readBy?.length ? (
-                        <Icon
-                            name={IconEnum.SENT_BLUE}
-                            size={19}
-                            style={MessageListItemStyle.sentIcon}
-                        />
-                    ) : (
-                        <Icon
-                            name={IconEnum.SENT}
-                            size={19}
-                            style={MessageListItemStyle.sentIcon}
-                        />
-                    ))}
-                {!!item?.reactions?.length && (
-                    <View style={MessageListItemStyle.reactionsView}>
-                        {item.reactions.map((value: string) => (
-                            <Text
-                                key={value}
-                                style={MessageListItemStyle.reactionText}
-                            >
-                                {value}
-                            </Text>
-                        ))}
-                    </View>
+                {isImage ? (
+                    <FastImage
+                        source={{ uri: item?.url }}
+                        style={MessageListItemStyle.image}
+                    />
+                ) : (
+                    <Text style={MessageListItemStyle.messageText}>
+                        {item.message}
+                    </Text>
                 )}
+                <View
+                    style={[
+                        MessageListItemStyle.longMessage,
+                        isImage && MessageListItemStyle.imageRow
+                    ]}
+                >
+                    <Text style={MessageListItemStyle.timeText}>
+                        {getLocalTimeFromUTCUnix(item.time).format('HH:mm')}
+                    </Text>
+                    {isOutbound &&
+                        (item?.readBy?.length ? (
+                            <Icon
+                                name={IconEnum.SENT_BLUE}
+                                size={19}
+                                style={MessageListItemStyle.sentIcon}
+                            />
+                        ) : (
+                            <Icon
+                                name={IconEnum.SENT}
+                                size={19}
+                                style={MessageListItemStyle.sentIcon}
+                            />
+                        ))}
+                    {!!item?.reactions?.length && (
+                        <View style={MessageListItemStyle.reactionsView}>
+                            {item.reactions.map((value: string) => (
+                                <Text
+                                    key={value}
+                                    style={MessageListItemStyle.reactionText}
+                                >
+                                    {value}
+                                </Text>
+                            ))}
+                        </View>
+                    )}
+                </View>
             </TouchableOpacity>
         </View>
     );

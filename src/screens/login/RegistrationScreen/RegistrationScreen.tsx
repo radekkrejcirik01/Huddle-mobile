@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { useNavigation } from '@hooks/useNavigation';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import { Icon } from '@components/general/Icon/Icon';
@@ -14,15 +15,23 @@ import { setUserToken } from '@store/UserReducer';
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import { PreloadService } from '@utils/general/PreloadService';
+import { LoginStackNavigatorEnum } from '@navigation/StackNavigators/login/LoginStackNavigator.enum';
+import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const RegistrationScreen = (): JSX.Element => {
     const dispatch = useDispatch();
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.LoginStack);
 
     const [firstname, setFirstname] = useState<string>();
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
 
     const create = useCallback(() => {
+        if (password?.length < 1) {
+            Alert.alert('Please enter password for your account');
+            return;
+        }
+
         postRequestUser<AuthResponseInterface, UserPostInterface>('user', {
             username,
             firstname,
@@ -49,24 +58,44 @@ export const RegistrationScreen = (): JSX.Element => {
             <View style={RegistrationScreenStyle.inputsContainer}>
                 <Input
                     placeholder="firstname"
+                    autoFocus
                     onChange={setFirstname}
                     inputType={InputTypeEnum.TEXT}
                     iconRight={<Icon name={IconEnum.PROFILE} size={24} />}
+                    viewStyle={RegistrationScreenStyle.inputView}
                 />
                 <Input
                     placeholder="username"
                     onChange={setUsername}
                     inputType={InputTypeEnum.TEXT}
                     iconRight={<Icon name={IconEnum.PROFILE} size={24} />}
-                    viewStyle={RegistrationScreenStyle.inputView}
+                    viewStyle={[
+                        RegistrationScreenStyle.inputMarginTop,
+                        RegistrationScreenStyle.inputView
+                    ]}
                 />
                 <Input
                     placeholder="password"
                     onChange={setPassword}
                     inputType={InputTypeEnum.PASSWORD}
-                    viewStyle={RegistrationScreenStyle.inputView}
+                    viewStyle={[
+                        RegistrationScreenStyle.inputMarginTop,
+                        RegistrationScreenStyle.inputView
+                    ]}
                 />
             </View>
+            <TouchableOpacity
+                onPress={() =>
+                    navigateTo(LoginStackNavigatorEnum.PrivacyScreen)
+                }
+            >
+                <Text style={RegistrationScreenStyle.privacyText}>
+                    By creating account you agree with our{' '}
+                    <Text style={RegistrationScreenStyle.bold}>
+                        privacy policy and EULA
+                    </Text>
+                </Text>
+            </TouchableOpacity>
             <TouchableOpacity
                 onPress={create}
                 style={RegistrationScreenStyle.button}

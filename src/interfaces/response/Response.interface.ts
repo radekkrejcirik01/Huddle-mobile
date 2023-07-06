@@ -113,6 +113,12 @@ export interface ResponseChatsGetInterface {
     data?: Array<ChatsListDataProps>;
 }
 
+export interface ResponseUnreadMessagesGetInterface {
+    status: string;
+    message: string;
+    unread?: number;
+}
+
 export interface ResponseConversationLikedInterface {
     status: string;
     message: string;

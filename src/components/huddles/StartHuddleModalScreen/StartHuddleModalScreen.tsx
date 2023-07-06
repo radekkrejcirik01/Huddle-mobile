@@ -93,7 +93,7 @@ export const StartHuddleModalScreen = ({
                 style={StartHuddleModalScreenStyle.addButtonView}
             >
                 <Text style={StartHuddleModalScreenStyle.addButtonText}>
-                    Add
+                    Create
                 </Text>
             </TouchableOpacity>
         </View>

@@ -59,7 +59,6 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         alignItems: 'center'
     },
     handText: {
-        fontSize: 24,
-        color: COLORS.MAIN_ORANGE
+        fontSize: 25
     }
 });

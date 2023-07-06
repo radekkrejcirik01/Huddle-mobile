@@ -6,6 +6,7 @@ import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { useToastMessage } from '@hooks/useToastMessage';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { UnreadMessagesService } from '@utils/general/UnreadMessagesService';
 
 export const useNotifications = (
     navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>
@@ -169,6 +170,7 @@ export const useNotifications = (
                                             remoteMessage.data.profilePhoto
                                         )
                                 );
+                                UnreadMessagesService.loadUnread();
                             }
                             break;
                         case 'people':
