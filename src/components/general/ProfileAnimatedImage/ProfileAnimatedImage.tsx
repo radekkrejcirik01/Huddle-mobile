@@ -30,5 +30,11 @@ export const ProfileAnimatedImage = ({
         [scale]
     );
 
-    return <AnimatedImage source={imageSource} style={style} />;
+    return (
+        <AnimatedImage
+            source={imageSource}
+            resizeMode="contain"
+            style={style}
+        />
+    );
 };

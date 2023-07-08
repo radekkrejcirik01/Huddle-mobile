@@ -23,6 +23,7 @@ export const ChatsScreen = (): JSX.Element => {
     const loadChats = useCallback((lastId?: number) => {
         let endpoint = 'chats';
         if (lastId) {
+            clearInterval(interval.current);
             endpoint += `/${lastId}`;
         }
 

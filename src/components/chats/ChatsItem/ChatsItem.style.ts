@@ -22,10 +22,21 @@ export const ChatsItemStyle = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
+    nameRow: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    dot: {
+        width: 12,
+        height: 12,
+        left: 5,
+        borderRadius: 10,
+        backgroundColor: COLORS.BUTTON_BLUE
+    },
     name: {
-        marginLeft: 2,
+        fontSize: 15,
         color: COLORS.WHITE,
-        fontWeight: '500'
+        fontWeight: '600'
     },
     sentIcon: {
         top: -2, // fit the layout
@@ -33,13 +44,6 @@ export const ChatsItemStyle = StyleSheet.create({
     },
     time: {
         maxWidth: '65%',
-        paddingBottom: 5,
-        fontSize: 14,
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
-    },
-    message: {
-        fontSize: 12,
-        fontWeight: 'bold'
+        color: COLORS.WHITE
     }
 });

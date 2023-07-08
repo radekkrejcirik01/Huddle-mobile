@@ -20,9 +20,9 @@ export const ChatInput = ({ onSend, name }: ChatInputProps): JSX.Element => {
 
     const openGallery = useCallback(() => {
         ImagePicker.openPicker({
+            width: 500,
+            height: 500,
             cropping: true,
-            freeStyleCropEnabled: true,
-            compressImageQuality: 0.7,
             waitAnimationEnd: false,
             cropperChooseText: 'Send'
         }).then(async (image) => {

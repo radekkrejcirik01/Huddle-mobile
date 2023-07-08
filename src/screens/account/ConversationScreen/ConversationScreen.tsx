@@ -187,7 +187,7 @@ export const ConversationScreen = ({
 
             if (!messages[index]?.reactions?.length) {
                 messages[index].reactions = [value];
-            } else {
+            } else if (!messages[index].reactions.includes(value)) {
                 messages[index].reactions = [
                     ...messages[index].reactions,
                     value

@@ -4,8 +4,7 @@ import COLORS from '@constants/COLORS';
 export const FriendsListItemStyle = StyleSheet.create({
     view: {
         marginHorizontal: 12,
-        paddingTop: 15,
-        paddingBottom: 5,
+        paddingVertical: 8,
         borderBottomWidth: 1,
         borderBottomColor: COLORS.BLACK_300,
         flexDirection: 'row',
@@ -17,8 +16,8 @@ export const FriendsListItemStyle = StyleSheet.create({
         fontWeight: '600'
     },
     image: {
-        width: 32,
-        height: 32,
-        borderRadius: 25
+        width: 35,
+        height: 35,
+        borderRadius: 15
     }
 });

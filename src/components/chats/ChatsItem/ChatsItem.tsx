@@ -40,8 +40,11 @@ export const ChatsItem = ({
                 </View>
                 <View style={ChatsItemStyle.box}>
                     <View style={ChatsItemStyle.firstRow}>
-                        <View style={ChatsItemStyle.row}>
+                        <View style={ChatsItemStyle.nameRow}>
                             <Text style={ChatsItemStyle.name}>{item.name}</Text>
+                            {item?.isNewMessage && (
+                                <View style={ChatsItemStyle.dot} />
+                            )}
                             {hasSeen &&
                                 (item.isRead ? (
                                     <Icon
@@ -61,7 +64,7 @@ export const ChatsItem = ({
                             {getLocalTimeFromUTCUnix(item.time).format('HH:mm')}
                         </Text>
                     </View>
-                    <Text style={[ChatsItemStyle.message, opacityStyle]}>
+                    <Text style={[{ fontWeight: '500' }, opacityStyle]}>
                         {item?.lastMessage}
                     </Text>
                 </View>
