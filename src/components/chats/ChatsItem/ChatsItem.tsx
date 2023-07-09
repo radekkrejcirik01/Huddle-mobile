@@ -63,7 +63,7 @@ export const ChatsItem = ({
                             {getLocalTimeFromUTCUnix(item.time).format('HH:mm')}
                         </Text>
                     </View>
-                    <Text style={[{ fontWeight: '500' }, opacityStyle]}>
+                    <Text style={[ChatsItemStyle.message, opacityStyle]}>
                         {item?.lastMessage}
                     </Text>
                 </View>

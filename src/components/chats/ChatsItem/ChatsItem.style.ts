@@ -39,5 +39,8 @@ export const ChatsItemStyle = StyleSheet.create({
     time: {
         maxWidth: '65%',
         color: COLORS.WHITE
+    },
+    message: {
+        fontWeight: '500'
     }
 });

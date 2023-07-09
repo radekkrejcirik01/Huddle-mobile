@@ -40,7 +40,7 @@ export const MessageListItemStyle = StyleSheet.create({
         borderRadius: 10
     },
     messageText: {
-        fontSize: 16,
+        fontSize: 15,
         color: COLORS.WHITE
     },
     timeText: {
