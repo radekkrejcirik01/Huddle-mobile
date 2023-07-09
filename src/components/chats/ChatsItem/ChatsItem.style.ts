@@ -8,12 +8,6 @@ export const ChatsItemStyle = StyleSheet.create({
     row: {
         flexDirection: 'row'
     },
-    image: {
-        height: 55,
-        width: 55,
-        borderRadius: 50,
-        backgroundColor: COLORS.GRAY_100
-    },
     box: {
         flex: 1,
         paddingHorizontal: 10

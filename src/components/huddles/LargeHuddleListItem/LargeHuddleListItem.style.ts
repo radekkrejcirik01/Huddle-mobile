@@ -22,11 +22,6 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
     flexEnd: {
         alignItems: 'flex-end'
     },
-    image: {
-        height: 50,
-        width: 50,
-        borderRadius: 30
-    },
     titleView: {
         flex: 1,
         paddingLeft: 10

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import { useModal } from '@hooks/useModal';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { HuddleCommentsListItemProps } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
@@ -9,6 +8,7 @@ import { LikeComponent } from '@components/huddles/LikeComponent/LikeComponent';
 import { Modal } from '@components/general/Modal/Modal';
 import { LikesModalContent } from '@components/huddles/LikesModalContent/LikesModalContent';
 import { getLocalTimeFromUTCUnix } from '@functions/getLocalTimeFromUTCUnix';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const HuddleCommentsListItem = ({
     item,
@@ -32,9 +32,10 @@ export const HuddleCommentsListItem = ({
                     onPress={onPressProfilePhoto}
                     style={HuddleCommentsListItemStyle.imageView}
                 >
-                    <FastImage
-                        source={{ uri: item?.profilePhoto }}
-                        style={HuddleCommentsListItemStyle.image}
+                    <ProfilePhoto
+                        name={item.name}
+                        photo={item?.profilePhoto}
+                        size={40}
                     />
                 </TouchableOpacity>
                 <View style={HuddleCommentsListItemStyle.textsContainer}>

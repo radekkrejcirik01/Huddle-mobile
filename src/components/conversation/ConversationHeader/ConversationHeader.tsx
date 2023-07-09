@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import { useNavigation } from '@hooks/useNavigation';
 import { ConversationHeaderProps } from '@components/conversation/ConversationHeader/ConversationHeader.props';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { ConversationHeaderStyle } from '@components/conversation/ConversationHeader/ConversationHeader.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const ConversationHeader = ({
     conversationId,
@@ -29,10 +29,7 @@ export const ConversationHeader = ({
             }
             style={ConversationHeaderStyle.container}
         >
-            <FastImage
-                source={{ uri: profilePhoto }}
-                style={ConversationHeaderStyle.image}
-            />
+            <ProfilePhoto name={name} photo={profilePhoto} size={40} />
             <Text style={ConversationHeaderStyle.nameText}>{name}</Text>
         </TouchableOpacity>
     );

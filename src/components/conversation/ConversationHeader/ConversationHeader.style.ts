@@ -6,11 +6,6 @@ export const ConversationHeaderStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    image: {
-        width: 40,
-        height: 40,
-        borderRadius: 20
-    },
     nameText: {
         marginLeft: 5,
         fontSize: 16,

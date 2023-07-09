@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { getHuddleColor } from '@hooks/getHuddleColor';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
@@ -9,6 +8,7 @@ import {
     LargeHuddlesListItemDefaultProps
 } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem.props';
 import { LargeHuddleListItemStyle } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem.style';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const LargeHuddleListItem = ({
     item,
@@ -84,9 +84,11 @@ export const LargeHuddleListItem = ({
                             activeOpacity={0.9}
                             onPress={onPressProfilePhoto}
                         >
-                            <FastImage
-                                source={{ uri: item?.profilePhoto }}
-                                style={LargeHuddleListItemStyle.image}
+                            <ProfilePhoto
+                                name={item.name}
+                                photo={item?.profilePhoto}
+                                size={50}
+                                textBackgroundColor={secondaryColor}
                             />
                         </TouchableOpacity>
                     </View>

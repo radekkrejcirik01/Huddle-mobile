@@ -14,10 +14,5 @@ export const FriendsListItemStyle = StyleSheet.create({
         marginLeft: 10,
         color: COLORS.WHITE,
         fontWeight: '600'
-    },
-    image: {
-        width: 35,
-        height: 35,
-        borderRadius: 15
     }
 });

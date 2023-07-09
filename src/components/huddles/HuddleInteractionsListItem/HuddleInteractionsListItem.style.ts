@@ -12,11 +12,6 @@ export const HuddleInteractionsListItemStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    image: {
-        height: 45,
-        width: 45,
-        borderRadius: 20
-    },
     name: {
         paddingLeft: 10,
         color: COLORS.WHITE,

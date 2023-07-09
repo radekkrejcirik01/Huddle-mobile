@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ScrollView, Switch, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import FastImage from 'react-native-fast-image';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import COLORS from '@constants/COLORS';
 import { ConversationDetailsScreenProps } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen.props';
@@ -15,6 +14,7 @@ import {
 } from '@interfaces/response/Response.interface';
 import { ConversationNotificationsPostInterface } from '@interfaces/post/Post.inteface';
 import { ConversationDetailsScreenStyle } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen.style';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const ConversationDetailsScreen = ({
     route
@@ -93,9 +93,10 @@ export const ConversationDetailsScreen = ({
                     style={ConversationDetailsScreenStyle.view}
                 >
                     <View style={ConversationDetailsScreenStyle.titleView}>
-                        <FastImage
-                            source={{ uri: profilePhoto }}
-                            style={ConversationDetailsScreenStyle.titleImage}
+                        <ProfilePhoto
+                            name={name}
+                            photo={profilePhoto}
+                            size={25}
                         />
                         <Text style={ConversationDetailsScreenStyle.titleText}>
                             Profile

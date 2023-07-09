@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
 import { StyleProp, Text, TextStyle, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import COLORS from '@constants/COLORS';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { ChatsItemProps } from '@components/chats/ChatsItem/ChatsItem.props';
@@ -8,6 +7,7 @@ import { ChatsItemStyle } from '@components/chats/ChatsItem/ChatsItem.style';
 import { getLocalTimeFromUTCUnix } from '@functions/getLocalTimeFromUTCUnix';
 import { Icon } from '@components/general/Icon/Icon';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const ChatsItem = ({
     item,
@@ -32,12 +32,11 @@ export const ChatsItem = ({
             style={ChatsItemStyle.container}
         >
             <View style={ChatsItemStyle.row}>
-                <View>
-                    <FastImage
-                        source={{ uri: item?.profilePhoto }}
-                        style={ChatsItemStyle.image}
-                    />
-                </View>
+                <ProfilePhoto
+                    name={item.name}
+                    photo={item?.profilePhoto}
+                    size={55}
+                />
                 <View style={ChatsItemStyle.box}>
                     <View style={ChatsItemStyle.firstRow}>
                         <View style={ChatsItemStyle.nameRow}>

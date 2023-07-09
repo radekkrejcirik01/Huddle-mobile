@@ -17,11 +17,6 @@ export const HuddleCommentsListItemStyle = StyleSheet.create({
     imageView: {
         alignSelf: 'flex-start'
     },
-    image: {
-        height: 40,
-        width: 40,
-        borderRadius: 20
-    },
     textsContainer: {
         flex: 1,
         marginHorizontal: 10

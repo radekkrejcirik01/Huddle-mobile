@@ -10,11 +10,6 @@ export const MuteHuddlesListItemStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    image: {
-        height: 40,
-        width: 40,
-        borderRadius: 20
-    },
     nameText: {
         marginLeft: 10,
         color: COLORS.WHITE,

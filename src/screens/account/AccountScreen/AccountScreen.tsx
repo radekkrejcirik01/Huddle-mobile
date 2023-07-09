@@ -3,7 +3,6 @@ import { Alert, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import fs from 'react-native-fs';
-import FastImage from 'react-native-fast-image';
 import { ListItem } from '@components/general/ListItem/ListItem';
 import { resetUserState, setProfilePhotoAction } from '@store/UserReducer';
 import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
@@ -17,6 +16,7 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { AccountScreenStyle } from '@screens/account/AccountScreen/AccountScreen.style';
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const AccountScreen = (): JSX.Element => {
     const { firstname, username, profilePhoto } = useSelector(
@@ -67,11 +67,10 @@ export const AccountScreen = (): JSX.Element => {
         <View style={AccountScreenStyle.container}>
             <View style={AccountScreenStyle.infoContainer}>
                 <TouchableOpacity onPress={changeProfilePhoto}>
-                    <FastImage
-                        source={{
-                            uri: profilePhoto
-                        }}
-                        style={AccountScreenStyle.image}
+                    <ProfilePhoto
+                        name={firstname}
+                        photo={profilePhoto}
+                        size={100}
                     />
                 </TouchableOpacity>
                 <Text style={AccountScreenStyle.firstname}>{firstname}</Text>

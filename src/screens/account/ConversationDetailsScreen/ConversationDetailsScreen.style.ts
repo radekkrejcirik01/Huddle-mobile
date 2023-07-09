@@ -28,19 +28,13 @@ export const ConversationDetailsScreenStyle = StyleSheet.create({
         alignItems: 'center'
     },
     titleEmoji: {
-        fontSize: 16,
-        marginRight: 10
+        fontSize: 16
     },
     titleText: {
+        marginLeft: 10,
         fontSize: 15,
         color: COLORS.WHITE,
         fontWeight: '500'
-    },
-    titleImage: {
-        width: 25,
-        height: 25,
-        marginRight: 10,
-        borderRadius: 20
     },
     icon: {
         opacity: 0.5

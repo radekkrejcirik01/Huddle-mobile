@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import FastImage from 'react-native-fast-image';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import ImagePicker from 'react-native-image-crop-picker';
 import fs from 'react-native-fs';
@@ -19,6 +18,7 @@ import { setProfilePhotoAction } from '@store/UserReducer';
 import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseUploadImageInterface } from '@interfaces/response/Response.interface';
 import { UploadProfileImageInterface } from '@interfaces/post/Post.inteface';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const ProfileTabHeader = ({
     onCreateHuddlePress,
@@ -105,12 +105,7 @@ export const ProfileTabHeader = ({
                 </View>
             </View>
             <TouchableOpacity onPress={onPressProfilePhoto}>
-                <FastImage
-                    source={{
-                        uri: profilePhoto
-                    }}
-                    style={ProfileTabHeaderStyle.image}
-                />
+                <ProfilePhoto name={firstname} photo={profilePhoto} size={65} />
             </TouchableOpacity>
             <View style={ProfileTabHeaderStyle.buttonsContainer}>
                 <TouchableOpacity

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { MuteHuddlesItemProps } from '@components/settings/MuteHuddlesListItem/MuteHuddlesListItem.props';
 import { MuteHuddlesListItemStyle } from '@components/settings/MuteHuddlesListItem/MuteHuddlesListItem.style';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const MuteHuddlesListItem = ({
     item,
@@ -11,9 +11,10 @@ export const MuteHuddlesListItem = ({
 }: MuteHuddlesItemProps): JSX.Element => (
     <View style={MuteHuddlesListItemStyle.container}>
         <View style={MuteHuddlesListItemStyle.infoView}>
-            <FastImage
-                source={{ uri: item?.profilePhoto }}
-                style={MuteHuddlesListItemStyle.image}
+            <ProfilePhoto
+                name={item.name}
+                photo={item?.profilePhoto}
+                size={40}
             />
             <Text style={MuteHuddlesListItemStyle.nameText}>{item.name}</Text>
         </View>

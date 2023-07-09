@@ -10,11 +10,6 @@ export const ShowHuddleItemStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    image: {
-        height: 35,
-        width: 35,
-        borderRadius: 20
-    },
     nameText: {
         marginLeft: 10,
         color: COLORS.WHITE,
