@@ -13,6 +13,11 @@ export const HuddlesScreenStyle = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center'
     },
+    subDescription: {
+        marginTop: 10,
+        color: COLORS.WHITE,
+        alignSelf: 'center'
+    },
     list: {
         flex: 1,
         paddingTop: 25

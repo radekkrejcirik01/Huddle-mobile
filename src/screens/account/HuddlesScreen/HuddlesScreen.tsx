@@ -75,9 +75,14 @@ export const HuddlesScreen = (): JSX.Element => {
                     onEndReached={onEndReachedLargeItem}
                     ItemSeparatorComponent={() => <ItemSeparator space={15} />}
                     ListEmptyComponent={
-                        <Text style={HuddlesScreenStyle.description}>
-                            active Huddles will appear{'\n'}here 👋
-                        </Text>
+                        <>
+                            <Text style={HuddlesScreenStyle.description}>
+                                I love pressing that 👋 button too
+                            </Text>
+                            <Text style={HuddlesScreenStyle.subDescription}>
+                                huddles last only 48 hours tho
+                            </Text>
+                        </>
                     }
                     contentContainerStyle={
                         HuddlesScreenStyle.listContentContainer

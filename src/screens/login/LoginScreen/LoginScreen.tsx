@@ -18,6 +18,7 @@ import { setUserToken } from '@store/UserReducer';
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import { PreloadService } from '@utils/general/PreloadService';
+import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 
 export const LoginScreen = (): JSX.Element => {
     const dispatch = useDispatch();
@@ -62,29 +63,33 @@ export const LoginScreen = (): JSX.Element => {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View>
-                <View style={LoginScreenStyle.inputsContainer}>
-                    <Input
-                        placeholder="username"
-                        onChange={setUsername}
-                        inputType={InputTypeEnum.TEXT}
-                        iconRight={<Icon name={IconEnum.PROFILE} size={24} />}
-                        viewStyle={LoginScreenStyle.usernameInputView}
-                    />
-                    <Input
-                        placeholder="password"
-                        onChange={setPassword}
-                        inputType={InputTypeEnum.PASSWORD}
-                        viewStyle={LoginScreenStyle.passwordInputView}
-                    />
-                </View>
-                <TouchableOpacity
-                    onPress={loginPressed}
-                    style={LoginScreenStyle.loginButtonView}
-                >
-                    <Text style={LoginScreenStyle.loginButtonText}>
-                        Log in 👉
-                    </Text>
-                </TouchableOpacity>
+                <KeyboardAvoidingView keyboardVerticalOffset={50}>
+                    <View style={LoginScreenStyle.inputsContainer}>
+                        <Input
+                            placeholder="username"
+                            onChange={setUsername}
+                            inputType={InputTypeEnum.TEXT}
+                            iconRight={
+                                <Icon name={IconEnum.PROFILE} size={24} />
+                            }
+                            viewStyle={LoginScreenStyle.usernameInputView}
+                        />
+                        <Input
+                            placeholder="password"
+                            onChange={setPassword}
+                            inputType={InputTypeEnum.PASSWORD}
+                            viewStyle={LoginScreenStyle.passwordInputView}
+                        />
+                    </View>
+                    <TouchableOpacity
+                        onPress={loginPressed}
+                        style={LoginScreenStyle.loginButtonView}
+                    >
+                        <Text style={LoginScreenStyle.loginButtonText}>
+                            Log in 👉
+                        </Text>
+                    </TouchableOpacity>
+                </KeyboardAvoidingView>
                 <TouchableOpacity
                     onPress={createAccount}
                     style={LoginScreenStyle.registerButtonView}

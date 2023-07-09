@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useRenderInvites } from '@hooks/useRenderInvites';
 import { getRequestUser, putRequestUser } from '@utils/Axios/Axios.service';
@@ -61,6 +61,11 @@ export const InvitesScreen = (): JSX.Element => {
                 refreshControl={refreshControl}
                 ItemSeparatorComponent={() => <ItemSeparator space={20} />}
                 onEndReached={onEndReached}
+                ListEmptyComponent={
+                    <Text style={InvitesScreenStyle.description}>
+                        no invites no problems
+                    </Text>
+                }
             />
         </View>
     );

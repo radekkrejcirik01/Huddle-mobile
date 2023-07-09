@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useRenderChats } from '@hooks/useRenderChats';
+import { useNavigation } from '@hooks/useNavigation';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
 import { getRequestUser, putRequestUser } from '@utils/Axios/Axios.service';
 import {
@@ -12,9 +13,13 @@ import {
 import { ChatsScreenStyle } from '@screens/account/ChatsScreen/ChatsScreen.style';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 import { UnreadMessagesService } from '@utils/general/UnreadMessagesService';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
 export const ChatsScreen = (): JSX.Element => {
     const isFocused = useIsFocused();
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const [chats, setChats] = useState<Array<ChatsListDataProps>>([]);
 
@@ -92,6 +97,27 @@ export const ChatsScreen = (): JSX.Element => {
                 showsVerticalScrollIndicator={false}
                 onEndReached={onEndReached}
                 ItemSeparatorComponent={() => <ItemSeparator space={20} />}
+                ListEmptyComponent={
+                    <>
+                        <Text style={ChatsScreenStyle.description}>
+                            I cannot wait for you to see our chat design
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigateTo(
+                                    AccountStackNavigatorEnum.FriendsScreen
+                                )
+                            }
+                            style={ChatsScreenStyle.descriptionButtonView}
+                        >
+                            <Text
+                                style={ChatsScreenStyle.descriptionButtonText}
+                            >
+                                start chat
+                            </Text>
+                        </TouchableOpacity>
+                    </>
+                }
                 contentContainerStyle={ChatsScreenStyle.contentContainer}
             />
         </View>

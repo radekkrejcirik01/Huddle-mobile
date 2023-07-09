@@ -1,18 +1,23 @@
 import React, { useCallback, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Keyboard, Text, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useRenderFriends } from '@hooks/useRenderFriends';
+import { useModal } from '@hooks/useModal';
 import { FriendsScreenStyle } from '@screens/account/FriendsScreen/FriendsScreen.style';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseFriendsGetInterface } from '@interfaces/response/Response.interface';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { AddFriendModalScreen } from '@components/friends/AddFriendModalScreen/AddFriendModalScreen';
+import { Modal } from '@components/general/Modal/Modal';
 
 export const FriendsScreen = (): JSX.Element => {
-    const [inputValue, setInputValue] = useState<string>();
+    const { modalVisible, showModal, hideModal } = useModal();
 
+    const [inputValue, setInputValue] = useState<string>();
     const [data, setData] = useState<Array<FriendsItemProps>>([]);
     const [filteredData, setFilteredData] = useState<Array<FriendsItemProps>>(
         []
@@ -68,6 +73,11 @@ export const FriendsScreen = (): JSX.Element => {
         onEndReached
     } = useRenderFriends(data, loadFriends);
 
+    const hideKeyboardAndModal = useCallback(() => {
+        Keyboard.dismiss();
+        hideModal();
+    }, [hideModal]);
+
     return (
         <View style={FriendsScreenStyle.container}>
             <Input
@@ -84,7 +94,32 @@ export const FriendsScreen = (): JSX.Element => {
                 refreshControl={refreshControl}
                 keyExtractor={keyFriendsExtractor}
                 estimatedItemSize={68}
+                ListEmptyComponent={
+                    <>
+                        <Text style={FriendsScreenStyle.description}>
+                            your friends are waiting for that invite
+                        </Text>
+                        <TouchableOpacity
+                            onPress={showModal}
+                            style={FriendsScreenStyle.descriptionButtonView}
+                        >
+                            <Text
+                                style={FriendsScreenStyle.descriptionButtonText}
+                            >
+                                invite
+                            </Text>
+                        </TouchableOpacity>
+                    </>
+                }
                 onEndReached={onEndReached}
+            />
+            <Modal
+                isVisible={modalVisible}
+                content={
+                    <AddFriendModalScreen onClose={hideKeyboardAndModal} />
+                }
+                backdropOpacity={0.7}
+                onClose={hideKeyboardAndModal}
             />
         </View>
     );

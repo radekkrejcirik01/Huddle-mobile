@@ -17,6 +17,7 @@ import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import { PreloadService } from '@utils/general/PreloadService';
 import { LoginStackNavigatorEnum } from '@navigation/StackNavigators/login/LoginStackNavigator.enum';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
+import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 
 export const RegistrationScreen = (): JSX.Element => {
     const dispatch = useDispatch();
@@ -27,7 +28,15 @@ export const RegistrationScreen = (): JSX.Element => {
     const [password, setPassword] = useState<string>();
 
     const create = useCallback(() => {
-        if (password?.length < 1) {
+        if (!firstname?.length) {
+            Alert.alert('Please enter name for your account');
+            return;
+        }
+        if (!username?.length) {
+            Alert.alert('Please enter username for your account');
+            return;
+        }
+        if (!password?.length) {
             Alert.alert('Please enter password for your account');
             return;
         }
@@ -55,53 +64,57 @@ export const RegistrationScreen = (): JSX.Element => {
 
     return (
         <View style={RegistrationScreenStyle.container}>
-            <View style={RegistrationScreenStyle.inputsContainer}>
-                <Input
-                    placeholder="firstname"
-                    autoFocus
-                    onChange={setFirstname}
-                    inputType={InputTypeEnum.TEXT}
-                    iconRight={<Icon name={IconEnum.PROFILE} size={24} />}
-                    viewStyle={RegistrationScreenStyle.inputView}
-                />
-                <Input
-                    placeholder="username"
-                    onChange={setUsername}
-                    inputType={InputTypeEnum.TEXT}
-                    iconRight={<Icon name={IconEnum.PROFILE} size={24} />}
-                    viewStyle={[
-                        RegistrationScreenStyle.inputMarginTop,
-                        RegistrationScreenStyle.inputView
-                    ]}
-                />
-                <Input
-                    placeholder="password"
-                    onChange={setPassword}
-                    inputType={InputTypeEnum.PASSWORD}
-                    viewStyle={[
-                        RegistrationScreenStyle.inputMarginTop,
-                        RegistrationScreenStyle.inputView
-                    ]}
-                />
-            </View>
-            <TouchableOpacity
-                onPress={() =>
-                    navigateTo(LoginStackNavigatorEnum.PrivacyScreen)
-                }
-            >
-                <Text style={RegistrationScreenStyle.privacyText}>
-                    By creating account you agree with our{' '}
-                    <Text style={RegistrationScreenStyle.bold}>
-                        privacy policy and EULA
+            <KeyboardAvoidingView keyboardVerticalOffset={50}>
+                <View style={RegistrationScreenStyle.inputsContainer}>
+                    <Input
+                        placeholder="firstname"
+                        autoFocus
+                        onChange={setFirstname}
+                        inputType={InputTypeEnum.TEXT}
+                        iconRight={<Icon name={IconEnum.PROFILE} size={24} />}
+                        viewStyle={RegistrationScreenStyle.inputView}
+                    />
+                    <Input
+                        placeholder="username"
+                        onChange={setUsername}
+                        inputType={InputTypeEnum.TEXT}
+                        iconRight={<Icon name={IconEnum.PROFILE} size={24} />}
+                        viewStyle={[
+                            RegistrationScreenStyle.inputMarginTop,
+                            RegistrationScreenStyle.inputView
+                        ]}
+                    />
+                    <Input
+                        placeholder="password"
+                        onChange={setPassword}
+                        inputType={InputTypeEnum.PASSWORD}
+                        viewStyle={[
+                            RegistrationScreenStyle.inputMarginTop,
+                            RegistrationScreenStyle.inputView
+                        ]}
+                    />
+                </View>
+                <TouchableOpacity
+                    onPress={() =>
+                        navigateTo(LoginStackNavigatorEnum.PrivacyScreen)
+                    }
+                >
+                    <Text style={RegistrationScreenStyle.privacyText}>
+                        By creating account you agree with our{' '}
+                        <Text style={RegistrationScreenStyle.bold}>
+                            privacy policy and EULA
+                        </Text>
                     </Text>
-                </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={create}
-                style={RegistrationScreenStyle.button}
-            >
-                <Text style={RegistrationScreenStyle.buttonText}>Create</Text>
-            </TouchableOpacity>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={create}
+                    style={RegistrationScreenStyle.button}
+                >
+                    <Text style={RegistrationScreenStyle.buttonText}>
+                        Create
+                    </Text>
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
         </View>
     );
 };

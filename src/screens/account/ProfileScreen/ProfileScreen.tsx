@@ -14,6 +14,7 @@ import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScree
 import { StartHuddleModalScreen } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen';
 import { Modal } from '@components/general/Modal/Modal';
 import { AddFriendModalScreen } from '@components/friends/AddFriendModalScreen/AddFriendModalScreen';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const ProfileScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -105,9 +106,21 @@ export const ProfileScreen = (): JSX.Element => {
                 onEndReached={onEndReachedSmallItem}
                 contentContainerStyle={ProfileScreenStyle.listContentContainer}
                 ListEmptyComponent={
-                    <Text style={ProfileScreenStyle.description}>
-                        your Huddles will appear{'\n'}here 👋
-                    </Text>
+                    <>
+                        <Text style={ProfileScreenStyle.description}>
+                            place for those colorful pretty{'\n'}Huddles
+                        </Text>
+                        <TouchableOpacity
+                            onPress={onCreateHuddlePress}
+                            style={ProfileScreenStyle.descriptionButtonView}
+                        >
+                            <Text
+                                style={ProfileScreenStyle.descriptionButtonText}
+                            >
+                                create huddle
+                            </Text>
+                        </TouchableOpacity>
+                    </>
                 }
             />
             <Modal
