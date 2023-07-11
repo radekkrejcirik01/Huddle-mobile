@@ -1,119 +1,209 @@
 import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import messaging, {
     FirebaseMessagingTypes
 } from '@react-native-firebase/messaging';
+import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { useToastMessage } from '@hooks/useToastMessage';
-import { ReducerProps } from '@store/index/index.props';
-import { useNavigation } from '@hooks/useNavigation';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { NavigationService } from '@utils/general/NavigationService';
-import { setLoadConversation, setLoadRead } from '@store/Conversation';
-import { setIsTyping } from '@store/TypingReducer';
+import { UnreadMessagesService } from '@utils/general/UnreadMessagesService';
 
 export const useNotifications = (
-    refreshUser: () => void,
-    refreshHangouts: () => void
-) => {
-    const { isReady } = useSelector(
-        (state: ReducerProps) => state.navigationState
-    );
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-    const { conversationId: chatId } = useSelector(
-        (state: ReducerProps) => state.conversation
-    );
-    const dispatch = useDispatch();
-
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
+    navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>
+): { initNotification: () => void } => {
     const { showToast } = useToastMessage();
 
-    const openChat = useCallback(
-        (conversationId: string) => {
-            if (isReady && username) {
-                navigateTo(AccountStackNavigatorEnum.ConversationScreen, {
-                    conversationId: Number(conversationId)
-                });
-            }
-        },
-        [isReady, navigateTo, username]
+    const openHuddle = useCallback(
+        (id: number) =>
+            navigationRef.current.navigate(
+                RootStackNavigatorEnum.AccountStack as never,
+                {
+                    screen: AccountStackNavigatorEnum.HuddleScreen,
+                    params: {
+                        huddleId: id
+                    }
+                } as never
+            ),
+        [navigationRef]
     );
 
-    useEffect(() => {
-        // On open notification from killed state
-        messaging()
-            .getInitialNotification()
-            .then((remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
-                if (remoteMessage && remoteMessage.data.type === 'message') {
-                    openChat(remoteMessage?.data?.conversationId);
-                }
-            });
-    }, [openChat]);
+    const openConversation = useCallback(
+        (id: number, name: string, profilePhoto) =>
+            navigationRef.current.navigate(
+                RootStackNavigatorEnum.AccountStack as never,
+                {
+                    screen: AccountStackNavigatorEnum.ConversationScreen,
+                    params: {
+                        conversationId: id,
+                        name,
+                        profilePhoto
+                    }
+                } as never
+            ),
+        [navigationRef]
+    );
 
-    useEffect(() => {
-        // On open notification from background state
-        messaging().onNotificationOpenedApp(
-            (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
-                if (remoteMessage && remoteMessage.data.type === 'message') {
-                    openChat(remoteMessage?.data?.conversationId);
+    const openFriends = useCallback(
+        () =>
+            navigationRef.current.navigate(
+                RootStackNavigatorEnum.AccountStack as never,
+                {
+                    screen: AccountStackNavigatorEnum.FriendsScreen
+                } as never
+            ),
+        [navigationRef]
+    );
+
+    const openInvites = useCallback(
+        () =>
+            navigationRef.current.navigate(
+                RootStackNavigatorEnum.AccountStack as never,
+                {
+                    screen: AccountStackNavigatorEnum.InvitesScreen
+                } as never
+            ),
+        [navigationRef]
+    );
+
+    const initNotification = useCallback(
+        () =>
+            messaging()
+                .getInitialNotification()
+                .then((remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
+                    if (remoteMessage) {
+                        switch (remoteMessage.data.type) {
+                            case 'huddle':
+                                openHuddle(Number(remoteMessage.data.huddleId));
+                                break;
+                            case 'message':
+                                openConversation(
+                                    Number(remoteMessage.data.conversationId),
+                                    remoteMessage.data.name,
+                                    remoteMessage.data.profilePhoto
+                                );
+                                break;
+                            case 'people':
+                                openFriends();
+                                break;
+                            case 'invite':
+                                openInvites();
+                                break;
+                            default:
+                                showToast(
+                                    remoteMessage?.notification?.title,
+                                    remoteMessage?.notification?.body
+                                );
+                        }
+                    }
+                }),
+        [openConversation, openFriends, openHuddle, openInvites, showToast]
+    );
+
+    useEffect(
+        () =>
+            // On open notification from background state
+            messaging().onNotificationOpenedApp(
+                (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
+                    if (remoteMessage) {
+                        switch (remoteMessage.data.type) {
+                            case 'huddle':
+                                openHuddle(Number(remoteMessage.data.huddleId));
+                                break;
+                            case 'message':
+                                openConversation(
+                                    Number(remoteMessage.data.conversationId),
+                                    remoteMessage.data.name,
+                                    remoteMessage.data.profilePhoto
+                                );
+                                break;
+                            case 'people':
+                                openFriends();
+                                break;
+                            case 'invite':
+                                openInvites();
+                                break;
+                            default:
+                                showToast(
+                                    remoteMessage?.notification?.title,
+                                    remoteMessage?.notification?.body
+                                );
+                        }
+                    }
                 }
-            }
-        );
-    }, [openChat]);
+            ),
+        [openConversation, openFriends, openHuddle, openInvites, showToast]
+    );
 
     useEffect(
         () =>
             // On in app notification
             messaging().onMessage(async (remoteMessage) => {
                 if (remoteMessage) {
-                    const screen =
-                        NavigationService.getNavigationRef().getCurrentRoute()
-                            .name;
-
-                    if (remoteMessage?.data?.type === 'typing') {
-                        const typing = {
-                            conversationId: Number(
-                                remoteMessage?.data?.conversationId
-                            ),
-                            username: remoteMessage?.data?.username,
-                            value: Number(remoteMessage?.data?.value)
-                        };
-                        dispatch(setIsTyping(typing));
-                        return;
-                    }
-
-                    if (
-                        screen === 'ChatScreen' &&
-                        Number(remoteMessage?.data?.conversationId) === chatId
-                    ) {
-                        if (remoteMessage?.data?.type === 'message') {
-                            dispatch(setLoadConversation(true));
-                        }
-                        if (remoteMessage?.data?.type === 'conversationRead') {
-                            dispatch(setLoadRead(true));
-                        }
-                        return;
-                    }
-
-                    if (remoteMessage?.data?.type !== 'conversationRead') {
-                        if (
-                            remoteMessage?.data?.type === 'hangout' &&
-                            screen === 'HomeTab'
-                        ) {
-                            refreshHangouts();
-                        }
-
-                        if (screen === 'HomeTab') {
-                            refreshUser();
-                        }
-                        showToast(
-                            remoteMessage?.notification?.title,
-                            remoteMessage?.notification?.body,
-                            () => openChat(remoteMessage?.data?.conversationId)
-                        );
+                    switch (remoteMessage.data.type) {
+                        case 'huddle':
+                            showToast(
+                                remoteMessage?.notification?.title,
+                                remoteMessage?.notification?.body,
+                                () =>
+                                    openHuddle(
+                                        Number(remoteMessage.data.huddleId)
+                                    )
+                            );
+                            break;
+                        case 'message':
+                            if (
+                                navigationRef.current.getCurrentRoute().name !==
+                                    'ChatsTab' &&
+                                navigationRef.current.getCurrentRoute().name !==
+                                    'ConversationScreen'
+                            ) {
+                                showToast(
+                                    remoteMessage?.notification?.title,
+                                    remoteMessage?.notification?.body,
+                                    () =>
+                                        openConversation(
+                                            Number(
+                                                remoteMessage.data
+                                                    .conversationId
+                                            ),
+                                            remoteMessage.data.name,
+                                            remoteMessage.data.profilePhoto
+                                        )
+                                );
+                                UnreadMessagesService.loadUnread();
+                            }
+                            break;
+                        case 'people':
+                            showToast(
+                                remoteMessage?.notification?.title,
+                                remoteMessage?.notification?.body,
+                                () => openFriends()
+                            );
+                            break;
+                        case 'invite':
+                            showToast(
+                                remoteMessage?.notification?.title,
+                                remoteMessage?.notification?.body,
+                                () => openInvites()
+                            );
+                            break;
+                        default:
+                            showToast(
+                                remoteMessage?.notification?.title,
+                                remoteMessage?.notification?.body
+                            );
                     }
                 }
             }),
-        [dispatch, chatId, openChat, refreshHangouts, refreshUser, showToast]
+        [
+            navigationRef,
+            openConversation,
+            openFriends,
+            openHuddle,
+            openInvites,
+            showToast
+        ]
     );
+
+    return { initNotification };
 };

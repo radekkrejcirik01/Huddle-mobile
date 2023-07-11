@@ -3,53 +3,44 @@ import COLORS from '@constants/COLORS';
 
 export const ChatsItemStyle = StyleSheet.create({
     container: {
-        marginBottom: 15,
-        backgroundColor: COLORS.BLACK,
         alignItems: 'flex-start'
     },
     row: {
         flexDirection: 'row'
     },
-    image: {
-        height: 55,
-        width: 55,
-        borderRadius: 50,
-        backgroundColor: COLORS.GRAY_100
-    },
     box: {
         flex: 1,
-        paddingBottom: 25,
         paddingHorizontal: 10
     },
     firstRow: {
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    titleRow: {
-        maxWidth: '65%',
-        paddingBottom: 5,
+    nameRow: {
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        alignItems: 'center'
     },
-    titleImage: {
-        height: 15,
-        width: 15,
-        borderRadius: 10
+    dot: {
+        width: 12,
+        height: 12,
+        left: 5,
+        borderRadius: 10,
+        backgroundColor: COLORS.BUTTON_BLUE
     },
-    titleText: {
-        marginLeft: 2,
+    name: {
+        fontSize: 15,
         color: COLORS.WHITE,
-        fontWeight: '500'
+        fontWeight: '600'
     },
-    text: {
+    sentIcon: {
+        top: -2, // fit the layout
+        left: 4
+    },
+    time: {
         maxWidth: '65%',
-        paddingBottom: 5,
-        fontSize: 14,
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
+        color: COLORS.WHITE
     },
     message: {
-        fontSize: 12,
-        fontWeight: 'bold'
+        fontWeight: '500'
     }
 });

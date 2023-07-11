@@ -2,42 +2,110 @@ import React from 'react';
 import { Text } from 'react-native';
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { BottomTabNavigatorStyle } from '@navigation/BottomTabNavigator/BottomTabNavigator.style';
-import { FriendsTabHeader } from '@components/friends/FriendsTabHeader/FriendsTabHeader';
+import COLORS from '@constants/COLORS';
+import { AddChats } from '@components/chats/AddChats/AddChats';
+import { AddFriends } from '@components/friends/AddFriends/AddFriends';
+import { ChatsTabIcon } from '@components/chats/ChatsTabIcon/ChatsTabIcon';
 
 export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
-    headerShown: false,
+    headerTintColor: COLORS.WHITE,
+    headerStyle: BottomTabNavigatorStyle.header,
     tabBarStyle: BottomTabNavigatorStyle.tabBar,
-    tabBarLabelStyle: BottomTabNavigatorStyle.tabBarLabel
+    title: null
 };
 
-export const HomeTabOptions: BottomTabNavigationOptions = {
-    tabBarLabel: 'Home',
+export const ProfileTabOptions: BottomTabNavigationOptions = {
+    headerShown: false,
+    tabBarLabel: ({ focused }) => (
+        <Text
+            style={[
+                BottomTabNavigatorStyle.tabLabel,
+                // eslint-disable-next-line react-native/no-inline-styles
+                { opacity: focused ? 1 : 0.7 }
+            ]}
+        >
+            Profile
+        </Text>
+    ),
     tabBarIcon: ({ focused }) => (
-        <Text style={{ fontSize: focused ? 25 : 20 }}>🏠‍️</Text>
+        // eslint-disable-next-line react-native/no-inline-styles
+        <Text style={{ fontSize: focused ? 25 : 20 }}>🙎‍♂️</Text>
+    )
+};
+
+export const HuddlesTabOptions: BottomTabNavigationOptions = {
+    headerShown: false,
+    tabBarLabel: ({ focused }) => (
+        <Text
+            style={[
+                BottomTabNavigatorStyle.tabLabel,
+                // eslint-disable-next-line react-native/no-inline-styles
+                { opacity: focused ? 1 : 0.7 }
+            ]}
+        >
+            Huddles
+        </Text>
+    ),
+    tabBarIcon: ({ focused }) => (
+        <Text
+            style={[
+                // eslint-disable-next-line react-native/no-inline-styles
+                { fontSize: focused ? 24 : 20 },
+                BottomTabNavigatorStyle.right
+            ]}
+        >
+            👋
+        </Text>
     )
 };
 
 export const ChatsTabOptions: BottomTabNavigationOptions = {
-    tabBarLabel: 'Chats',
+    headerLeft: () => <AddChats />,
+    headerRight: () => (
+        <Text style={BottomTabNavigatorStyle.rightTitleText}>chats</Text>
+    ),
+    tabBarLabel: ({ focused }) => (
+        <Text
+            style={[
+                BottomTabNavigatorStyle.tabLabel,
+                // eslint-disable-next-line react-native/no-inline-styles
+                { opacity: focused ? 1 : 0.7 }
+            ]}
+        >
+            Chats
+        </Text>
+    ),
     tabBarIcon: ({ focused }) => (
-        <Text style={{ fontSize: focused ? 24 : 19 }}>💬</Text>
+        // eslint-disable-next-line react-native/no-inline-styles
+        <ChatsTabIcon focused={focused} />
     )
 };
 
 export const FriendsTabOptions: BottomTabNavigationOptions = {
-    header: () => <FriendsTabHeader />, // FriendsScreen is reused in nested Friends screen
-    headerShown: true,
-    tabBarLabel: 'Friends',
-    tabBarIcon: ({ focused }) => (
+    headerLeft: () => <AddFriends />,
+    headerRight: () => (
+        <Text style={BottomTabNavigatorStyle.rightTitleText}>friends</Text>
+    ),
+    tabBarLabel: ({ focused }) => (
         <Text
             style={[
-                {
-                    fontSize: focused ? 24 : 20
-                },
-                BottomTabNavigatorStyle.spacing
+                BottomTabNavigatorStyle.tabLabel,
+                // eslint-disable-next-line react-native/no-inline-styles
+                { opacity: focused ? 1 : 0.7 }
             ]}
         >
-            🙍‍♂️🙍‍♀️
+            Friends
+        </Text>
+    ),
+    tabBarIcon: ({ focused }) => (
+        // eslint-disable-next-line react-native/no-inline-styles
+        <Text
+            style={{
+                fontSize: focused ? 24 : 20,
+                letterSpacing: focused ? -14 : -12
+            }}
+        >
+            🧍‍♂️🧍‍♀️
         </Text>
     )
 };

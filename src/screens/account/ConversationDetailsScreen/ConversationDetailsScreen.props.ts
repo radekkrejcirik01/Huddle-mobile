@@ -4,7 +4,9 @@ export interface ConversationDetailsScreenProps {
     route: RouteProp<
         {
             params: {
-                conversationId?: number;
+                conversationId: number;
+                name: string;
+                profilePhoto?: string;
             };
         },
         'params'

@@ -27,21 +27,18 @@ export const useNavigation = (
     );
 
     const navigateTo = useCallback(
-        (screen: ScreenProp, params: object = {}) => {
+        (screen: ScreenProp, params: object = {}) =>
             navigation.navigate(
                 stack as never,
                 {
                     screen,
                     params
                 } as never
-            );
-        },
+            ),
         [navigation, stack]
     );
 
-    const navigateBack = useCallback(() => {
-        navigation.goBack();
-    }, [navigation]);
+    const navigateBack = useCallback(() => navigation.goBack(), [navigation]);
 
     return { navigateTo, navigateBack };
 };

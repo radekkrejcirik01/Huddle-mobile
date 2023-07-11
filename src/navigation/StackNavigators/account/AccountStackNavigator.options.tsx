@@ -1,56 +1,41 @@
 import React from 'react';
 import { StackNavigationOptions } from '@react-navigation/stack';
-import { FriendsPlus } from '@components/general/FriendsPlus/FriendsPlus';
+import { AddFriends } from '@components/friends/AddFriends/AddFriends';
+import store from '@store/index/index';
 
-export const AddConversationPeopleTitle: StackNavigationOptions = {
-    headerTitle: 'Add people'
-};
-
-export const AddHangoutInvitationsTitle: StackNavigationOptions = {
-    headerTitle: 'Add people'
-};
-
-export const ProfileTitle: StackNavigationOptions = {
-    headerTitle: 'Profile'
+export const AccountTitle: StackNavigationOptions = {
+    headerTitle: 'Account'
 };
 
 export const FriendsOptions: StackNavigationOptions = {
     headerTitle: 'Friends',
-    headerRight: () => <FriendsPlus />
+    headerRight: () => <AddFriends />
 };
 
-export const ConversationDetailsOptions: StackNavigationOptions = {
-    title: 'Details'
+export const ShowTitle: StackNavigationOptions = {
+    headerTitle: 'Show'
 };
 
-export const HangoutsHistoryTitle: StackNavigationOptions = {
-    headerTitle: 'Hangouts history'
+export const InvitesTitle: StackNavigationOptions = {
+    headerTitle: 'Invites'
+};
+
+export const ManageAccountTitle: StackNavigationOptions = {
+    headerTitle: 'Manage account'
+};
+
+export const MutedTitle: StackNavigationOptions = {
+    headerTitle: 'Muted'
 };
 
 export const NotificationsTitle: StackNavigationOptions = {
     headerTitle: 'Notifications'
 };
 
-export const HangoutDetailsTitle: StackNavigationOptions = {
-    headerTitle: 'Edit'
+export const PrivacyTitle: StackNavigationOptions = {
+    headerTitle: 'Privacy'
 };
 
-export const AccountTitle: StackNavigationOptions = {
-    headerTitle: 'Account'
-};
-
-export const ChangePasswordTitle: StackNavigationOptions = {
-    headerTitle: 'Change password'
-};
-
-export const DeleteAccountTitle: StackNavigationOptions = {
-    headerTitle: 'Delete account'
-};
-
-export const CreateGroupHangoutTitle: StackNavigationOptions = {
-    headerTitle: 'Group hangout'
-};
-
-export const SelectGroupHangoutUsersTitle: StackNavigationOptions = {
-    headerTitle: 'Add people'
+export const SettingsTitle: StackNavigationOptions = {
+    headerTitle: store.getState().user.user.username
 };

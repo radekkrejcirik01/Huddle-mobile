@@ -1,101 +1,82 @@
 import React, { useCallback, useState } from 'react';
-import { RefreshControl, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
-import FastImage from 'react-native-fast-image';
+import { Keyboard, Text, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { FlashList } from '@shopify/flash-list';
+import { useRenderFriends } from '@hooks/useRenderFriends';
+import { useModal } from '@hooks/useModal';
 import { FriendsScreenStyle } from '@screens/account/FriendsScreen/FriendsScreen.style';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
-import { FriendsListItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { useNavigation } from '@hooks/useNavigation';
-import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { postRequest } from '@utils/Axios/Axios.service';
+import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
+import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseFriendsGetInterface } from '@interfaces/response/Response.interface';
-import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
-import { ReducerProps } from '@store/index/index.props';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { AddFriendModalScreen } from '@components/friends/AddFriendModalScreen/AddFriendModalScreen';
+import { Modal } from '@components/general/Modal/Modal';
 
 export const FriendsScreen = (): JSX.Element => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
+    const { modalVisible, showModal, hideModal } = useModal();
 
     const [inputValue, setInputValue] = useState<string>();
-
-    const [data, setData] = useState<Array<FriendsListItemProps>>([]);
-    const [filteredData, setFilteredData] = useState<
-        Array<FriendsListItemProps>
-    >([]);
-    const [refreshing, setRefreshing] = useState(false);
-
-    const loadPeople = useCallback(() => {
-        postRequest<ResponseFriendsGetInterface, UserGetPostInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/people',
-            {
-                username
-            }
-        ).subscribe((response: ResponseFriendsGetInterface) => {
-            if (response?.status) {
-                setData(response?.data);
-                setFilteredData(response?.data);
-            }
-        });
-    }, [username]);
-
-    const { navigateTo } = useNavigation(
-        RootStackNavigatorEnum.AccountStack,
-        loadPeople
+    const [data, setData] = useState<Array<FriendsItemProps>>([]);
+    const [filteredData, setFilteredData] = useState<Array<FriendsItemProps>>(
+        []
     );
 
-    const filterData = (value: string) => {
-        setInputValue(value);
-        const text = value.toLowerCase();
-        const filteredName = data.filter((item: FriendsListItemProps) =>
-            item.username.toLowerCase().match(text)
+    const loadFriends = (lastId?: number) => {
+        let endpoint = 'people';
+        if (lastId) {
+            endpoint += `/${lastId}`;
+        }
+
+        getRequestUser<ResponseFriendsGetInterface>(endpoint).subscribe(
+            (response: ResponseFriendsGetInterface) => {
+                if (response?.status) {
+                    if (!lastId) {
+                        setData(response?.data);
+                        setFilteredData(response?.data);
+                        return;
+                    }
+
+                    if (lastId && !!response?.data?.length) {
+                        setData((value) => value.concat(response?.data));
+                    }
+                }
+            }
         );
-        setFilteredData(filteredName);
     };
 
-    const refresh = useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-            loadPeople();
-        }, 1000);
-    }, [loadPeople]);
+    useFocusEffect(
+        useCallback(() => {
+            loadFriends();
+        }, [])
+    );
 
-    const onItemPress = useCallback(
-        (item: FriendsListItemProps) => {
-            navigateTo(AccountStackNavigatorEnum.FriendProfileScreen, {
-                checkInvitation: false,
-                firstname: item.firstname,
-                username: item.username,
-                profilePicture: item.profilePicture
-            });
+    const filterData = useCallback(
+        (value: string) => {
+            setInputValue(value);
+
+            const text = value.toLowerCase();
+            const filteredName = data.filter((item: FriendsItemProps) =>
+                item.name.toLowerCase().match(text)
+            );
+
+            setFilteredData(filteredName);
         },
-        [navigateTo]
+        [data]
     );
 
-    const renderItem = ({
-        item
-    }: ListRenderItemInfo<FriendsListItemProps>): JSX.Element => (
-        <TouchableOpacity
-            onPress={() => onItemPress(item)}
-            style={FriendsScreenStyle.itemView}
-        >
-            <View>
-                <Text style={FriendsScreenStyle.itemTextName}>
-                    {item.firstname}
-                </Text>
-                <Text style={FriendsScreenStyle.itemTextUsername}>
-                    {item.username}
-                </Text>
-            </View>
-            <FastImage
-                source={{ uri: item.profilePicture }}
-                style={FriendsScreenStyle.itemImage}
-            />
-        </TouchableOpacity>
-    );
+    const {
+        renderFriendsItem,
+        keyFriendsExtractor,
+        refreshControl,
+        onEndReached
+    } = useRenderFriends(data, loadFriends);
+
+    const hideKeyboardAndModal = useCallback(() => {
+        Keyboard.dismiss();
+        hideModal();
+    }, [hideModal]);
 
     return (
         <View style={FriendsScreenStyle.container}>
@@ -105,23 +86,41 @@ export const FriendsScreen = (): JSX.Element => {
                 value={inputValue}
                 onChange={filterData}
                 inputType={InputTypeEnum.TEXT}
-                viewStyle={FriendsScreenStyle.inputView}
                 inputStyle={FriendsScreenStyle.input}
             />
-            <View style={FriendsScreenStyle.flashListView}>
-                <FlashList
-                    data={filteredData}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={refresh}
-                            tintColor="white"
-                        />
-                    }
-                    renderItem={renderItem}
-                    estimatedItemSize={68}
-                />
-            </View>
+            <FlashList
+                data={filteredData}
+                renderItem={renderFriendsItem}
+                refreshControl={refreshControl}
+                keyExtractor={keyFriendsExtractor}
+                estimatedItemSize={68}
+                ListEmptyComponent={
+                    <>
+                        <Text style={FriendsScreenStyle.description}>
+                            your friends are waiting for that invite
+                        </Text>
+                        <TouchableOpacity
+                            onPress={showModal}
+                            style={FriendsScreenStyle.descriptionButtonView}
+                        >
+                            <Text
+                                style={FriendsScreenStyle.descriptionButtonText}
+                            >
+                                invite
+                            </Text>
+                        </TouchableOpacity>
+                    </>
+                }
+                onEndReached={onEndReached}
+            />
+            <Modal
+                isVisible={modalVisible}
+                content={
+                    <AddFriendModalScreen onClose={hideKeyboardAndModal} />
+                }
+                backdropOpacity={0.7}
+                onClose={hideKeyboardAndModal}
+            />
         </View>
     );
 };

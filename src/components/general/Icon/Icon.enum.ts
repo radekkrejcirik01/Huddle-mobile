@@ -15,6 +15,7 @@ import Gallery from '@assets/webp/Gallery.webp';
 import Heart from '@assets/webp/Heart.webp';
 import Lock from '@assets/webp/Lock.webp';
 import LockPurple from '@assets/webp/LockPurple.webp';
+import Menu from '@assets/webp/Menu.webp';
 import Microphone from '@assets/webp/Microphone.webp';
 import More from '@assets/webp/More.webp';
 import Movie from '@assets/webp/Movie.webp';
@@ -26,6 +27,8 @@ import ProfileFilled from '@assets/webp/ProfileFilled.webp';
 import ProfileFilled2 from '@assets/webp/ProfileFilled2.webp';
 import ProfileFilled3 from '@assets/webp/ProfileFilled3.webp';
 import ProfilePurple from '@assets/webp/ProfilePurple.webp';
+import Sent from '@assets/webp/Sent.webp';
+import SentBlue from '@assets/webp/SentBlue.webp';
 import Settings from '@assets/webp/Settings.webp';
 import Tune from '@assets/webp/Tune.webp';
 import Unlock from '@assets/webp/Unlock.webp';
@@ -48,6 +51,7 @@ export enum IconEnum {
     HEART = 'Heart',
     LOCK = 'Lock',
     LOCK_PURPLE = 'LockPurple',
+    MENU = 'Menu',
     MICROPHONE = 'Microphone',
     MORE = 'More',
     MOVIE = 'Movie',
@@ -59,6 +63,8 @@ export enum IconEnum {
     PROFILE_FILLED2 = 'ProfileFilled2',
     PROFILE_FILLED3 = 'ProfileFilled3',
     PROFILE_PURPLE = 'ProfilePurple',
+    SENT_BLUE = 'SentBlue',
+    SENT = 'Sent',
     SETTINGS = 'Settings',
     TUNE = 'Tune',
     UNLOCK = 'Unlock'
@@ -82,6 +88,7 @@ export const ICONS = {
     [IconEnum.HEART]: Heart,
     [IconEnum.LOCK]: Lock,
     [IconEnum.LOCK_PURPLE]: LockPurple,
+    [IconEnum.MENU]: Menu,
     [IconEnum.MICROPHONE]: Microphone,
     [IconEnum.MORE]: More,
     [IconEnum.MOVIE]: Movie,
@@ -93,6 +100,8 @@ export const ICONS = {
     [IconEnum.PROFILE_FILLED2]: ProfileFilled2,
     [IconEnum.PROFILE_FILLED3]: ProfileFilled3,
     [IconEnum.PROFILE_PURPLE]: ProfilePurple,
+    [IconEnum.SENT_BLUE]: SentBlue,
+    [IconEnum.SENT]: Sent,
     [IconEnum.SETTINGS]: Settings,
     [IconEnum.TUNE]: Tune,
     [IconEnum.UNLOCK]: Unlock

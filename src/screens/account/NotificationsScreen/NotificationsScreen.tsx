@@ -1,130 +1,210 @@
-import React, { useCallback, useState } from 'react';
-import { RefreshControl, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
-import { ReducerProps } from '@store/index/index.props';
-import { useNavigation } from '@hooks/useNavigation';
-import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { NotificationsScreenStyle } from '@screens/account/NotificationsScreen/NotificationsScreen.style';
-import { NotificationsListProps } from '@screens/account/NotificationsScreen/NotificationsScreen.props';
-import { NotificationsListItem } from '@components/notifícations/NotificationsistItem/NotificationsListItem';
-import { postRequest } from '@utils/Axios/Axios.service';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ScrollView, Switch, Text, View } from 'react-native';
+import { ConversationDetailsScreenStyle } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen.style';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import COLORS from '@constants/COLORS';
+import { getRequestUser, putRequestUser } from '@utils/Axios/Axios.service';
 import {
     ResponseInterface,
-    ResponseNotificationsGetInterface
+    ResponseUserNotificationsGetInterface
 } from '@interfaces/response/Response.interface';
-import {
-    AcceptFriendInvitationInterface,
-    UserGetPostInterface
-} from '@interfaces/post/Post.inteface';
-import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { UserNotificationPutInterface } from '@interfaces/post/Post.inteface';
+import { NotificationsScreenStyle } from '@screens/account/NotificationsScreen/NotificationsScreen.style';
+import { NotificationTypeEnum } from '@enums/notifications/NotificationType.enum';
 
 export const NotificationsScreen = (): JSX.Element => {
-    const { firstname, username } = useSelector(
-        (state: ReducerProps) => state.user.user
-    );
+    const [friendsInvites, setFriendsInvites] = useState<boolean>(true);
+    const [newHuddles, setNewHuddles] = useState<boolean>(true);
+    const [interactions, setInteractions] = useState<boolean>(true);
+    const [comments, setComments] = useState<boolean>(true);
+    const [mentions, setMentions] = useState<boolean>(true);
+    const [messages, setMessages] = useState<boolean>(true);
 
-    const [data, setData] = useState<Array<NotificationsListProps>>([]);
-    const [refreshing, setRefreshing] = useState(false);
-
-    const loadNotifications = useCallback(() => {
-        postRequest<ResponseNotificationsGetInterface, UserGetPostInterface>(
-            'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/get/notifications',
-            {
-                username
-            }
-        ).subscribe((response: ResponseNotificationsGetInterface) => {
+    useEffect(() => {
+        getRequestUser<ResponseUserNotificationsGetInterface>(
+            'notifications'
+        ).subscribe((response: ResponseUserNotificationsGetInterface) => {
             if (response?.status) {
-                setData(response?.data);
+                setFriendsInvites(!!response?.data.friendsInvitesNotifications);
+                setNewHuddles(!!response?.data.newHuddlesNotifications);
+                setInteractions(!!response?.data.interactionsNotifications);
+                setComments(!!response?.data.commentsNotifications);
+                setMentions(!!response?.data.mentionsNotifications);
+                setMessages(!!response?.data.messagesNotifications);
             }
         });
-    }, [username]);
+    }, []);
 
-    const { navigateTo } = useNavigation(
-        RootStackNavigatorEnum.AccountStack,
-        loadNotifications
-    );
+    const update = (type: NotificationTypeEnum, value: number) =>
+        putRequestUser<ResponseInterface, UserNotificationPutInterface>(
+            'notification',
+            {
+                notification: type,
+                value
+            }
+        ).subscribe();
 
-    const refresh = useCallback(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-            loadNotifications();
-        }, 1000);
-    }, [loadNotifications]);
+    const switchFriendsInvites = useCallback(() => {
+        setFriendsInvites(!friendsInvites);
 
-    const onAcceptPeopleInvite = useCallback(
-        (item: NotificationsListProps) => {
-            postRequest<ResponseInterface, AcceptFriendInvitationInterface>(
-                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/accept/people/invitation',
-                {
-                    id: item.id,
-                    value: item.confirmed,
-                    user: username,
-                    name: firstname,
-                    username: item.username
-                }
-            ).subscribe();
-        },
-        [firstname, username]
-    );
+        update(
+            NotificationTypeEnum.FRIENDS_INVITES_NOTIFICATIONS,
+            friendsInvites ? 0 : 1
+        );
+    }, [friendsInvites]);
 
-    const onOpenAccount = useCallback(
-        (item: NotificationsListProps) => {
-            navigateTo(AccountStackNavigatorEnum.FriendProfileScreen, {
-                id: item.id,
-                firstname: item.name,
-                username: item.username,
-                profilePicture: item.profilePicture
-            });
-        },
-        [navigateTo]
-    );
+    const switchNewHuddles = useCallback(() => {
+        setNewHuddles(!newHuddles);
 
-    const onOpenHangout = useCallback(
-        (item: NotificationsListProps) => {
-            navigateTo(AccountStackNavigatorEnum.HangoutScreen, {
-                confirmed: item.confirmed,
-                hangoutId: item.id,
-                hangoutType: item.type,
-                invitedBy: item.username
-            });
-        },
-        [navigateTo]
-    );
+        update(
+            NotificationTypeEnum.NEW_HUDDLES_NOTIFICATION,
+            newHuddles ? 0 : 1
+        );
+    }, [newHuddles]);
 
-    const renderItem = useCallback(
-        ({ item }: ListRenderItemInfo<NotificationsListProps>): JSX.Element => (
-            <NotificationsListItem
-                item={item}
-                onAcceptInvite={onAcceptPeopleInvite}
-                onOpenAccount={onOpenAccount}
-                onOpenHangout={onOpenHangout}
-            />
-        ),
-        [onAcceptPeopleInvite, onOpenAccount, onOpenHangout]
-    );
+    const switchInteractions = useCallback(() => {
+        setInteractions(!interactions);
+
+        update(
+            NotificationTypeEnum.INTERACTIONS_NOTIFICATIONS,
+            interactions ? 0 : 1
+        );
+    }, [interactions]);
+
+    const switchComments = useCallback(() => {
+        setComments(!comments);
+
+        update(NotificationTypeEnum.COMMENTS_NOTIFICATIONS, comments ? 0 : 1);
+    }, [comments]);
+
+    const switchMentions = useCallback(() => {
+        setMentions(!mentions);
+
+        update(NotificationTypeEnum.MENTIONS_NOTIFICATIONS, mentions ? 0 : 1);
+    }, [mentions]);
+
+    const switchMessages = useCallback(() => {
+        setMessages(!messages);
+
+        update(NotificationTypeEnum.MESSAGES_NOTIFICATIONS, messages ? 0 : 1);
+    }, [messages]);
 
     return (
-        <View style={NotificationsScreenStyle.container}>
-            <View style={NotificationsScreenStyle.flashListView}>
-                <FlashList
-                    data={data}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={refresh}
-                            tintColor="white"
-                        />
-                    }
-                    renderItem={renderItem}
-                    estimatedItemSize={68}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={
-                        NotificationsScreenStyle.contentContainer
-                    }
-                />
+        <ScrollView style={NotificationsScreenStyle.container}>
+            <View style={NotificationsScreenStyle.box}>
+                <TouchableOpacity
+                    hitSlop={{}}
+                    style={NotificationsScreenStyle.view}
+                >
+                    <View style={NotificationsScreenStyle.titleView}>
+                        <Text style={NotificationsScreenStyle.titleText}>
+                            Friends invites
+                        </Text>
+                    </View>
+                    <Switch
+                        value={friendsInvites}
+                        onValueChange={switchFriendsInvites}
+                        trackColor={{
+                            true: COLORS.BUTTON_BLUE
+                        }}
+                        style={NotificationsScreenStyle.switch}
+                    />
+                </TouchableOpacity>
             </View>
-        </View>
+            <View style={NotificationsScreenStyle.box}>
+                <TouchableOpacity
+                    hitSlop={{}}
+                    style={NotificationsScreenStyle.view}
+                >
+                    <View style={NotificationsScreenStyle.titleView}>
+                        <Text style={NotificationsScreenStyle.titleText}>
+                            New Huddles
+                        </Text>
+                    </View>
+                    <Switch
+                        value={newHuddles}
+                        onValueChange={switchNewHuddles}
+                        trackColor={{
+                            true: COLORS.BUTTON_BLUE
+                        }}
+                        style={ConversationDetailsScreenStyle.switch}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    hitSlop={{}}
+                    style={NotificationsScreenStyle.view}
+                >
+                    <View style={NotificationsScreenStyle.titleView}>
+                        <Text style={NotificationsScreenStyle.titleText}>
+                            Interactions
+                        </Text>
+                    </View>
+                    <Switch
+                        value={interactions}
+                        onValueChange={switchInteractions}
+                        trackColor={{
+                            true: COLORS.BUTTON_BLUE
+                        }}
+                        style={NotificationsScreenStyle.switch}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    hitSlop={{}}
+                    style={NotificationsScreenStyle.view}
+                >
+                    <View style={NotificationsScreenStyle.titleView}>
+                        <Text style={NotificationsScreenStyle.titleText}>
+                            Comments
+                        </Text>
+                    </View>
+                    <Switch
+                        value={comments}
+                        onValueChange={switchComments}
+                        trackColor={{
+                            true: COLORS.BUTTON_BLUE
+                        }}
+                        style={NotificationsScreenStyle.switch}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    hitSlop={{}}
+                    style={NotificationsScreenStyle.view}
+                >
+                    <View style={NotificationsScreenStyle.titleView}>
+                        <Text style={NotificationsScreenStyle.titleText}>
+                            Mentions
+                        </Text>
+                    </View>
+                    <Switch
+                        value={mentions}
+                        onValueChange={switchMentions}
+                        trackColor={{
+                            true: COLORS.BUTTON_BLUE
+                        }}
+                        style={NotificationsScreenStyle.switch}
+                    />
+                </TouchableOpacity>
+            </View>
+            <View style={NotificationsScreenStyle.box}>
+                <TouchableOpacity
+                    hitSlop={{}}
+                    style={NotificationsScreenStyle.view}
+                >
+                    <View style={NotificationsScreenStyle.titleView}>
+                        <Text style={NotificationsScreenStyle.titleText}>
+                            Messages
+                        </Text>
+                    </View>
+                    <Switch
+                        value={messages}
+                        onValueChange={switchMessages}
+                        trackColor={{
+                            true: COLORS.BUTTON_BLUE
+                        }}
+                        style={NotificationsScreenStyle.switch}
+                    />
+                </TouchableOpacity>
+            </View>
+        </ScrollView>
     );
 };

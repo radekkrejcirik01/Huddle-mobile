@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import { AppState, StatusBar } from 'react-native';
-import notifee from '@notifee/react-native';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import store from '@store/index/index';
 import { BAR_STYLE } from '@app/App.const';
 import { Navigation } from '@navigation/index';
 import { PreloadService } from '@utils/general/PreloadService';
 import { ToastMessage } from '@components/general/ToastMessage/ToastMessage';
 import { isiOS } from '@functions/checking-functions';
+import { UnreadMessagesService } from '@utils/general/UnreadMessagesService';
 
 const App = () => {
     PreloadService.init().catch();
@@ -20,7 +21,8 @@ const App = () => {
             (nextAppState) => {
                 if (nextAppState === 'active') {
                     if (isiOS()) {
-                        notifee.setBadgeCount(0);
+                        PushNotificationIOS.setApplicationIconBadgeNumber(0);
+                        UnreadMessagesService.loadUnread();
                     }
                 }
             }

@@ -1,105 +1,134 @@
-import React, { useCallback } from 'react';
-import { Alert, Text, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import ImagePicker from 'react-native-image-crop-picker';
-import fs from 'react-native-fs';
-import FastImage from 'react-native-fast-image';
-import { ListItem } from '@components/general/ListItem/ListItem';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Keyboard, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { FlashList } from '@shopify/flash-list';
+import { useModal } from '@hooks/useModal';
+import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { ProfileScreenStyle } from '@screens/account/ProfileScreen/ProfileScreen.style';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { resetUserState, setProfilePictureAction } from '@store/UserReducer';
-import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
-import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import { ReducerProps } from '@store/index/index.props';
-import { useNavigation } from '@hooks/useNavigation';
-import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { postRequest } from '@utils/Axios/Axios.service';
-import {
-    ResponseInterface,
-    ResponseUploadImageInterface
-} from '@interfaces/response/Response.interface';
-import {
-    DeviceInterface,
-    UploadProfileImageInterface
-} from '@interfaces/post/Post.inteface';
+import { getRequestUser } from '@utils/Axios/Axios.service';
+import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
+import { ProfileTabHeader } from '@components/profile/ProfileTabHeader/ProfileTabHeader';
+import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
+import { StartHuddleModalScreen } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen';
+import { Modal } from '@components/general/Modal/Modal';
+import { AddFriendModalScreen } from '@components/friends/AddFriendModalScreen/AddFriendModalScreen';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const ProfileScreen = (): JSX.Element => {
-    const { firstname, username, profilePicture } = useSelector(
-        (state: ReducerProps) => state.user.user
-    );
-    const { token } = useSelector((state: ReducerProps) => state.device);
-    const dispatch = useDispatch();
+    const { username } = useSelector((state: ReducerProps) => state.user.user);
 
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
+    const { top } = useSafeAreaInsets();
+    const { modalVisible, showModal, hideModal } = useModal();
 
-    const changeProfilePicture = useCallback(() => {
-        ImagePicker.openPicker({
-            width: 500,
-            height: 500,
-            cropping: true,
-            waitAnimationEnd: false
-        }).then(async (image) => {
-            const base64 = await fs.readFile(image?.path, 'base64');
-            dispatch(setProfilePictureAction(image?.path));
+    const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
+    const [modalContent, setModalContent] = useState<JSX.Element>(<></>);
 
-            postRequest<
-                ResponseUploadImageInterface,
-                UploadProfileImageInterface
-            >(
-                'https://f2twoxgeh8.execute-api.eu-central-1.amazonaws.com/user/upload/photo',
-                {
-                    username,
-                    buffer: base64,
-                    fileName: image.filename
+    const loadHuddles = useCallback(
+        (lastId?: number) => {
+            if (username) {
+                let endpoint = 'user-huddles';
+                if (lastId) {
+                    endpoint += `/${lastId}`;
                 }
-            ).subscribe((response: ResponseUploadImageInterface) => {
-                if (!response?.status) {
-                    Alert.alert("Sorry, we couldn't upload this image 😔");
-                }
-            });
-        });
-    }, [dispatch, username]);
 
-    const openAccountScreen = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.AccountScreen);
-    }, [navigateTo]);
+                getRequestUser<ResponseHuddlesGetInterface>(endpoint).subscribe(
+                    (response: ResponseHuddlesGetInterface) => {
+                        if (response?.status) {
+                            if (!lastId) {
+                                setHuddles(response?.data);
+                                return;
+                            }
 
-    const logOut = useCallback(() => {
-        dispatch(resetUserState());
-        PersistStorage.setItem(PersistStorageKeys.TOKEN, '').catch();
-
-        postRequest<ResponseInterface, DeviceInterface>(
-            'https://2df57yatfl.execute-api.eu-central-1.amazonaws.com/pushnotifications/device/delete',
-            {
-                username,
-                deviceToken: token
+                            if (lastId && !!response?.data?.length) {
+                                setHuddles((value) =>
+                                    value.concat(response?.data)
+                                );
+                            }
+                        }
+                    }
+                );
             }
-        ).subscribe();
-    }, [dispatch, username, token]);
+        },
+        [username]
+    );
+
+    useEffect(() => loadHuddles(), [loadHuddles]);
+
+    const onModalClose = useCallback(() => {
+        Keyboard.dismiss();
+        hideModal();
+    }, [hideModal]);
+
+    const onCreateHuddlePress = useCallback(() => {
+        setModalContent(
+            <StartHuddleModalScreen
+                onCreate={loadHuddles}
+                onClose={onModalClose}
+            />
+        );
+        showModal();
+    }, [loadHuddles, onModalClose, showModal]);
+
+    const onAddFriendPress = useCallback(() => {
+        setModalContent(<AddFriendModalScreen onClose={onModalClose} />);
+        showModal();
+    }, [onModalClose, showModal]);
+
+    const {
+        renderSmallItem,
+        keyExtractor,
+        refreshControl,
+        onScrollBeginDrag,
+        onEndReachedSmallItem
+    } = useRenderHuddles(huddles, loadHuddles);
 
     return (
-        <View style={ProfileScreenStyle.container}>
-            <View style={ProfileScreenStyle.infoContainer}>
-                <TouchableOpacity onPress={changeProfilePicture}>
-                    <FastImage
-                        source={{
-                            uri: profilePicture
-                        }}
-                        style={ProfileScreenStyle.image}
+        <View style={[ProfileScreenStyle.container, { paddingTop: top }]}>
+            <FlashList
+                ListHeaderComponent={
+                    <ProfileTabHeader
+                        onCreateHuddlePress={onCreateHuddlePress}
+                        onAddFriendPress={onAddFriendPress}
                     />
-                </TouchableOpacity>
-                <Text style={ProfileScreenStyle.firstname}>{firstname}</Text>
-                <Text style={ProfileScreenStyle.username}>@{username}</Text>
-            </View>
-            <View style={ProfileScreenStyle.buttons}>
-                <ListItem
-                    title="Account"
-                    hasArrow
-                    onPress={openAccountScreen}
-                />
-                <ListItem title="Log Out" onPress={logOut} />
-            </View>
+                }
+                ListHeaderComponentStyle={ProfileScreenStyle.header}
+                data={huddles}
+                extraData={huddles}
+                renderItem={renderSmallItem}
+                numColumns={3}
+                keyExtractor={keyExtractor}
+                refreshControl={refreshControl}
+                estimatedItemSize={68}
+                showsVerticalScrollIndicator={false}
+                onScrollBeginDrag={onScrollBeginDrag}
+                onEndReached={onEndReachedSmallItem}
+                contentContainerStyle={ProfileScreenStyle.listContentContainer}
+                ListEmptyComponent={
+                    <>
+                        <Text style={ProfileScreenStyle.description}>
+                            place for those colorful pretty{'\n'}Huddles
+                        </Text>
+                        <TouchableOpacity
+                            onPress={onCreateHuddlePress}
+                            style={ProfileScreenStyle.descriptionButtonView}
+                        >
+                            <Text
+                                style={ProfileScreenStyle.descriptionButtonText}
+                            >
+                                create huddle
+                            </Text>
+                        </TouchableOpacity>
+                    </>
+                }
+            />
+            <Modal
+                isVisible={modalVisible}
+                content={modalContent}
+                backdropOpacity={0.7}
+                onClose={onModalClose}
+            />
         </View>
     );
 };

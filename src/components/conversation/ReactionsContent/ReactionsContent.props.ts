@@ -1,4 +1,4 @@
-import { ReactionsInterface } from '@components/conversation/ConversationItem/ConversationItem.props';
+import { ReactionsInterface } from '@components/conversation/MessagesLisItem/MessageListItem.props';
 
 export interface ReactionsContentProps {
     values: Array<ReactionsInterface>;

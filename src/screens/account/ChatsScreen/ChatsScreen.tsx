@@ -1,69 +1,123 @@
-import React, { useCallback, useState } from 'react';
-import { View } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Text, View } from 'react-native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
-import { useSelector } from 'react-redux';
-import { useMessagesListRenders } from '@hooks/useMessagesListRenders';
-import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
-import { postRequest } from '@utils/Axios/Axios.service';
-import { ResponseChatsGetInterface } from '@interfaces/response/Response.interface';
-import { UserGetPostInterface } from '@interfaces/post/Post.inteface';
-import { ReducerProps } from '@store/index/index.props';
+import { useRenderChats } from '@hooks/useRenderChats';
 import { useNavigation } from '@hooks/useNavigation';
+import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
+import { getRequestUser, putRequestUser } from '@utils/Axios/Axios.service';
+import {
+    ResponseChatsGetInterface,
+    ResponseInterface
+} from '@interfaces/response/Response.interface';
+import { ChatsScreenStyle } from '@screens/account/ChatsScreen/ChatsScreen.style';
+import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
+import { UnreadMessagesService } from '@utils/general/UnreadMessagesService';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { ChatsScreenStyle } from '@screens/account/ChatsScreen/ChatsScreen.style';
-import { ChatsTabHeader } from '@components/chats/ChatsTabHeader/ChatsTabHeader';
 
 export const ChatsScreen = (): JSX.Element => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
+    const isFocused = useIsFocused();
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
-    const [data, setData] = useState<Array<ChatsListDataProps>>([]);
+    const [chats, setChats] = useState<Array<ChatsListDataProps>>([]);
 
-    const loadConversations = useCallback(() => {
-        postRequest<ResponseChatsGetInterface, UserGetPostInterface>(
-            'https://4thoa9jdo6.execute-api.eu-central-1.amazonaws.com/messages/get/conversations/0',
-            {
-                username
+    const interval = useRef(null);
+
+    const loadChats = useCallback((lastId?: number) => {
+        let endpoint = 'chats';
+        if (lastId) {
+            clearInterval(interval.current);
+            endpoint += `/${lastId}`;
+        }
+
+        getRequestUser<ResponseInterface>(endpoint).subscribe(
+            (response: ResponseChatsGetInterface) => {
+                if (response?.status && !!response?.data?.length) {
+                    if (lastId) {
+                        setChats((value) => value.concat(response?.data));
+                    } else {
+                        setChats(response?.data);
+                    }
+                }
             }
-        ).subscribe((response: ResponseChatsGetInterface) => {
-            if (response?.status) {
-                setData(response?.data);
-            }
-        });
-    }, [username]);
+        );
+    }, []);
 
-    const { navigateTo } = useNavigation(
-        RootStackNavigatorEnum.AccountStack,
-        loadConversations
+    useFocusEffect(
+        useCallback(() => {
+            loadChats();
+        }, [loadChats])
     );
 
-    const onItemPress = useCallback(
-        (item: ChatsListDataProps) => {
-            navigateTo(AccountStackNavigatorEnum.ConversationScreen, {
-                conversationId: item?.id
+    useFocusEffect(
+        useCallback(() => {
+            putRequestUser<ResponseInterface, undefined>(
+                'last-seen-read-message'
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    UnreadMessagesService.loadUnread();
+                }
             });
-        },
-        [navigateTo]
+        }, [])
     );
 
-    const onRefresh = useCallback(() => {
-        loadConversations();
-    }, [loadConversations]);
+    const startLoadingInterval = useCallback(() => {
+        clearInterval(interval.current);
 
-    const { getItemType, renderItem, keyExtractor, refreshControl } =
-        useMessagesListRenders(data, onItemPress, onRefresh);
+        interval.current = setInterval(() => {
+            loadChats();
+        }, 2000);
+    }, [loadChats]);
+
+    useFocusEffect(
+        useCallback(() => {
+            startLoadingInterval();
+        }, [startLoadingInterval])
+    );
+
+    useEffect(() => {
+        if (!isFocused) {
+            clearInterval(interval.current);
+        }
+    }, [isFocused]);
+
+    const { renderChatItem, keyChatExtractor, refreshControl, onEndReached } =
+        useRenderChats(chats, loadChats);
 
     return (
         <View style={ChatsScreenStyle.container}>
-            <ChatsTabHeader />
             <FlashList
-                data={data}
-                getItemType={getItemType}
-                renderItem={renderItem}
-                keyExtractor={keyExtractor}
+                data={chats}
+                renderItem={renderChatItem}
+                keyExtractor={keyChatExtractor}
                 refreshControl={refreshControl}
-                showsVerticalScrollIndicator={false}
                 estimatedItemSize={68}
+                showsVerticalScrollIndicator={false}
+                onEndReached={onEndReached}
+                ItemSeparatorComponent={() => <ItemSeparator space={20} />}
+                ListEmptyComponent={
+                    <>
+                        <Text style={ChatsScreenStyle.description}>
+                            I cannot wait for you to see our chat design
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigateTo(
+                                    AccountStackNavigatorEnum.FriendsScreen
+                                )
+                            }
+                            style={ChatsScreenStyle.descriptionButtonView}
+                        >
+                            <Text
+                                style={ChatsScreenStyle.descriptionButtonText}
+                            >
+                                start chat
+                            </Text>
+                        </TouchableOpacity>
+                    </>
+                }
                 contentContainerStyle={ChatsScreenStyle.contentContainer}
             />
         </View>

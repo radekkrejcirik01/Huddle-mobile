@@ -1,14 +1,16 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomTabNavigatorEnum } from '@navigation/BottomTabNavigator/BottomTabNavigator.enum';
-import { HomeScreen } from '@screens/account/HomeScreen/HomeScreen';
+import { ProfileScreen } from '@screens/account/ProfileScreen/ProfileScreen';
+import { HuddlesScreen } from '@screens/account/HuddlesScreen/HuddlesScreen';
 import { ChatsScreen } from '@screens/account/ChatsScreen/ChatsScreen';
 import { FriendsScreen } from '@screens/account/FriendsScreen/FriendsScreen';
 import {
     BottomTabNavigatorOptions,
     ChatsTabOptions,
     FriendsTabOptions,
-    HomeTabOptions
+    HuddlesTabOptions,
+    ProfileTabOptions
 } from '@navigation/BottomTabNavigator/BottomTabNavigator.options';
 
 export const BottomTabNavigator = (): JSX.Element => {
@@ -16,13 +18,18 @@ export const BottomTabNavigator = (): JSX.Element => {
 
     return (
         <TabBar.Navigator
-            initialRouteName={BottomTabNavigatorEnum.HomeTab}
             screenOptions={BottomTabNavigatorOptions}
+            initialRouteName={BottomTabNavigatorEnum.HuddlesTab}
         >
             <TabBar.Screen
-                name={BottomTabNavigatorEnum.HomeTab}
-                component={HomeScreen}
-                options={HomeTabOptions}
+                name={BottomTabNavigatorEnum.ProfileTab}
+                component={ProfileScreen}
+                options={ProfileTabOptions}
+            />
+            <TabBar.Screen
+                name={BottomTabNavigatorEnum.HuddlesTab}
+                component={HuddlesScreen}
+                options={HuddlesTabOptions}
             />
             <TabBar.Screen
                 name={BottomTabNavigatorEnum.ChatsTab}

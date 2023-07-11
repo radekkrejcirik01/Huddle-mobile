@@ -1,6 +1,6 @@
-export interface FriendsListItemProps {
-    id?: number;
-    firstname: string;
+export interface FriendsItemProps {
+    id: number;
+    name: string;
     username: string;
-    profilePicture: string;
+    profilePhoto: string;
 }

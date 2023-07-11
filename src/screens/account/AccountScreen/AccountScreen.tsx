@@ -1,34 +1,100 @@
 import React, { useCallback } from 'react';
-import { ScrollView } from 'react-native';
+import { Alert, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import ImagePicker from 'react-native-image-crop-picker';
+import fs from 'react-native-fs';
 import { useNavigation } from '@hooks/useNavigation';
 import { ListItem } from '@components/general/ListItem/ListItem';
-import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { resetUserState, setProfilePhotoAction } from '@store/UserReducer';
+import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
+import {
+    ResponseInterface,
+    ResponseUploadImageInterface
+} from '@interfaces/response/Response.interface';
+import { ReducerProps } from '@store/index/index.props';
+import { UploadProfileImageInterface } from '@interfaces/post/Post.inteface';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { AccountScreenStyle } from '@screens/account/AccountScreen/AccountScreen.style';
+import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
+import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const AccountScreen = (): JSX.Element => {
+    const { firstname, username, profilePhoto } = useSelector(
+        (state: ReducerProps) => state.user.user
+    );
+
+    const dispatch = useDispatch();
+
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
-    const openChangePassword = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.ChangePasswordScreen);
-    }, [navigateTo]);
+    const changeProfilePhoto = useCallback(() => {
+        ImagePicker.openPicker({
+            width: 500,
+            height: 500,
+            cropping: true,
+            waitAnimationEnd: false
+        }).then(async (image) => {
+            const base64 = await fs.readFile(image?.path, 'base64');
+            dispatch(setProfilePhotoAction(image?.path));
 
-    const openDeleteAccount = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.DeleteAccountScreen);
-    }, [navigateTo]);
+            postRequestUser<
+                ResponseUploadImageInterface,
+                UploadProfileImageInterface
+            >('photo', {
+                buffer: base64,
+                fileName: image.filename
+            }).subscribe((response: ResponseUploadImageInterface) => {
+                if (!response?.status) {
+                    Alert.alert("Sorry, we couldn't upload this image 😔");
+                }
+            });
+        });
+    }, [dispatch]);
+
+    const manageAccount = useCallback(
+        () => navigateTo(AccountStackNavigatorEnum.ManageAccountScreen),
+        [navigateTo]
+    );
+
+    const logout = useCallback(() => {
+        deleteRequestUser<ResponseInterface>('device').subscribe(
+            (response: ResponseInterface) => {
+                if (response?.status) {
+                    dispatch(resetUserState());
+                    PersistStorage.setItem(
+                        PersistStorageKeys.TOKEN,
+                        ''
+                    ).catch();
+                }
+            }
+        );
+    }, [dispatch]);
 
     return (
-        <ScrollView style={AccountScreenStyle.container}>
-            <ListItem
-                title="Change password"
-                hasArrow
-                onPress={openChangePassword}
-            />
-            <ListItem
-                title="Delete account"
-                hasArrow
-                onPress={openDeleteAccount}
-            />
-        </ScrollView>
+        <View style={AccountScreenStyle.container}>
+            <View style={AccountScreenStyle.infoContainer}>
+                <TouchableOpacity onPress={changeProfilePhoto}>
+                    <ProfilePhoto
+                        name={firstname}
+                        photo={profilePhoto}
+                        size={100}
+                    />
+                </TouchableOpacity>
+                <Text style={AccountScreenStyle.firstname}>{firstname}</Text>
+                <Text style={AccountScreenStyle.username}>@{username}</Text>
+                <ListItem
+                    title="Manage account"
+                    onPress={manageAccount}
+                    hasArrow
+                    style={AccountScreenStyle.item}
+                />
+            </View>
+            <View style={AccountScreenStyle.buttons}>
+                <ListItem title="Logout" onPress={logout} hasArrow />
+            </View>
+        </View>
     );
 };

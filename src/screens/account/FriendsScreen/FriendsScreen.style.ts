@@ -4,49 +4,32 @@ import COLORS from '@constants/COLORS';
 export const FriendsScreenStyle = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 5
-    },
-    inputView: {
-        height: 45,
-        marginTop: 15,
-        borderWidth: 0,
-        backgroundColor: COLORS.GRAY_100
+        paddingTop: 15
     },
     input: {
         paddingLeft: 10,
         fontSize: 14,
-        color: COLORS.GRAY_800,
         fontWeight: '500'
     },
-    flashListView: {
-        width: '100%',
-        height: '100%',
-        marginTop: 10
+    description: {
+        marginTop: 100,
+        fontSize: 20,
+        color: COLORS.WHITE,
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        textAlign: 'center'
     },
-    itemView: {
-        height: 55,
-        marginVertical: 5,
-        paddingHorizontal: 12,
+    descriptionButtonView: {
+        marginTop: '50%',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
         borderRadius: 12,
-        borderWidth: 2,
-        backgroundColor: COLORS.GRAY_100,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        backgroundColor: COLORS.BUTTON_BLUE,
+        alignSelf: 'center'
     },
-    itemTextName: {
-        fontSize: 12.5,
+    descriptionButtonText: {
+        fontSize: 18,
         color: COLORS.WHITE,
         fontWeight: '500'
-    },
-    itemTextUsername: {
-        fontSize: 12.5,
-        color: COLORS.LIGHTGRAY,
-        fontWeight: '500'
-    },
-    itemImage: {
-        width: 35,
-        height: 35,
-        borderRadius: 25
     }
 });

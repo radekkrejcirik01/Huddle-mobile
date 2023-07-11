@@ -3,12 +3,11 @@ import COLORS from '@constants/COLORS';
 
 export const RegistrationScreenStyle = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'space-between'
+        flex: 1
     },
     inputsContainer: {
         paddingTop: '15%',
-        paddingHorizontal: 10
+        paddingHorizontal: 20
     },
     usernameIconLeft: {
         fontSize: 16,
@@ -19,15 +18,28 @@ export const RegistrationScreenStyle = StyleSheet.create({
         color: COLORS.WHITE
     },
     inputView: {
-        marginTop: 15
+        borderRadius: 20,
+        backgroundColor: COLORS.BLACK_200
+    },
+    inputMarginTop: {
+        marginTop: 20
     },
     button: {
-        marginBottom: 175,
-        marginHorizontal: 10,
+        marginTop: 50,
+        marginHorizontal: 20,
         paddingVertical: 12,
         paddingHorizontal: 25,
         borderRadius: 10,
-        backgroundColor: COLORS.GRAY_100
+        backgroundColor: COLORS.BUTTON_BLUE
+    },
+    privacyText: {
+        marginHorizontal: 30,
+        marginTop: 20,
+        fontSize: 12,
+        color: COLORS.WHITE
+    },
+    bold: {
+        fontWeight: 'bold'
     },
     buttonText: {
         fontSize: 15,

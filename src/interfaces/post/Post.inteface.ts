@@ -1,180 +1,103 @@
 export interface UserPostInterface {
     username: string;
     firstname: string;
+    password: string;
 }
 
-export interface UserGetPostInterface {
+export interface LoginPostInterface {
     username: string;
+    password: string;
 }
 
-export interface FriendCreateInvitationPostInterface {
-    user: string;
-    username: string;
+export interface UserNotificationPutInterface {
+    notification: string;
+    value: number;
 }
 
-export interface MessagesGetInterface {
+export interface AddPersonInvitePostInterface {
+    receiver: string;
+}
+
+export interface AddHuddlePostInterface {
+    name: string;
+    topic: string;
+    color: number;
+}
+
+export interface HuddleInteractPostInterface {
+    huddleId: number;
+    topic: string;
+    receiver: string;
+}
+
+export interface HuddleUpdatePutInterface {
+    id: number;
+    topic: string;
+}
+
+export interface HuddleCommentPostInterface {
+    huddleId: number;
+    message: string;
+}
+
+export interface HuddleAddMentionCommentPostInterface {
+    receiver: string;
+    huddleId: number;
+    message: string;
+}
+
+export interface HuddleLikeCommentPostInterface {
+    receiver: string;
+    commentId: number;
+    huddleId: number;
+}
+
+export interface ShowPeopleUpdatePutInterface {
+    usernames: Array<string>;
+}
+
+export interface MuteHuddlesPostInterface {
+    muted: string;
+}
+
+export interface ConversationNotificationsPostInterface {
     conversationId: number;
 }
 
-export interface SendMessageInterface {
-    sender: string;
-    name: string;
+export interface MessagePostInterface {
     conversationId: number;
     message: string;
     buffer?: string;
     fileName?: string;
 }
 
-export interface SendTypingInterface {
+export interface MessageInteractionPostInterface {
+    receiver: string;
+    message: string;
     conversationId: number;
-    username: string;
-    value: number;
+    messageId: number;
+    value: string;
 }
 
-export interface HangoutCreateInterface {
-    user: string;
-    name: string;
-    username: string;
-    time: string;
-    place: string;
-}
-
-export interface HangoutsGetInterface {
-    username: string;
-}
-
-export interface HangoutGetInterface {
-    id: number;
-    username: string;
-}
-
-export interface HangoutUpdateInterface {
-    id: number;
-    buffer: string;
-    fileName: string;
-    title: string;
-    time: string;
-    plan: string;
-}
-
-export interface RemoveHangoutUserInterface {
-    id: number;
-    username: string;
-}
-
-export interface HangoutDeleteInterface {
-    id: number;
-}
-
-export interface GroupHangoutCreateInterface {
-    user: string;
-    name: string;
-    title: string;
-    usernames: Array<string>;
-    time: string;
-    place: string;
-    buffer: string;
-    fileName: string;
-}
-
-export interface GetHangoutUsernamesInterface {
-    hangoutId: number;
-}
-
-export interface SendHangoutInvitation {
-    hangoutId: number;
-    user: string;
-    name: string;
-    usernames: Array<string>;
-}
-
-export interface ConversationCreateInterface {
-    usernames: Array<string>;
-    username: string;
-}
-
-export interface GetConversationDetailsInterface {
-    conversationId: number;
-    username: string;
-}
-
-export interface GetConversationUsersInterface {
-    conversationId: number;
-}
-
-export interface AddConversationUsersInterface {
-    conversationId: number;
-    usernames: Array<string>;
-}
-
-export interface ConversationRemoveInterface {
-    conversationId: number;
-    username: string;
-}
-
-export interface ConversationUserRemoveInterface {
-    conversationId: number;
-    username: string;
-}
-
-export interface ConversationDeleteInterface {
-    conversationId: number;
-}
-
-export interface AcceptFriendInvitationInterface {
-    id: number;
-    value: number;
-    user: string;
-    username: string;
-    name: string;
-}
-
-export interface CheckFriendInvitationInterface {
-    user: string;
-    username: string;
-}
-
-export interface RemoveFriendInterface {
-    user: string;
-    username: string;
-}
-
-export interface AcceptHangoutInvitationInterface {
-    id: number;
-    value: number;
-    user: string;
-    username: string;
-    name: string;
-    type: string;
-}
-
-export interface UpdateReadInterface {
-    username: string;
+export interface LastReadMessagePostInterface {
     conversationId: number;
     messageId: number;
 }
 
-export interface MessageReactInterface {
-    username: string;
+export interface ConversationLikePostInterface {
     conversationId: number;
-    messageId: number;
-    reaction: string;
 }
 
-export interface DeviceInterface {
-    username: string;
+export interface AcceptPersonInviteInterface {
+    id: number;
+    receiver: string;
+}
+
+export interface DevicePostInterface {
     deviceToken: string;
 }
 
 export interface UploadProfileImageInterface {
-    username: string;
     buffer: string;
     fileName: string;
-}
-
-export interface ConversationUpdateInterface {
-    id: number;
-    buffer: string;
-    fileName: string;
-    name: string;
 }

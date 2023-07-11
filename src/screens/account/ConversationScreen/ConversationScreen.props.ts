@@ -4,11 +4,23 @@ export interface ConversationScreenProps {
     route: RouteProp<
         {
             params: {
-                createNewConversation: boolean;
                 conversationId: number;
-                usernames?: Array<string>;
+                name: string;
+                profilePhoto: string;
+                username?: string;
             };
         },
         'params'
     >;
+}
+
+export interface MessageItemProps {
+    id: number;
+    sender: string;
+    message: string;
+    time: number;
+    url?: string;
+    reactions?: Array<string>;
+    readBy?: Array<string>;
+    animate?: boolean;
 }

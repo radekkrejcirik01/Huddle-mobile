@@ -1,15 +1,15 @@
 import { StyleSheet } from 'react-native';
+import COLORS from '@constants/COLORS';
 
 export const SwipeableViewStyle = StyleSheet.create({
     swipeableContainer: {
         overflow: 'visible'
     },
-    editContainer: {
-        marginRight: 8,
-        backgroundColor: 'green'
+    view: {
+        alignSelf: 'center'
     },
-    deleteContainer: {
-        marginLeft: 8,
-        backgroundColor: 'red'
+    text: {
+        color: COLORS.WHITE,
+        fontWeight: 'bold'
     }
 });

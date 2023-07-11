@@ -1,20 +1,18 @@
 import React, { useCallback, useMemo } from 'react';
 import { StyleProp, Text, TextStyle, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
-import moment from 'moment';
+import COLORS from '@constants/COLORS';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { ChatsItemProps } from '@components/chats/ChatsItem/ChatsItem.props';
 import { ChatsItemStyle } from '@components/chats/ChatsItem/ChatsItem.style';
-import COLORS from '@constants/COLORS';
-import { SwipeableView } from '@components/general/SwipeableView/SwipeableView';
-import { getLocalDateTimeFromUTC } from '@functions/getLocalDateTimeFromUTC';
-import { TypingIndicator } from '@components/general/TypingIndicator/TypingIndicator';
-import { TypingIndicatorEnum } from '@components/general/TypingIndicator/TypingIndicator.enum';
+import { getLocalTimeFromUTCUnix } from '@functions/getLocalTimeFromUTCUnix';
+import { Icon } from '@components/general/Icon/Icon';
+import { IconEnum } from '@components/general/Icon/Icon.enum';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const ChatsItem = ({
     item,
     onPress,
-    onDelete
+    hasSeen
 }: ChatsItemProps): JSX.Element => {
     const onPressItem = useCallback(() => {
         onPress(item);
@@ -22,65 +20,55 @@ export const ChatsItem = ({
 
     const opacityStyle = useMemo(
         (): StyleProp<TextStyle> => [
-            { color: item.isRead ? COLORS.LIGHTGRAY_300 : COLORS.WHITE }
+            { color: item?.isNewMessage ? COLORS.WHITE : COLORS.LIGHTGRAY_300 }
         ],
-        [item.isRead]
+        [item?.isNewMessage]
     );
 
-    const Title = useCallback((): JSX.Element => {
-        if (item?.type === 'group' && !item?.name) {
-            return (
-                <View style={ChatsItemStyle.titleRow}>
-                    {item?.usernames.map((value) => (
-                        <View key={value.username} style={ChatsItemStyle.row}>
-                            <FastImage
-                                source={{ uri: value?.profilePicture }}
-                                style={ChatsItemStyle.titleImage}
-                            />
-                            <Text style={ChatsItemStyle.titleText}>
-                                {value?.firstname}
-                            </Text>
-                        </View>
-                    ))}
-                </View>
-            );
-        }
-        return <Text style={ChatsItemStyle.text}>{item?.name}</Text>;
-    }, [item?.name, item?.type, item?.usernames]);
-
     return (
-        <SwipeableView onDelete={() => onDelete(item.id)}>
-            <TouchableOpacity
-                activeOpacity={1}
-                onPress={onPressItem}
-                style={ChatsItemStyle.container}
-            >
-                <View style={ChatsItemStyle.row}>
-                    <View>
-                        <FastImage
-                            source={{ uri: item.picture }}
-                            style={ChatsItemStyle.image}
-                        />
-                    </View>
-                    <View style={ChatsItemStyle.box}>
-                        <View style={ChatsItemStyle.firstRow}>
-                            <Title />
-                            <Text style={[ChatsItemStyle.text, opacityStyle]}>
-                                {moment(
-                                    getLocalDateTimeFromUTC(item.time)
-                                ).fromNow()}
-                            </Text>
+        <TouchableOpacity
+            activeOpacity={1}
+            onPress={onPressItem}
+            style={ChatsItemStyle.container}
+        >
+            <View style={ChatsItemStyle.row}>
+                <ProfilePhoto
+                    name={item.name}
+                    photo={item?.profilePhoto}
+                    size={55}
+                />
+                <View style={ChatsItemStyle.box}>
+                    <View style={ChatsItemStyle.firstRow}>
+                        <View style={ChatsItemStyle.nameRow}>
+                            <Text style={ChatsItemStyle.name}>{item.name}</Text>
+                            {item?.isNewMessage && (
+                                <View style={ChatsItemStyle.dot} />
+                            )}
+                            {hasSeen &&
+                                (item.isRead ? (
+                                    <Icon
+                                        name={IconEnum.SENT_BLUE}
+                                        size={20}
+                                        style={ChatsItemStyle.sentIcon}
+                                    />
+                                ) : (
+                                    <Icon
+                                        name={IconEnum.SENT}
+                                        size={20}
+                                        style={ChatsItemStyle.sentIcon}
+                                    />
+                                ))}
                         </View>
-                        <Text style={[ChatsItemStyle.message, opacityStyle]}>
-                            {item.message}
+                        <Text style={[ChatsItemStyle.time, opacityStyle]}>
+                            {getLocalTimeFromUTCUnix(item.time).format('HH:mm')}
                         </Text>
-                        <TypingIndicator
-                            conversationId={item?.id}
-                            type={TypingIndicatorEnum.Messages}
-                        />
                     </View>
+                    <Text style={[ChatsItemStyle.message, opacityStyle]}>
+                        {item?.lastMessage}
+                    </Text>
                 </View>
-            </TouchableOpacity>
-        </SwipeableView>
+                {!!item.isLiked && <Text>❤️</Text>}
+            </View>
+        </TouchableOpacity>
     );
 };

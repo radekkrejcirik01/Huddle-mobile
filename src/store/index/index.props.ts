@@ -5,6 +5,7 @@ export interface ReducerProps {
     navigationState: NavigationSate;
     conversation: Conversation;
     typing: Typing;
+    unreadMessages: UnreadMessages;
 }
 
 export interface User {
@@ -12,12 +13,8 @@ export interface User {
     user: {
         firstname: string;
         username: string;
-        profilePicture: string;
+        profilePhoto: string;
     };
-    people: number;
-    hangouts: number;
-    notifications: number;
-    unreadMessages: number;
 }
 
 export interface SelectUsers {
@@ -25,7 +22,7 @@ export interface SelectUsers {
     selectedUsers: Array<{
         username: string;
         firstname: string;
-        profilePicture: string;
+        profilePhoto: string;
     }>;
 }
 
@@ -49,4 +46,8 @@ export interface Typing {
         username: string;
         value: number;
     }>;
+}
+
+export interface UnreadMessages {
+    unread: number;
 }

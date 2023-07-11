@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Notify</string>
+	<string>Sender</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -38,11 +38,11 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSCameraUsageDescription</key>
-    <string>Notify requires access to the camera</string>
+    <string>Sender requires access to the camera</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Notify does not require access to the microphone</string>
+    <string>Sender does not require access to the microphone</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>Notify requires access to the photo library</string>
+    <string>Sender requires access to the photo library</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

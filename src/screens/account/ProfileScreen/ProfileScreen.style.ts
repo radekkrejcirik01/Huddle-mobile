@@ -3,30 +3,34 @@ import COLORS from '@constants/COLORS';
 
 export const ProfileScreenStyle = StyleSheet.create({
     container: {
-        flex: 1,
-        paddingTop: 50,
-        paddingHorizontal: 5,
-        justifyContent: 'space-between'
+        flex: 1
     },
-    infoContainer: {
-        alignItems: 'center'
+    header: {
+        paddingBottom: 20
     },
-    image: {
-        width: 100,
-        height: 100,
-        borderRadius: 45,
-        backgroundColor: COLORS.GRAY_100
+    listContentContainer: {
+        paddingTop: 10,
+        paddingHorizontal: 5
     },
-    firstname: {
-        marginTop: 15,
-        fontSize: 15,
+    description: {
+        marginTop: 80,
+        fontSize: 20,
+        color: COLORS.WHITE,
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+    descriptionButtonView: {
+        marginTop: '40%',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 12,
+        backgroundColor: COLORS.BUTTON_BLUE,
+        alignSelf: 'center'
+    },
+    descriptionButtonText: {
+        fontSize: 18,
         color: COLORS.WHITE,
         fontWeight: '500'
-    },
-    username: {
-        color: COLORS.WHITE
-    },
-    buttons: {
-        paddingBottom: 100
     }
 });

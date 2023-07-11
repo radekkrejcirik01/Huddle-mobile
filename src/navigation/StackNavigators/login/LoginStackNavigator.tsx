@@ -5,13 +5,15 @@ import { LoginStackNavigatorEnum } from '@navigation/StackNavigators/login/Login
 import { LoginScreen } from '@screens/login/LoginScreen/LoginScreen';
 import { RegistrationScreen } from '@screens/login/RegistrationScreen/RegistrationScreen';
 import {
-    ForNoAnimation,
-    RegistrationScreenOptions
+    PrivacyTitle,
+    RegistrationTitle
 } from '@navigation/StackNavigators/login/LoginStackNavigator.options';
 import {
     NavigatorScreenOptions,
     NoHeader
 } from '@navigation/RootNavigator/RootStackNavigator.options';
+import { NavigationScreenHeader } from '@navigation/StackNavigators/StackNavigator.options';
+import { PrivacyScreen } from '@screens/login/PrivacyScreen/PrivacyScreen';
 
 const Login = createStackNavigator<ParamListBase>();
 
@@ -26,8 +28,16 @@ export const LoginStackNavigator = (): JSX.Element => (
             name={LoginStackNavigatorEnum.RegistrationScreen}
             component={RegistrationScreen}
             options={{
-                ...RegistrationScreenOptions,
-                ...ForNoAnimation
+                ...NavigationScreenHeader,
+                ...RegistrationTitle
+            }}
+        />
+        <Login.Screen
+            name={LoginStackNavigatorEnum.PrivacyScreen}
+            component={PrivacyScreen}
+            options={{
+                ...NavigationScreenHeader,
+                ...PrivacyTitle
             }}
         />
     </Login.Navigator>

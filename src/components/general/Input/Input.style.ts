@@ -3,10 +3,9 @@ import COLORS from '@constants/COLORS';
 
 export const InputStyle = StyleSheet.create({
     container: {
+        height: 45,
         paddingHorizontal: 15,
         borderRadius: 10,
-        height: 45,
-        backgroundColor: COLORS.GRAY_100,
         flexDirection: 'row'
     },
     centerItems: {
