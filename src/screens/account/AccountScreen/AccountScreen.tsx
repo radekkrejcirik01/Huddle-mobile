@@ -3,6 +3,7 @@ import { Alert, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import fs from 'react-native-fs';
+import { useNavigation } from '@hooks/useNavigation';
 import { ListItem } from '@components/general/ListItem/ListItem';
 import { resetUserState, setProfilePhotoAction } from '@store/UserReducer';
 import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
@@ -17,6 +18,8 @@ import { AccountScreenStyle } from '@screens/account/AccountScreen/AccountScreen
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const AccountScreen = (): JSX.Element => {
     const { firstname, username, profilePhoto } = useSelector(
@@ -24,6 +27,8 @@ export const AccountScreen = (): JSX.Element => {
     );
 
     const dispatch = useDispatch();
+
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const changeProfilePhoto = useCallback(() => {
         ImagePicker.openPicker({
@@ -48,6 +53,11 @@ export const AccountScreen = (): JSX.Element => {
             });
         });
     }, [dispatch]);
+
+    const manageAccount = useCallback(
+        () => navigateTo(AccountStackNavigatorEnum.ManageAccountScreen),
+        [navigateTo]
+    );
 
     const logout = useCallback(() => {
         deleteRequestUser<ResponseInterface>('device').subscribe(
@@ -75,6 +85,12 @@ export const AccountScreen = (): JSX.Element => {
                 </TouchableOpacity>
                 <Text style={AccountScreenStyle.firstname}>{firstname}</Text>
                 <Text style={AccountScreenStyle.username}>@{username}</Text>
+                <ListItem
+                    title="Manage account"
+                    onPress={manageAccount}
+                    hasArrow
+                    style={AccountScreenStyle.item}
+                />
             </View>
             <View style={AccountScreenStyle.buttons}>
                 <ListItem title="Logout" onPress={logout} hasArrow />

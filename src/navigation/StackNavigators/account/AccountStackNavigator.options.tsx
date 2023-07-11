@@ -1,6 +1,7 @@
 import React from 'react';
 import { StackNavigationOptions } from '@react-navigation/stack';
 import { AddFriends } from '@components/friends/AddFriends/AddFriends';
+import store from '@store/index/index';
 
 export const AccountTitle: StackNavigationOptions = {
     headerTitle: 'Account'
@@ -19,6 +20,10 @@ export const InvitesTitle: StackNavigationOptions = {
     headerTitle: 'Invites'
 };
 
+export const ManageAccountTitle: StackNavigationOptions = {
+    headerTitle: 'Manage account'
+};
+
 export const MutedTitle: StackNavigationOptions = {
     headerTitle: 'Muted'
 };
@@ -32,5 +37,5 @@ export const PrivacyTitle: StackNavigationOptions = {
 };
 
 export const SettingsTitle: StackNavigationOptions = {
-    headerTitle: 'Settings'
+    headerTitle: store.getState().user.user.username
 };

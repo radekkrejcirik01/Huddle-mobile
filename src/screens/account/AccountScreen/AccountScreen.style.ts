@@ -20,6 +20,10 @@ export const AccountScreenStyle = StyleSheet.create({
     username: {
         color: COLORS.WHITE
     },
+    item: {
+        marginTop: 50,
+        marginHorizontal: 15
+    },
     buttons: {
         marginHorizontal: 15,
         paddingBottom: 100

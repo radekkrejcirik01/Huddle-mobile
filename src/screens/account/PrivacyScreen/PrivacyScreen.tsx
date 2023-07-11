@@ -4,85 +4,67 @@ import { PrivacyScreenStyle } from '@screens/account/PrivacyScreen/PrivacyScreen
 
 export const PrivacyScreen = (): JSX.Element => (
     <ScrollView contentContainerStyle={PrivacyScreenStyle.contentContainer}>
-        <Text style={PrivacyScreenStyle.title}>
-            End-User License Agreement (EULA) of Sender
-        </Text>
+        <Text style={PrivacyScreenStyle.title}>Sender App Privacy Policy</Text>
         <Text style={PrivacyScreenStyle.description}>
-            This End-User License Agreement ("EULA") is a legal agreement
-            between you and Sender This EULA agreement governs your acquisition
-            and use of our Sender software ("Software") directly from Sender or
-            indirectly through a Sender authorized reseller or distributor (a
-            "Reseller"). Please read this EULA agreement carefully before
-            completing the installation process and using the Sender software.
-            It provides a license to use the Sender software and contains
-            warranty information and liability disclaimers. If you register for
-            a free trial of the Sender software, this EULA agreement will also
-            govern that trial. By clicking "accept" or installing and/or using
-            the Sender software, you are confirming your acceptance of the
-            Software and agreeing to become bound by the terms of this EULA
-            agreement. If you are entering into this EULA agreement on behalf of
-            a company or other legal entity, you represent that you have the
-            authority to bind such entity and its affiliates to these terms and
-            conditions. If you do not have such authority or if you do not agree
-            with the terms and conditions of this EULA agreement, do not install
-            or use the Software, and you must not accept this EULA agreement.
-            This EULA agreement shall apply only to the Software supplied by
-            Sender herewith regardless of whether other software is referred to
-            or described herein. The terms also apply to any Sender updates,
-            supplements, Internet-based services, and support services for the
-            Software, unless other terms accompany those items on delivery. If
-            so, those terms apply.
-        </Text>
-        <Text style={PrivacyScreenStyle.title}>License Grant</Text>
-        <Text style={PrivacyScreenStyle.description}>
-            Sender hereby grants you a personal, non-transferable, non-exclusive
-            licence to use the Sender software on your devices in accordance
-            with the terms of this EULA agreement. You are permitted to load the
-            Sender software (for example a PC, laptop, mobile or tablet) under
-            your control. You are responsible for ensuring your device meets the
-            minimum requirements of the Sender software. You are not permitted
-            to: Edit, alter, modify, adapt, translate or otherwise change the
-            whole or any part of the Software nor permit the whole or any part
-            of the Software to be combined with or become incorporated in any
-            other software, nor decompile, disassemble or reverse engineer the
-            Software or attempt to do any such things Reproduce, copy,
-            distribute, resell or otherwise use the Software for any commercial
-            purpose Allow any third party to use the Software on behalf of or
-            for the benefit of any third party Use the Software in any way which
-            breaches any applicable local, national or international law use the
-            Software for any purpose that Sender considers is a breach of this
-            EULA agreement
-        </Text>
-        <Text style={PrivacyScreenStyle.title}>
-            Intellectual Property and Ownership
-        </Text>
-        <Text style={PrivacyScreenStyle.description}>
-            Sender shall at all times retain ownership of the Software as
-            originally downloaded by you and all subsequent downloads of the
-            Software by you. The Software (and the copyright, and other
-            intellectual property rights of whatever nature in the Software,
-            including any modifications made thereto) are and shall remain the
-            property of Sender. Sender reserves the right to grant licences to
-            use the Software to third parties.
-        </Text>
-        <Text style={PrivacyScreenStyle.title}>Termination</Text>
-        <Text style={PrivacyScreenStyle.description}>
-            This EULA agreement is effective from the date you first use the
-            Software and shall continue until terminated. You may terminate it
-            at any time upon written notice to Sender. It will also terminate
-            immediately if you fail to comply with any term of this EULA
-            agreement. Upon such termination, the licenses granted by this EULA
-            agreement will immediately terminate and you agree to stop all
-            access and use of the Software. The provisions that by their nature
-            continue and survive will survive any termination of this EULA
-            agreement. This EULA was created by App EULA Template Generator from
-            App-Privacy-Policy.com for Sender
-        </Text>
-        <Text style={PrivacyScreenStyle.title}>Governing Law</Text>
-        <Text style={PrivacyScreenStyle.description}>
-            This EULA agreement, and any dispute arising out of or in connection
-            with this EULA agreement, shall be governed by and construed in
-            accordance with the laws of cz.
+            Effective Date: 11th of July, 2023. Thank you for using Sender
+            ("App"), developed by Sender Inc. We are committed to protecting
+            your privacy and ensuring the security of your personal information.
+            This Privacy Policy explains how we collect, use, disclose, and
+            safeguard your information when you use our App. By using the App,
+            you consent to the practices described in this Privacy Policy.
+            Information We Collect 1.1 Personal Information We may collect
+            certain personal information that you voluntarily provide to us when
+            you use the App, such as your name, email address, and contact
+            information. We may also collect information you choose to share
+            through the App's features, including messages, photos, and files.
+            1.2 Usage Information When you access or use the App, we may
+            automatically collect certain information about your device,
+            including your IP address, device type, operating system, and usage
+            patterns. This information is used to analyze trends, administer the
+            App, and gather demographic information. Use of Information 2.1
+            Provide and Improve the App We may use the information we collect to
+            provide, maintain, and improve the functionality and performance of
+            the App. This includes personalizing your experience,
+            troubleshooting issues, and optimizing the App's features and
+            services. 2.2 Communication We may use your contact information to
+            respond to your inquiries, provide customer support, and send you
+            important updates or notifications related to the App. 2.3
+            Aggregated Data We may aggregate and anonymize the information
+            collected through the App to generate statistical and analytical
+            insights. This aggregated data does not personally identify you and
+            may be used for various purposes, including research, marketing, and
+            improving our services. Disclosure of Information 3.1 Service
+            Providers We may share your information with third-party service
+            providers who assist us in operating the App, performing functions
+            on our behalf, or analyzing how the App is used. These service
+            providers have access to your information only to perform these
+            tasks on our behalf and are obligated not to disclose or use it for
+            any other purpose. 3.2 Legal Requirements We may disclose your
+            information if required to do so by law or in response to valid
+            requests by public authorities (e.g., a court or government agency).
+            We may also disclose your information to enforce our rights, protect
+            the security of the App, or investigate and prevent fraudulent or
+            illegal activities. 3.3 Business Transfers If we are involved in a
+            merger, acquisition, or sale of all or a portion of our assets, your
+            information may be transferred as part of that transaction. We will
+            notify you via email and/or a prominent notice in the App of any
+            change in ownership or uses of your information. Data Security We
+            implement reasonable security measures to protect your information
+            from unauthorized access, use, or disclosure. However, please be
+            aware that no method of transmission over the internet or electronic
+            storage is completely secure, and we cannot guarantee absolute
+            security. Children's Privacy The App is not intended for use by
+            individuals under the age of 18. We do not knowingly collect
+            personal information from children. If you believe we may have
+            collected information from a child without parental consent, please
+            contact us, and we will promptly remove the information from our
+            records. Changes to This Privacy Policy We reserve the right to
+            modify this Privacy Policy at any time. Any changes will be
+            effective immediately upon posting the revised Privacy Policy in the
+            App. We encourage you to review this Privacy Policy periodically for
+            any updates or changes. Contact Us If you have any questions,
+            concerns, or requests regarding this Privacy Policy or our privacy
+            practices, please contact us at radek.krejcirik01@gmail.com
         </Text>
     </ScrollView>
 );

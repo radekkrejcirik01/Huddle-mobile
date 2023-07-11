@@ -16,12 +16,14 @@ import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { SettingsScreen } from '@screens/account/SettingsScreen/SettingsScreen';
 import { PrivacyScreen } from '@screens/account/PrivacyScreen/PrivacyScreen';
 import { ShowHuddlesScreen } from '@screens/account/ShowHuddlesScreen/ShowHuddlesScreen';
+import { ManageAccountScreen } from '@screens/account/ManageAccountScreen/ManageAccountScreen';
 import { MutedHuddlesScreen } from '@screens/account/MutedHuddlesScreen/MutedHuddlesScreen';
 import { InvitesScreen } from '@screens/account/InvitesScreen/InvitesScreen';
 import {
     AccountTitle,
     FriendsOptions,
     InvitesTitle,
+    ManageAccountTitle,
     MutedTitle,
     NotificationsTitle,
     PrivacyTitle,
@@ -68,6 +70,11 @@ export const AccountStackNavigator = (): JSX.Element => (
             name={AccountStackNavigatorEnum.InvitesScreen}
             component={InvitesScreen}
             options={{ ...NavigationScreenHeader, ...InvitesTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.ManageAccountScreen}
+            component={ManageAccountScreen}
+            options={{ ...NavigationScreenHeader, ...ManageAccountTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.MutedHuddlesScreen}
