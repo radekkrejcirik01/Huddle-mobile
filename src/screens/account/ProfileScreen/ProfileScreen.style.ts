@@ -10,7 +10,8 @@ export const ProfileScreenStyle = StyleSheet.create({
     },
     listContentContainer: {
         paddingTop: 10,
-        paddingHorizontal: 5
+        paddingHorizontal: 5,
+        paddingBottom: 50
     },
     description: {
         marginTop: 80,

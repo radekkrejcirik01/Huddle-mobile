@@ -31,5 +31,9 @@ export const FriendsScreenStyle = StyleSheet.create({
         fontSize: 18,
         color: COLORS.WHITE,
         fontWeight: '500'
+    },
+    listContentContainer: {
+        paddingTop: 10,
+        paddingBottom: 100
     }
 });

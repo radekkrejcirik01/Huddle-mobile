@@ -4,15 +4,25 @@ import COLORS from '@constants/COLORS';
 export const FriendsListItemStyle = StyleSheet.create({
     view: {
         marginHorizontal: 12,
-        paddingVertical: 8,
+        paddingBottom: 5,
         borderBottomWidth: 1,
         borderBottomColor: COLORS.BLACK_300,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    infoRow: {
         flexDirection: 'row',
         alignItems: 'center'
     },
     name: {
         marginLeft: 10,
+        fontSize: 15,
         color: COLORS.WHITE,
-        fontWeight: '600'
+        fontWeight: 'bold'
+    },
+    chatEmoji: {
+        marginRight: 10,
+        fontSize: 18
     }
 });

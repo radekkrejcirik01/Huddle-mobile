@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { InviteListItemProps } from '@components/friends/InviteListItem/InviteListItem.props';
 import { InviteListItemStyle } from '@components/friends/InviteListItem/InviteListItem.style';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const InviteListItem = ({
     item,
@@ -15,9 +15,10 @@ export const InviteListItem = ({
             onPress={onOpenProfile}
             style={InviteListItemStyle.pressView}
         >
-            <FastImage
-                source={{ uri: item.user?.profilePhoto }}
-                style={InviteListItemStyle.image}
+            <ProfilePhoto
+                name={item.user.username}
+                photo={item.user?.profilePhoto}
+                size={45}
             />
             <Text style={InviteListItemStyle.usernameText}>
                 {item?.user?.username}

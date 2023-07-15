@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import FastImage from 'react-native-fast-image';
 import { getHuddleColor } from '@hooks/getHuddleColor';
 import { ReducerProps } from '@store/index/index.props';
 import COLORS from '@constants/COLORS';
@@ -10,6 +9,7 @@ import {
     HuddleEditableCardProps
 } from '@components/huddles/HuddleEditableCard/HuddleEditableCard.props';
 import { HuddleEditableCardStyle } from '@components/huddles/HuddleEditableCard/HuddleEditableCard.style';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const HuddleEditableCard = ({
     topicValue,
@@ -17,7 +17,7 @@ export const HuddleEditableCard = ({
     color,
     style
 }: HuddleEditableCardProps): JSX.Element => {
-    const { profilePhoto } = useSelector(
+    const { firstname, profilePhoto } = useSelector(
         (state: ReducerProps) => state.user.user
     );
 
@@ -39,15 +39,19 @@ export const HuddleEditableCard = ({
                     onChangeText={onTopicChange}
                     selectionColor={COLORS.BUTTON_BLUE}
                     placeholderTextColor={COLORS.WHITE}
+                    multiline
                     style={[
-                        HuddleEditableCardStyle.primaryInput,
+                        HuddleEditableCardStyle.input,
                         { backgroundColor: secondaryColor }
                     ]}
                 />
             </View>
-            <FastImage
-                source={{ uri: profilePhoto }}
-                style={HuddleEditableCardStyle.image}
+            <ProfilePhoto
+                name={firstname}
+                photo={profilePhoto}
+                size={60}
+                textBackgroundColor={secondaryColor}
+                style={{ marginTop: 5, marginRight: 5 }}
             />
         </View>
     );

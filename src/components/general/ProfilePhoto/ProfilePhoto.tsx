@@ -12,43 +12,47 @@ export const ProfilePhoto = ({
     name,
     photo,
     size,
-    textBackgroundColor
-}: ProfilePhotoProps): JSX.Element =>
-    photo ? (
-        <FastImage
-            source={{
-                uri: photo
-            }}
-            style={[
-                ProfilePhotoStyle.image,
-                {
-                    width: size,
-                    height: size
-                }
-            ]}
-        />
-    ) : (
-        <View
-            style={[
-                ProfilePhotoStyle.acronymView,
-                {
-                    height: size,
-                    width: size,
-                    backgroundColor: textBackgroundColor || COLORS.GRAY_400
-                }
-            ]}
-        >
-            <Text
+    textBackgroundColor,
+    style
+}: ProfilePhotoProps): JSX.Element => (
+    <View style={style}>
+        {photo ? (
+            <FastImage
+                source={{
+                    uri: photo
+                }}
                 style={[
-                    ProfilePhotoStyle.acronymText,
+                    ProfilePhotoStyle.image,
                     {
-                        fontSize: size / 2
+                        width: size,
+                        height: size
+                    }
+                ]}
+            />
+        ) : (
+            <View
+                style={[
+                    ProfilePhotoStyle.acronymView,
+                    {
+                        height: size,
+                        width: size,
+                        backgroundColor: textBackgroundColor || COLORS.GRAY_400
                     }
                 ]}
             >
-                {!!name?.length && name[0]}
-            </Text>
-        </View>
-    );
+                <Text
+                    style={[
+                        ProfilePhotoStyle.acronymText,
+                        {
+                            fontSize: size / 2
+                        }
+                    ]}
+                >
+                    {!!name?.length && name[0].toUpperCase()}
+                </Text>
+            </View>
+        )}
+    </View>
+);
 
 ProfilePhoto.defaultProps = ProfilePhotoDefaultProps;

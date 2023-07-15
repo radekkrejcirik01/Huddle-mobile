@@ -3,6 +3,9 @@ import COLORS from '@constants/COLORS';
 
 export const ChatsItemStyle = StyleSheet.create({
     container: {
+        paddingBottom: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.BLACK_300,
         alignItems: 'flex-start'
     },
     row: {

@@ -10,11 +10,6 @@ export const InviteListItemStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    image: {
-        width: 45,
-        height: 45,
-        borderRadius: 25
-    },
     usernameText: {
         marginLeft: 10,
         fontSize: 14,

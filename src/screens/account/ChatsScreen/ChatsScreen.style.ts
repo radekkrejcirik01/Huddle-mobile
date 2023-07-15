@@ -7,7 +7,8 @@ export const ChatsScreenStyle = StyleSheet.create({
         paddingTop: 15
     },
     contentContainer: {
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        paddingBottom: 100
     },
     description: {
         marginTop: 100,

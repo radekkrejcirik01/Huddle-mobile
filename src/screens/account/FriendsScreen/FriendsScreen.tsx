@@ -13,6 +13,7 @@ import { ResponseFriendsGetInterface } from '@interfaces/response/Response.inter
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { AddFriendModalScreen } from '@components/friends/AddFriendModalScreen/AddFriendModalScreen';
 import { Modal } from '@components/general/Modal/Modal';
+import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 
 export const FriendsScreen = (): JSX.Element => {
     const { modalVisible, showModal, hideModal } = useModal();
@@ -112,6 +113,8 @@ export const FriendsScreen = (): JSX.Element => {
                     </>
                 }
                 onEndReached={onEndReached}
+                ItemSeparatorComponent={() => <ItemSeparator space={10} />}
+                contentContainerStyle={FriendsScreenStyle.listContentContainer}
             />
             <Modal
                 isVisible={modalVisible}
