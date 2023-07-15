@@ -11,6 +11,7 @@ import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/A
 import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import {
+    BlockUserPostInterface,
     HuddleInteractPostInterface,
     MuteHuddlesPostInterface
 } from '@interfaces/post/Post.inteface';
@@ -32,13 +33,16 @@ export const useRenderHuddles = (
     keyExtractor: (item: HuddleItemInterface, index: number) => string;
     refreshControl: JSX.Element;
     onPressInteract: (item: HuddleItemInterface) => void;
+    openActions: (item: HuddleItemInterface) => void;
     onEndReachedLargeItem: () => void;
     onScrollBeginDrag: () => void;
     onEndReachedSmallItem: () => void;
 } => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
+    const { navigateTo, navigateBack } = useNavigation(
+        RootStackNavigatorEnum.AccountStack
+    );
     const { showActionSheetWithOptions } = useActionSheet();
     const { refreshing, onRefresh } = useRefresh(loadHuddles);
     const openProfilePhoto = useOpenProfilePhoto();
@@ -97,43 +101,97 @@ export const useRenderHuddles = (
     );
 
     const muteHuddles = useCallback(
-        (mute: string) => {
+        (mute: string) =>
             postRequestUser<ResponseInterface, MuteHuddlesPostInterface>(
                 'mute-huddles',
                 {
                     muted: mute
                 }
             ).subscribe((response: ResponseInterface) => {
-                if (response?.status) loadHuddles();
-            });
-        },
+                if (response?.status) {
+                    if (response.status === 'selfmute') {
+                        Alert.alert(response.message);
+                        return;
+                    }
+
+                    if (huddles?.length) {
+                        // User is on huddles screen
+                        loadHuddles();
+                    } else {
+                        // User is on huddle screen
+                        navigateBack();
+                    }
+                }
+            }),
+        [huddles?.length, loadHuddles, navigateBack]
+    );
+
+    const blockUser = useCallback(
+        (block: string) =>
+            postRequestUser<ResponseInterface, BlockUserPostInterface>(
+                'block-user',
+                {
+                    blocked: block
+                }
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    if (response.status === 'selfblock') {
+                        Alert.alert(response.message);
+                    } else {
+                        loadHuddles();
+                    }
+                }
+            }),
         [loadHuddles]
     );
 
-    const itemLongPress = useCallback(
+    const blockUserPress = useCallback(
+        (block: string) =>
+            Alert.alert(
+                'Are you sure you want to block this user?',
+                'User will be removed from your Friends',
+                [
+                    {
+                        text: 'Cancel',
+                        style: 'cancel'
+                    },
+                    {
+                        text: 'Confirm',
+                        onPress: () => blockUser(block),
+                        style: 'destructive'
+                    }
+                ]
+            ),
+        [blockUser]
+    );
+
+    const openActions = useCallback(
         (item: HuddleItemInterface) => {
-            const options = ['Report', `Mute`, 'Cancel'];
+            const options = ['Report', `Mute`, 'Block user', 'Cancel'];
 
             showActionSheetWithOptions(
                 {
                     options,
                     title: `${item.name}'s Huddles`,
-                    cancelButtonIndex: 2,
+                    cancelButtonIndex: 3,
                     userInterfaceStyle: 'dark'
                 },
                 (selectedIndex: number) => {
-                    if (selectedIndex === 0) {
+                    if (options[selectedIndex] === 'Report') {
                         Alert.alert(
                             'Thank you for reporting, our team will take a look 🧡'
                         );
                     }
-                    if (selectedIndex === 1) {
+                    if (options[selectedIndex] === 'Mute') {
                         muteHuddles(item.createdBy);
+                    }
+                    if (options[selectedIndex] === 'Block user') {
+                        blockUserPress(item.createdBy);
                     }
                 }
             );
         },
-        [muteHuddles, showActionSheetWithOptions]
+        [blockUserPress, muteHuddles, showActionSheetWithOptions]
     );
 
     const renderLargeItem = useCallback(
@@ -145,11 +203,12 @@ export const useRenderHuddles = (
                 onPressProfilePhoto={() =>
                     openProfilePhoto(item.name, item?.profilePhoto)
                 }
-                onItemLongPress={() => itemLongPress(item)}
+                onItemLongPress={() => openActions(item)}
+                onMorePress={() => openActions(item)}
                 onPressInteract={() => onPressInteract(item)}
             />
         ),
-        [itemLongPress, onPressInteract, openHuddle, openProfilePhoto, username]
+        [onPressInteract, openActions, openHuddle, openProfilePhoto, username]
     );
 
     const renderSmallItem = useCallback(
@@ -194,6 +253,7 @@ export const useRenderHuddles = (
         keyExtractor,
         refreshControl,
         onPressInteract,
+        openActions,
         onEndReachedLargeItem,
         onScrollBeginDrag,
         onEndReachedSmallItem

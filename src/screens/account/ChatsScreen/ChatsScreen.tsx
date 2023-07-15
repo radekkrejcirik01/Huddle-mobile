@@ -40,6 +40,8 @@ export const ChatsScreen = (): JSX.Element => {
                     } else {
                         setChats(response?.data);
                     }
+                } else {
+                    setChats([]);
                 }
             }
         );

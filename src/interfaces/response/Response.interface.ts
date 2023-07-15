@@ -68,6 +68,7 @@ export interface ResponseIsConversationMutedGetInterface {
     status: string;
     message: string;
     muted: boolean;
+    people: Array<string>;
 }
 
 export interface ResponseInvitesGetInterface {

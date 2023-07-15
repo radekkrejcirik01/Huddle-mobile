@@ -60,6 +60,10 @@ export interface MuteHuddlesPostInterface {
     muted: string;
 }
 
+export interface BlockUserPostInterface {
+    blocked: string;
+}
+
 export interface ConversationNotificationsPostInterface {
     conversationId: number;
 }

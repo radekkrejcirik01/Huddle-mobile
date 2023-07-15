@@ -1,4 +1,4 @@
-package com.pingme;
+package com.app.pingme;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

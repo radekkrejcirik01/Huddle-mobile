@@ -32,8 +32,7 @@ export const ChatInputStyle = StyleSheet.create({
         color: COLORS.WHITE
     },
     sendView: {
-        paddingBottom: 6,
-        justifyContent: 'flex-end'
+        justifyContent: 'center'
     },
     sendOpacity: {
         opacity: 0.6

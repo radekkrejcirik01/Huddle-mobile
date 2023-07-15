@@ -9,6 +9,8 @@ import {
 } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem.props';
 import { LargeHuddleListItemStyle } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem.style';
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
+import { IconEnum } from '@components/general/Icon/Icon.enum';
+import { IconButton } from '@components/general/IconButton/IconButton';
 
 export const LargeHuddleListItem = ({
     item,
@@ -17,6 +19,7 @@ export const LargeHuddleListItem = ({
     onPressProfilePhoto,
     onPressInteract,
     onItemLongPress,
+    onMorePress,
     hideCommentsNumber,
     style
 }: LargeHuddleListItemProps): JSX.Element => {
@@ -103,6 +106,12 @@ export const LargeHuddleListItem = ({
                             {item.topic}
                         </Text>
                     </View>
+                    <IconButton
+                        icon={IconEnum.MORE}
+                        onPress={onMorePress}
+                        size={16}
+                        style={LargeHuddleListItemStyle.moreIcon}
+                    />
                 </View>
                 <View
                     style={[

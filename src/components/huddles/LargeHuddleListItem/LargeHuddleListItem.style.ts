@@ -36,6 +36,9 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         color: COLORS.WHITE,
         fontWeight: '600'
     },
+    moreIcon: {
+        marginRight: 5
+    },
     commentsText: {
         margin: 5,
         fontSize: 14,

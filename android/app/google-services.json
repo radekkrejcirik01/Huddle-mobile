@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "872899774280",
+    "firebase_url": "https://pingme-d6a16-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "pingme-d6a16",
     "storage_bucket": "pingme-d6a16.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:872899774280:android:77060a182f2c01060c957d",
+        "mobilesdk_app_id": "1:872899774280:android:c811f62a3cda50580c957d",
         "android_client_info": {
           "package_name": "com.app.pingme"
         }

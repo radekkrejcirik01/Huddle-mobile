@@ -33,6 +33,7 @@ import {
 import { ReducerProps } from '@store/index/index.props';
 import { ConversationHeader } from '@components/conversation/ConversationHeader/ConversationHeader';
 import { ConversationLike } from '@components/conversation/ConversationLike/ConversationLike';
+import { isiOS } from '@functions/checking-functions';
 
 export const ConversationScreen = ({
     route
@@ -254,7 +255,7 @@ export const ConversationScreen = ({
                 }
             ]}
         >
-            <KeyboardAvoidingView keyboardVerticalOffset={42}>
+            <KeyboardAvoidingView keyboardVerticalOffset={isiOS() ? 42 : 75}>
                 <View style={ConversationScreenStyle.content}>
                     <FlashList
                         data={messages}

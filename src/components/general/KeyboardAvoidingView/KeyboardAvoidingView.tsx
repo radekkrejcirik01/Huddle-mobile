@@ -1,12 +1,12 @@
 import React from 'react';
 import { KeyboardAvoidingView as KeyboardAvoidingViewDefault } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useKeyboard } from '@hooks/useKeyboard';
 import {
     KeyboardAvoidingViewDefaultProps,
     KeyboardAvoidingViewProps
 } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView.props';
 import { isiOS } from '@functions/checking-functions';
-import { useKeyboard } from '@hooks/useKeyboard';
 
 export const KeyboardAvoidingView = ({
     keyboardVerticalOffset,
@@ -16,7 +16,7 @@ export const KeyboardAvoidingView = ({
     const { isKeyboardVisible } = useKeyboard();
     return (
         <KeyboardAvoidingViewDefault
-            behavior={isiOS() ? 'position' : 'padding'}
+            behavior={isiOS() ? 'position' : 'height'}
             enabled={isKeyboardVisible}
             keyboardVerticalOffset={
                 keyboardVerticalOffset && keyboardVerticalOffset + top

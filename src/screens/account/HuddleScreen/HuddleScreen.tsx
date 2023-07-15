@@ -97,7 +97,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
         }
     }, [created, huddle?.id]);
 
-    const { onPressInteract } = useRenderHuddles();
+    const { onPressInteract, openActions } = useRenderHuddles();
     const { renderInteractionItem, keyInteractionExtractor } =
         useRenderInteractions();
 
@@ -273,6 +273,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                     onPressInteract={() =>
                                         onPressInteract(huddle)
                                     }
+                                    onMorePress={() => openActions(huddle)}
                                     hideCommentsNumber
                                     style={HuddleScreenStyle.huddleListItem}
                                 />
