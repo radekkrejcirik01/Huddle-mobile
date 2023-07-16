@@ -209,8 +209,16 @@ export const CommentInput = ({
                         selectionColor={COLORS.WHITE}
                         style={CommentInputStyle.input}
                     />
-                    <View style={CommentInputStyle.sendView}>
-                        <TouchableOpacity onPress={onPressSend}>
+                    <View
+                        style={[
+                            CommentInputStyle.sendView,
+                            !commentMessage && CommentInputStyle.sendOpacity
+                        ]}
+                    >
+                        <TouchableOpacity
+                            disabled={!commentMessage}
+                            onPress={onPressSend}
+                        >
                             <Text style={CommentInputStyle.send}>Send</Text>
                         </TouchableOpacity>
                     </View>

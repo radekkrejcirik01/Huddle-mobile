@@ -227,7 +227,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
         onEndReached
     } = useRenderComments(comments, huddle?.id, loadComments, load, setMention);
 
-    const onSend = useCallback(() => {
+    const onSendComment = useCallback(() => {
         loadComments();
         commentsListRef.current?.scrollToIndex({
             index: comments?.length - 1,
@@ -323,7 +323,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                 <KeyboardAvoidingView keyboardVerticalOffset={42}>
                     <CommentInput
                         huddleId={huddle?.id}
-                        onSend={onSend}
+                        onSend={onSendComment}
                         mention={mention}
                         mentions={mentions}
                     />

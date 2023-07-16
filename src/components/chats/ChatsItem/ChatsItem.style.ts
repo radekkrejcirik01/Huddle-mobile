@@ -24,8 +24,8 @@ export const ChatsItemStyle = StyleSheet.create({
         alignItems: 'center'
     },
     dot: {
-        width: 12,
-        height: 12,
+        width: 10,
+        height: 10,
         left: 5,
         borderRadius: 10,
         backgroundColor: COLORS.BUTTON_BLUE

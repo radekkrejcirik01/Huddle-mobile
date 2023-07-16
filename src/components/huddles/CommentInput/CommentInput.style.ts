@@ -58,6 +58,9 @@ export const CommentInputStyle = StyleSheet.create({
         paddingBottom: 6,
         justifyContent: 'flex-end'
     },
+    sendOpacity: {
+        opacity: 0.6
+    },
     send: {
         fontSize: 16,
         color: COLORS.WHITE,
