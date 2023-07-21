@@ -25,7 +25,7 @@ export const RegistrationScreenStyle = StyleSheet.create({
         marginTop: 20
     },
     button: {
-        marginTop: 50,
+        marginTop: 60,
         marginHorizontal: 20,
         paddingVertical: 12,
         paddingHorizontal: 25,

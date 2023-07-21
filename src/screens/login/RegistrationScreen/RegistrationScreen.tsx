@@ -102,7 +102,7 @@ export const RegistrationScreen = (): JSX.Element => {
                     <Text style={RegistrationScreenStyle.privacyText}>
                         By creating account you agree with our{' '}
                         <Text style={RegistrationScreenStyle.bold}>
-                            privacy policy and EULA
+                            privacy policy
                         </Text>
                     </Text>
                 </TouchableOpacity>

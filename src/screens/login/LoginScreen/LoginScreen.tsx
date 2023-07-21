@@ -19,6 +19,7 @@ import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import { PreloadService } from '@utils/general/PreloadService';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
+import { LoginHeader } from '@components/login/LoginHeader/LoginHeader';
 
 export const LoginScreen = (): JSX.Element => {
     const dispatch = useDispatch();
@@ -55,14 +56,10 @@ export const LoginScreen = (): JSX.Element => {
         [dispatch, password, username]
     );
 
-    const createAccount = useCallback(
-        () => navigateTo(LoginStackNavigatorEnum.RegistrationScreen),
-        [navigateTo]
-    );
-
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View>
+                <LoginHeader />
                 <KeyboardAvoidingView keyboardVerticalOffset={50}>
                     <View style={LoginScreenStyle.inputsContainer}>
                         <Input
@@ -90,14 +87,22 @@ export const LoginScreen = (): JSX.Element => {
                         </Text>
                     </TouchableOpacity>
                 </KeyboardAvoidingView>
-                <TouchableOpacity
-                    onPress={createAccount}
-                    style={LoginScreenStyle.registerButtonView}
-                >
-                    <Text style={LoginScreenStyle.registerButtonText}>
-                        Create account
+                <View style={LoginScreenStyle.registerButtonView}>
+                    <Text style={LoginScreenStyle.happyInfoText}>
+                        so happy to have you all here!! 🥳
                     </Text>
-                </TouchableOpacity>
+                    <TouchableWithoutFeedback
+                        onPress={() =>
+                            navigateTo(
+                                LoginStackNavigatorEnum.RegistrationScreen
+                            )
+                        }
+                    >
+                        <Text style={LoginScreenStyle.createAccountText}>
+                            create account
+                        </Text>
+                    </TouchableWithoutFeedback>
+                </View>
             </View>
         </TouchableWithoutFeedback>
     );
