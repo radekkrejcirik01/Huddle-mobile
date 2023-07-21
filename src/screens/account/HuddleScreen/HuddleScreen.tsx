@@ -282,7 +282,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                         {created && !editing && (
                             <>
                                 <Text style={HuddleScreenStyle.title}>
-                                    Interactions 👋
+                                    Interests 👋
                                 </Text>
                                 <View
                                     style={{
