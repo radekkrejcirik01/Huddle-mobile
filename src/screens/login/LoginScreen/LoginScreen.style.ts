@@ -24,20 +24,18 @@ export const LoginScreenStyle = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold'
     },
-    registerButtonView: {
+    createAccountView: {
         marginTop: 100,
-        paddingHorizontal: 50,
-        alignItems: 'center'
-    },
-    happyInfoText: {
-        fontSize: 16,
-        color: COLORS.WHITE,
-        fontWeight: '600'
+        marginHorizontal: 20,
+        paddingVertical: 12,
+        paddingHorizontal: 25,
+        borderRadius: 10,
+        backgroundColor: COLORS.BUTTON_BLUE
     },
     createAccountText: {
-        marginTop: 10,
-        fontSize: 16,
-        color: COLORS.BUTTON_BLUE,
-        fontWeight: '600'
+        fontSize: 15,
+        color: COLORS.WHITE,
+        fontWeight: '600',
+        alignSelf: 'center'
     }
 });

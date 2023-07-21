@@ -10,7 +10,6 @@ import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { LoginScreenStyle } from '@screens/login/LoginScreen/LoginScreen.style';
-import { LoginStackNavigatorEnum } from '@navigation/StackNavigators/login/LoginStackNavigator.enum';
 import { postRequestUser } from '@utils/Axios/Axios.service';
 import { AuthResponseInterface } from '@interfaces/response/Response.interface';
 import { LoginPostInterface } from '@interfaces/post/Post.inteface';
@@ -20,6 +19,7 @@ import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import { PreloadService } from '@utils/general/PreloadService';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import { LoginHeader } from '@components/login/LoginHeader/LoginHeader';
+import { LoginStackNavigatorEnum } from '@navigation/StackNavigators/login/LoginStackNavigator.enum';
 
 export const LoginScreen = (): JSX.Element => {
     const dispatch = useDispatch();
@@ -87,22 +87,16 @@ export const LoginScreen = (): JSX.Element => {
                         </Text>
                     </TouchableOpacity>
                 </KeyboardAvoidingView>
-                <View style={LoginScreenStyle.registerButtonView}>
-                    <Text style={LoginScreenStyle.happyInfoText}>
-                        so happy to have you all here!! 🥳
+                <TouchableOpacity
+                    onPress={() =>
+                        navigateTo(LoginStackNavigatorEnum.RegistrationScreen)
+                    }
+                    style={LoginScreenStyle.createAccountView}
+                >
+                    <Text style={LoginScreenStyle.createAccountText}>
+                        Create account
                     </Text>
-                    <TouchableWithoutFeedback
-                        onPress={() =>
-                            navigateTo(
-                                LoginStackNavigatorEnum.RegistrationScreen
-                            )
-                        }
-                    >
-                        <Text style={LoginScreenStyle.createAccountText}>
-                            create account
-                        </Text>
-                    </TouchableWithoutFeedback>
-                </View>
+                </TouchableOpacity>
             </View>
         </TouchableWithoutFeedback>
     );

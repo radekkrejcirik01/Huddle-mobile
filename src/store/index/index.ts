@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import GetStartedReducer from '@store/GetStartedReducer';
 import UserReducer from '@store/UserReducer';
 import SelectUsersReducer from '@store/SelectUsersReducer';
 import DeviceReducer from '@store/DeviceReducer';
@@ -9,6 +10,7 @@ import UnreadMessagesReducer from '@store/UnreadMessagesReducer';
 
 export default configureStore({
     reducer: {
+        getStarted: GetStartedReducer,
         user: UserReducer,
         selectUsers: SelectUsersReducer,
         device: DeviceReducer,

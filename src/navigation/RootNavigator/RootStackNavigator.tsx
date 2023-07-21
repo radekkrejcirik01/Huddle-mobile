@@ -11,11 +11,27 @@ import { BottomTabNavigator } from '@navigation/BottomTabNavigator/BottomTabNavi
 import { AccountStackNavigator } from '@navigation/StackNavigators/account/AccountStackNavigator';
 import { LoginStackNavigator } from '@navigation/StackNavigators/login/LoginStackNavigator';
 import { ReducerProps } from '@store/index/index.props';
+import { GetStartedScreen } from '@screens/getStarted/GetStartedScreen/GetStartedScreen';
 
 const Root = createStackNavigator<ParamListBase>();
 
 export const RootStackNavigator = (): JSX.Element => {
+    const { getStarted } = useSelector(
+        (state: ReducerProps) => state.getStarted
+    );
     const { token } = useSelector((state: ReducerProps) => state.user);
+
+    if (getStarted) {
+        return (
+            <Root.Navigator screenOptions={NavigatorScreenOptions}>
+                <Root.Screen
+                    name={RootStackNavigatorEnum.GetStartedStack}
+                    component={GetStartedScreen}
+                    options={NoHeader}
+                />
+            </Root.Navigator>
+        );
+    }
 
     if (token) {
         return (

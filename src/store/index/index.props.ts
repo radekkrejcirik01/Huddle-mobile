@@ -1,4 +1,5 @@
 export interface ReducerProps {
+    getStarted: GetStarted;
     user: User;
     selectUsers: SelectUsers;
     device: Device;
@@ -6,6 +7,10 @@ export interface ReducerProps {
     conversation: Conversation;
     typing: Typing;
     unreadMessages: UnreadMessages;
+}
+
+export interface GetStarted {
+    getStarted: boolean;
 }
 
 export interface User {

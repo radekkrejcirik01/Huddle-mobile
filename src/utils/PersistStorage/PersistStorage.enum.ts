@@ -1,3 +1,4 @@
 export enum PersistStorageKeys {
-    TOKEN = 'TOKEN'
+    TOKEN = 'TOKEN',
+    GET_STARTED = 'GET_STARTED'
 }
