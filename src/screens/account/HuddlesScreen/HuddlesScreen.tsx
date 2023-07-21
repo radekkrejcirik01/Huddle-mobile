@@ -73,7 +73,7 @@ export const HuddlesScreen = (): JSX.Element => {
                     estimatedItemSize={68}
                     showsVerticalScrollIndicator={false}
                     onEndReached={onEndReachedLargeItem}
-                    ItemSeparatorComponent={() => <ItemSeparator space={15} />}
+                    ItemSeparatorComponent={() => <ItemSeparator space={10} />}
                     ListEmptyComponent={
                         <>
                             <Text style={HuddlesScreenStyle.description}>

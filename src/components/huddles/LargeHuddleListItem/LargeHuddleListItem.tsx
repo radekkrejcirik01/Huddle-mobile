@@ -90,16 +90,13 @@ export const LargeHuddleListItem = ({
                             <ProfilePhoto
                                 name={item.name}
                                 photo={item?.profilePhoto}
-                                size={50}
+                                size={55}
                                 textBackgroundColor={secondaryColor}
                             />
                         </TouchableOpacity>
                     </View>
                     <View style={LargeHuddleListItemStyle.titleView}>
-                        <Text
-                            style={LargeHuddleListItemStyle.titleText}
-                            adjustsFontSizeToFit
-                        >
+                        <Text style={LargeHuddleListItemStyle.titleText}>
                             {item?.name}
                         </Text>
                         <Text style={LargeHuddleListItemStyle.topicText}>

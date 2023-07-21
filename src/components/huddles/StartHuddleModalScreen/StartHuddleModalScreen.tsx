@@ -34,10 +34,10 @@ export const StartHuddleModalScreen = ({
     }, [firstname, onClose, onCreate, selectedColor]);
 
     const onPressAddCard = useCallback(() => {
-        if (topic?.current) {
+        if (topic?.current?.length) {
             addHuddle();
         } else {
-            Alert.alert('Please add what would you like to do to start Huddle');
+            Alert.alert('no activity 👋');
         }
     }, [addHuddle]);
 

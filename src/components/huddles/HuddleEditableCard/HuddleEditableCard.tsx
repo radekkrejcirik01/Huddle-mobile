@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, View } from 'react-native';
+import { Text, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { getHuddleColor } from '@hooks/getHuddleColor';
 import { ReducerProps } from '@store/index/index.props';
@@ -31,28 +31,30 @@ export const HuddleEditableCard = ({
                 style
             ]}
         >
-            <View style={HuddleEditableCardStyle.inputsContainer}>
-                <TextInput
-                    autoFocus
-                    autoCorrect={false}
-                    defaultValue={topicValue}
-                    onChangeText={onTopicChange}
-                    selectionColor={COLORS.BUTTON_BLUE}
-                    placeholderTextColor={COLORS.WHITE}
-                    multiline
-                    style={[
-                        HuddleEditableCardStyle.input,
-                        { backgroundColor: secondaryColor }
-                    ]}
-                />
+            <View style={HuddleEditableCardStyle.content}>
+                <View style={HuddleEditableCardStyle.row}>
+                    <ProfilePhoto
+                        name={firstname}
+                        photo={profilePhoto}
+                        size={55}
+                        textBackgroundColor={secondaryColor}
+                    />
+                    <View style={HuddleEditableCardStyle.titleView}>
+                        <Text style={HuddleEditableCardStyle.titleText}>
+                            {firstname}
+                        </Text>
+                        <TextInput
+                            autoFocus
+                            autoCorrect={false}
+                            defaultValue={topicValue}
+                            onChangeText={onTopicChange}
+                            selectionColor={COLORS.WHITE}
+                            multiline
+                            style={HuddleEditableCardStyle.input}
+                        />
+                    </View>
+                </View>
             </View>
-            <ProfilePhoto
-                name={firstname}
-                photo={profilePhoto}
-                size={60}
-                textBackgroundColor={secondaryColor}
-                style={{ marginTop: 5, marginRight: 5 }}
-            />
         </View>
     );
 };

@@ -8,7 +8,6 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         padding: 15,
         paddingLeft: 12,
         borderRadius: 20,
-        backgroundColor: COLORS.GRAY_100,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
@@ -48,15 +47,16 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         flex: 1
     },
     handView: {
+        marginRight: 5,
+        marginBottom: 5,
         paddingVertical: 16,
         paddingHorizontal: 18,
-        borderRadius: 30,
-        backgroundColor: COLORS.GRAY_400,
+        borderRadius: 35,
         alignSelf: 'flex-end',
         justifyContent: 'center',
         alignItems: 'center'
     },
     handText: {
-        fontSize: 25
+        fontSize: 28
     }
 });

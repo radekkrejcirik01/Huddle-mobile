@@ -6,24 +6,32 @@ export const HuddleEditableCardStyle = StyleSheet.create({
         height: 180,
         width: '100%',
         padding: 15,
+        paddingLeft: 12,
         borderRadius: 20,
-        backgroundColor: COLORS.GRAY_100,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    inputsContainer: {
-        flex: 1
+    content: {
+        flex: 1,
+        justifyContent: 'space-between'
+    },
+    row: {
+        flexDirection: 'row'
+    },
+    titleView: {
+        flex: 1,
+        paddingLeft: 10
+    },
+    titleText: {
+        fontSize: 20,
+        color: COLORS.WHITE,
+        fontWeight: 'bold'
     },
     input: {
-        height: '45%',
-        width: '90%',
-        paddingTop: 10,
-        paddingVertical: 8,
-        paddingLeft: 10,
-        paddingRight: 15,
-        borderRadius: 15,
-        fontSize: 16,
+        paddingTop: 0,
+        paddingLeft: 2,
+        fontSize: 15,
         color: COLORS.WHITE,
-        fontWeight: '500'
+        fontWeight: '600'
     }
 });
