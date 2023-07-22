@@ -38,5 +38,26 @@ export const HuddlesScreenStyle = StyleSheet.create({
     addHuddleText: {
         color: COLORS.WHITE,
         fontWeight: '600'
+    },
+    footerContainer: {
+        paddingTop: '40%',
+        alignItems: 'center'
+    },
+    footerTitleText: {
+        fontSize: 16,
+        color: COLORS.WHITE,
+        fontWeight: '500'
+    },
+    footerButtonView: {
+        marginTop: 20,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 12,
+        backgroundColor: COLORS.BUTTON_BLUE
+    },
+    footerButtonText: {
+        fontSize: 18,
+        color: COLORS.WHITE,
+        fontWeight: '500'
     }
 });

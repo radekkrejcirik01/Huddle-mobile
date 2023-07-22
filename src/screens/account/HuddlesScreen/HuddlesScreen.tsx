@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useMessaging } from '@hooks/useMessaging';
+import { useNavigation } from '@hooks/useNavigation';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { HuddlesScreenStyle } from '@screens/account/HuddlesScreen/HuddlesScreen.style';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
@@ -15,12 +16,16 @@ import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 import { HuddlesHeader } from '@components/huddles/HuddlesHeader/HuddlesHeader';
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
+import { BottomTabNavigatorEnum } from '@navigation/BottomTabNavigator/BottomTabNavigator.enum';
 
 export const HuddlesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     useMessaging();
     const { top } = useSafeAreaInsets();
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.BottomTabBar);
 
     const [isFirstLaunch, setIsFirstLaunch] = useState<boolean>(false);
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
@@ -125,6 +130,33 @@ export const HuddlesScreen = (): JSX.Element => {
                     }
                     contentContainerStyle={
                         HuddlesScreenStyle.listContentContainer
+                    }
+                    ListFooterComponent={
+                        isFirstLaunch && (
+                            <View style={HuddlesScreenStyle.footerContainer}>
+                                <Text
+                                    style={HuddlesScreenStyle.footerTitleText}
+                                >
+                                    Add friends to see theirs huddles 🍾
+                                </Text>
+                                <TouchableOpacity
+                                    onPress={() =>
+                                        navigateTo(
+                                            BottomTabNavigatorEnum.FriendsTab
+                                        )
+                                    }
+                                    style={HuddlesScreenStyle.footerButtonView}
+                                >
+                                    <Text
+                                        style={
+                                            HuddlesScreenStyle.footerButtonText
+                                        }
+                                    >
+                                        Add Friends
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        )
                     }
                 />
             </View>
