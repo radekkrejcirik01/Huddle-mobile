@@ -36,7 +36,7 @@ export const HuddlesScreen = (): JSX.Element => {
                 id: 1,
                 createdBy: 'sender',
                 name: 'Sender',
-                topic: 'Huddle is post with idea of doing something, press 👋 to send an interest',
+                topic: 'This is Huddle, a post with idea of doing something, press 👋 to send an interest!',
                 color: 0
             }
         ],
@@ -137,7 +137,7 @@ export const HuddlesScreen = (): JSX.Element => {
                                 <Text
                                     style={HuddlesScreenStyle.footerTitleText}
                                 >
-                                    Add friends to see theirs huddles 🍾
+                                    Add Friends to see theirs huddles 🍾
                                 </Text>
                                 <TouchableOpacity
                                     onPress={() =>
