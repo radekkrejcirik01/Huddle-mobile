@@ -69,6 +69,8 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
         return true;
     }, [huddle, username]);
 
+    const isFirstLaunch = huddle?.createdBy === 'sender';
+
     const commentsListRef = useRef(null);
 
     useEffect(() => {
@@ -225,7 +227,14 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
         keyCommentExtractor,
         refreshControl,
         onEndReached
-    } = useRenderComments(comments, huddle?.id, loadComments, load, setMention);
+    } = useRenderComments(
+        comments,
+        huddle?.id,
+        loadComments,
+        load,
+        setMention,
+        isFirstLaunch
+    );
 
     const onSendComment = useCallback(() => {
         loadComments();
@@ -319,7 +328,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                 ItemSeparatorComponent={() => <ItemSeparator space={30} />}
                 contentContainerStyle={HuddleScreenStyle.listContentContainer}
             />
-            {!editing && (
+            {!editing && !isFirstLaunch && (
                 <KeyboardAvoidingView keyboardVerticalOffset={42}>
                     <CommentInput
                         huddleId={huddle?.id}

@@ -7,11 +7,6 @@ export const CommentLikesListItemStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    image: {
-        width: 40,
-        height: 40,
-        borderRadius: 20
-    },
     nameText: {
         marginLeft: 10,
         fontSize: 15,

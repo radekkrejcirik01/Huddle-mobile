@@ -19,7 +19,8 @@ export const useRenderComments = (
     huddleId: number,
     refreshComments: () => void,
     loadComments: (lastId?: number) => void,
-    mention: (value: Mention) => void
+    mention: (value: Mention) => void,
+    isFirstLaunch: boolean
 ): {
     renderCommentItem: ({
         item
@@ -36,7 +37,7 @@ export const useRenderComments = (
 
     const pressCommentLike = useCallback(
         (value: boolean, item: CommentItemInterface) => {
-            if (value) {
+            if (value && !isFirstLaunch) {
                 postRequestUser<
                     ResponseInterface,
                     HuddleLikeCommentPostInterface
@@ -55,7 +56,7 @@ export const useRenderComments = (
                 });
             }
         },
-        [huddleId, refreshComments]
+        [huddleId, isFirstLaunch, refreshComments]
     );
 
     const deleteComment = useCallback(
@@ -71,6 +72,10 @@ export const useRenderComments = (
 
     const itemLongPress = useCallback(
         (item: CommentItemInterface) => {
+            if (isFirstLaunch) {
+                return;
+            }
+
             const commentByUser = item.sender === username;
             const options = [
                 'Copy',
@@ -105,7 +110,13 @@ export const useRenderComments = (
                 }
             );
         },
-        [deleteComment, mention, showActionSheetWithOptions, username]
+        [
+            deleteComment,
+            isFirstLaunch,
+            mention,
+            showActionSheetWithOptions,
+            username
+        ]
     );
 
     const renderCommentItem = useCallback(

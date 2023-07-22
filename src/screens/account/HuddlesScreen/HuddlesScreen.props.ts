@@ -1,7 +1,7 @@
 export interface HuddleItemInterface {
     id: number;
     createdBy: string;
-    profilePhoto: string;
+    profilePhoto?: string;
     name: string;
     topic: string;
     color: number;

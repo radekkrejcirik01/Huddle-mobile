@@ -3,11 +3,13 @@ import { useNavigation as useNavigationModule } from '@react-navigation/native';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { LoginStackNavigatorEnum } from '@navigation/StackNavigators/login/LoginStackNavigator.enum';
+import { BottomTabNavigatorEnum } from '@navigation/BottomTabNavigator/BottomTabNavigator.enum';
 
 type ScreenProp =
     | RootStackNavigatorEnum
     | AccountStackNavigatorEnum
-    | LoginStackNavigatorEnum;
+    | LoginStackNavigatorEnum
+    | BottomTabNavigatorEnum;
 
 export const useNavigation = (
     stack?: RootStackNavigatorEnum,

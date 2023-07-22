@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -13,6 +13,8 @@ import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 import { HuddlesHeader } from '@components/huddles/HuddlesHeader/HuddlesHeader';
+import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
+import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 
 export const HuddlesScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -20,7 +22,21 @@ export const HuddlesScreen = (): JSX.Element => {
     useMessaging();
     const { top } = useSafeAreaInsets();
 
+    const [isFirstLaunch, setIsFirstLaunch] = useState<boolean>(false);
     const [huddles, setHuddles] = useState<Array<HuddleItemInterface>>([]);
+
+    const firstLaunchData = useMemo(
+        (): Array<HuddleItemInterface> => [
+            {
+                id: 1,
+                createdBy: 'sender',
+                name: 'Sender',
+                topic: 'Huddle is post with idea of doing something, press 👋 to send an interest',
+                color: 0
+            }
+        ],
+        []
+    );
 
     const loadHuddles = useCallback(
         (lastId?: number) => {
@@ -53,6 +69,29 @@ export const HuddlesScreen = (): JSX.Element => {
 
     useFocusEffect(loadHuddles);
 
+    const getFirstLaunch = async () => {
+        const firstLaunch = await PersistStorage.getItem(
+            PersistStorageKeys.FIRST_LAUNCH
+        );
+
+        if (!firstLaunch) {
+            setIsFirstLaunch(true);
+            PersistStorage.setItem(
+                PersistStorageKeys.FIRST_LAUNCH,
+                'launched'
+            ).catch();
+        }
+    };
+
+    useEffect(() => {
+        getFirstLaunch().then();
+    }, []);
+
+    const data = useMemo(
+        () => (isFirstLaunch && !huddles?.length ? firstLaunchData : huddles),
+        [firstLaunchData, huddles, isFirstLaunch]
+    );
+
     const {
         renderLargeItem,
         keyExtractor,
@@ -65,7 +104,7 @@ export const HuddlesScreen = (): JSX.Element => {
             <HuddlesHeader onHuddleCreate={loadHuddles} />
             <View style={HuddlesScreenStyle.list}>
                 <FlashList
-                    data={huddles}
+                    data={data}
                     extraData={huddles}
                     renderItem={renderLargeItem}
                     keyExtractor={keyExtractor}
