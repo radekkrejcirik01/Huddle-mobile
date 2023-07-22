@@ -36,7 +36,7 @@ export const HuddlesScreen = (): JSX.Element => {
                 id: 1,
                 createdBy: 'sender',
                 name: 'Sender',
-                topic: 'This is Huddle, a post with idea of doing something, press 👋 to send an interest!',
+                topic: 'This is Huddle, a post with idea of doing something, pressing 👋 you send an interest!',
                 color: 0
             }
         ],
