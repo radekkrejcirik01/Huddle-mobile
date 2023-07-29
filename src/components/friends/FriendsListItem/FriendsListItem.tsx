@@ -16,7 +16,7 @@ export const FriendsListItem = ({
                 <ProfilePhoto
                     name={item.name}
                     photo={item?.profilePhoto}
-                    size={40}
+                    size={35}
                 />
             </TouchableOpacity>
             <Text style={FriendsListItemStyle.name}>{item.name}</Text>

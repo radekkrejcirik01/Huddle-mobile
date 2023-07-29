@@ -48,7 +48,7 @@ export const ProfilePhoto = ({
                         }
                     ]}
                 >
-                    {!!name?.length && name[0].toUpperCase()}
+                    {!!name?.length && name[0]}
                 </Text>
             </View>
         )}

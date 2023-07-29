@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
+import { useMessaging } from '@hooks/useMessaging';
 import { useRenderChats } from '@hooks/useRenderChats';
 import { useNavigation } from '@hooks/useNavigation';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
@@ -16,8 +18,12 @@ import { UnreadMessagesService } from '@utils/general/UnreadMessagesService';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { ReducerProps } from '@store/index/index.props';
 
 export const ChatsScreen = (): JSX.Element => {
+    const { username } = useSelector((state: ReducerProps) => state.user.user);
+
+    useMessaging();
     const isFocused = useIsFocused();
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
@@ -25,33 +31,36 @@ export const ChatsScreen = (): JSX.Element => {
 
     const interval = useRef(null);
 
-    const loadChats = useCallback((lastId?: number) => {
-        let endpoint = 'chats';
-        if (lastId) {
-            clearInterval(interval.current);
-            endpoint += `/${lastId}`;
-        }
-
-        getRequestUser<ResponseInterface>(endpoint).subscribe(
-            (response: ResponseChatsGetInterface) => {
-                if (response?.status && !!response?.data?.length) {
-                    if (lastId) {
-                        setChats((value) => value.concat(response?.data));
-                    } else {
-                        setChats(response?.data);
-                    }
-                } else {
-                    setChats([]);
+    const loadChats = useCallback(
+        (lastId?: number) => {
+            if (username) {
+                let endpoint = 'chats';
+                if (lastId) {
+                    clearInterval(interval.current);
+                    endpoint += `/${lastId}`;
                 }
-            }
-        );
-    }, []);
 
-    useFocusEffect(
-        useCallback(() => {
-            loadChats();
-        }, [loadChats])
+                getRequestUser<ResponseInterface>(endpoint).subscribe(
+                    (response: ResponseChatsGetInterface) => {
+                        if (response?.status && !!response?.data?.length) {
+                            if (lastId) {
+                                setChats((value) =>
+                                    value.concat(response?.data)
+                                );
+                            } else {
+                                setChats(response?.data);
+                            }
+                        } else {
+                            setChats([]);
+                        }
+                    }
+                );
+            }
+        },
+        [username]
     );
+
+    useFocusEffect(loadChats);
 
     useFocusEffect(
         useCallback(() => {

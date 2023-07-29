@@ -1,15 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
-import { useMessaging } from '@hooks/useMessaging';
 import { useNavigation } from '@hooks/useNavigation';
 import { useRenderHuddles } from '@hooks/useRenderHuddles';
 import { HuddlesScreenStyle } from '@screens/account/HuddlesScreen/HuddlesScreen.style';
 import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
-import { ReducerProps } from '@store/index/index.props';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
@@ -21,9 +18,6 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 import { BottomTabNavigatorEnum } from '@navigation/BottomTabNavigator/BottomTabNavigator.enum';
 
 export const HuddlesScreen = (): JSX.Element => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-
-    useMessaging();
     const { top } = useSafeAreaInsets();
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.BottomTabBar);
 
@@ -43,36 +37,33 @@ export const HuddlesScreen = (): JSX.Element => {
         []
     );
 
-    const loadHuddles = useCallback(
-        (lastId?: number) => {
-            if (username) {
-                let endpoint = 'huddles';
-                if (lastId) {
-                    endpoint += `/${lastId}`;
-                }
+    const loadHuddles = (lastId?: number) => {
+        let endpoint = 'huddles';
+        if (lastId) {
+            endpoint += `/${lastId}`;
+        }
 
-                getRequestUser<ResponseHuddlesGetInterface>(endpoint).subscribe(
-                    (response: ResponseHuddlesGetInterface) => {
-                        if (response?.status) {
-                            if (!lastId) {
-                                setHuddles(response?.data);
-                                return;
-                            }
-
-                            if (lastId && !!response?.data?.length) {
-                                setHuddles((value) =>
-                                    value.concat(response?.data)
-                                );
-                            }
-                        }
+        getRequestUser<ResponseHuddlesGetInterface>(endpoint).subscribe(
+            (response: ResponseHuddlesGetInterface) => {
+                if (response?.status) {
+                    if (!lastId) {
+                        setHuddles(response?.data);
+                        return;
                     }
-                );
-            }
-        },
-        [username]
-    );
 
-    useFocusEffect(loadHuddles);
+                    if (lastId && !!response?.data?.length) {
+                        setHuddles((value) => value.concat(response?.data));
+                    }
+                }
+            }
+        );
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            loadHuddles();
+        }, [])
+    );
 
     const getFirstLaunch = async () => {
         const firstLaunch = await PersistStorage.getItem(

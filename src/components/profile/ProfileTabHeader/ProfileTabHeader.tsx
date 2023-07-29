@@ -105,7 +105,7 @@ export const ProfileTabHeader = ({
                 </View>
             </View>
             <TouchableOpacity onPress={onPressProfilePhoto}>
-                <ProfilePhoto name={firstname} photo={profilePhoto} size={65} />
+                <ProfilePhoto name={firstname} photo={profilePhoto} size={80} />
             </TouchableOpacity>
             <View style={ProfileTabHeaderStyle.buttonsContainer}>
                 <TouchableOpacity

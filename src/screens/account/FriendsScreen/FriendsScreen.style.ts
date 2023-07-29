@@ -3,8 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const FriendsScreenStyle = StyleSheet.create({
     container: {
-        flex: 1,
-        paddingTop: 15
+        flex: 1
     },
     input: {
         paddingLeft: 10,

@@ -5,7 +5,7 @@ export const FriendsListItemStyle = StyleSheet.create({
     view: {
         marginHorizontal: 12,
         paddingBottom: 5,
-        borderBottomWidth: 1,
+        borderBottomWidth: 0.5,
         borderBottomColor: COLORS.BLACK_300,
         flexDirection: 'row',
         alignItems: 'center',
@@ -23,6 +23,6 @@ export const FriendsListItemStyle = StyleSheet.create({
     },
     chatEmoji: {
         marginRight: 10,
-        fontSize: 18
+        fontSize: 16
     }
 });

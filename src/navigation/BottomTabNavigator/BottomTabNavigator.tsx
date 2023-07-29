@@ -19,7 +19,7 @@ export const BottomTabNavigator = (): JSX.Element => {
     return (
         <TabBar.Navigator
             screenOptions={BottomTabNavigatorOptions}
-            initialRouteName={BottomTabNavigatorEnum.HuddlesTab}
+            initialRouteName={BottomTabNavigatorEnum.ChatsTab}
         >
             <TabBar.Screen
                 name={BottomTabNavigatorEnum.ProfileTab}

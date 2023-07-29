@@ -81,14 +81,16 @@ export const FriendsScreen = (): JSX.Element => {
 
     return (
         <View style={FriendsScreenStyle.container}>
-            <Input
-                iconLeft={<Text>🔍</Text>}
-                placeholder="Who you looking for?..."
-                value={inputValue}
-                onChange={filterData}
-                inputType={InputTypeEnum.TEXT}
-                inputStyle={FriendsScreenStyle.input}
-            />
+            {!!data?.length && (
+                <Input
+                    iconLeft={<Text>🔍</Text>}
+                    placeholder="Your contacts"
+                    value={inputValue}
+                    onChange={filterData}
+                    inputType={InputTypeEnum.TEXT}
+                    inputStyle={FriendsScreenStyle.input}
+                />
+            )}
             <FlashList
                 data={filteredData}
                 renderItem={renderFriendsItem}
