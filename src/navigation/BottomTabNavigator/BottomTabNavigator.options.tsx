@@ -19,7 +19,7 @@ export const ProfileTabOptions: BottomTabNavigationOptions = {
     headerShown: false,
     tabBarIcon: ({ focused }) => (
         // eslint-disable-next-line react-native/no-inline-styles
-        <Text style={{ fontSize: focused ? 24 : 22 }}>🙎‍♂️</Text>
+        <Text style={{ fontSize: focused ? 25 : 22 }}>🙎‍♂️</Text>
     )
 };
 
@@ -29,7 +29,7 @@ export const HuddlesTabOptions: BottomTabNavigationOptions = {
         <Text
             style={[
                 // eslint-disable-next-line react-native/no-inline-styles
-                { fontSize: focused ? 24 : 22 },
+                { fontSize: focused ? 25 : 22 },
                 BottomTabNavigatorStyle.right
             ]}
         >
@@ -58,7 +58,7 @@ export const FriendsTabOptions: BottomTabNavigationOptions = {
         // eslint-disable-next-line react-native/no-inline-styles
         <Text
             style={{
-                fontSize: focused ? 26 : 22,
+                fontSize: focused ? 25 : 22,
                 letterSpacing: focused ? -14 : -12
             }}
         >

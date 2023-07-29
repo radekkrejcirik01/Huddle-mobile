@@ -13,7 +13,7 @@ export const BottomTabNavigatorStyle = StyleSheet.create({
         fontWeight: 'bold'
     },
     tabBar: {
-        paddingTop: 10,
+        paddingTop: 5,
         paddingHorizontal: '5%',
         borderTopWidth: 0,
         backgroundColor: COLORS.BLACK

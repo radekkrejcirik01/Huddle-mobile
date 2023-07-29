@@ -29,6 +29,7 @@ import ProfileFilled3 from '@assets/webp/ProfileFilled3.webp';
 import ProfilePurple from '@assets/webp/ProfilePurple.webp';
 import Sent from '@assets/webp/Sent.webp';
 import SentBlue from '@assets/webp/SentBlue.webp';
+import SentRead from '@assets/webp/SentRead.webp';
 import Settings from '@assets/webp/Settings.webp';
 import Tune from '@assets/webp/Tune.webp';
 import Unlock from '@assets/webp/Unlock.webp';
@@ -64,6 +65,7 @@ export enum IconEnum {
     PROFILE_FILLED3 = 'ProfileFilled3',
     PROFILE_PURPLE = 'ProfilePurple',
     SENT_BLUE = 'SentBlue',
+    SENT_READ = 'SentRead',
     SENT = 'Sent',
     SETTINGS = 'Settings',
     TUNE = 'Tune',
@@ -101,6 +103,7 @@ export const ICONS = {
     [IconEnum.PROFILE_FILLED3]: ProfileFilled3,
     [IconEnum.PROFILE_PURPLE]: ProfilePurple,
     [IconEnum.SENT_BLUE]: SentBlue,
+    [IconEnum.SENT_READ]: SentRead,
     [IconEnum.SENT]: Sent,
     [IconEnum.SETTINGS]: Settings,
     [IconEnum.TUNE]: Tune,

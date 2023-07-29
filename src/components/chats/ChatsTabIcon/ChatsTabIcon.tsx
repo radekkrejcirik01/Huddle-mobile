@@ -12,7 +12,7 @@ export const ChatsTabIcon = ({ focused }: ChatsTabIconProps): JSX.Element => {
 
     return (
         <View>
-            <Text style={{ fontSize: focused ? 24 : 22 }}>💬</Text>
+            <Text style={{ fontSize: focused ? 25 : 22 }}>💬</Text>
             <Badge value={unread} />
         </View>
     );

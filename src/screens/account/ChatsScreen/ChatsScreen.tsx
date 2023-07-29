@@ -107,7 +107,7 @@ export const ChatsScreen = (): JSX.Element => {
                 estimatedItemSize={68}
                 showsVerticalScrollIndicator={false}
                 onEndReached={onEndReached}
-                ItemSeparatorComponent={() => <ItemSeparator space={20} />}
+                ItemSeparatorComponent={() => <ItemSeparator space={8} />}
                 ListEmptyComponent={
                     <>
                         <Text style={ChatsScreenStyle.description}>

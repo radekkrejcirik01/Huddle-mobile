@@ -70,7 +70,7 @@ export const MessageListItem = ({
                     {isOutbound &&
                         (item?.readBy?.length ? (
                             <Icon
-                                name={IconEnum.SENT_BLUE}
+                                name={IconEnum.SENT_READ}
                                 size={19}
                                 style={MessageListItemStyle.sentIcon}
                             />

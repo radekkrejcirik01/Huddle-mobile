@@ -14,13 +14,13 @@ export const MessageListItemStyle = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 8,
         borderRadius: 18,
-        backgroundColor: COLORS.BLACK_200,
+        backgroundColor: COLORS.BLACK_300,
         alignSelf: 'flex-start',
         alignItems: 'flex-end'
     },
     flexEnd: {
         alignSelf: 'flex-end',
-        backgroundColor: COLORS.BLACK_300
+        backgroundColor: COLORS.PASTEL_RED
     },
     longMessage: {
         flexDirection: 'row',
@@ -61,6 +61,7 @@ export const MessageListItemStyle = StyleSheet.create({
         flexDirection: 'row'
     },
     reactionText: {
+        fontSize: 15,
         marginLeft: 2
     }
 });
