@@ -20,7 +20,7 @@ export const MessageListItemStyle = StyleSheet.create({
     },
     flexEnd: {
         alignSelf: 'flex-end',
-        backgroundColor: COLORS.MESSAGE_BLUE
+        backgroundColor: COLORS.BLACK_300
     },
     longMessage: {
         flexDirection: 'row',
@@ -40,7 +40,7 @@ export const MessageListItemStyle = StyleSheet.create({
         borderRadius: 10
     },
     messageText: {
-        fontSize: 15,
+        fontSize: 16,
         color: COLORS.WHITE
     },
     timeText: {

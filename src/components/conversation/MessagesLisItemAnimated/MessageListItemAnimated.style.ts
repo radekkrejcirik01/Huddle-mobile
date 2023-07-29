@@ -19,14 +19,14 @@ export const MessageListItemAnimatedStyle = StyleSheet.create({
     },
     flexEnd: {
         alignSelf: 'flex-end',
-        backgroundColor: COLORS.MESSAGE_BLUE
+        backgroundColor: COLORS.BLACK_300
     },
     longMessage: {
         flexDirection: 'row',
         alignItems: 'center'
     },
     messageText: {
-        fontSize: 15,
+        fontSize: 16,
         color: COLORS.WHITE
     },
     timeText: {

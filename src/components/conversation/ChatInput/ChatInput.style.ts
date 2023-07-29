@@ -28,7 +28,7 @@ export const ChatInputStyle = StyleSheet.create({
         padding: 5,
         paddingRight: 15,
         flex: 1,
-        fontSize: 15,
+        fontSize: 16,
         color: COLORS.WHITE
     },
     sendView: {
