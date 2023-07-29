@@ -82,7 +82,7 @@ export const useNotifications = (
                                     remoteMessage.data.profilePhoto
                                 );
                                 break;
-                            case 'people':
+                            case 'friends':
                                 openFriends();
                                 break;
                             case 'invite':
@@ -116,7 +116,7 @@ export const useNotifications = (
                                     remoteMessage.data.profilePhoto
                                 );
                                 break;
-                            case 'people':
+                            case 'friends':
                                 openFriends();
                                 break;
                             case 'invite':
@@ -173,7 +173,7 @@ export const useNotifications = (
                                 UnreadMessagesService.loadUnread();
                             }
                             break;
-                        case 'people':
+                        case 'friends':
                             showToast(
                                 remoteMessage?.notification?.title,
                                 remoteMessage?.notification?.body,
