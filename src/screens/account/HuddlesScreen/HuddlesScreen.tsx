@@ -132,7 +132,8 @@ export const HuddlesScreen = (): JSX.Element => {
                         HuddlesScreenStyle.listContentContainer
                     }
                     ListFooterComponent={
-                        isFirstLaunch && (
+                        isFirstLaunch &&
+                        !huddles?.length && (
                             <View style={HuddlesScreenStyle.footerContainer}>
                                 <Text
                                     style={HuddlesScreenStyle.footerTitleText}

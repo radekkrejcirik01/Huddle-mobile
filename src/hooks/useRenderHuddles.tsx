@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import { Alert, RefreshControl } from 'react-native';
-import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { useNavigation } from '@hooks/useNavigation';
@@ -17,7 +16,6 @@ import {
 } from '@interfaces/post/Post.inteface';
 import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem';
 import { SmallHuddleListItem } from '@components/huddles/SmallHuddleListItem/SmallHuddleListItem';
-import { ReducerProps } from '@store/index/index.props';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const useRenderHuddles = (
@@ -38,8 +36,6 @@ export const useRenderHuddles = (
     onScrollBeginDrag: () => void;
     onEndReachedSmallItem: () => void;
 } => {
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-
     const { navigateTo, navigateBack } = useNavigation(
         RootStackNavigatorEnum.AccountStack
     );
@@ -198,7 +194,6 @@ export const useRenderHuddles = (
         ({ item }: ListRenderItemInfo<HuddleItemInterface>): JSX.Element => (
             <LargeHuddleListItem
                 item={item}
-                created={item?.createdBy === username}
                 onPressCard={() => openHuddle(item)}
                 onPressProfilePhoto={() =>
                     openProfilePhoto(item.name, item?.profilePhoto)
@@ -208,7 +203,7 @@ export const useRenderHuddles = (
                 onPressInteract={() => onPressInteract(item)}
             />
         ),
-        [onPressInteract, openActions, openHuddle, openProfilePhoto, username]
+        [onPressInteract, openActions, openHuddle, openProfilePhoto]
     );
 
     const renderSmallItem = useCallback(

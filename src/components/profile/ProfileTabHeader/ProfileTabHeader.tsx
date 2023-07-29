@@ -21,8 +21,8 @@ import { UploadProfileImageInterface } from '@interfaces/post/Post.inteface';
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const ProfileTabHeader = ({
-    onCreateHuddlePress,
-    onAddFriendPress
+    onAddFriendPress,
+    onPostHuddlePress
 }: ProfileTabHeaderProps): JSX.Element => {
     const { firstname, profilePhoto } = useSelector(
         (state: ReducerProps) => state.user.user
@@ -120,11 +120,11 @@ export const ProfileTabHeader = ({
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={onCreateHuddlePress}
+                    onPress={onPostHuddlePress}
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>
-                        Create Huddle 👋
+                        Post huddle 👋
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity

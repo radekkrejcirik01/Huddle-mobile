@@ -14,7 +14,6 @@ import { IconButton } from '@components/general/IconButton/IconButton';
 
 export const LargeHuddleListItem = ({
     item,
-    created,
     onPressCard,
     onPressProfilePhoto,
     onPressInteract,
@@ -122,21 +121,19 @@ export const LargeHuddleListItem = ({
                             {item?.commentsNumber > 1 ? 'comments' : 'comment'}
                         </Text>
                     )}
-                    {!created && (
-                        <View style={LargeHuddleListItemStyle.flex}>
-                            <TouchableOpacity
-                                onPress={interact}
-                                style={[
-                                    LargeHuddleListItemStyle.handView,
-                                    { backgroundColor: secondaryColor }
-                                ]}
-                            >
-                                <Text style={LargeHuddleListItemStyle.handText}>
-                                    {interactedText}
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
+                    <View style={LargeHuddleListItemStyle.flex}>
+                        <TouchableOpacity
+                            onPress={interact}
+                            style={[
+                                LargeHuddleListItemStyle.handView,
+                                { backgroundColor: secondaryColor }
+                            ]}
+                        >
+                            <Text style={LargeHuddleListItemStyle.handText}>
+                                {interactedText}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         </TouchableOpacity>

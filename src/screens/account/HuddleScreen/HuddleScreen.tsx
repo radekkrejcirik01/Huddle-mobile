@@ -99,7 +99,10 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
         }
     }, [created, huddle?.id]);
 
-    const { onPressInteract, openActions } = useRenderHuddles();
+    const { onPressInteract, openActions } = useRenderHuddles(
+        [],
+        loadInteractions
+    );
     const { renderInteractionItem, keyInteractionExtractor } =
         useRenderInteractions();
 
@@ -216,7 +219,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
             return 2;
         }
 
-        const itemsHeight = interactions?.length * 45;
+        const itemsHeight = interactions?.length * 40;
         const separatorsHeight = (interactions?.length - 1) * 15;
 
         return itemsHeight + separatorsHeight;
@@ -272,7 +275,6 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                             ) : (
                                 <LargeHuddleListItem
                                     item={huddle}
-                                    created={created}
                                     onPressProfilePhoto={() =>
                                         openProfilePhoto(
                                             huddle.name,

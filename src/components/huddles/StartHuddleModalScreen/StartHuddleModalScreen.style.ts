@@ -9,8 +9,8 @@ export const StartHuddleModalScreenStyle = StyleSheet.create({
         backgroundColor: COLORS.BLACK,
         justifyContent: 'space-evenly'
     },
-    huddleText: {
-        fontSize: 25,
+    titleText: {
+        fontSize: 20,
         color: COLORS.WHITE,
         fontWeight: 'bold',
         textAlign: 'center'

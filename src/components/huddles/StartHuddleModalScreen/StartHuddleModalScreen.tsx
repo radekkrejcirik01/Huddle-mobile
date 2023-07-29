@@ -43,7 +43,9 @@ export const StartHuddleModalScreen = ({
 
     return (
         <View style={StartHuddleModalScreenStyle.screen}>
-            <Text style={StartHuddleModalScreenStyle.huddleText}>Huddle</Text>
+            <Text style={StartHuddleModalScreenStyle.titleText}>
+                what would you like to do?
+            </Text>
             <HuddleEditableCard
                 onTopicChange={(text) => {
                     topic.current = text;

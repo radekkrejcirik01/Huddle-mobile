@@ -3,7 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const HuddleEditableCardStyle = StyleSheet.create({
     container: {
-        height: 180,
+        height: 170,
         width: '100%',
         padding: 15,
         paddingLeft: 12,

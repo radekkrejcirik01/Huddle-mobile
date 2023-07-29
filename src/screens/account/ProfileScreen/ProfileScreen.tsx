@@ -61,7 +61,7 @@ export const ProfileScreen = (): JSX.Element => {
         hideModal();
     }, [hideModal]);
 
-    const onCreateHuddlePress = useCallback(() => {
+    const onPostHuddlePress = useCallback(() => {
         setModalContent(
             <StartHuddleModalScreen
                 onCreate={loadHuddles}
@@ -89,8 +89,8 @@ export const ProfileScreen = (): JSX.Element => {
             <FlashList
                 ListHeaderComponent={
                     <ProfileTabHeader
-                        onCreateHuddlePress={onCreateHuddlePress}
                         onAddFriendPress={onAddFriendPress}
+                        onPostHuddlePress={onPostHuddlePress}
                     />
                 }
                 ListHeaderComponentStyle={ProfileScreenStyle.header}
@@ -111,13 +111,13 @@ export const ProfileScreen = (): JSX.Element => {
                             place for those colorful pretty{'\n'}Huddles
                         </Text>
                         <TouchableOpacity
-                            onPress={onCreateHuddlePress}
+                            onPress={onPostHuddlePress}
                             style={ProfileScreenStyle.descriptionButtonView}
                         >
                             <Text
                                 style={ProfileScreenStyle.descriptionButtonText}
                             >
-                                create huddle
+                                post huddle
                             </Text>
                         </TouchableOpacity>
                     </>

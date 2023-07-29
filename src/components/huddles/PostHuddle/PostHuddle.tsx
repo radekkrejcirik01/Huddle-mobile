@@ -3,10 +3,12 @@ import { Keyboard, Text } from 'react-native';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { StartHuddleModalScreen } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen';
 import { Modal } from '@components/general/Modal/Modal';
-import { AddHuddleStyle } from '@components/huddles/AddHuddle/AddHuddle.style';
-import { AddHuddleProps } from '@components/huddles/AddHuddle/AddHuddle.props';
+import { PostHuddleStyle } from '@components/huddles/PostHuddle/PostHuddle.style';
+import { PostHuddleProps } from '@components/huddles/PostHuddle/PostHuddle.props';
 
-export const AddHuddle = ({ onCreateHuddle }: AddHuddleProps): JSX.Element => {
+export const PostHuddle = ({
+    onCreateHuddle
+}: PostHuddleProps): JSX.Element => {
     const [startHuddle, setStartHuddle] = useState<boolean>(false);
 
     const hideStartHuddle = () => {
@@ -18,9 +20,9 @@ export const AddHuddle = ({ onCreateHuddle }: AddHuddleProps): JSX.Element => {
         <>
             <TouchableOpacity
                 onPress={() => setStartHuddle(true)}
-                style={AddHuddleStyle.view}
+                style={PostHuddleStyle.view}
             >
-                <Text style={AddHuddleStyle.createText}>Create 👋</Text>
+                <Text style={PostHuddleStyle.createText}>Post 👋</Text>
             </TouchableOpacity>
             <Modal
                 isVisible={startHuddle}

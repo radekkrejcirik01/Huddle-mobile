@@ -3,7 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const LargeHuddleListItemStyle = StyleSheet.create({
     container: {
-        height: 180,
+        height: 170,
         width: '100%',
         padding: 15,
         paddingLeft: 12,
@@ -47,8 +47,8 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         flex: 1
     },
     handView: {
-        marginRight: 5,
-        marginBottom: 5,
+        marginRight: 2,
+        marginBottom: 2,
         paddingVertical: 16,
         paddingHorizontal: 18,
         borderRadius: 35,
