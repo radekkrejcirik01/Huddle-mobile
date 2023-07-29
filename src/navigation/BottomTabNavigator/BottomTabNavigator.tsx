@@ -22,9 +22,9 @@ export const BottomTabNavigator = (): JSX.Element => {
             initialRouteName={BottomTabNavigatorEnum.ChatsTab}
         >
             <TabBar.Screen
-                name={BottomTabNavigatorEnum.ProfileTab}
-                component={ProfileScreen}
-                options={ProfileTabOptions}
+                name={BottomTabNavigatorEnum.FriendsTab}
+                component={FriendsScreen}
+                options={FriendsTabOptions}
             />
             <TabBar.Screen
                 name={BottomTabNavigatorEnum.HuddlesTab}
@@ -37,9 +37,9 @@ export const BottomTabNavigator = (): JSX.Element => {
                 options={ChatsTabOptions}
             />
             <TabBar.Screen
-                name={BottomTabNavigatorEnum.FriendsTab}
-                component={FriendsScreen}
-                options={FriendsTabOptions}
+                name={BottomTabNavigatorEnum.ProfileTab}
+                component={ProfileScreen}
+                options={ProfileTabOptions}
             />
         </TabBar.Navigator>
     );

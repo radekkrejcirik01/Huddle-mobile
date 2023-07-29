@@ -62,7 +62,7 @@ export const FriendsTabOptions: BottomTabNavigationOptions = {
                 letterSpacing: focused ? -14 : -12
             }}
         >
-            🧍‍♂️🧍‍♀️
+            🧍‍♀️🧍‍♂️
         </Text>
     )
 };
