@@ -11,46 +11,25 @@ export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
     headerTintColor: COLORS.WHITE,
     headerStyle: BottomTabNavigatorStyle.header,
     tabBarStyle: BottomTabNavigatorStyle.tabBar,
-    title: null
+    title: null,
+    tabBarShowLabel: false
 };
 
 export const ProfileTabOptions: BottomTabNavigationOptions = {
     headerShown: false,
-    tabBarLabel: ({ focused }) => (
-        <Text
-            style={[
-                BottomTabNavigatorStyle.tabLabel,
-                // eslint-disable-next-line react-native/no-inline-styles
-                { opacity: focused ? 1 : 0.7 }
-            ]}
-        >
-            Profile
-        </Text>
-    ),
     tabBarIcon: ({ focused }) => (
         // eslint-disable-next-line react-native/no-inline-styles
-        <Text style={{ fontSize: focused ? 25 : 20 }}>🙎‍♂️</Text>
+        <Text style={{ fontSize: focused ? 24 : 22 }}>🙎‍♂️</Text>
     )
 };
 
 export const HuddlesTabOptions: BottomTabNavigationOptions = {
     headerShown: false,
-    tabBarLabel: ({ focused }) => (
-        <Text
-            style={[
-                BottomTabNavigatorStyle.tabLabel,
-                // eslint-disable-next-line react-native/no-inline-styles
-                { opacity: focused ? 1 : 0.7 }
-            ]}
-        >
-            Huddles
-        </Text>
-    ),
     tabBarIcon: ({ focused }) => (
         <Text
             style={[
                 // eslint-disable-next-line react-native/no-inline-styles
-                { fontSize: focused ? 24 : 20 },
+                { fontSize: focused ? 24 : 22 },
                 BottomTabNavigatorStyle.right
             ]}
         >
@@ -64,17 +43,6 @@ export const ChatsTabOptions: BottomTabNavigationOptions = {
     headerRight: () => (
         <Text style={BottomTabNavigatorStyle.rightTitleText}>chats</Text>
     ),
-    tabBarLabel: ({ focused }) => (
-        <Text
-            style={[
-                BottomTabNavigatorStyle.tabLabel,
-                // eslint-disable-next-line react-native/no-inline-styles
-                { opacity: focused ? 1 : 0.7 }
-            ]}
-        >
-            Chats
-        </Text>
-    ),
     tabBarIcon: ({ focused }) => (
         // eslint-disable-next-line react-native/no-inline-styles
         <ChatsTabIcon focused={focused} />
@@ -86,22 +54,11 @@ export const FriendsTabOptions: BottomTabNavigationOptions = {
     headerRight: () => (
         <Text style={BottomTabNavigatorStyle.rightTitleText}>friends</Text>
     ),
-    tabBarLabel: ({ focused }) => (
-        <Text
-            style={[
-                BottomTabNavigatorStyle.tabLabel,
-                // eslint-disable-next-line react-native/no-inline-styles
-                { opacity: focused ? 1 : 0.7 }
-            ]}
-        >
-            Friends
-        </Text>
-    ),
     tabBarIcon: ({ focused }) => (
         // eslint-disable-next-line react-native/no-inline-styles
         <Text
             style={{
-                fontSize: focused ? 24 : 20,
+                fontSize: focused ? 26 : 22,
                 letterSpacing: focused ? -14 : -12
             }}
         >

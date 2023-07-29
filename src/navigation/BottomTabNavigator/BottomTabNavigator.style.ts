@@ -13,18 +13,12 @@ export const BottomTabNavigatorStyle = StyleSheet.create({
         fontWeight: 'bold'
     },
     tabBar: {
-        bottom: 5, // Lift the bottom bar
-        marginTop: 10,
+        paddingTop: 10,
         paddingHorizontal: '5%',
         borderTopWidth: 0,
-        backgroundColor: COLORS.TRANSPARENT
+        backgroundColor: COLORS.BLACK
     },
     right: {
         right: 2
-    },
-    tabLabel: {
-        fontSize: 9,
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
     }
 });
