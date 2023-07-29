@@ -1,55 +1,55 @@
 {
   "images" : [
     {
-      "filename" : "hand.logo440x40.png",
+      "filename" : "sender.icon40x40.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "hand.logo460x60.png",
+      "filename" : "sender.icon60x60.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "hand.logo458x58.png",
+      "filename" : "sender.icon58x58.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "hand.logo487x87.png",
+      "filename" : "sender.icon87x87.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : "hand.logo480x80.png",
+      "filename" : "sender.icon80x80.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "hand.logo4120x120 1.png",
+      "filename" : "sender.icon120x120.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename" : "hand.logo4120x120.png",
+      "filename" : "sender.icon120x120 1.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "hand.logo4180x180.png",
+      "filename" : "sender.icon180x180.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
-      "filename" : "hand.logo4.png",
+      "filename" : "sender.icon.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"

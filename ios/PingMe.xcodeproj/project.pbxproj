@@ -16,8 +16,8 @@
 		B9820629069C47E42D3F686F /* Pods_PingMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4889D90FC6C61D3028CE4BF0 /* Pods_PingMe.framework */; };
 		BA7AC6242A546B6F00ED78E0 /* hand.logo4.nobg.png in Resources */ = {isa = PBXBuildFile; fileRef = BA7AC6232A546B6F00ED78E0 /* hand.logo4.nobg.png */; };
 		BA82BDA8297D6BF7002B802E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA82BDA7297D6BF7002B802E /* GoogleService-Info.plist */; };
+		BA9F490D2A7528A9002E3604 /* sender.logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BA9F490C2A7528A9002E3604 /* sender.logo.png */; };
 		BAC115F72986ECCB00B52E3A /* notification.wav in Resources */ = {isa = PBXBuildFile; fileRef = BAC115F62986ECCB00B52E3A /* notification.wav */; };
-		BAC21F99297DCF1900A925B5 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BAC21F98297DCF1900A925B5 /* logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,8 +49,8 @@
 		BA544100297D804B0036C929 /* PingMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = PingMe.entitlements; path = PingMe/PingMe.entitlements; sourceTree = "<group>"; };
 		BA7AC6232A546B6F00ED78E0 /* hand.logo4.nobg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hand.logo4.nobg.png; sourceTree = "<group>"; };
 		BA82BDA7297D6BF7002B802E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BA9F490C2A7528A9002E3604 /* sender.logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sender.logo.png; path = ../../Documents/sender.logo.png; sourceTree = "<group>"; };
 		BAC115F62986ECCB00B52E3A /* notification.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = notification.wav; path = ../../Downloads/notification.wav; sourceTree = "<group>"; };
-		BAC21F98297DCF1900A925B5 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		D639211A9F4969319FE9008C /* Pods-PingMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PingMe.debug.xcconfig"; path = "Target Support Files/Pods-PingMe/Pods-PingMe.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -99,10 +99,10 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				BA9F490C2A7528A9002E3604 /* sender.logo.png */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				BA7AC6232A546B6F00ED78E0 /* hand.logo4.nobg.png */,
-				BAC21F98297DCF1900A925B5 /* logo.png */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = PingMe;
@@ -257,8 +257,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BAC21F99297DCF1900A925B5 /* logo.png in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				BA9F490D2A7528A9002E3604 /* sender.logo.png in Resources */,
 				BAC115F72986ECCB00B52E3A /* notification.wav in Resources */,
 				BA82BDA8297D6BF7002B802E /* GoogleService-Info.plist in Resources */,
 				BA7AC6242A546B6F00ED78E0 /* hand.logo4.nobg.png in Resources */,
