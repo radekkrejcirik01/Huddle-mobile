@@ -58,8 +58,8 @@ export const FriendsTabOptions: BottomTabNavigationOptions = {
         // eslint-disable-next-line react-native/no-inline-styles
         <Text
             style={{
-                fontSize: focused ? 25 : 22,
-                letterSpacing: focused ? -14 : -12
+                fontSize: focused ? 25 : 23,
+                letterSpacing: focused ? -14 : -13
             }}
         >
             🧍‍♀️🧍‍♂️
