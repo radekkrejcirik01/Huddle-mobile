@@ -22,7 +22,7 @@ export const PostHuddle = ({
                 onPress={() => setStartHuddle(true)}
                 style={PostHuddleStyle.view}
             >
-                <Text style={PostHuddleStyle.createText}>Post 👋</Text>
+                <Text>👍</Text>
             </TouchableOpacity>
             <Modal
                 isVisible={startHuddle}

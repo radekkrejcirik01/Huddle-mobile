@@ -1,5 +1,5 @@
 import { StyleProp, ViewStyle } from 'react-native';
-import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
+import { HuddleItemInterface } from '@screens/account/ConversationScreen/ConversationScreen.props';
 
 export interface LargeHuddleListItemProps {
     item: HuddleItemInterface;

@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import {
+    useFocusEffect,
+    useIsFocused,
+    useNavigation as useDefaultNavigation
+} from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useMessaging } from '@hooks/useMessaging';
 import { useRenderChats } from '@hooks/useRenderChats';
@@ -19,17 +23,27 @@ import { TouchableOpacity } from '@components/general/TouchableOpacity/Touchable
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { ReducerProps } from '@store/index/index.props';
+import { PostHuddle } from '@components/huddles/PostHuddle/PostHuddle';
 
 export const ChatsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     useMessaging();
     const isFocused = useIsFocused();
+    const navigation = useDefaultNavigation();
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const [chats, setChats] = useState<Array<ChatsListDataProps>>([]);
 
     const interval = useRef(null);
+
+    useEffect(
+        () =>
+            navigation.setOptions({
+                headerLeft: () => <PostHuddle onCreateHuddle={() => {}} />
+            }),
+        [navigation]
+    );
 
     const loadChats = useCallback(
         (lastId?: number) => {

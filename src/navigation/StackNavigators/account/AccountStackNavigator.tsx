@@ -15,6 +15,7 @@ import { HuddleScreen } from '@screens/account/HuddleScreen/HuddleScreen';
 import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { SettingsScreen } from '@screens/account/SettingsScreen/SettingsScreen';
 import { PrivacyScreen } from '@screens/account/PrivacyScreen/PrivacyScreen';
+import { ProfileScreen } from '@screens/account/ProfileScreen/ProfileScreen';
 import { ShowHuddlesScreen } from '@screens/account/ShowHuddlesScreen/ShowHuddlesScreen';
 import { ManageAccountScreen } from '@screens/account/ManageAccountScreen/ManageAccountScreen';
 import { MutedHuddlesScreen } from '@screens/account/MutedHuddlesScreen/MutedHuddlesScreen';
@@ -90,6 +91,11 @@ export const AccountStackNavigator = (): JSX.Element => (
             name={AccountStackNavigatorEnum.PrivacyScreen}
             component={PrivacyScreen}
             options={{ ...NavigationScreenHeader, ...PrivacyTitle }}
+        />
+        <Account.Screen
+            name={AccountStackNavigatorEnum.ProfileScreen}
+            component={ProfileScreen}
+            options={{ ...NavigationScreenHeader, ...NoTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.ProfilePhotoScreen}

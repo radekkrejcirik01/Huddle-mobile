@@ -1,4 +1,4 @@
-import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
+import { HuddleItemInterface } from '@screens/account/ConversationScreen/ConversationScreen.props';
 
 export interface SmallHuddleListItemProps {
     item: HuddleItemInterface;

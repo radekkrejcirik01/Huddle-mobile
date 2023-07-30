@@ -6,19 +6,10 @@ export const BottomTabNavigatorStyle = StyleSheet.create({
         shadowOpacity: 0,
         backgroundColor: COLORS.BLACK
     },
-    rightTitleText: {
-        marginRight: 20,
-        fontSize: 25,
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
-    },
     tabBar: {
         paddingTop: 5,
         paddingHorizontal: '5%',
         borderTopWidth: 0,
         backgroundColor: COLORS.BLACK
-    },
-    right: {
-        right: 2
     }
 });

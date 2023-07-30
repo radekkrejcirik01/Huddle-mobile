@@ -5,29 +5,11 @@ export const ProfileTabHeaderStyle = StyleSheet.create({
     container: {
         alignItems: 'center'
     },
-    profileContent: {
-        paddingHorizontal: 5,
-        paddingBottom: 15,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    flex: {
-        flex: 1
-    },
     image: {
         width: 65,
         height: 65,
         borderRadius: 65,
         backgroundColor: COLORS.GRAY_400
-    },
-    menuView: {
-        flex: 1,
-        alignItems: 'flex-end'
-    },
-    nameText: {
-        fontSize: 24,
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
     },
     buttonsContainer: {
         width: '80%',

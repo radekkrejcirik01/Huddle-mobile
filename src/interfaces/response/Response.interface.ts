@@ -1,5 +1,8 @@
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
-import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
+import {
+    HuddleItemInterface,
+    MessageItemProps
+} from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
 import { HuddleInteractionInterface } from '@screens/account/HuddleScreen/HuddleScreen.props';
 import {
@@ -7,7 +10,6 @@ import {
     CommentLikeInterface
 } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
-import { MessageItemProps } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { InviteItemProps } from '@screens/account/InvitesScreen/InvitesScreen.props';
 import { HiddenItemProps } from '@screens/account/ShowHuddlesScreen/ShowHuddlesScreen.props';
 import { MutedHuddlesItemProps } from '@screens/account/MutedHuddlesScreen/MutedHuddlesScreen.props';

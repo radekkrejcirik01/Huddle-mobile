@@ -5,6 +5,9 @@ export const ProfileScreenStyle = StyleSheet.create({
     container: {
         flex: 1
     },
+    settingsView: {
+        marginRight: 15
+    },
     header: {
         paddingBottom: 20
     },

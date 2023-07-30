@@ -1,19 +1,19 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import { Badge } from '@components/general/Badge/Badge';
-import { ChatsTabIconProps } from '@components/chats/ChatsTabIcon/ChatsTabIcon.props';
-import { ReducerProps } from '@store/index/index.props';
+import { Text } from 'react-native';
+import { useNavigation } from '@hooks/useNavigation';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { ChatsTabIconStyle } from '@components/chats/ChatsTabIcon/ChatsTabIcon.style';
 
-export const ChatsTabIcon = ({ focused }: ChatsTabIconProps): JSX.Element => {
-    const { unread } = useSelector(
-        (state: ReducerProps) => state.unreadMessages
-    );
+export const ChatsTabIcon = (): JSX.Element => {
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     return (
-        <View>
-            <Text style={{ fontSize: focused ? 25 : 22 }}>💬</Text>
-            <Badge value={unread} />
-        </View>
+        <TouchableOpacity
+            onPress={() => navigateTo(AccountStackNavigatorEnum.FriendsScreen)}
+        >
+            <Text style={ChatsTabIconStyle.text}>💬</Text>
+        </TouchableOpacity>
     );
 };

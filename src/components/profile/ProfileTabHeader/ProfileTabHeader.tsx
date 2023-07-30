@@ -11,8 +11,6 @@ import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/A
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { ProfileTabHeaderStyle } from '@components/profile/ProfileTabHeader/ProfileTabHeader.style';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { IconButton } from '@components/general/IconButton/IconButton';
-import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { ProfileTabHeaderProps } from '@components/profile/ProfileTabHeader/ProfileTabHeader.props';
 import { setProfilePhotoAction } from '@store/UserReducer';
 import { postRequestUser } from '@utils/Axios/Axios.service';
@@ -91,19 +89,6 @@ export const ProfileTabHeader = ({
 
     return (
         <View style={ProfileTabHeaderStyle.container}>
-            <View style={ProfileTabHeaderStyle.profileContent}>
-                <View style={ProfileTabHeaderStyle.flex} />
-                <Text style={ProfileTabHeaderStyle.nameText}>{firstname}</Text>
-                <View style={ProfileTabHeaderStyle.menuView}>
-                    <IconButton
-                        icon={IconEnum.MENU}
-                        size={22}
-                        onPress={() =>
-                            navigateTo(AccountStackNavigatorEnum.SettingsScreen)
-                        }
-                    />
-                </View>
-            </View>
             <TouchableOpacity onPress={onPressProfilePhoto}>
                 <ProfilePhoto name={firstname} photo={profilePhoto} size={80} />
             </TouchableOpacity>

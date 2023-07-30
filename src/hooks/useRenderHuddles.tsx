@@ -5,7 +5,7 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 import { useNavigation } from '@hooks/useNavigation';
 import { useRefresh } from '@hooks/useRefresh';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
-import { HuddleItemInterface } from '@screens/account/HuddlesScreen/HuddlesScreen.props';
+import { HuddleItemInterface } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
