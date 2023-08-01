@@ -10,10 +10,16 @@ import { getLocalTimeFromUTCUnix } from '@functions/getLocalTimeFromUTCUnix';
 import { MessageListItemStyle } from '@components/conversation/MessagesLisItem/MessageListItem.style';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { Icon } from '@components/general/Icon/Icon';
+import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem';
 
 export const MessageListItem = ({
     item,
-    onLongPress,
+    onMessageLongPress,
+    onHuddlePress,
+    onHuddleLikePress,
+    onHuddleMorePress,
+    onHuddleProfilePress,
+    onHuddleLongPress,
     hasSpace
 }: MessageListItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -29,6 +35,21 @@ export const MessageListItem = ({
         }
     }, [isImage, item?.url, openPhoto]);
 
+    if (item?.huddle) {
+        return (
+            <View style={MessageListItemStyle.huddleView}>
+                <LargeHuddleListItem
+                    item={item.huddle}
+                    onProfilePress={onHuddleProfilePress}
+                    onCardPress={onHuddlePress}
+                    onCardLongPress={onHuddleLongPress}
+                    onLikePress={onHuddleLikePress}
+                    onMorePress={onHuddleMorePress}
+                />
+            </View>
+        );
+    }
+
     return (
         <View
             style={[
@@ -38,7 +59,7 @@ export const MessageListItem = ({
         >
             <TouchableOpacity
                 activeOpacity={1}
-                onLongPress={onLongPress}
+                onLongPress={onMessageLongPress}
                 onPress={onPhotoPress}
                 style={[
                     MessageListItemStyle.view,

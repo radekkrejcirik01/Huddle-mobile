@@ -84,7 +84,7 @@ export const FriendsScreen = (): JSX.Element => {
             {!!data?.length && (
                 <Input
                     iconLeft={<Text>🔍</Text>}
-                    placeholder="Your contacts"
+                    placeholder="Serch contacts"
                     value={inputValue}
                     onChange={filterData}
                     inputType={InputTypeEnum.TEXT}

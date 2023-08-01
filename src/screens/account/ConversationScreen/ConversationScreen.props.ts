@@ -14,24 +14,24 @@ export interface ConversationScreenProps {
     >;
 }
 
+export interface HuddleItemInterface {
+    id: number;
+    sender: string;
+    profilePhoto?: string;
+    name: string;
+    message: string;
+    color: number;
+    commentsNumber?: number;
+    liked?: number;
+}
 export interface MessageItemProps {
     id: number;
     sender: string;
     message: string;
     time: number;
     url?: string;
+    huddle?: HuddleItemInterface;
     reactions?: Array<string>;
     readBy?: Array<string>;
     animate?: boolean;
-}
-
-export interface HuddleItemInterface {
-    id: number;
-    createdBy: string;
-    profilePhoto?: string;
-    name: string;
-    topic: string;
-    color: number;
-    commentsNumber?: number;
-    interacted?: number;
 }

@@ -3,12 +3,19 @@ import { Alert } from 'react-native';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import Clipboard from '@react-native-clipboard/clipboard';
-import { MessageItemProps } from '@screens/account/ConversationScreen/ConversationScreen.props';
+import { useNavigation } from '@hooks/useNavigation';
+import { useHuddleActions } from '@hooks/useHuddleActions';
+import {
+    HuddleItemInterface,
+    MessageItemProps
+} from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { MessageInteractionPostInterface } from '@interfaces/post/Post.inteface';
 import { MessageListItemAnimated } from '@components/conversation/MessagesLisItemAnimated/MessageListItemAnimated';
 import { MessageListItem } from '@components/conversation/MessagesLisItem/MessageListItem';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const useRenderMesages = (
     messages: Array<MessageItemProps>,
@@ -22,7 +29,10 @@ export const useRenderMesages = (
     keyMessageExtractor: (item: MessageItemProps, index: number) => string;
     onEndReached: () => void;
 } => {
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const { showActionSheetWithOptions } = useActionSheet();
+    const { openHuddleActions, onHuddleLikePress, openHuddleProfile } =
+        useHuddleActions();
 
     const react = useCallback(
         (item: MessageItemProps, interaction: string) => {
@@ -83,6 +93,14 @@ export const useRenderMesages = (
         [react, showActionSheetWithOptions]
     );
 
+    const openHuddle = useCallback(
+        (item: HuddleItemInterface) =>
+            navigateTo(AccountStackNavigatorEnum.HuddleScreen, {
+                huddle: item
+            }),
+        [navigateTo]
+    );
+
     const renderMessageItem = useCallback(
         ({ item, index }: ListRenderItemInfo<MessageItemProps>): JSX.Element =>
             item?.animate ? (
@@ -96,13 +114,25 @@ export const useRenderMesages = (
             ) : (
                 <MessageListItem
                     item={item}
-                    onLongPress={() => showActionSheet(item)}
+                    onMessageLongPress={() => showActionSheet(item)}
+                    onHuddlePress={() => openHuddle(item.huddle)}
+                    onHuddleProfilePress={() => openHuddleProfile(item.huddle)}
+                    onHuddleLikePress={() => onHuddleLikePress(item.huddle)}
+                    onHuddleLongPress={() => openHuddleActions(item.huddle)}
+                    onHuddleMorePress={() => openHuddleActions(item.huddle)}
                     hasSpace={
                         messages[index]?.sender !== messages[index + 1]?.sender
                     }
                 />
             ),
-        [messages, showActionSheet]
+        [
+            messages,
+            onHuddleLikePress,
+            openHuddle,
+            openHuddleActions,
+            openHuddleProfile,
+            showActionSheet
+        ]
     );
 
     const keyMessageExtractor = (item: MessageItemProps): string =>

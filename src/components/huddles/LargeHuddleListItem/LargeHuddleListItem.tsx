@@ -14,27 +14,26 @@ import { IconButton } from '@components/general/IconButton/IconButton';
 
 export const LargeHuddleListItem = ({
     item,
-    onPressCard,
-    onPressProfilePhoto,
-    onPressInteract,
-    onItemLongPress,
+    onCardPress,
+    onProfilePress,
+    onLikePress,
+    onCardLongPress,
     onMorePress,
-    hideCommentsNumber,
     style
 }: LargeHuddleListItemProps): JSX.Element => {
-    const [interacted, setInteracted] = useState<boolean>();
+    const [liked, setLiked] = useState<boolean>();
 
     const { showActionSheetWithOptions } = useActionSheet();
     const { primaryColor, secondaryColor } = getHuddleColor(item.color);
 
-    useEffect(() => setInteracted(!!item?.interacted), [item?.interacted]);
+    useEffect(() => setLiked(!!item?.liked), [item?.liked]);
 
     const interactAction = useCallback(() => {
-        onPressInteract();
+        onLikePress();
 
-        item.interacted = interacted ? 0 : 1;
-        setInteracted(!interacted);
-    }, [interacted, item, onPressInteract]);
+        item.liked = liked ? 0 : 1;
+        setLiked(!liked);
+    }, [item, liked, onLikePress]);
 
     const removeInteractionActionSheet = useCallback(() => {
         const options = ['Remove', 'Cancel'];
@@ -55,24 +54,28 @@ export const LargeHuddleListItem = ({
     }, [interactAction, showActionSheetWithOptions]);
 
     const interact = useCallback(() => {
-        if (interacted) {
+        if (liked) {
             removeInteractionActionSheet();
         } else {
             interactAction();
         }
-    }, [interactAction, interacted, removeInteractionActionSheet]);
+    }, [interactAction, liked, removeInteractionActionSheet]);
 
-    const interactedText = useMemo(
-        (): string => (interacted ? '✅' : '👋'),
-        [interacted]
-    );
+    const likedText = useMemo((): string => (liked ? '✅' : '👍'), [liked]);
+
+    function getCommentsText(commentsNumber: number): string {
+        if (commentsNumber === 1) {
+            return 'comment';
+        }
+        return 'comments';
+    }
 
     return (
         <TouchableOpacity
             activeOpacity={1}
-            disabled={!onPressCard}
-            onPress={onPressCard}
-            onLongPress={onItemLongPress}
+            disabled={!onCardPress}
+            onPress={onCardPress}
+            onLongPress={onCardLongPress}
             style={[
                 LargeHuddleListItemStyle.container,
                 { backgroundColor: primaryColor },
@@ -84,7 +87,7 @@ export const LargeHuddleListItem = ({
                     <View>
                         <TouchableOpacity
                             activeOpacity={0.9}
-                            onPress={onPressProfilePhoto}
+                            onPress={onProfilePress}
                         >
                             <ProfilePhoto
                                 name={item.name}
@@ -99,7 +102,7 @@ export const LargeHuddleListItem = ({
                             {item?.name}
                         </Text>
                         <Text style={LargeHuddleListItemStyle.topicText}>
-                            {item.topic}
+                            {item.message}
                         </Text>
                     </View>
                     <IconButton
@@ -115,12 +118,10 @@ export const LargeHuddleListItem = ({
                         LargeHuddleListItemStyle.flexEnd
                     ]}
                 >
-                    {!!item?.commentsNumber && !hideCommentsNumber && (
-                        <Text style={LargeHuddleListItemStyle.commentsText}>
-                            {item?.commentsNumber}{' '}
-                            {item?.commentsNumber > 1 ? 'comments' : 'comment'}
-                        </Text>
-                    )}
+                    <Text style={LargeHuddleListItemStyle.commentsText}>
+                        {item?.commentsNumber}{' '}
+                        {getCommentsText(item?.commentsNumber)}
+                    </Text>
                     <View style={LargeHuddleListItemStyle.flex}>
                         <TouchableOpacity
                             onPress={interact}
@@ -130,7 +131,7 @@ export const LargeHuddleListItem = ({
                             ]}
                         >
                             <Text style={LargeHuddleListItemStyle.handText}>
-                                {interactedText}
+                                {likedText}
                             </Text>
                         </TouchableOpacity>
                     </View>

@@ -17,10 +17,8 @@ import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
 export const useRenderComments = (
     comments: Array<CommentItemInterface>,
     huddleId: number,
-    refreshComments: () => void,
     loadComments: (lastId?: number) => void,
-    mention: (value: Mention) => void,
-    isFirstLaunch: boolean
+    mention: (value: Mention) => void
 ): {
     renderCommentItem: ({
         item
@@ -37,7 +35,7 @@ export const useRenderComments = (
 
     const pressCommentLike = useCallback(
         (value: boolean, item: CommentItemInterface) => {
-            if (value && !isFirstLaunch) {
+            if (value) {
                 postRequestUser<
                     ResponseInterface,
                     HuddleLikeCommentPostInterface
@@ -46,36 +44,32 @@ export const useRenderComments = (
                     commentId: item?.id,
                     huddleId
                 }).subscribe(() => {
-                    refreshComments();
+                    loadComments();
                 });
             } else {
                 deleteRequestUser<ResponseInterface>(
                     `comment-like/${item?.id}`
                 ).subscribe(() => {
-                    refreshComments();
+                    loadComments();
                 });
             }
         },
-        [huddleId, isFirstLaunch, refreshComments]
+        [huddleId, loadComments]
     );
 
     const deleteComment = useCallback(
         (id: number) => {
             deleteRequestUser<ResponseInterface>(`comment/${id}`).subscribe(
                 () => {
-                    refreshComments();
+                    loadComments();
                 }
             );
         },
-        [refreshComments]
+        [loadComments]
     );
 
     const itemLongPress = useCallback(
         (item: CommentItemInterface) => {
-            if (isFirstLaunch) {
-                return;
-            }
-
             const commentByUser = item.sender === username;
             const options = [
                 'Copy',
@@ -110,13 +104,7 @@ export const useRenderComments = (
                 }
             );
         },
-        [
-            deleteComment,
-            isFirstLaunch,
-            mention,
-            showActionSheetWithOptions,
-            username
-        ]
+        [deleteComment, mention, showActionSheetWithOptions, username]
     );
 
     const renderCommentItem = useCallback(

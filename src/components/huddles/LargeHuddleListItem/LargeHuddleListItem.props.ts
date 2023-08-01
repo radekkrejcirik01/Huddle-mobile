@@ -3,23 +3,21 @@ import { HuddleItemInterface } from '@screens/account/ConversationScreen/Convers
 
 export interface LargeHuddleListItemProps {
     item: HuddleItemInterface;
-    onPressCard?: () => void;
-    onPressProfilePhoto: () => void;
-    onPressInteract?: () => void;
-    onItemLongPress?: () => void;
+    onCardPress?: () => void;
+    onProfilePress: () => void;
+    onLikePress?: () => void;
+    onCardLongPress?: () => void;
     onMorePress?: () => void;
-    hideCommentsNumber?: boolean;
     style?: StyleProp<ViewStyle>;
 }
 
 export const LargeHuddlesListItemDefaultProps: Omit<
     LargeHuddleListItemProps,
-    'item' | 'onPressProfilePhoto'
+    'item' | 'onProfilePress'
 > = {
-    onPressCard: null,
-    onPressInteract: null,
-    onItemLongPress: null,
+    onCardPress: null,
+    onLikePress: null,
+    onCardLongPress: null,
     onMorePress: null,
-    hideCommentsNumber: false,
     style: {}
 };

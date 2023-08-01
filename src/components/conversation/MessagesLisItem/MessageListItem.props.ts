@@ -2,7 +2,12 @@ import { MessageItemProps } from '@screens/account/ConversationScreen/Conversati
 
 export interface MessageListItemProps {
     item: MessageItemProps;
-    onLongPress: () => void;
+    onMessageLongPress: () => void;
+    onHuddlePress?: () => void;
+    onHuddleProfilePress: () => void;
+    onHuddleLikePress?: () => void;
+    onHuddleLongPress?: () => void;
+    onHuddleMorePress?: () => void;
     hasSpace: boolean;
 }
 

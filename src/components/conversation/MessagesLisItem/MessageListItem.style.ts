@@ -63,5 +63,10 @@ export const MessageListItemStyle = StyleSheet.create({
     reactionText: {
         fontSize: 15,
         marginLeft: 2
+    },
+    huddleView: {
+        marginTop: 15,
+        marginHorizontal: '5%',
+        alignItems: 'center'
     }
 });
