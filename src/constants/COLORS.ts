@@ -20,6 +20,8 @@ export default {
     LIGHTGRAY: 'lightgray',
     TRANSPARENT: 'transparent',
     BLACK: '#050210',
+    BLACK_50: '#363638',
+    BLACK_75: '#3e3e41',
     BLACK_100: '#4d4d4d',
     BLACK_200: '#262626',
     BLACK_300: '#1a1a1a',

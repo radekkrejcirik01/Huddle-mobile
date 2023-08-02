@@ -112,7 +112,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                 ref={commentsListRef}
                 ListHeaderComponent={
                     <>
-                        <View style={HuddleScreenStyle.margin20}>
+                        <View style={HuddleScreenStyle.margin}>
                             <LargeHuddleListItem
                                 item={huddle}
                                 onProfilePress={() => openHuddleProfile(huddle)}

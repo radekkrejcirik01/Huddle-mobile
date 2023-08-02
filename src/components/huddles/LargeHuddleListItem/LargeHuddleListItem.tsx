@@ -84,25 +84,20 @@ export const LargeHuddleListItem = ({
         >
             <View style={LargeHuddleListItemStyle.content}>
                 <View style={LargeHuddleListItemStyle.row}>
-                    <View>
-                        <TouchableOpacity
-                            activeOpacity={0.9}
-                            onPress={onProfilePress}
-                        >
-                            <ProfilePhoto
-                                name={item.name}
-                                photo={item?.profilePhoto}
-                                size={55}
-                                textBackgroundColor={secondaryColor}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={LargeHuddleListItemStyle.titleView}>
-                        <Text style={LargeHuddleListItemStyle.titleText}>
+                    <TouchableOpacity
+                        activeOpacity={0.9}
+                        onPress={onProfilePress}
+                    >
+                        <ProfilePhoto
+                            name={item.name}
+                            photo={item?.profilePhoto}
+                            size={30}
+                            textBackgroundColor={secondaryColor}
+                        />
+                    </TouchableOpacity>
+                    <View style={LargeHuddleListItemStyle.nameView}>
+                        <Text style={LargeHuddleListItemStyle.nameText}>
                             {item?.name}
-                        </Text>
-                        <Text style={LargeHuddleListItemStyle.topicText}>
-                            {item.message}
                         </Text>
                     </View>
                     <IconButton
@@ -114,27 +109,35 @@ export const LargeHuddleListItem = ({
                 </View>
                 <View
                     style={[
-                        LargeHuddleListItemStyle.row,
-                        LargeHuddleListItemStyle.flexEnd
+                        LargeHuddleListItemStyle.flex,
+                        LargeHuddleListItemStyle.row
                     ]}
                 >
-                    <Text style={LargeHuddleListItemStyle.commentsText}>
-                        {item?.commentsNumber}{' '}
-                        {getCommentsText(item?.commentsNumber)}
-                    </Text>
-                    <View style={LargeHuddleListItemStyle.flex}>
-                        <TouchableOpacity
-                            onPress={interact}
-                            style={[
-                                LargeHuddleListItemStyle.handView,
-                                { backgroundColor: secondaryColor }
-                            ]}
-                        >
-                            <Text style={LargeHuddleListItemStyle.handText}>
-                                {likedText}
-                            </Text>
-                        </TouchableOpacity>
+                    <View
+                        style={[
+                            LargeHuddleListItemStyle.flex,
+                            LargeHuddleListItemStyle.spaceBetween
+                        ]}
+                    >
+                        <Text style={LargeHuddleListItemStyle.messageText}>
+                            {item.message}
+                        </Text>
+                        <Text style={LargeHuddleListItemStyle.commentsText}>
+                            {item?.commentsNumber}{' '}
+                            {getCommentsText(item?.commentsNumber)}
+                        </Text>
                     </View>
+                    <TouchableOpacity
+                        onPress={interact}
+                        style={[
+                            LargeHuddleListItemStyle.likeView,
+                            { backgroundColor: secondaryColor }
+                        ]}
+                    >
+                        <Text style={LargeHuddleListItemStyle.likeText}>
+                            {likedText}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </TouchableOpacity>

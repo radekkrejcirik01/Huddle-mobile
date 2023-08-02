@@ -9,6 +9,7 @@ export interface MessageListItemProps {
     onHuddleLongPress?: () => void;
     onHuddleMorePress?: () => void;
     hasSpace: boolean;
+    isMessageAbove: boolean;
 }
 
 export interface ReactionsInterface {

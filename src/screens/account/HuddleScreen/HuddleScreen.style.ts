@@ -6,8 +6,7 @@ export const HuddleScreenStyle = StyleSheet.create({
     container: {
         flex: 1
     },
-    margin20: {
-        marginTop: 20,
+    margin: {
         marginHorizontal: 20
     },
     huddleListItem: {

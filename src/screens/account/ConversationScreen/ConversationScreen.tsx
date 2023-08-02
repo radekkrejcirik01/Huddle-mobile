@@ -57,7 +57,7 @@ export const ConversationScreen = ({
     useEffect(
         () =>
             navigation.setOptions({
-                title: (
+                headerLeft: () => (
                     <ConversationHeader
                         conversationId={conversationId}
                         name={name}

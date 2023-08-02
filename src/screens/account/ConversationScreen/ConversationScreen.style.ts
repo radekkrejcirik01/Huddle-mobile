@@ -10,6 +10,6 @@ export const ConversationScreenStyle = StyleSheet.create({
     },
     listContainer: {
         paddingHorizontal: 10,
-        paddingTop: 50
+        paddingTop: 100
     }
 });

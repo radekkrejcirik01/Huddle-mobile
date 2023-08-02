@@ -3,24 +3,27 @@ import COLORS from '@constants/COLORS';
 
 export const MessageListItemStyle = StyleSheet.create({
     paddingTop: {
-        paddingTop: 15,
+        paddingTop: 8,
         marginBottom: 2
     },
     marginBottom: {
         marginBottom: 2
+    },
+    marginTop: {
+        marginTop: 10
     },
     view: {
         maxWidth: '75%',
         paddingHorizontal: 10,
         paddingVertical: 8,
         borderRadius: 18,
-        backgroundColor: COLORS.BLACK_300,
+        backgroundColor: COLORS.BLACK_50,
         alignSelf: 'flex-start',
         alignItems: 'flex-end'
     },
     flexEnd: {
         alignSelf: 'flex-end',
-        backgroundColor: COLORS.PASTEL_RED
+        backgroundColor: COLORS.BLACK_50
     },
     longMessage: {
         flexDirection: 'row',
@@ -65,8 +68,8 @@ export const MessageListItemStyle = StyleSheet.create({
         marginLeft: 2
     },
     huddleView: {
-        marginTop: 15,
-        marginHorizontal: '5%',
+        paddingHorizontal: '4%',
+        marginBottom: 12,
         alignItems: 'center'
     }
 });

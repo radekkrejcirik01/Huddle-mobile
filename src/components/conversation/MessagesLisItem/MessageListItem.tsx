@@ -20,7 +20,8 @@ export const MessageListItem = ({
     onHuddleMorePress,
     onHuddleProfilePress,
     onHuddleLongPress,
-    hasSpace
+    hasSpace,
+    isMessageAbove
 }: MessageListItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
@@ -37,7 +38,12 @@ export const MessageListItem = ({
 
     if (item?.huddle) {
         return (
-            <View style={MessageListItemStyle.huddleView}>
+            <View
+                style={[
+                    MessageListItemStyle.huddleView,
+                    isMessageAbove && MessageListItemStyle.marginTop
+                ]}
+            >
                 <LargeHuddleListItem
                     item={item.huddle}
                     onProfilePress={onHuddleProfilePress}
@@ -91,7 +97,7 @@ export const MessageListItem = ({
                     {isOutbound &&
                         (item?.readBy?.length ? (
                             <Icon
-                                name={IconEnum.SENT_READ}
+                                name={IconEnum.SENT_BLUE}
                                 size={19}
                                 style={MessageListItemStyle.sentIcon}
                             />

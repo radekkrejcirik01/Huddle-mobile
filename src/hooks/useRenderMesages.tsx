@@ -123,6 +123,10 @@ export const useRenderMesages = (
                     hasSpace={
                         messages[index]?.sender !== messages[index + 1]?.sender
                     }
+                    isMessageAbove={
+                        !!messages[index]?.huddle &&
+                        !messages[index + 1]?.huddle
+                    }
                 />
             ),
         [

@@ -3,8 +3,8 @@ import COLORS from '@constants/COLORS';
 
 export const LargeHuddleListItemStyle = StyleSheet.create({
     container: {
-        height: 170,
-        width: '100%',
+        minHeight: 160,
+        minWidth: '100%',
         padding: 15,
         paddingLeft: 12,
         borderRadius: 20,
@@ -12,8 +12,7 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         justifyContent: 'space-between'
     },
     content: {
-        flex: 1,
-        justifyContent: 'space-between'
+        flex: 1
     },
     row: {
         flexDirection: 'row'
@@ -21,22 +20,23 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
     flexEnd: {
         alignItems: 'flex-end'
     },
-    titleView: {
+    nameView: {
         flex: 1,
-        paddingLeft: 10
+        marginLeft: 5,
+        paddingBottom: 2,
+        justifyContent: 'center'
     },
-    titleText: {
-        fontSize: 20,
+    nameText: {
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
-    topicText: {
-        fontSize: 15,
-        color: COLORS.WHITE,
-        fontWeight: '600'
-    },
     moreIcon: {
         marginRight: 5
+    },
+    messageText: {
+        margin: 5,
+        color: COLORS.WHITE,
+        fontWeight: '500'
     },
     commentsText: {
         margin: 5,
@@ -46,7 +46,10 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
     flex: {
         flex: 1
     },
-    handView: {
+    spaceBetween: {
+        justifyContent: 'space-between'
+    },
+    likeView: {
         marginRight: 2,
         marginBottom: 2,
         paddingVertical: 16,
@@ -56,7 +59,7 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    handText: {
-        fontSize: 28
+    likeText: {
+        fontSize: 26
     }
 });

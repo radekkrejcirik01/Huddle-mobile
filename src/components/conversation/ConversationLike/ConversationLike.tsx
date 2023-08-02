@@ -65,7 +65,7 @@ export const ConversationLike = ({
         <IconButton
             icon={IconEnum.HEART}
             onPress={like}
-            size={22}
+            size={23}
             style={ConversationLikeStyle.heartIcon}
         />
     );
