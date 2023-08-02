@@ -73,16 +73,12 @@ export const ConversationScreen = ({
         [conversationId, name, navigation, profilePhoto]
     );
 
-    const updateLastReadMessage = (
-        idConversation: number,
-        idMessage: number
-    ) => {
-        if (idConversation && idMessage) {
+    const updateLastRead = (idConversation: number) => {
+        if (idConversation) {
             putRequestUser<ResponseInterface, LastReadMessagePostInterface>(
-                'last-read-message',
+                'last-seen',
                 {
-                    conversationId: idConversation,
-                    messageId: idMessage
+                    conversationId: idConversation
                 }
             ).subscribe();
         }
@@ -102,10 +98,7 @@ export const ConversationScreen = ({
                         if (response?.status) {
                             if (!lastId) {
                                 if (response?.data?.length) {
-                                    updateLastReadMessage(
-                                        conversationId,
-                                        response.data[0].id
-                                    );
+                                    updateLastRead(conversationId);
                                 }
 
                                 setMessages(response?.data);
@@ -138,10 +131,7 @@ export const ConversationScreen = ({
                 setMessages(response?.data);
 
                 if (response?.data?.length) {
-                    updateLastReadMessage(
-                        response.conversationId,
-                        response.data[0].id
-                    );
+                    updateLastRead(response.conversationId);
                 }
             }
         });

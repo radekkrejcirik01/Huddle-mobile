@@ -85,7 +85,6 @@ export interface MessageInteractionPostInterface {
 
 export interface LastReadMessagePostInterface {
     conversationId: number;
-    messageId: number;
 }
 
 export interface ConversationLikePostInterface {

@@ -7,5 +7,6 @@ export interface ChatsListDataProps {
     isNewMessage?: number;
     isRead?: number;
     isLiked?: number;
+    newHuddles?: number;
     time: number;
 }

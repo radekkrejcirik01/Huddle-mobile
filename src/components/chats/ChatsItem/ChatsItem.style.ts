@@ -45,5 +45,21 @@ export const ChatsItemStyle = StyleSheet.create({
     },
     message: {
         fontWeight: '500'
+    },
+    newHuddlesView: {
+        marginTop: 8,
+        marginBottom: 4,
+        paddingTop: 2,
+        paddingBottom: 4,
+        paddingHorizontal: 8,
+        borderRadius: 10,
+        backgroundColor: COLORS.PASTEL_PURPLE,
+        alignSelf: 'flex-start',
+        alignItems: 'center'
+    },
+    newHuddlesText: {
+        fontSize: 12,
+        color: COLORS.WHITE,
+        fontWeight: '500'
     }
 });

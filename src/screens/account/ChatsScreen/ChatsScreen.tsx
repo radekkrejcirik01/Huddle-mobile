@@ -11,14 +11,13 @@ import { useMessaging } from '@hooks/useMessaging';
 import { useRenderChats } from '@hooks/useRenderChats';
 import { useNavigation } from '@hooks/useNavigation';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
-import { getRequestUser, putRequestUser } from '@utils/Axios/Axios.service';
+import { getRequestUser } from '@utils/Axios/Axios.service';
 import {
     ResponseChatsGetInterface,
     ResponseInterface
 } from '@interfaces/response/Response.interface';
 import { ChatsScreenStyle } from '@screens/account/ChatsScreen/ChatsScreen.style';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
-import { UnreadMessagesService } from '@utils/general/UnreadMessagesService';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
@@ -75,18 +74,6 @@ export const ChatsScreen = (): JSX.Element => {
     );
 
     useFocusEffect(loadChats);
-
-    useFocusEffect(
-        useCallback(() => {
-            putRequestUser<ResponseInterface, undefined>(
-                'last-seen-read-message'
-            ).subscribe((response: ResponseInterface) => {
-                if (response?.status) {
-                    UnreadMessagesService.loadUnread();
-                }
-            });
-        }, [])
-    );
 
     const startLoadingInterval = useCallback(() => {
         clearInterval(interval.current);

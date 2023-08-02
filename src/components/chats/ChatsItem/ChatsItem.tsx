@@ -25,6 +25,13 @@ export const ChatsItem = ({
         [item?.isNewMessage]
     );
 
+    function getNewHuddlesText(number: number): string {
+        if (number === 1) {
+            return `+ ${number} huddle`;
+        }
+        return `+ ${number} huddles`;
+    }
+
     return (
         <TouchableOpacity
             activeOpacity={1}
@@ -66,6 +73,13 @@ export const ChatsItem = ({
                     <Text style={[ChatsItemStyle.message, opacityStyle]}>
                         {item?.lastMessage}
                     </Text>
+                    {!!item.newHuddles && (
+                        <View style={ChatsItemStyle.newHuddlesView}>
+                            <Text style={ChatsItemStyle.newHuddlesText}>
+                                {getNewHuddlesText(item.newHuddles)}
+                            </Text>
+                        </View>
+                    )}
                 </View>
                 {!!item.isLiked && <Text>❤️</Text>}
             </View>

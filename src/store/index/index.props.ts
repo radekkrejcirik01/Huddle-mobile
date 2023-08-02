@@ -6,7 +6,6 @@ export interface ReducerProps {
     navigationState: NavigationSate;
     conversation: Conversation;
     typing: Typing;
-    unreadMessages: UnreadMessages;
 }
 
 export interface GetStarted {
@@ -51,8 +50,4 @@ export interface Typing {
         username: string;
         value: number;
     }>;
-}
-
-export interface UnreadMessages {
-    unread: number;
 }

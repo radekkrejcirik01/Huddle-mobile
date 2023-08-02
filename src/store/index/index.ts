@@ -6,7 +6,6 @@ import DeviceReducer from '@store/DeviceReducer';
 import NavigationStateReducer from '@store/NavigationState';
 import ConversationReducer from '@store/Conversation';
 import TypingReducer from '@store/TypingReducer';
-import UnreadMessagesReducer from '@store/UnreadMessagesReducer';
 
 export default configureStore({
     reducer: {
@@ -16,7 +15,6 @@ export default configureStore({
         device: DeviceReducer,
         navigationState: NavigationStateReducer,
         conversation: ConversationReducer,
-        typing: TypingReducer,
-        unreadMessages: UnreadMessagesReducer
+        typing: TypingReducer
     }
 });

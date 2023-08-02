@@ -6,7 +6,6 @@ import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { useToastMessage } from '@hooks/useToastMessage';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { UnreadMessagesService } from '@utils/general/UnreadMessagesService';
 
 export const useNotifications = (
     navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>
@@ -140,39 +139,6 @@ export const useNotifications = (
             messaging().onMessage(async (remoteMessage) => {
                 if (remoteMessage) {
                     switch (remoteMessage.data.type) {
-                        case 'huddle':
-                            showToast(
-                                remoteMessage?.notification?.title,
-                                remoteMessage?.notification?.body,
-                                () =>
-                                    openHuddle(
-                                        Number(remoteMessage.data.huddleId)
-                                    )
-                            );
-                            break;
-                        case 'message':
-                            if (
-                                navigationRef.current.getCurrentRoute().name !==
-                                    'ChatsTab' &&
-                                navigationRef.current.getCurrentRoute().name !==
-                                    'ConversationScreen'
-                            ) {
-                                showToast(
-                                    remoteMessage?.notification?.title,
-                                    remoteMessage?.notification?.body,
-                                    () =>
-                                        openConversation(
-                                            Number(
-                                                remoteMessage.data
-                                                    .conversationId
-                                            ),
-                                            remoteMessage.data.name,
-                                            remoteMessage.data.profilePhoto
-                                        )
-                                );
-                                UnreadMessagesService.loadUnread();
-                            }
-                            break;
                         case 'friends':
                             showToast(
                                 remoteMessage?.notification?.title,
@@ -188,10 +154,6 @@ export const useNotifications = (
                             );
                             break;
                         default:
-                            showToast(
-                                remoteMessage?.notification?.title,
-                                remoteMessage?.notification?.body
-                            );
                     }
                 }
             }),
