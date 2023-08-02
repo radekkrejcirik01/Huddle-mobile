@@ -15,40 +15,15 @@ export const StartHuddleModalScreenStyle = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center'
     },
-    colorsView: {
-        flexDirection: 'row',
-        justifyContent: 'space-evenly'
-    },
-    colorView: {
-        width: 45,
-        height: 45,
-        borderRadius: 30,
-        borderColor: COLORS.WHITE,
-        borderWidth: 0
-    },
-    redBackground: {
-        backgroundColor: COLORS.PASTEL_RED
-    },
-    orangeBackground: {
-        backgroundColor: COLORS.PASTEL_ORANGE
-    },
-    blueBackground: {
-        backgroundColor: COLORS.PASTEL_BLUE
-    },
-    purpleBackground: {
-        backgroundColor: COLORS.PASTEL_PURPLE
-    },
-    borderWidth: {
-        borderWidth: 2
-    },
     addButtonView: {
         paddingVertical: 12,
-        paddingHorizontal: 30,
-        borderRadius: 20,
+        width: '100%',
+        borderRadius: 10,
         backgroundColor: COLORS.BUTTON_BLUE,
-        alignSelf: 'center'
+        alignItems: 'center'
     },
     addButtonText: {
+        fontSize: 15,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     }

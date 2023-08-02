@@ -10,10 +10,11 @@ export const SmallHuddleListItemStyle = StyleSheet.create({
         margin: 2.5,
         paddingHorizontal: 20,
         borderRadius: 12,
+        backgroundColor: COLORS.PASTEL_PURPLE,
         alignItems: 'center',
         justifyContent: 'center'
     },
-    topicText: {
+    messageText: {
         bottom: 5,
         right: 2,
         color: COLORS.WHITE,

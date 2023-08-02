@@ -134,7 +134,7 @@ export const ProfileScreen = (): JSX.Element => {
                 ListEmptyComponent={
                     <>
                         <Text style={ProfileScreenStyle.description}>
-                            place for those colorful pretty{'\n'}Huddles
+                            place for huddles
                         </Text>
                         <TouchableOpacity
                             onPress={onPostHuddlePress}

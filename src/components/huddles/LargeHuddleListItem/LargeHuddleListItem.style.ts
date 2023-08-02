@@ -8,6 +8,7 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         padding: 15,
         paddingLeft: 12,
         borderRadius: 20,
+        backgroundColor: COLORS.PASTEL_PURPLE,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
@@ -55,6 +56,7 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         paddingVertical: 16,
         paddingHorizontal: 18,
         borderRadius: 35,
+        backgroundColor: COLORS.PASTEL_PURPLE_100,
         alignSelf: 'flex-end',
         justifyContent: 'center',
         alignItems: 'center'

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import { getHuddleColor } from '@hooks/getHuddleColor';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import {
     LargeHuddleListItemProps,
@@ -11,6 +10,7 @@ import { LargeHuddleListItemStyle } from '@components/huddles/LargeHuddleListIte
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { IconButton } from '@components/general/IconButton/IconButton';
+import COLORS from '@constants/COLORS';
 
 export const LargeHuddleListItem = ({
     item,
@@ -24,7 +24,6 @@ export const LargeHuddleListItem = ({
     const [liked, setLiked] = useState<boolean>();
 
     const { showActionSheetWithOptions } = useActionSheet();
-    const { primaryColor, secondaryColor } = getHuddleColor(item.color);
 
     useEffect(() => setLiked(!!item?.liked), [item?.liked]);
 
@@ -76,11 +75,7 @@ export const LargeHuddleListItem = ({
             disabled={!onCardPress}
             onPress={onCardPress}
             onLongPress={onCardLongPress}
-            style={[
-                LargeHuddleListItemStyle.container,
-                { backgroundColor: primaryColor },
-                style
-            ]}
+            style={[LargeHuddleListItemStyle.container, style]}
         >
             <View style={LargeHuddleListItemStyle.content}>
                 <View style={LargeHuddleListItemStyle.row}>
@@ -92,7 +87,7 @@ export const LargeHuddleListItem = ({
                             name={item.name}
                             photo={item?.profilePhoto}
                             size={30}
-                            textBackgroundColor={secondaryColor}
+                            textBackgroundColor={COLORS.PASTEL_PURPLE_100}
                         />
                     </TouchableOpacity>
                     <View style={LargeHuddleListItemStyle.nameView}>
@@ -129,10 +124,7 @@ export const LargeHuddleListItem = ({
                     </View>
                     <TouchableOpacity
                         onPress={interact}
-                        style={[
-                            LargeHuddleListItemStyle.likeView,
-                            { backgroundColor: secondaryColor }
-                        ]}
+                        style={LargeHuddleListItemStyle.likeView}
                     >
                         <Text style={LargeHuddleListItemStyle.likeText}>
                             {likedText}

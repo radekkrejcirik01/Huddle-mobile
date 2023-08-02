@@ -1,16 +1,15 @@
 import { StyleProp, ViewStyle } from 'react-native';
 
 export interface HuddleEditableCardProps {
-    topicValue?: string;
-    onTopicChange: (value: string) => void;
-    color: number;
+    messageValue?: string;
+    onMessageChange: (value: string) => void;
     style?: StyleProp<ViewStyle>;
 }
 
 export const HuddleEditableCardDefaultProps: Omit<
     HuddleEditableCardProps,
-    'onTopicChange' | 'color'
+    'onMessageChange'
 > = {
-    topicValue: null,
+    messageValue: null,
     style: {}
 };

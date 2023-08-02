@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { getHuddleColor } from '@hooks/getHuddleColor';
 import { ReducerProps } from '@store/index/index.props';
 import COLORS from '@constants/COLORS';
 import {
@@ -12,32 +11,23 @@ import { HuddleEditableCardStyle } from '@components/huddles/HuddleEditableCard/
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const HuddleEditableCard = ({
-    topicValue,
-    onTopicChange,
-    color,
+    messageValue,
+    onMessageChange,
     style
 }: HuddleEditableCardProps): JSX.Element => {
     const { firstname, profilePhoto } = useSelector(
         (state: ReducerProps) => state.user.user
     );
 
-    const { primaryColor, secondaryColor } = getHuddleColor(color);
-
     return (
-        <View
-            style={[
-                HuddleEditableCardStyle.container,
-                { backgroundColor: primaryColor },
-                style
-            ]}
-        >
+        <View style={[HuddleEditableCardStyle.container, style]}>
             <View style={HuddleEditableCardStyle.content}>
                 <View style={HuddleEditableCardStyle.row}>
                     <ProfilePhoto
                         name={firstname}
                         photo={profilePhoto}
                         size={55}
-                        textBackgroundColor={secondaryColor}
+                        textBackgroundColor={COLORS.PASTEL_PURPLE_100}
                     />
                     <View style={HuddleEditableCardStyle.titleView}>
                         <Text style={HuddleEditableCardStyle.titleText}>
@@ -46,8 +36,8 @@ export const HuddleEditableCard = ({
                         <TextInput
                             autoFocus
                             autoCorrect={false}
-                            defaultValue={topicValue}
-                            onChangeText={onTopicChange}
+                            defaultValue={messageValue}
+                            onChangeText={onMessageChange}
                             selectionColor={COLORS.WHITE}
                             multiline
                             style={HuddleEditableCardStyle.input}

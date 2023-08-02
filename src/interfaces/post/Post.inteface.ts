@@ -20,19 +20,13 @@ export interface AddPersonInvitePostInterface {
 
 export interface AddHuddlePostInterface {
     name: string;
-    topic: string;
-    color: number;
+    message: string;
 }
 
 export interface HuddleInteractPostInterface {
     huddleId: number;
-    topic: string;
+    message: string;
     receiver: string;
-}
-
-export interface HuddleUpdatePutInterface {
-    id: number;
-    topic: string;
 }
 
 export interface HuddleCommentPostInterface {

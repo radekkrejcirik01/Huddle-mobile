@@ -81,12 +81,12 @@ export const useHuddleActions = (): {
         [deleteHuddleMessage, showActionSheetWithOptions, username]
     );
 
-    const likeHuddle = (huddleId: number, topic: string, createdBy: string) =>
+    const likeHuddle = (huddleId: number, message: string, createdBy: string) =>
         postRequestUser<ResponseInterface, HuddleInteractPostInterface>(
             'huddle/interaction',
             {
                 huddleId,
-                topic,
+                message,
                 receiver: createdBy
             }
         ).subscribe();

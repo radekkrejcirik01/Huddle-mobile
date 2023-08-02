@@ -20,7 +20,6 @@ export interface HuddleItemInterface {
     profilePhoto?: string;
     name: string;
     message: string;
-    color: number;
     commentsNumber?: number;
     liked?: number;
 }
