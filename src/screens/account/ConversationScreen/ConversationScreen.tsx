@@ -250,7 +250,7 @@ export const ConversationScreen = ({
                 }
             ]}
         >
-            <KeyboardAvoidingView keyboardVerticalOffset={isiOS() ? 42 : 75}>
+            <KeyboardAvoidingView keyboardVerticalOffset={isiOS() ? 48 : 75}>
                 <View style={ConversationScreenStyle.content}>
                     <FlashList
                         data={messages}

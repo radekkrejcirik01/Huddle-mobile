@@ -3,7 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const ConversationScreenStyle = StyleSheet.create({
     container: {
-        paddingTop: 1,
+        marginTop: 5,
         backgroundColor: COLORS.BLACK_300
     },
     content: {

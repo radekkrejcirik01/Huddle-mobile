@@ -3,8 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const ChatInputStyle = StyleSheet.create({
     container: {
-        paddingTop: 5,
-        paddingBottom: 10,
+        paddingVertical: 8,
         backgroundColor: COLORS.BLACK_300,
         flexDirection: 'row',
         alignItems: 'center'

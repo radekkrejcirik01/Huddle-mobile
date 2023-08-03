@@ -8,7 +8,7 @@ import { Back } from '@components/general/Back/Back';
 export const NavigationScreenHeader: StackNavigationOptions = {
     headerLeft: () => <Back />,
     headerTintColor: COLORS.WHITE,
-    headerStyle: StackNavigatorStyle.navigationScreen,
+    headerStyle: StackNavigatorStyle.headerStyle,
     gestureResponseDistance: DIMENSIONS.width
 };
 
