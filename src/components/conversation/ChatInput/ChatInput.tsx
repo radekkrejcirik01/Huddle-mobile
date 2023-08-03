@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ImagePicker from 'react-native-image-crop-picker';
 import fs from 'react-native-fs';
 import COLORS from '@constants/COLORS';
@@ -10,6 +11,8 @@ import { ChatInputProps } from '@components/conversation/ChatInput/ChatInput.pro
 import { ChatInputStyle } from '@components/conversation/ChatInput/ChatInput.style';
 
 export const ChatInput = ({ onSend, name }: ChatInputProps): JSX.Element => {
+    const { bottom } = useSafeAreaInsets();
+
     const [message, setMessage] = useState<string>();
 
     const send = useCallback(() => {
@@ -32,34 +35,41 @@ export const ChatInput = ({ onSend, name }: ChatInputProps): JSX.Element => {
     }, [onSend]);
 
     return (
-        <View style={ChatInputStyle.container}>
-            <View style={ChatInputStyle.inputContainer}>
-                <TextInput
-                    value={message}
-                    onChangeText={setMessage}
-                    multiline
-                    placeholder={`Message ${name}`}
-                    placeholderTextColor={COLORS.LIGHTGRAY_100}
-                    selectionColor={COLORS.WHITE}
-                    style={ChatInputStyle.input}
-                />
-                <View
-                    style={[
-                        ChatInputStyle.sendView,
-                        !message && ChatInputStyle.sendOpacity
-                    ]}
-                >
-                    <TouchableOpacity disabled={!message} onPress={send}>
-                        <Text style={ChatInputStyle.sendText}>Send</Text>
-                    </TouchableOpacity>
+        <View style={{ backgroundColor: COLORS.BLACK_300 }}>
+            <View
+                style={[
+                    { marginBottom: bottom - 15 },
+                    ChatInputStyle.container
+                ]}
+            >
+                <View style={ChatInputStyle.inputContainer}>
+                    <TextInput
+                        value={message}
+                        onChangeText={setMessage}
+                        multiline
+                        placeholder={`Message ${name}...`}
+                        placeholderTextColor={COLORS.LIGHTGRAY_100}
+                        selectionColor={COLORS.WHITE}
+                        style={ChatInputStyle.input}
+                    />
+                    <View
+                        style={[
+                            ChatInputStyle.sendView,
+                            !message && ChatInputStyle.sendOpacity
+                        ]}
+                    >
+                        <TouchableOpacity disabled={!message} onPress={send}>
+                            <Text style={ChatInputStyle.sendText}>Send</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
+                <IconButton
+                    icon={IconEnum.GALLERY}
+                    onPress={openGallery}
+                    size={20}
+                    style={ChatInputStyle.galleryIcon}
+                />
             </View>
-            <IconButton
-                icon={IconEnum.GALLERY}
-                onPress={openGallery}
-                size={20}
-                style={ChatInputStyle.galleryIcon}
-            />
         </View>
     );
 };

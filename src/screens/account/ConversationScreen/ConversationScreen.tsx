@@ -6,7 +6,6 @@ import {
     useNavigation as useDefaultNavigation
 } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import moment from 'moment';
 import { useRenderMesages } from '@hooks/useRenderMesages';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
@@ -46,7 +45,6 @@ export const ConversationScreen = ({
 
     const navigation = useDefaultNavigation();
     const isFocused = useIsFocused();
-    const { bottom } = useSafeAreaInsets();
 
     const [messages, setMessages] = useState<Array<MessageItemProps>>([]);
     const [refreshList, setRefreshList] = useState<boolean>(false);
@@ -237,15 +235,8 @@ export const ConversationScreen = ({
     );
 
     return (
-        <View
-            style={[
-                ConversationScreenStyle.container,
-                {
-                    paddingBottom: bottom - 15
-                }
-            ]}
-        >
-            <KeyboardAvoidingView keyboardVerticalOffset={isiOS() ? 42 : 75}>
+        <View style={ConversationScreenStyle.container}>
+            <KeyboardAvoidingView keyboardVerticalOffset={isiOS() ? 15 : 48}>
                 <View style={ConversationScreenStyle.content}>
                     <FlashList
                         data={messages}

@@ -9,10 +9,12 @@ import {
 } from '@components/huddles/HuddleEditableCard/HuddleEditableCard.props';
 import { HuddleEditableCardStyle } from '@components/huddles/HuddleEditableCard/HuddleEditableCard.style';
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const HuddleEditableCard = ({
     messageValue,
     onMessageChange,
+    onSend,
     style
 }: HuddleEditableCardProps): JSX.Element => {
     const { firstname, profilePhoto } = useSelector(
@@ -21,30 +23,34 @@ export const HuddleEditableCard = ({
 
     return (
         <View style={[HuddleEditableCardStyle.container, style]}>
-            <View style={HuddleEditableCardStyle.content}>
-                <View style={HuddleEditableCardStyle.row}>
-                    <ProfilePhoto
-                        name={firstname}
-                        photo={profilePhoto}
-                        size={55}
-                        textBackgroundColor={COLORS.PASTEL_PURPLE_100}
-                    />
-                    <View style={HuddleEditableCardStyle.titleView}>
-                        <Text style={HuddleEditableCardStyle.titleText}>
-                            {firstname}
-                        </Text>
-                        <TextInput
-                            autoFocus
-                            autoCorrect={false}
-                            defaultValue={messageValue}
-                            onChangeText={onMessageChange}
-                            selectionColor={COLORS.WHITE}
-                            multiline
-                            style={HuddleEditableCardStyle.input}
-                        />
-                    </View>
+            <View style={HuddleEditableCardStyle.row}>
+                <ProfilePhoto
+                    name={firstname}
+                    photo={profilePhoto}
+                    size={30}
+                    textBackgroundColor={COLORS.BLACK_100}
+                />
+                <View style={HuddleEditableCardStyle.titleView}>
+                    <Text style={HuddleEditableCardStyle.titleText}>
+                        {firstname}
+                    </Text>
                 </View>
             </View>
+            <TextInput
+                autoFocus
+                autoCorrect={false}
+                defaultValue={messageValue}
+                onChangeText={onMessageChange}
+                selectionColor={COLORS.WHITE}
+                multiline
+                style={HuddleEditableCardStyle.input}
+            />
+            <TouchableOpacity
+                style={HuddleEditableCardStyle.sendView}
+                onPress={onSend}
+            >
+                <Text style={HuddleEditableCardStyle.sendText}>Send</Text>
+            </TouchableOpacity>
         </View>
     );
 };

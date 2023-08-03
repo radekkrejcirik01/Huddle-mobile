@@ -36,7 +36,7 @@ export const AddFriendModalScreenStyle = StyleSheet.create({
         paddingVertical: 15,
         paddingHorizontal: 25,
         borderRadius: 30,
-        backgroundColor: COLORS.MESSAGE_BLUE,
+        backgroundColor: COLORS.BUTTON_BLUE,
         alignItems: 'center'
     },
     sendButtonText: {

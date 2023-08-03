@@ -10,6 +10,6 @@ export const BottomTabNavigatorStyle = StyleSheet.create({
         paddingTop: 5,
         paddingHorizontal: '5%',
         borderTopWidth: 0,
-        backgroundColor: COLORS.BLACK
+        backgroundColor: COLORS.BLACK_300
     }
 });

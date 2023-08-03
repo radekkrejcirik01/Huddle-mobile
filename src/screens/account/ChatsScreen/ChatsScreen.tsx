@@ -9,7 +9,6 @@ import {
 import { FlashList } from '@shopify/flash-list';
 import { useMessaging } from '@hooks/useMessaging';
 import { useRenderChats } from '@hooks/useRenderChats';
-import { useNavigation } from '@hooks/useNavigation';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import {
@@ -18,9 +17,6 @@ import {
 } from '@interfaces/response/Response.interface';
 import { ChatsScreenStyle } from '@screens/account/ChatsScreen/ChatsScreen.style';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { ReducerProps } from '@store/index/index.props';
 import { PostHuddle } from '@components/huddles/PostHuddle/PostHuddle';
 
@@ -30,7 +26,6 @@ export const ChatsScreen = (): JSX.Element => {
     useMessaging();
     const isFocused = useIsFocused();
     const navigation = useDefaultNavigation();
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const [chats, setChats] = useState<Array<ChatsListDataProps>>([]);
 
@@ -110,25 +105,9 @@ export const ChatsScreen = (): JSX.Element => {
                 onEndReached={onEndReached}
                 ItemSeparatorComponent={() => <ItemSeparator space={8} />}
                 ListEmptyComponent={
-                    <>
-                        <Text style={ChatsScreenStyle.description}>
-                            I cannot wait for you to see our chat design
-                        </Text>
-                        <TouchableOpacity
-                            onPress={() =>
-                                navigateTo(
-                                    AccountStackNavigatorEnum.FriendsScreen
-                                )
-                            }
-                            style={ChatsScreenStyle.descriptionButtonView}
-                        >
-                            <Text
-                                style={ChatsScreenStyle.descriptionButtonText}
-                            >
-                                start chat
-                            </Text>
-                        </TouchableOpacity>
-                    </>
+                    <Text style={ChatsScreenStyle.description}>
+                        no chats yet
+                    </Text>
                 }
                 contentContainerStyle={ChatsScreenStyle.contentContainer}
             />

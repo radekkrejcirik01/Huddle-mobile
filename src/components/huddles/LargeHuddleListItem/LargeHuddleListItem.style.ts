@@ -36,6 +36,7 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
     },
     messageText: {
         marginVertical: 5,
+        fontSize: 16,
         color: COLORS.WHITE,
         fontWeight: '500'
     },

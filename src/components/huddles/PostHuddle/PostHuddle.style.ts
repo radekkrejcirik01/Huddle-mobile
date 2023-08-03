@@ -7,6 +7,6 @@ export const PostHuddleStyle = StyleSheet.create({
         paddingVertical: 6,
         paddingHorizontal: 28,
         borderRadius: 15,
-        backgroundColor: COLORS.GRAY_100
+        backgroundColor: COLORS.BLACK_50
     }
 });

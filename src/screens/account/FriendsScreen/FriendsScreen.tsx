@@ -90,16 +90,14 @@ export const FriendsScreen = (): JSX.Element => {
 
     return (
         <View style={FriendsScreenStyle.container}>
-            {!!data?.length && (
-                <Input
-                    iconLeft={<Text>🔍</Text>}
-                    placeholder="Search contacts"
-                    value={inputValue}
-                    onChange={filterData}
-                    inputType={InputTypeEnum.TEXT}
-                    inputStyle={FriendsScreenStyle.input}
-                />
-            )}
+            <Input
+                iconLeft={<Text>🔍</Text>}
+                placeholder="Search contacts"
+                value={inputValue}
+                onChange={filterData}
+                inputType={InputTypeEnum.TEXT}
+                inputStyle={FriendsScreenStyle.input}
+            />
             <FlashList
                 data={filteredData}
                 renderItem={renderFriendsItem}
@@ -107,21 +105,9 @@ export const FriendsScreen = (): JSX.Element => {
                 keyExtractor={keyFriendsExtractor}
                 estimatedItemSize={68}
                 ListEmptyComponent={
-                    <>
-                        <Text style={FriendsScreenStyle.description}>
-                            your friends are waiting for that invite
-                        </Text>
-                        <TouchableOpacity
-                            onPress={showModal}
-                            style={FriendsScreenStyle.descriptionButtonView}
-                        >
-                            <Text
-                                style={FriendsScreenStyle.descriptionButtonText}
-                            >
-                                invite
-                            </Text>
-                        </TouchableOpacity>
-                    </>
+                    <Text style={FriendsScreenStyle.description}>
+                        no contacts yet
+                    </Text>
                 }
                 onEndReached={onEndReached}
                 ItemSeparatorComponent={() => <ItemSeparator space={10} />}

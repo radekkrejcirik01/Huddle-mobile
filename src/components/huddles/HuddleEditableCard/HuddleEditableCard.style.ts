@@ -3,14 +3,12 @@ import COLORS from '@constants/COLORS';
 
 export const HuddleEditableCardStyle = StyleSheet.create({
     container: {
-        height: 170,
+        height: 200,
         width: '100%',
         padding: 15,
         paddingLeft: 12,
         borderRadius: 20,
-        backgroundColor: COLORS.BLACK_200,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+        backgroundColor: COLORS.BLACK_50
     },
     content: {
         flex: 1,
@@ -21,18 +19,33 @@ export const HuddleEditableCardStyle = StyleSheet.create({
     },
     titleView: {
         flex: 1,
-        paddingLeft: 10
+        marginLeft: 5,
+        paddingBottom: 2,
+        justifyContent: 'center'
     },
     titleText: {
-        fontSize: 20,
         color: COLORS.WHITE,
         fontWeight: 'bold'
     },
     input: {
-        paddingTop: 0,
-        paddingLeft: 2,
+        flex: 1,
+        marginVertical: 5,
+        fontSize: 16,
+        color: COLORS.WHITE,
+        fontWeight: '500'
+    },
+    sendView: {
+        marginRight: 10,
+        marginBottom: 10,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderRadius: 40,
+        backgroundColor: COLORS.BUTTON_BLUE,
+        alignSelf: 'flex-end'
+    },
+    sendText: {
         fontSize: 15,
         color: COLORS.WHITE,
-        fontWeight: '600'
+        fontWeight: 'bold'
     }
 });

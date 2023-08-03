@@ -8,7 +8,6 @@ import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { AddHuddlePostInterface } from '@interfaces/post/Post.inteface';
 import { StartHuddleModalScreenProps } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen.props';
 import { HuddleEditableCard } from '@components/huddles/HuddleEditableCard/HuddleEditableCard';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const StartHuddleModalScreen = ({
     onCreate,
@@ -26,6 +25,7 @@ export const StartHuddleModalScreen = ({
         }).subscribe((response: ResponseInterface) => {
             if (response?.status) {
                 onCreate();
+                Alert.alert('✅');
             }
         });
     }, [firstname, onClose, onCreate]);
@@ -34,28 +34,26 @@ export const StartHuddleModalScreen = ({
         if (message?.current?.length) {
             addHuddle();
         } else {
-            Alert.alert('no message');
+            Alert.alert('Huddle is empty');
         }
     }, [addHuddle]);
 
     return (
         <View style={StartHuddleModalScreenStyle.screen}>
-            <Text style={StartHuddleModalScreenStyle.titleText}>
-                what do you want to say?
-            </Text>
-            <HuddleEditableCard
-                onMessageChange={(text) => {
-                    message.current = text;
-                }}
-            />
-            <TouchableOpacity
-                onPress={onPressAddCard}
-                style={StartHuddleModalScreenStyle.addButtonView}
-            >
-                <Text style={StartHuddleModalScreenStyle.addButtonText}>
-                    Send
+            <>
+                <Text style={StartHuddleModalScreenStyle.title}>
+                    New Huddle 🥳
                 </Text>
-            </TouchableOpacity>
+                <HuddleEditableCard
+                    onMessageChange={(text) => {
+                        message.current = text;
+                    }}
+                    onSend={onPressAddCard}
+                />
+                <Text style={StartHuddleModalScreenStyle.description}>
+                    Huddle will be shared across all chats
+                </Text>
+            </>
         </View>
     );
 };

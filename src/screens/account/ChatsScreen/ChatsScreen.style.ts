@@ -12,23 +12,10 @@ export const ChatsScreenStyle = StyleSheet.create({
     },
     description: {
         marginTop: 100,
-        fontSize: 20,
+        fontSize: 18,
         color: COLORS.WHITE,
         alignSelf: 'center',
         fontWeight: 'bold',
         textAlign: 'center'
-    },
-    descriptionButtonView: {
-        marginTop: '50%',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderRadius: 12,
-        backgroundColor: COLORS.BUTTON_BLUE,
-        alignSelf: 'center'
-    },
-    descriptionButtonText: {
-        fontSize: 18,
-        color: COLORS.WHITE,
-        fontWeight: '500'
     }
 });

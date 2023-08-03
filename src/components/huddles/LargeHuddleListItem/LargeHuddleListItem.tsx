@@ -80,7 +80,7 @@ export const LargeHuddleListItem = ({
                             name={item.name}
                             photo={item?.profilePhoto}
                             size={30}
-                            textBackgroundColor={COLORS.PASTEL_PURPLE_100}
+                            textBackgroundColor={COLORS.BLACK_100}
                         />
                     </TouchableOpacity>
                     <View style={LargeHuddleListItemStyle.nameView}>
