@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@hooks/useNavigation';
 import { Input } from '@components/general/Input/Input';
@@ -7,7 +7,6 @@ import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import { Icon } from '@components/general/Icon/Icon';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { RegistrationScreenStyle } from '@screens/login/RegistrationScreen/RegistrationScreen.style';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { postRequestUser } from '@utils/Axios/Axios.service';
 import { AuthResponseInterface } from '@interfaces/response/Response.interface';
 import { UserPostInterface } from '@interfaces/post/Post.inteface';

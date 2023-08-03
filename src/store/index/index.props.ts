@@ -1,15 +1,10 @@
 export interface ReducerProps {
-    getStarted: GetStarted;
     user: User;
     selectUsers: SelectUsers;
     device: Device;
     navigationState: NavigationSate;
     conversation: Conversation;
     typing: Typing;
-}
-
-export interface GetStarted {
-    getStarted: boolean;
 }
 
 export interface User {
