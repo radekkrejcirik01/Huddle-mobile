@@ -143,8 +143,10 @@ export const useRenderMesages = (
         ]
     );
 
-    const keyMessageExtractor = (item: MessageItemProps): string =>
-        item?.id?.toString();
+    const keyMessageExtractor = (
+        item: MessageItemProps,
+        index: number
+    ): string => item.id.toString() + index.toString();
 
     const onEndReached = useCallback(() => {
         if (messages?.length >= 20) {
