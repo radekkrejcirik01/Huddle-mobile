@@ -8,7 +8,7 @@ import { HuddleItemInterface } from '@screens/account/ConversationScreen/Convers
 import { ReducerProps } from '@store/index/index.props';
 import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
-import { HuddleInteractPostInterface } from '@interfaces/post/Post.inteface';
+import { HuddleLikePostInterface } from '@interfaces/post/Post.inteface';
 
 export const useHuddleActions = (
     onLiked?: () => void
@@ -85,8 +85,8 @@ export const useHuddleActions = (
 
     const likeHuddle = useCallback(
         (huddleId: number, message: string, createdBy: string) =>
-            postRequestUser<ResponseInterface, HuddleInteractPostInterface>(
-                'huddle/interaction',
+            postRequestUser<ResponseInterface, HuddleLikePostInterface>(
+                'huddle/like',
                 {
                     huddleId,
                     message,
@@ -102,13 +102,13 @@ export const useHuddleActions = (
 
     const removeHuddleLike = useCallback(
         (huddleId: number) =>
-            deleteRequestUser<ResponseInterface>(
-                `interaction/${huddleId}`
-            ).subscribe((response: ResponseInterface) => {
-                if (response?.status) {
-                    onLiked();
+            deleteRequestUser<ResponseInterface>(`like/${huddleId}`).subscribe(
+                (response: ResponseInterface) => {
+                    if (response?.status) {
+                        onLiked();
+                    }
                 }
-            }),
+            ),
         [onLiked]
     );
 

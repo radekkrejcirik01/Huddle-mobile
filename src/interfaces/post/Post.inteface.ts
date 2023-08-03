@@ -23,7 +23,7 @@ export interface AddHuddlePostInterface {
     message: string;
 }
 
-export interface HuddleInteractPostInterface {
+export interface HuddleLikePostInterface {
     huddleId: number;
     message: string;
     receiver: string;
@@ -69,7 +69,7 @@ export interface MessagePostInterface {
     fileName?: string;
 }
 
-export interface MessageInteractionPostInterface {
+export interface MessageReactionPostInterface {
     receiver: string;
     message: string;
     conversationId: number;

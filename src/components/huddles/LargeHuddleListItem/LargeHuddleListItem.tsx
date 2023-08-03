@@ -27,14 +27,14 @@ export const LargeHuddleListItem = ({
 
     useEffect(() => setLiked(!!item?.liked), [item?.liked]);
 
-    const interactAction = useCallback(() => {
+    const likeAction = useCallback(() => {
         onLikePress();
 
         item.liked = liked ? 0 : 1;
         setLiked(!liked);
     }, [item, liked, onLikePress]);
 
-    const removeInteractionActionSheet = useCallback(() => {
+    const removeLikeActionSheet = useCallback(() => {
         const options = ['Remove', 'Cancel'];
 
         showActionSheetWithOptions(
@@ -42,23 +42,23 @@ export const LargeHuddleListItem = ({
                 options,
                 cancelButtonIndex: 1,
                 userInterfaceStyle: 'dark',
-                title: 'Remove interaction'
+                title: 'Remove like'
             },
             (selectedIndex: number) => {
                 if (selectedIndex === 0) {
-                    interactAction();
+                    likeAction();
                 }
             }
         );
-    }, [interactAction, showActionSheetWithOptions]);
+    }, [likeAction, showActionSheetWithOptions]);
 
-    const interact = useCallback(() => {
+    const like = useCallback(() => {
         if (liked) {
-            removeInteractionActionSheet();
+            removeLikeActionSheet();
         } else {
-            interactAction();
+            likeAction();
         }
-    }, [interactAction, liked, removeInteractionActionSheet]);
+    }, [likeAction, liked, removeLikeActionSheet]);
 
     const likedText = useMemo((): string => (liked ? '✅' : '👍'), [liked]);
 
@@ -77,7 +77,7 @@ export const LargeHuddleListItem = ({
                         onPress={onProfilePress}
                     >
                         <ProfilePhoto
-                            name={item.name}
+                            name={item?.name}
                             photo={item?.profilePhoto}
                             size={30}
                             textBackgroundColor={COLORS.BLACK_100}
@@ -97,7 +97,7 @@ export const LargeHuddleListItem = ({
                 </View>
                 <View style={LargeHuddleListItemStyle.flex}>
                     <Text style={LargeHuddleListItemStyle.messageText}>
-                        {item.message}
+                        {item?.message}
                     </Text>
                 </View>
                 <View
@@ -120,7 +120,7 @@ export const LargeHuddleListItem = ({
                         </Text>
                     </View>
                     <TouchableOpacity
-                        onPress={interact}
+                        onPress={like}
                         style={LargeHuddleListItemStyle.likeView}
                     >
                         <Text style={LargeHuddleListItemStyle.likeText}>

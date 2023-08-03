@@ -39,7 +39,7 @@ export interface ResponseUserNotificationsGetInterface {
     data?: {
         friendsInvitesNotifications: number;
         newHuddlesNotifications: number;
-        interactionsNotifications: number;
+        huddleLikesNotifications: number;
         commentsNotifications: number;
         mentionsNotifications: number;
         messagesNotifications: number;

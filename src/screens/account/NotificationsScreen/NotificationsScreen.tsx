@@ -15,7 +15,7 @@ import { NotificationTypeEnum } from '@enums/notifications/NotificationType.enum
 export const NotificationsScreen = (): JSX.Element => {
     const [friendsInvites, setFriendsInvites] = useState<boolean>(true);
     const [newHuddles, setNewHuddles] = useState<boolean>(true);
-    const [interactions, setInteractions] = useState<boolean>(true);
+    const [huddleLikes, setHuddleLikes] = useState<boolean>(true);
     const [comments, setComments] = useState<boolean>(true);
     const [mentions, setMentions] = useState<boolean>(true);
     const [messages, setMessages] = useState<boolean>(true);
@@ -27,7 +27,7 @@ export const NotificationsScreen = (): JSX.Element => {
             if (response?.status) {
                 setFriendsInvites(!!response?.data.friendsInvitesNotifications);
                 setNewHuddles(!!response?.data.newHuddlesNotifications);
-                setInteractions(!!response?.data.interactionsNotifications);
+                setHuddleLikes(!!response?.data.huddleLikesNotifications);
                 setComments(!!response?.data.commentsNotifications);
                 setMentions(!!response?.data.mentionsNotifications);
                 setMessages(!!response?.data.messagesNotifications);
@@ -62,14 +62,14 @@ export const NotificationsScreen = (): JSX.Element => {
         );
     }, [newHuddles]);
 
-    const switchInteractions = useCallback(() => {
-        setInteractions(!interactions);
+    const switchHuddleLikes = useCallback(() => {
+        setHuddleLikes(!huddleLikes);
 
         update(
-            NotificationTypeEnum.INTERACTIONS_NOTIFICATIONS,
-            interactions ? 0 : 1
+            NotificationTypeEnum.HUDDLE_LIKES_NOTIFICATIONS,
+            huddleLikes ? 0 : 1
         );
-    }, [interactions]);
+    }, [huddleLikes]);
 
     const switchComments = useCallback(() => {
         setComments(!comments);
@@ -136,12 +136,12 @@ export const NotificationsScreen = (): JSX.Element => {
                 >
                     <View style={NotificationsScreenStyle.titleView}>
                         <Text style={NotificationsScreenStyle.titleText}>
-                            Interactions
+                            Huddle Likes
                         </Text>
                     </View>
                     <Switch
-                        value={interactions}
-                        onValueChange={switchInteractions}
+                        value={huddleLikes}
+                        onValueChange={switchHuddleLikes}
                         trackColor={{
                             true: COLORS.BUTTON_BLUE
                         }}

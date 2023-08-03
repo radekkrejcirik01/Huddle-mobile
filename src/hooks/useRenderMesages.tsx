@@ -11,7 +11,7 @@ import {
 } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
-import { MessageInteractionPostInterface } from '@interfaces/post/Post.inteface';
+import { MessageReactionPostInterface } from '@interfaces/post/Post.inteface';
 import { MessageListItemAnimated } from '@components/conversation/MessagesLisItemAnimated/MessageListItemAnimated';
 import { MessageListItem } from '@components/conversation/MessagesLisItem/MessageListItem';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
@@ -35,17 +35,17 @@ export const useRenderMesages = (
         useHuddleActions(loadMessages);
 
     const react = useCallback(
-        (item: MessageItemProps, interaction: string) => {
-            addReaction(item.id, interaction);
+        (item: MessageItemProps, reaction: string) => {
+            addReaction(item.id, reaction);
 
-            postRequestUser<ResponseInterface, MessageInteractionPostInterface>(
+            postRequestUser<ResponseInterface, MessageReactionPostInterface>(
                 'message-react',
                 {
                     receiver: item.sender,
                     message: item.message,
                     conversationId,
                     messageId: item.id,
-                    value: interaction
+                    value: reaction
                 }
             ).subscribe();
         },

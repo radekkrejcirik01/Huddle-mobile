@@ -12,9 +12,3 @@ export interface HuddleScreenProps {
         'params'
     >;
 }
-
-export interface HuddleInteractionInterface {
-    username: string;
-    name: string;
-    profilePhoto: string;
-}
