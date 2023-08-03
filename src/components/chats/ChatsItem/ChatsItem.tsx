@@ -52,7 +52,7 @@ export const ChatsItem = ({
                                 <View style={ChatsItemStyle.dot} />
                             )}
                             {hasSeen &&
-                                (item.isRead ? (
+                                (item.isSeen ? (
                                     <Icon
                                         name={IconEnum.SENT_BLUE}
                                         size={20}

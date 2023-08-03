@@ -5,7 +5,7 @@ export interface ChatsListDataProps {
     profilePhoto?: string;
     lastMessage?: string;
     isNewMessage?: number;
-    isRead?: number;
+    isSeen: number;
     isLiked?: number;
     newHuddles?: number;
     time: number;
