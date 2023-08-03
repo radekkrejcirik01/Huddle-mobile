@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import {
+    useFocusEffect,
     useIsFocused,
     useNavigation as useDefaultNavigation
 } from '@react-navigation/native';
@@ -135,22 +136,26 @@ export const ConversationScreen = ({
         });
     }, [navigation, username]);
 
-    useEffect(() => {
-        if (username) {
-            return loadMessagesByUsernames();
-        }
+    useFocusEffect(
+        useCallback(() => {
+            if (username) {
+                return loadMessagesByUsernames();
+            }
 
-        return () => {};
-    }, [loadMessagesByUsernames, username]);
+            return () => {};
+        }, [loadMessagesByUsernames, username])
+    );
 
     // loadMessages has conversationId dependency that would cause redundant load
-    useEffect(() => {
-        if (!username) {
-            return loadMessages();
-        }
+    useFocusEffect(
+        useCallback(() => {
+            if (!username) {
+                return loadMessages();
+            }
 
-        return () => {};
-    }, [loadMessages, username]);
+            return () => {};
+        }, [loadMessages, username])
+    );
 
     const startLoadingInterval = useCallback(() => {
         clearInterval(interval.current);
@@ -160,7 +165,7 @@ export const ConversationScreen = ({
         }, 3000);
     }, [loadMessages]);
 
-    useEffect(() => startLoadingInterval(), [startLoadingInterval]);
+    useFocusEffect(startLoadingInterval);
 
     useEffect(() => {
         if (!isFocused) {

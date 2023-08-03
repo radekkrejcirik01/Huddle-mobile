@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useHuddleActions } from '@hooks/useHuddleActions';
@@ -9,51 +7,45 @@ import { useRenderComments } from '@hooks/useRenderComments';
 import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import {
-    ResponseHuddlesCommentsGetInterface,
-    ResponseHuddlesGetInterface
+    ResponseHuddleGetInterface,
+    ResponseHuddlesCommentsGetInterface
 } from '@interfaces/response/Response.interface';
 import { HuddleScreenProps } from '@screens/account/HuddleScreen/HuddleScreen.props';
 import { HuddleScreenStyle } from '@screens/account/HuddleScreen/HuddleScreen.style';
-import { ReducerProps } from '@store/index/index.props';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
 import { CommentInput } from '@components/huddles/CommentInput/CommentInput';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
+import { HuddleItemInterface } from '@screens/account/ConversationScreen/ConversationScreen.props';
 
 export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
-    const { huddle, huddleId } = route.params;
-
-    const { username } = useSelector((state: ReducerProps) => state.user.user);
-
-    const navigation = useNavigation();
-    const { openHuddleActions, onHuddleLikePress, openHuddleProfile } =
-        useHuddleActions();
+    const { huddleId } = route.params;
     const { bottom } = useSafeAreaInsets();
 
+    const [huddle, setHuddle] = useState<HuddleItemInterface>();
     const [comments, setComments] = useState<Array<CommentItemInterface>>([]);
     const [mention, setMention] = useState<Mention>(null);
     const [mentions, setMentions] = useState<Array<Mention>>([]);
 
     const commentsListRef = useRef(null);
 
-    useEffect(() => {
-        if (!huddle && huddleId) {
-            getRequestUser<ResponseHuddlesGetInterface>(
-                `huddle/${huddleId}`
-            ).subscribe((response: ResponseHuddlesGetInterface) => {
-                if (response?.status) {
-                    navigation.setParams({
-                        huddle: response?.data
-                    } as undefined);
-                }
-            });
-        }
-    }, [huddle, huddleId, navigation, username]);
+    const loadHuddle = useCallback(() => {
+        getRequestUser<ResponseHuddleGetInterface>(
+            `huddle/${huddleId}`
+        ).subscribe((response: ResponseHuddleGetInterface) => {
+            if (response?.status) {
+                setHuddle(response.data);
+            }
+        });
+    }, [huddleId]);
+
+    const { openHuddleActions, onHuddleLikePress, openHuddleProfile } =
+        useHuddleActions(loadHuddle);
 
     const loadComments = useCallback(
         (lastId?: number) => {
-            let endpoint = `comments/${huddle?.id}`;
+            let endpoint = `comments/${huddleId}`;
             if (lastId) {
                 endpoint += `/${lastId}`;
             }
@@ -75,31 +67,35 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                 }
             });
         },
-        [huddle?.id]
+        [huddleId]
     );
 
-    const load = useCallback(() => {
-        if (huddle?.id) {
-            loadComments();
-        }
-    }, [huddle?.id, loadComments]);
-
-    useEffect(() => load(), [load]);
+    useEffect(() => {
+        loadHuddle();
+        loadComments();
+    }, [loadComments, loadHuddle]);
 
     const {
         renderCommentItem,
         keyCommentExtractor,
         refreshControl,
         onEndReached
-    } = useRenderComments(comments, huddle?.id, loadComments, setMention);
+    } = useRenderComments(
+        comments,
+        huddleId,
+        loadHuddle,
+        loadComments,
+        setMention
+    );
 
     const onSendComment = useCallback(() => {
         loadComments();
+        loadHuddle();
         commentsListRef.current?.scrollToIndex({
             index: comments?.length - 1,
             animated: true
         });
-    }, [comments?.length, loadComments]);
+    }, [comments?.length, loadComments, loadHuddle]);
 
     return (
         <View

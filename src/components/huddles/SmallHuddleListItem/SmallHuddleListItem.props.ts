@@ -2,5 +2,5 @@ import { HuddleItemInterface } from '@screens/account/ConversationScreen/Convers
 
 export interface SmallHuddleListItemProps {
     item: HuddleItemInterface;
-    onPressCard: (item: HuddleItemInterface) => void;
+    onPressCard: () => void;
 }

@@ -5,10 +5,7 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { useNavigation } from '@hooks/useNavigation';
 import { useHuddleActions } from '@hooks/useHuddleActions';
-import {
-    HuddleItemInterface,
-    MessageItemProps
-} from '@screens/account/ConversationScreen/ConversationScreen.props';
+import { MessageItemProps } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { MessageReactionPostInterface } from '@interfaces/post/Post.inteface';
@@ -94,9 +91,9 @@ export const useRenderMesages = (
     );
 
     const openHuddle = useCallback(
-        (item: HuddleItemInterface) =>
+        (id: number) =>
             navigateTo(AccountStackNavigatorEnum.HuddleScreen, {
-                huddle: item
+                huddleId: id
             }),
         [navigateTo]
     );
@@ -117,7 +114,7 @@ export const useRenderMesages = (
                 <MessageListItem
                     item={item}
                     onMessageLongPress={() => showActionSheet(item)}
-                    onHuddlePress={() => openHuddle(item.huddle)}
+                    onHuddlePress={() => openHuddle(item.huddle.id)}
                     onHuddleProfilePress={() => openHuddleProfile(item.huddle)}
                     onHuddleLikePress={() => onHuddleLikePress(item.huddle)}
                     onHuddleLongPress={() => openHuddleActions(item.huddle)}

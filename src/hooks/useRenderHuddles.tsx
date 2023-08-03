@@ -26,17 +26,19 @@ export const useRenderHuddles = (
     const scrollBeginDragged = useRef<boolean>(false);
 
     const openHuddle = useCallback(
-        (item: HuddleItemInterface) => {
+        (id: number) =>
             navigateTo(AccountStackNavigatorEnum.HuddleScreen, {
-                huddle: item
-            });
-        },
+                huddleId: id
+            }),
         [navigateTo]
     );
 
     const renderSmallItem = useCallback(
         ({ item }: ListRenderItemInfo<HuddleItemInterface>): JSX.Element => (
-            <SmallHuddleListItem item={item} onPressCard={openHuddle} />
+            <SmallHuddleListItem
+                item={item}
+                onPressCard={() => openHuddle(item.id)}
+            />
         ),
         [openHuddle]
     );

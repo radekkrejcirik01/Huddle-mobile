@@ -17,6 +17,7 @@ import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
 export const useRenderComments = (
     comments: Array<CommentItemInterface>,
     huddleId: number,
+    loadHuddle: () => void,
     loadComments: (lastId?: number) => void,
     mention: (value: Mention) => void
 ): {
@@ -30,7 +31,10 @@ export const useRenderComments = (
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const openProfilePhoto = useOpenProfilePhoto();
-    const { refreshing, onRefresh } = useRefresh(loadComments);
+    const { refreshing, onRefresh } = useRefresh(() => {
+        loadHuddle();
+        loadComments();
+    });
     const { showActionSheetWithOptions } = useActionSheet();
 
     const pressCommentLike = useCallback(
@@ -62,10 +66,11 @@ export const useRenderComments = (
             deleteRequestUser<ResponseInterface>(`comment/${id}`).subscribe(
                 () => {
                     loadComments();
+                    loadHuddle();
                 }
             );
         },
-        [loadComments]
+        [loadComments, loadHuddle]
     );
 
     const itemLongPress = useCallback(

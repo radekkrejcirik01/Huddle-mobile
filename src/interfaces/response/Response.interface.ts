@@ -77,6 +77,12 @@ export interface ResponseNumberInvitesGetInterface {
     number?: number;
 }
 
+export interface ResponseHuddleGetInterface {
+    status: string;
+    message: string;
+    data?: HuddleItemInterface;
+}
+
 export interface ResponseHuddlesGetInterface {
     status: string;
     message: string;
