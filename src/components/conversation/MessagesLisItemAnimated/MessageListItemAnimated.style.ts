@@ -13,13 +13,13 @@ export const MessageListItemAnimatedStyle = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 8,
         borderRadius: 18,
-        backgroundColor: COLORS.BLACK_300,
+        backgroundColor: COLORS.BLACK_200,
         alignSelf: 'flex-start',
         alignItems: 'flex-end'
     },
     flexEnd: {
         alignSelf: 'flex-end',
-        backgroundColor: COLORS.PASTEL_RED
+        backgroundColor: COLORS.MESSAGE_BLUE
     },
     longMessage: {
         flexDirection: 'row',

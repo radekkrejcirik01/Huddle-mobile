@@ -41,7 +41,7 @@ export const StartHuddleModalScreen = ({
     return (
         <View style={StartHuddleModalScreenStyle.screen}>
             <Text style={StartHuddleModalScreenStyle.titleText}>
-                what would you like to do?
+                what do you want to say?
             </Text>
             <HuddleEditableCard
                 onMessageChange={(text) => {
@@ -53,7 +53,7 @@ export const StartHuddleModalScreen = ({
                 style={StartHuddleModalScreenStyle.addButtonView}
             >
                 <Text style={StartHuddleModalScreenStyle.addButtonText}>
-                    Post
+                    Send
                 </Text>
             </TouchableOpacity>
         </View>

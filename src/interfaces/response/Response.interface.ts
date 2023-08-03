@@ -4,13 +4,11 @@ import {
     MessageItemProps
 } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
-import { HuddleInteractionInterface } from '@screens/account/HuddleScreen/HuddleScreen.props';
 import {
     CommentItemInterface,
     CommentLikeInterface
 } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
-import { InviteItemProps } from '@screens/account/InvitesScreen/InvitesScreen.props';
 import { HiddenItemProps } from '@screens/account/ShowHuddlesScreen/ShowHuddlesScreen.props';
 import { MutedHuddlesItemProps } from '@screens/account/MutedHuddlesScreen/MutedHuddlesScreen.props';
 
@@ -73,12 +71,6 @@ export interface ResponseIsConversationMutedGetInterface {
     people: Array<string>;
 }
 
-export interface ResponseInvitesGetInterface {
-    status: string;
-    message: string;
-    data?: Array<InviteItemProps>;
-}
-
 export interface ResponseNumberInvitesGetInterface {
     status: string;
     message: string;
@@ -89,12 +81,6 @@ export interface ResponseHuddlesGetInterface {
     status: string;
     message: string;
     data?: Array<HuddleItemInterface>;
-}
-
-export interface ResponseHuddlesInteractionsGetInterface {
-    status: string;
-    message: string;
-    data?: Array<HuddleInteractionInterface>;
 }
 
 export interface ResponseHuddlesCommentsGetInterface {

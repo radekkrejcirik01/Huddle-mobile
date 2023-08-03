@@ -4,4 +4,5 @@ export interface FriendsListItemProps {
     item: FriendsItemProps;
     onItemPress: () => void;
     onPhotoPress: () => void;
+    onAcceptPress: () => void;
 }

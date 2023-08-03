@@ -10,7 +10,7 @@ export const SmallHuddleListItemStyle = StyleSheet.create({
         margin: 2.5,
         paddingHorizontal: 20,
         borderRadius: 12,
-        backgroundColor: COLORS.PASTEL_PURPLE,
+        backgroundColor: COLORS.PASTEL_RED,
         alignItems: 'center',
         justifyContent: 'center'
     },

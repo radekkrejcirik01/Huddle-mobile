@@ -24,5 +24,16 @@ export const FriendsListItemStyle = StyleSheet.create({
     chatEmoji: {
         marginRight: 10,
         fontSize: 16
+    },
+    acceptView: {
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        borderRadius: 12,
+        backgroundColor: COLORS.MESSAGE_BLUE,
+        alignSelf: 'center'
+    },
+    acceptText: {
+        color: COLORS.WHITE,
+        fontWeight: 'bold'
     }
 });

@@ -6,6 +6,9 @@ import { useOpenChat } from '@hooks/useOpenChat';
 import { useRefresh } from '@hooks/useRefresh';
 import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
 import { FriendsListItem } from '@components/friends/FriendsListItem/FriendsListItem';
+import { putRequestUser } from '@utils/Axios/Axios.service';
+import { ResponseInterface } from '@interfaces/response/Response.interface';
+import { AcceptPersonInviteInterface } from '@interfaces/post/Post.inteface';
 
 export const useRenderFriends = (
     friends: Array<FriendsItemProps>,
@@ -24,9 +27,30 @@ export const useRenderFriends = (
 
     const onItemPress = useCallback(
         (item: FriendsItemProps) => {
-            openChat(item.name, item?.profilePhoto, item?.username);
+            openChat(
+                item.user.name,
+                item.user?.profilePhoto,
+                item.user?.username
+            );
         },
         [openChat]
+    );
+
+    const acceptInvites = useCallback(
+        (id: number, username: string) => {
+            putRequestUser<ResponseInterface, AcceptPersonInviteInterface>(
+                '/person',
+                {
+                    id,
+                    receiver: username
+                }
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    loadFriends();
+                }
+            });
+        },
+        [loadFriends]
     );
 
     const renderFriendsItem = useCallback(
@@ -35,11 +59,12 @@ export const useRenderFriends = (
                 item={item}
                 onItemPress={() => onItemPress(item)}
                 onPhotoPress={() =>
-                    openProfilePhoto(item.name, item?.profilePhoto)
+                    openProfilePhoto(item.user.name, item.user?.profilePhoto)
                 }
+                onAcceptPress={() => acceptInvites(item.id, item.user.username)}
             />
         ),
-        [onItemPress, openProfilePhoto]
+        [acceptInvites, onItemPress, openProfilePhoto]
     );
 
     const keyFriendsExtractor = (item: FriendsItemProps): string =>

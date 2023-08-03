@@ -7,7 +7,8 @@ export const StartHuddleModalScreenStyle = StyleSheet.create({
         paddingTop: 20,
         paddingHorizontal: 15,
         backgroundColor: COLORS.BLACK,
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        alignItems: 'center'
     },
     titleText: {
         fontSize: 20,
@@ -17,9 +18,9 @@ export const StartHuddleModalScreenStyle = StyleSheet.create({
     },
     addButtonView: {
         paddingVertical: 12,
-        width: '100%',
+        width: '90%',
         borderRadius: 10,
-        backgroundColor: COLORS.BUTTON_BLUE,
+        backgroundColor: COLORS.MESSAGE_BLUE,
         alignItems: 'center'
     },
     addButtonText: {

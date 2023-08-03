@@ -23,7 +23,7 @@ export const FriendsScreenStyle = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 10,
         borderRadius: 12,
-        backgroundColor: COLORS.BUTTON_BLUE,
+        backgroundColor: COLORS.MESSAGE_BLUE,
         alignSelf: 'center'
     },
     descriptionButtonText: {
@@ -34,5 +34,18 @@ export const FriendsScreenStyle = StyleSheet.create({
     listContentContainer: {
         paddingTop: 10,
         paddingBottom: 100
+    },
+    newInviteView: {
+        paddingVertical: 14,
+        paddingHorizontal: 30,
+        borderRadius: 20,
+        backgroundColor: COLORS.MESSAGE_BLUE,
+        alignSelf: 'center',
+        position: 'absolute'
+    },
+    newInviteText: {
+        fontSize: 16,
+        color: COLORS.WHITE,
+        fontWeight: '600'
     }
 });

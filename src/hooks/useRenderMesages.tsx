@@ -108,7 +108,9 @@ export const useRenderMesages = (
                     item={item}
                     onLongPress={() => showActionSheet(item)}
                     hasSpace={
-                        messages[index]?.sender !== messages[index + 1]?.sender
+                        messages[index]?.sender !==
+                            messages[index + 1]?.sender &&
+                        !messages[index + 1]?.huddle
                     }
                 />
             ) : (
@@ -121,7 +123,9 @@ export const useRenderMesages = (
                     onHuddleLongPress={() => openHuddleActions(item.huddle)}
                     onHuddleMorePress={() => openHuddleActions(item.huddle)}
                     hasSpace={
-                        messages[index]?.sender !== messages[index + 1]?.sender
+                        messages[index]?.sender !==
+                            messages[index + 1]?.sender &&
+                        !messages[index + 1]?.huddle
                     }
                     isMessageAbove={
                         !!messages[index]?.huddle &&

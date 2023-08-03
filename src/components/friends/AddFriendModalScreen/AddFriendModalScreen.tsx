@@ -80,7 +80,7 @@ export const AddFriendModalScreen = ({
                 style={AddFriendModalScreenStyle.sendButton}
             >
                 <Text style={AddFriendModalScreenStyle.sendButtonText}>
-                    Send invite
+                    Send
                 </Text>
             </TouchableOpacity>
         </View>

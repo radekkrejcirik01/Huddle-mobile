@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Keyboard, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useRenderFriends } from '@hooks/useRenderFriends';
@@ -8,14 +9,18 @@ import { FriendsScreenStyle } from '@screens/account/FriendsScreen/FriendsScreen
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
 import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
-import { getRequestUser } from '@utils/Axios/Axios.service';
-import { ResponseFriendsGetInterface } from '@interfaces/response/Response.interface';
+import { getRequestUser, putRequestUser } from '@utils/Axios/Axios.service';
+import {
+    ResponseFriendsGetInterface,
+    ResponseInterface
+} from '@interfaces/response/Response.interface';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { AddFriendModalScreen } from '@components/friends/AddFriendModalScreen/AddFriendModalScreen';
 import { Modal } from '@components/general/Modal/Modal';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 
 export const FriendsScreen = (): JSX.Element => {
+    const { bottom } = useSafeAreaInsets();
     const { modalVisible, showModal, hideModal } = useModal();
 
     const [inputValue, setInputValue] = useState<string>();
@@ -33,6 +38,10 @@ export const FriendsScreen = (): JSX.Element => {
         getRequestUser<ResponseFriendsGetInterface>(endpoint).subscribe(
             (response: ResponseFriendsGetInterface) => {
                 if (response?.status) {
+                    putRequestUser<ResponseInterface, undefined>(
+                        'seen-invites'
+                    ).subscribe();
+
                     if (!lastId) {
                         setData(response?.data);
                         setFilteredData(response?.data);
@@ -59,7 +68,7 @@ export const FriendsScreen = (): JSX.Element => {
 
             const text = value.toLowerCase();
             const filteredName = data.filter((item: FriendsItemProps) =>
-                item.name.toLowerCase().match(text)
+                item.user.name.toLowerCase().match(text)
             );
 
             setFilteredData(filteredName);
@@ -84,7 +93,7 @@ export const FriendsScreen = (): JSX.Element => {
             {!!data?.length && (
                 <Input
                     iconLeft={<Text>🔍</Text>}
-                    placeholder="Serch contacts"
+                    placeholder="Search contacts"
                     value={inputValue}
                     onChange={filterData}
                     inputType={InputTypeEnum.TEXT}
@@ -118,6 +127,17 @@ export const FriendsScreen = (): JSX.Element => {
                 ItemSeparatorComponent={() => <ItemSeparator space={10} />}
                 contentContainerStyle={FriendsScreenStyle.listContentContainer}
             />
+            <TouchableOpacity
+                onPress={showModal}
+                style={[
+                    {
+                        bottom: bottom + 40
+                    },
+                    FriendsScreenStyle.newInviteView
+                ]}
+            >
+                <Text style={FriendsScreenStyle.newInviteText}>New invite</Text>
+            </TouchableOpacity>
             <Modal
                 isVisible={modalVisible}
                 content={

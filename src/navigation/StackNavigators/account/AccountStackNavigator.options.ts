@@ -1,4 +1,3 @@
-import React from 'react';
 import { StackNavigationOptions } from '@react-navigation/stack';
 import store from '@store/index/index';
 
@@ -12,10 +11,6 @@ export const FriendsOptions: StackNavigationOptions = {
 
 export const ShowTitle: StackNavigationOptions = {
     headerTitle: 'Show'
-};
-
-export const InvitesTitle: StackNavigationOptions = {
-    headerTitle: 'Invites'
 };
 
 export const ManageAccountTitle: StackNavigationOptions = {
