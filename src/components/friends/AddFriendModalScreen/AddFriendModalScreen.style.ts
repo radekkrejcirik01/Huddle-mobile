@@ -20,7 +20,7 @@ export const AddFriendModalScreenStyle = StyleSheet.create({
         fontWeight: 'bold'
     },
     inputView: {
-        height: 65,
+        height: 55,
         marginTop: 20,
         paddingHorizontal: 15,
         borderRadius: 35,
@@ -33,11 +33,10 @@ export const AddFriendModalScreenStyle = StyleSheet.create({
         fontWeight: '500'
     },
     sendButton: {
-        paddingVertical: 15,
-        paddingHorizontal: 25,
-        borderRadius: 30,
-        backgroundColor: COLORS.BUTTON_BLUE,
-        alignItems: 'center'
+        paddingVertical: 10,
+        paddingHorizontal: 26,
+        borderRadius: 12,
+        backgroundColor: COLORS.BUTTON_BLUE
     },
     sendButtonText: {
         fontSize: 16,

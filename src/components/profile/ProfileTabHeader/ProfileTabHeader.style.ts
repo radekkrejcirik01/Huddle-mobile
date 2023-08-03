@@ -5,12 +5,6 @@ export const ProfileTabHeaderStyle = StyleSheet.create({
     container: {
         alignItems: 'center'
     },
-    image: {
-        width: 65,
-        height: 65,
-        borderRadius: 65,
-        backgroundColor: COLORS.GRAY_400
-    },
     buttonsContainer: {
         width: '80%',
         marginVertical: 12,
@@ -23,7 +17,7 @@ export const ProfileTabHeaderStyle = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 10,
         borderRadius: 18,
-        backgroundColor: COLORS.BLACK_200,
+        backgroundColor: COLORS.BLACK_50,
         justifyContent: 'center'
     },
     buttonText: {

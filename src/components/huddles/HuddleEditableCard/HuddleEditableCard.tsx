@@ -27,7 +27,7 @@ export const HuddleEditableCard = ({
                 <ProfilePhoto
                     name={firstname}
                     photo={profilePhoto}
-                    size={30}
+                    size={35}
                     textBackgroundColor={COLORS.BLACK_100}
                 />
                 <View style={HuddleEditableCardStyle.titleView}>
@@ -49,7 +49,7 @@ export const HuddleEditableCard = ({
                 style={HuddleEditableCardStyle.sendView}
                 onPress={onSend}
             >
-                <Text style={HuddleEditableCardStyle.sendText}>Send</Text>
+                <Text style={HuddleEditableCardStyle.sendText}>Post</Text>
             </TouchableOpacity>
         </View>
     );

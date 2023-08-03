@@ -25,7 +25,7 @@ export const StartHuddleModalScreen = ({
         }).subscribe((response: ResponseInterface) => {
             if (response?.status) {
                 onCreate();
-                Alert.alert('✅');
+                Alert.alert('Posted ✅');
             }
         });
     }, [firstname, onClose, onCreate]);
