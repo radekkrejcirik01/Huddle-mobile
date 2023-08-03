@@ -32,7 +32,7 @@ export const useRenderMesages = (
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const { showActionSheetWithOptions } = useActionSheet();
     const { openHuddleActions, onHuddleLikePress, openHuddleProfile } =
-        useHuddleActions();
+        useHuddleActions(loadMessages);
 
     const react = useCallback(
         (item: MessageItemProps, interaction: string) => {

@@ -3,7 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const LargeHuddleListItemStyle = StyleSheet.create({
     container: {
-        minHeight: 160,
+        minHeight: 200,
         minWidth: '100%',
         padding: 15,
         paddingLeft: 12,
@@ -35,11 +35,11 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         marginRight: 5
     },
     messageText: {
-        margin: 5,
+        marginVertical: 5,
         color: COLORS.WHITE,
         fontWeight: '500'
     },
-    commentsText: {
+    numberText: {
         margin: 5,
         fontSize: 14,
         color: COLORS.WHITE
@@ -62,6 +62,6 @@ export const LargeHuddleListItemStyle = StyleSheet.create({
         alignItems: 'center'
     },
     likeText: {
-        fontSize: 26
+        fontSize: 22
     }
 });

@@ -3,14 +3,16 @@ import { Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { useNavigation } from '@react-navigation/native';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { HuddleItemInterface } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { ReducerProps } from '@store/index/index.props';
 import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { HuddleInteractPostInterface } from '@interfaces/post/Post.inteface';
-import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 
-export const useHuddleActions = (): {
+export const useHuddleActions = (
+    onLiked?: () => void
+): {
     openHuddleActions: (item: HuddleItemInterface) => void;
     onHuddleLikePress: (item: HuddleItemInterface) => void;
     openHuddleProfile: (item: HuddleItemInterface) => void;
@@ -81,20 +83,34 @@ export const useHuddleActions = (): {
         [deleteHuddleMessage, showActionSheetWithOptions, username]
     );
 
-    const likeHuddle = (huddleId: number, message: string, createdBy: string) =>
-        postRequestUser<ResponseInterface, HuddleInteractPostInterface>(
-            'huddle/interaction',
-            {
-                huddleId,
-                message,
-                receiver: createdBy
-            }
-        ).subscribe();
+    const likeHuddle = useCallback(
+        (huddleId: number, message: string, createdBy: string) =>
+            postRequestUser<ResponseInterface, HuddleInteractPostInterface>(
+                'huddle/interaction',
+                {
+                    huddleId,
+                    message,
+                    receiver: createdBy
+                }
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    onLiked();
+                }
+            }),
+        [onLiked]
+    );
 
-    const removeHuddleLike = (huddleId: number) =>
-        deleteRequestUser<ResponseInterface>(
-            `interaction/${huddleId}`
-        ).subscribe();
+    const removeHuddleLike = useCallback(
+        (huddleId: number) =>
+            deleteRequestUser<ResponseInterface>(
+                `interaction/${huddleId}`
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    onLiked();
+                }
+            }),
+        [onLiked]
+    );
 
     const onHuddleLikePress = (item: HuddleItemInterface) => {
         if (!item?.liked) {

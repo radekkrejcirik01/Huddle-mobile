@@ -62,13 +62,6 @@ export const LargeHuddleListItem = ({
 
     const likedText = useMemo((): string => (liked ? '✅' : '👍'), [liked]);
 
-    function getCommentsText(commentsNumber: number): string {
-        if (commentsNumber === 1) {
-            return 'comment';
-        }
-        return 'comments';
-    }
-
     return (
         <TouchableOpacity
             activeOpacity={1}
@@ -102,24 +95,28 @@ export const LargeHuddleListItem = ({
                         style={LargeHuddleListItemStyle.moreIcon}
                     />
                 </View>
+                <View style={LargeHuddleListItemStyle.flex}>
+                    <Text style={LargeHuddleListItemStyle.messageText}>
+                        {item.message}
+                    </Text>
+                </View>
                 <View
                     style={[
-                        LargeHuddleListItemStyle.flex,
-                        LargeHuddleListItemStyle.row
+                        LargeHuddleListItemStyle.row,
+                        LargeHuddleListItemStyle.flexEnd
                     ]}
                 >
                     <View
                         style={[
                             LargeHuddleListItemStyle.flex,
-                            LargeHuddleListItemStyle.spaceBetween
+                            LargeHuddleListItemStyle.row
                         ]}
                     >
-                        <Text style={LargeHuddleListItemStyle.messageText}>
-                            {item.message}
+                        <Text style={LargeHuddleListItemStyle.numberText}>
+                            {item?.commentsNumber} 💬
                         </Text>
-                        <Text style={LargeHuddleListItemStyle.commentsText}>
-                            {item?.commentsNumber}{' '}
-                            {getCommentsText(item?.commentsNumber)}
+                        <Text style={LargeHuddleListItemStyle.numberText}>
+                            {item?.likesNumber} 👍
                         </Text>
                     </View>
                     <TouchableOpacity
