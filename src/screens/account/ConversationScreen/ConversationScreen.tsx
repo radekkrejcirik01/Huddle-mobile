@@ -33,7 +33,6 @@ import {
 } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
 import { isiOS } from '@functions/checking-functions';
-import COLORS from '@constants/COLORS';
 import { ConversationHeader } from '@components/conversation/ConversationHeader/ConversationHeader';
 import { PostHuddle } from '@components/huddles/PostHuddle/PostHuddle';
 
@@ -69,13 +68,12 @@ export const ConversationScreen = ({
                     )
                 }),
                 headerRight: () => <PostHuddle onCreateHuddle={() => {}} />,
-                headerStyle: {
-                    height: 110,
-                    backgroundColor: COLORS.BLACK_300,
-                    shadowOpacity: 0
-                }
+                headerStyle: [
+                    ConversationScreenStyle.headerStyle,
+                    !!bottom && ConversationScreenStyle.headerHeight
+                ]
             }),
-        [conversationId, name, navigation, profilePhoto]
+        [bottom, conversationId, name, navigation, profilePhoto]
     );
 
     const updateLastRead = (idConversation: number) => {
@@ -245,6 +243,16 @@ export const ConversationScreen = ({
         [startLoadingInterval]
     );
 
+    const getKeyboardOffset = (): number => {
+        if (isiOS()) {
+            if (bottom) {
+                return 62;
+            }
+            return 50;
+        }
+        return 90;
+    };
+
     return (
         <View
             style={[
@@ -254,7 +262,7 @@ export const ConversationScreen = ({
                 }
             ]}
         >
-            <KeyboardAvoidingView keyboardVerticalOffset={isiOS() ? 60 : 90}>
+            <KeyboardAvoidingView keyboardVerticalOffset={getKeyboardOffset()}>
                 <View style={ConversationScreenStyle.content}>
                     <FlashList
                         data={messages}
