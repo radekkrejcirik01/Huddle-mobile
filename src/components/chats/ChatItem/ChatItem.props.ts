@@ -2,6 +2,7 @@ import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.pro
 
 export interface ChatItemProps {
     item: ChatsListDataProps;
-    onPress: (item: ChatsListDataProps) => void;
+    onPress: () => void;
+    onLongPress: () => void;
     hasSeen: boolean;
 }

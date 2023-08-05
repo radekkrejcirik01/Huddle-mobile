@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useNavigation } from '@hooks/useNavigation';
 import { useRefresh } from '@hooks/useRefresh';
@@ -9,6 +10,16 @@ import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.pro
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { ReducerProps } from '@store/index/index.props';
+import {
+    deleteRequestUser,
+    getRequestUser,
+    postRequestUser
+} from '@utils/Axios/Axios.service';
+import {
+    ResponseConversationLikedInterface,
+    ResponseInterface
+} from '@interfaces/response/Response.interface';
+import { ConversationLikePostInterface } from '@interfaces/post/Post.inteface';
 
 export const useRenderChats = (
     chats: Array<ChatsListDataProps>,
@@ -24,6 +35,7 @@ export const useRenderChats = (
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
+    const { showActionSheetWithOptions } = useActionSheet();
     const { refreshing, onRefresh } = useRefresh(loadChats);
 
     const openConversation = useCallback(
@@ -37,15 +49,77 @@ export const useRenderChats = (
         [navigateTo]
     );
 
+    const likeConversation = useCallback(
+        (conversationId: number) => {
+            postRequestUser<ResponseInterface, ConversationLikePostInterface>(
+                'conversation-like',
+                {
+                    conversationId
+                }
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    loadChats();
+                }
+            });
+        },
+        [loadChats]
+    );
+
+    const removeConversationLike = useCallback(
+        (conversationId: number) => {
+            deleteRequestUser<ResponseInterface>(
+                `conversation-like/${conversationId}`
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    loadChats();
+                }
+            });
+        },
+        [loadChats]
+    );
+
+    const openActions = useCallback(
+        (conversationId: number) => {
+            getRequestUser<ResponseConversationLikedInterface>(
+                `conversation-like/${conversationId}`
+            ).subscribe((response: ResponseConversationLikedInterface) => {
+                if (response?.status) {
+                    const options = [
+                        response?.isLiked === 1 ? 'Remove ❤️' : 'Like ❤️',
+                        'Cancel'
+                    ];
+
+                    showActionSheetWithOptions(
+                        {
+                            options,
+                            cancelButtonIndex: 1,
+                            userInterfaceStyle: 'dark'
+                        },
+                        (selectedIndex: number) => {
+                            if (options[selectedIndex] === 'Like ❤️') {
+                                likeConversation(conversationId);
+                            }
+                            if (options[selectedIndex] === 'Remove ❤️') {
+                                removeConversationLike(conversationId);
+                            }
+                        }
+                    );
+                }
+            });
+        },
+        [likeConversation, removeConversationLike, showActionSheetWithOptions]
+    );
+
     const renderChatItem = useCallback(
         ({ item }: ListRenderItemInfo<ChatsListDataProps>): JSX.Element => (
             <ChatItem
                 item={item}
-                onPress={openConversation}
+                onPress={() => openConversation(item)}
+                onLongPress={() => openActions(item.id)}
                 hasSeen={item.sender === username}
             />
         ),
-        [openConversation, username]
+        [openActions, openConversation, username]
     );
 
     const keyChatExtractor = (item: ChatsListDataProps): string =>

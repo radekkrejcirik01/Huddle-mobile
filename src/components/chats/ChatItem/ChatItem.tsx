@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { ChatItemProps } from '@components/chats/ChatItem/ChatItem.props';
@@ -11,12 +11,9 @@ import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 export const ChatItem = ({
     item,
     onPress,
+    onLongPress,
     hasSeen
 }: ChatItemProps): JSX.Element => {
-    const onPressItem = useCallback(() => {
-        onPress(item);
-    }, [item, onPress]);
-
     function getNewHuddlesText(number: number): string {
         if (number === 1) {
             return `+ ${number} huddle`;
@@ -27,7 +24,8 @@ export const ChatItem = ({
     return (
         <TouchableOpacity
             activeOpacity={1}
-            onPress={onPressItem}
+            onPress={onPress}
+            onLongPress={onLongPress}
             style={ChatItemStyle.container}
         >
             <View style={ChatItemStyle.row}>
