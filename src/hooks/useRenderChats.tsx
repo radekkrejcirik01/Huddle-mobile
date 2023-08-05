@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useNavigation } from '@hooks/useNavigation';
 import { useRefresh } from '@hooks/useRefresh';
-import { ChatsItem } from '@components/chats/ChatsItem/ChatsItem';
+import { ChatItem } from '@components/chats/ChatItem/ChatItem';
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
@@ -39,7 +39,7 @@ export const useRenderChats = (
 
     const renderChatItem = useCallback(
         ({ item }: ListRenderItemInfo<ChatsListDataProps>): JSX.Element => (
-            <ChatsItem
+            <ChatItem
                 item={item}
                 onPress={openConversation}
                 hasSeen={item.sender === username}

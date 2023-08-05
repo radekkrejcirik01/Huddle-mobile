@@ -1,29 +1,21 @@
-import React, { useCallback, useMemo } from 'react';
-import { StyleProp, Text, TextStyle, View } from 'react-native';
-import COLORS from '@constants/COLORS';
+import React, { useCallback } from 'react';
+import { Text, View } from 'react-native';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { ChatsItemProps } from '@components/chats/ChatsItem/ChatsItem.props';
-import { ChatsItemStyle } from '@components/chats/ChatsItem/ChatsItem.style';
+import { ChatItemProps } from '@components/chats/ChatItem/ChatItem.props';
+import { ChatItemStyle } from '@components/chats/ChatItem/ChatItem.style';
 import { getLocalTimeFromUTCUnix } from '@functions/getLocalTimeFromUTCUnix';
 import { Icon } from '@components/general/Icon/Icon';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
-export const ChatsItem = ({
+export const ChatItem = ({
     item,
     onPress,
     hasSeen
-}: ChatsItemProps): JSX.Element => {
+}: ChatItemProps): JSX.Element => {
     const onPressItem = useCallback(() => {
         onPress(item);
     }, [item, onPress]);
-
-    const opacityStyle = useMemo(
-        (): StyleProp<TextStyle> => [
-            { color: item?.isNewMessage ? COLORS.WHITE : COLORS.LIGHTGRAY_300 }
-        ],
-        [item?.isNewMessage]
-    );
 
     function getNewHuddlesText(number: number): string {
         if (number === 1) {
@@ -36,50 +28,63 @@ export const ChatsItem = ({
         <TouchableOpacity
             activeOpacity={1}
             onPress={onPressItem}
-            style={ChatsItemStyle.container}
+            style={ChatItemStyle.container}
         >
-            <View style={ChatsItemStyle.row}>
+            <View style={ChatItemStyle.row}>
                 <ProfilePhoto
                     name={item.name}
                     photo={item?.profilePhoto}
-                    size={55}
+                    size={50}
                 />
-                <View style={ChatsItemStyle.box}>
-                    <View style={ChatsItemStyle.firstRow}>
-                        <View style={ChatsItemStyle.nameRow}>
-                            <Text style={ChatsItemStyle.name}>{item.name}</Text>
+                <View style={ChatItemStyle.box}>
+                    <View style={ChatItemStyle.firstRow}>
+                        <View style={ChatItemStyle.nameRow}>
                             {item?.isNewMessage && (
-                                <View style={ChatsItemStyle.dot} />
+                                <View style={ChatItemStyle.dot} />
                             )}
+                            <Text style={ChatItemStyle.nameText}>
+                                {item.name}
+                            </Text>
                             {hasSeen &&
                                 (item.isSeen ? (
                                     <Icon
                                         name={IconEnum.SENT_BLUE}
                                         size={20}
-                                        style={ChatsItemStyle.sentIcon}
+                                        style={ChatItemStyle.sentIcon}
                                     />
                                 ) : (
                                     <Icon
                                         name={IconEnum.SENT}
                                         size={20}
-                                        style={ChatsItemStyle.sentIcon}
+                                        style={ChatItemStyle.sentIcon}
                                     />
                                 ))}
+                            {!!item.newHuddles && (
+                                <View style={ChatItemStyle.newHuddlesView}>
+                                    <Text style={ChatItemStyle.newHuddlesText}>
+                                        {getNewHuddlesText(item.newHuddles)}
+                                    </Text>
+                                </View>
+                            )}
                         </View>
-                        <Text style={[ChatsItemStyle.time, opacityStyle]}>
+                        <Text
+                            style={[
+                                ChatItemStyle.timeText,
+                                item?.isNewMessage &&
+                                    ChatItemStyle.newMessageText
+                            ]}
+                        >
                             {getLocalTimeFromUTCUnix(item.time).format('HH:mm')}
                         </Text>
                     </View>
-                    <Text style={[ChatsItemStyle.message, opacityStyle]}>
+                    <Text
+                        style={[
+                            ChatItemStyle.messageText,
+                            item?.isNewMessage && ChatItemStyle.newMessageText
+                        ]}
+                    >
                         {item?.lastMessage}
                     </Text>
-                    {!!item.newHuddles && (
-                        <View style={ChatsItemStyle.newHuddlesView}>
-                            <Text style={ChatsItemStyle.newHuddlesText}>
-                                {getNewHuddlesText(item.newHuddles)}
-                            </Text>
-                        </View>
-                    )}
                 </View>
                 {!!item.isLiked && <Text>❤️</Text>}
             </View>

@@ -11,5 +11,9 @@ export const BottomTabNavigatorStyle = StyleSheet.create({
         paddingHorizontal: '5%',
         borderTopWidth: 0,
         backgroundColor: COLORS.BLACK_300
+    },
+    tabBarLabel: {
+        color: COLORS.WHITE,
+        fontWeight: '500'
     }
 });

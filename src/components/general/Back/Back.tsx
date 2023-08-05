@@ -9,7 +9,7 @@ export const Back = (): JSX.Element => {
 
     return (
         <IconButton
-            icon={IconEnum.BACK}
+            icon={IconEnum.BACK_BLUE}
             onPress={() => navigation.goBack()}
             size={20}
             style={BackStyle.container}

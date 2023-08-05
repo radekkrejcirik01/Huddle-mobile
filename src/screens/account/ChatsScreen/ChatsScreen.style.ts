@@ -3,10 +3,10 @@ import COLORS from '@constants/COLORS';
 
 export const ChatsScreenStyle = StyleSheet.create({
     container: {
-        flex: 1,
-        paddingTop: 15
+        flex: 1
     },
     contentContainer: {
+        paddingTop: 15,
         paddingHorizontal: 15,
         paddingBottom: 100
     },

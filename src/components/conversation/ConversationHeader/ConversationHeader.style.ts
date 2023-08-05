@@ -7,14 +7,22 @@ export const ConversationHeaderStyle = StyleSheet.create({
         alignItems: 'center'
     },
     detailsView: {
-        marginLeft: 30,
+        marginLeft: 15,
         flexDirection: 'row',
         alignItems: 'center'
     },
+    textsView: {
+        marginLeft: 5
+    },
     nameText: {
-        marginLeft: 5,
         fontSize: 16,
         color: COLORS.WHITE,
-        fontWeight: 'bold'
+        fontWeight: '600'
+    },
+    tapHereText: {
+        fontSize: 11,
+        opacity: 0.8,
+        color: COLORS.WHITE,
+        fontWeight: '600'
     }
 });

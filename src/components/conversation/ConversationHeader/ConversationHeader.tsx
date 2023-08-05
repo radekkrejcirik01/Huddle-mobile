@@ -34,7 +34,12 @@ export const ConversationHeader = ({
                 style={ConversationHeaderStyle.detailsView}
             >
                 <ProfilePhoto name={name} photo={profilePhoto} size={38} />
-                <Text style={ConversationHeaderStyle.nameText}>{name}</Text>
+                <View style={ConversationHeaderStyle.textsView}>
+                    <Text style={ConversationHeaderStyle.nameText}>{name}</Text>
+                    <Text style={ConversationHeaderStyle.tapHereText}>
+                        tap here for details
+                    </Text>
+                </View>
             </TouchableOpacity>
         </View>
     );

@@ -3,7 +3,7 @@ import COLORS from '@constants/COLORS';
 
 export const ConversationScreenStyle = StyleSheet.create({
     container: {
-        marginTop: 5,
+        paddingTop: 2,
         backgroundColor: COLORS.BLACK_300
     },
     content: {
@@ -13,6 +13,6 @@ export const ConversationScreenStyle = StyleSheet.create({
     },
     listContainer: {
         paddingHorizontal: 10,
-        paddingTop: 100
+        paddingTop: 60
     }
 });

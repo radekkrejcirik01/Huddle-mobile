@@ -11,12 +11,12 @@ export const StartHuddleModalScreenStyle = StyleSheet.create({
     },
     title: {
         marginBottom: '20%',
-        fontSize: 22,
+        fontSize: 24,
         color: COLORS.WHITE,
-        fontWeight: 'bold'
+        fontWeight: '600'
     },
     description: {
-        margin: 10,
+        margin: 8,
         color: COLORS.LIGHTGRAY
     }
 });

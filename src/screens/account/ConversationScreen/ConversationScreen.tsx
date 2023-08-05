@@ -32,9 +32,10 @@ import {
     MessagePostInterface
 } from '@interfaces/post/Post.inteface';
 import { ReducerProps } from '@store/index/index.props';
-import { ConversationHeader } from '@components/conversation/ConversationHeader/ConversationHeader';
-import { ConversationLike } from '@components/conversation/ConversationLike/ConversationLike';
 import { isiOS } from '@functions/checking-functions';
+import COLORS from '@constants/COLORS';
+import { ConversationHeader } from '@components/conversation/ConversationHeader/ConversationHeader';
+import { PostHuddle } from '@components/huddles/PostHuddle/PostHuddle';
 
 export const ConversationScreen = ({
     route
@@ -58,18 +59,21 @@ export const ConversationScreen = ({
     useEffect(
         () =>
             navigation.setOptions({
-                headerLeft: () => (
-                    <ConversationHeader
-                        conversationId={conversationId}
-                        name={name}
-                        profilePhoto={profilePhoto}
-                    />
-                ),
                 ...(conversationId && {
-                    headerRight: () => (
-                        <ConversationLike conversationId={conversationId} />
+                    headerLeft: () => (
+                        <ConversationHeader
+                            conversationId={conversationId}
+                            name={name}
+                            profilePhoto={profilePhoto}
+                        />
                     )
-                })
+                }),
+                headerRight: () => <PostHuddle onCreateHuddle={() => {}} />,
+                headerStyle: {
+                    height: 110,
+                    backgroundColor: COLORS.BLACK_300,
+                    shadowOpacity: 0
+                }
             }),
         [conversationId, name, navigation, profilePhoto]
     );
@@ -250,7 +254,7 @@ export const ConversationScreen = ({
                 }
             ]}
         >
-            <KeyboardAvoidingView keyboardVerticalOffset={isiOS() ? 48 : 90}>
+            <KeyboardAvoidingView keyboardVerticalOffset={isiOS() ? 60 : 90}>
                 <View style={ConversationScreenStyle.content}>
                     <FlashList
                         data={messages}

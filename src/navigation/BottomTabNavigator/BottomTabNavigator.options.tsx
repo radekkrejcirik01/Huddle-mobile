@@ -9,12 +9,13 @@ export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
     headerTintColor: COLORS.WHITE,
     headerStyle: BottomTabNavigatorStyle.header,
     tabBarStyle: BottomTabNavigatorStyle.tabBar,
-    title: null,
-    tabBarShowLabel: false
+    tabBarLabelStyle: BottomTabNavigatorStyle.tabBarLabel,
+    title: null
 };
 
 export const ChatsTabOptions: BottomTabNavigationOptions = {
     title: 'Chats',
     headerRight: () => <ProfileHeader />,
+    tabBarLabel: 'New chat',
     tabBarIcon: () => <ChatsTabIcon />
 };

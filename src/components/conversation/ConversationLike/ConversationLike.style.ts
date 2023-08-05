@@ -2,13 +2,13 @@ import { StyleSheet } from 'react-native';
 
 export const ConversationLikeStyle = StyleSheet.create({
     heartView: {
-        marginRight: 30
+        marginRight: 20
     },
     heartText: {
         fontSize: 20
     },
     heartIcon: {
-        marginRight: 31,
+        marginRight: 21,
         opacity: 0.8
     }
 });

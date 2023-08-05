@@ -42,7 +42,7 @@ export const StartHuddleModalScreen = ({
         <View style={StartHuddleModalScreenStyle.screen}>
             <>
                 <Text style={StartHuddleModalScreenStyle.title}>
-                    New Huddle 🥳
+                    {`What's on your mind?`}
                 </Text>
                 <HuddleEditableCard
                     onMessageChange={(text) => {
@@ -51,7 +51,7 @@ export const StartHuddleModalScreen = ({
                     onSend={onPressAddCard}
                 />
                 <Text style={StartHuddleModalScreenStyle.description}>
-                    Huddle will be shared across all chats
+                    Huddle will be posted across all chats
                 </Text>
             </>
         </View>

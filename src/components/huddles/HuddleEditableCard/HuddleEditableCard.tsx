@@ -10,6 +10,8 @@ import {
 import { HuddleEditableCardStyle } from '@components/huddles/HuddleEditableCard/HuddleEditableCard.style';
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
+import { IconEnum } from '@components/general/Icon/Icon.enum';
+import { Icon } from '@components/general/Icon/Icon';
 
 export const HuddleEditableCard = ({
     messageValue,
@@ -27,7 +29,7 @@ export const HuddleEditableCard = ({
                 <ProfilePhoto
                     name={firstname}
                     photo={profilePhoto}
-                    size={35}
+                    size={40}
                     textBackgroundColor={COLORS.BLACK_100}
                 />
                 <View style={HuddleEditableCardStyle.titleView}>
@@ -46,10 +48,10 @@ export const HuddleEditableCard = ({
                 style={HuddleEditableCardStyle.input}
             />
             <TouchableOpacity
-                style={HuddleEditableCardStyle.sendView}
                 onPress={onSend}
+                style={HuddleEditableCardStyle.sendView}
             >
-                <Text style={HuddleEditableCardStyle.sendText}>Post</Text>
+                <Icon name={IconEnum.SEND} size={32} />
             </TouchableOpacity>
         </View>
     );

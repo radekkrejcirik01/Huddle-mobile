@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const ChatsItemStyle = StyleSheet.create({
+export const ChatItemStyle = StyleSheet.create({
     container: {
         paddingBottom: 5,
         borderBottomWidth: 0.5,
@@ -26,12 +26,12 @@ export const ChatsItemStyle = StyleSheet.create({
     dot: {
         width: 10,
         height: 10,
-        left: 5,
+        marginRight: 5,
         borderRadius: 10,
         backgroundColor: COLORS.BUTTON_BLUE
     },
-    name: {
-        fontSize: 15,
+    nameText: {
+        fontSize: 16,
         color: COLORS.WHITE,
         fontWeight: '600'
     },
@@ -39,27 +39,31 @@ export const ChatsItemStyle = StyleSheet.create({
         top: -2, // fit the layout
         left: 4
     },
-    time: {
+    timeText: {
         maxWidth: '65%',
-        color: COLORS.WHITE
+        color: COLORS.LIGHTGRAY_300
     },
-    message: {
-        fontWeight: '500'
+    messageText: {
+        color: COLORS.LIGHTGRAY_300
+    },
+    newMessageText: {
+        color: COLORS.WHITE,
+        fontWeight: '600'
     },
     newHuddlesView: {
-        marginTop: 8,
+        marginLeft: 10,
         marginBottom: 4,
         paddingTop: 2,
         paddingBottom: 4,
         paddingHorizontal: 8,
         borderRadius: 10,
         backgroundColor: COLORS.PASTEL_PURPLE,
-        alignSelf: 'flex-start',
+        alignSelf: 'flex-end',
         alignItems: 'center'
     },
     newHuddlesText: {
         fontSize: 12,
         color: COLORS.WHITE,
-        fontWeight: '500'
+        fontWeight: 'bold'
     }
 });
