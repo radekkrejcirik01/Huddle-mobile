@@ -6,8 +6,8 @@ import { useActionSheet } from '@expo/react-native-action-sheet';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { useRefresh } from '@hooks/useRefresh';
-import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
-import { HuddleCommentsListItem } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem';
+import { CommentItemInterface } from '@components/huddles/CommentItem/CommentItem.props';
+import { CommentsItem } from '@components/huddles/CommentItem/CommentsItem';
 import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { HuddleLikeCommentPostInterface } from '@interfaces/post/Post.inteface';
@@ -114,7 +114,7 @@ export const useRenderComments = (
 
     const renderCommentItem = useCallback(
         ({ item }: ListRenderItemInfo<CommentItemInterface>): JSX.Element => (
-            <HuddleCommentsListItem
+            <CommentsItem
                 item={item}
                 onPressProfilePhoto={() =>
                     openProfilePhoto(item.name, item?.profilePhoto)

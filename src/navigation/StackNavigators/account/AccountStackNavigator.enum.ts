@@ -5,11 +5,9 @@ export enum AccountStackNavigatorEnum {
     FriendsScreen = 'FriendsScreen',
     HuddleScreen = 'HuddleScreen',
     ManageAccountScreen = 'ManageAccountScreen',
-    MutedHuddlesScreen = 'MutedHuddlesScreen',
     NotificationsScreen = 'NotificationsScreen',
     PrivacyScreen = 'PrivacyScreen',
     ProfileScreen = 'ProfileScreen',
     ProfilePhotoScreen = 'ProfilePhotoScreen',
-    SettingsScreen = 'SettingsScreen',
-    ShowHuddlesScreen = 'ShowHuddlesScreen'
+    SettingsScreen = 'SettingsScreen'
 }

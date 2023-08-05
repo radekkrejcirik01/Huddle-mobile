@@ -10,7 +10,7 @@ import { getLocalTimeFromUTCUnix } from '@functions/getLocalTimeFromUTCUnix';
 import { MessageListItemStyle } from '@components/conversation/MessagesLisItem/MessageListItem.style';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { Icon } from '@components/general/Icon/Icon';
-import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem';
+import { LargeHuddleItem } from '@components/huddles/LargeHuddleItem/LargeHuddleItem';
 
 export const MessageListItem = ({
     item,
@@ -44,7 +44,7 @@ export const MessageListItem = ({
                     isMessageAbove && MessageListItemStyle.marginTop
                 ]}
             >
-                <LargeHuddleListItem
+                <LargeHuddleItem
                     item={item.huddle}
                     onProfilePress={onHuddleProfilePress}
                     onCardPress={onHuddlePress}

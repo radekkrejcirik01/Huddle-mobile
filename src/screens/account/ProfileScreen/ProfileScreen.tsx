@@ -12,7 +12,7 @@ import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseHuddlesGetInterface } from '@interfaces/response/Response.interface';
 import { ProfileTabHeader } from '@components/profile/ProfileTabHeader/ProfileTabHeader';
 import { HuddleItemInterface } from '@screens/account/ConversationScreen/ConversationScreen.props';
-import { StartHuddleModalScreen } from '@components/huddles/StartHuddleModalScreen/StartHuddleModalScreen';
+import { PostHuddleModalScreen } from '@components/huddles/PostHuddleModalScreen/PostHuddleModalScreen';
 import { Modal } from '@components/general/Modal/Modal';
 import { AddFriendModalScreen } from '@components/friends/AddFriendModalScreen/AddFriendModalScreen';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
@@ -89,7 +89,7 @@ export const ProfileScreen = (): JSX.Element => {
 
     const onPostHuddlePress = useCallback(() => {
         setModalContent(
-            <StartHuddleModalScreen
+            <PostHuddleModalScreen
                 onCreate={loadHuddles}
                 onClose={onModalClose}
             />

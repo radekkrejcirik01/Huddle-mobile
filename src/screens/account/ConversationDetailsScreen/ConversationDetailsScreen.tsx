@@ -86,7 +86,7 @@ export const ConversationDetailsScreen = ({
         () =>
             Alert.alert(
                 'Are you sure you want to block this user?',
-                'User will be removed from your Friends',
+                `User won't be able to reach you and the chat will be deleted`,
                 [
                     {
                         text: 'Cancel',
@@ -154,7 +154,7 @@ export const ConversationDetailsScreen = ({
                             size={25}
                         />
                         <Text style={ConversationDetailsScreenStyle.titleText}>
-                            Profile
+                            Profile photo
                         </Text>
                     </View>
                     <Icon

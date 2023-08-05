@@ -4,7 +4,7 @@ import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useHuddleActions } from '@hooks/useHuddleActions';
 import { useRenderComments } from '@hooks/useRenderComments';
-import { LargeHuddleListItem } from '@components/huddles/LargeHuddleListItem/LargeHuddleListItem';
+import { LargeHuddleItem } from '@components/huddles/LargeHuddleItem/LargeHuddleItem';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import {
     ResponseHuddleGetInterface,
@@ -14,7 +14,7 @@ import { HuddleScreenProps } from '@screens/account/HuddleScreen/HuddleScreen.pr
 import { HuddleScreenStyle } from '@screens/account/HuddleScreen/HuddleScreen.style';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
-import { CommentItemInterface } from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
+import { CommentItemInterface } from '@components/huddles/CommentItem/CommentItem.props';
 import { CommentInput } from '@components/huddles/CommentInput/CommentInput';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
 import { HuddleItemInterface } from '@screens/account/ConversationScreen/ConversationScreen.props';
@@ -109,7 +109,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                 ListHeaderComponent={
                     <>
                         <View style={HuddleScreenStyle.margin}>
-                            <LargeHuddleListItem
+                            <LargeHuddleItem
                                 item={huddle}
                                 onProfilePress={() => openHuddleProfile(huddle)}
                                 onLikePress={() => onHuddleLikePress(huddle)}

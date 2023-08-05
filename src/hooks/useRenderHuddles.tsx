@@ -5,7 +5,7 @@ import { useNavigation } from '@hooks/useNavigation';
 import { useRefresh } from '@hooks/useRefresh';
 import { HuddleItemInterface } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
-import { SmallHuddleListItem } from '@components/huddles/SmallHuddleListItem/SmallHuddleListItem';
+import { SmallHuddleItem } from '@components/huddles/SmallHuddleItem/SmallHuddleItem';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const useRenderHuddles = (
@@ -35,7 +35,7 @@ export const useRenderHuddles = (
 
     const renderSmallItem = useCallback(
         ({ item }: ListRenderItemInfo<HuddleItemInterface>): JSX.Element => (
-            <SmallHuddleListItem
+            <SmallHuddleItem
                 item={item}
                 onPressCard={() => openHuddle(item.id)}
             />

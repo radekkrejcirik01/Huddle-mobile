@@ -34,7 +34,7 @@ import {
 import { ReducerProps } from '@store/index/index.props';
 import { isiOS } from '@functions/checking-functions';
 import { ConversationHeader } from '@components/conversation/ConversationHeader/ConversationHeader';
-import { PostHuddle } from '@components/huddles/PostHuddle/PostHuddle';
+import { PostHuddleButton } from '@components/huddles/PostHuddleButton/PostHuddleButton';
 
 export const ConversationScreen = ({
     route
@@ -67,7 +67,9 @@ export const ConversationScreen = ({
                         />
                     )
                 }),
-                headerRight: () => <PostHuddle onCreateHuddle={() => {}} />,
+                headerRight: () => (
+                    <PostHuddleButton onCreateHuddle={() => {}} />
+                ),
                 headerStyle: [
                     ConversationScreenStyle.headerStyle,
                     !!bottom && ConversationScreenStyle.headerHeight

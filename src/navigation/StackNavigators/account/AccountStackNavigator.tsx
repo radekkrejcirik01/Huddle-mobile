@@ -16,18 +16,14 @@ import { AccountScreen } from '@screens/account/AccountScreen/AccountScreen';
 import { SettingsScreen } from '@screens/account/SettingsScreen/SettingsScreen';
 import { PrivacyScreen } from '@screens/account/PrivacyScreen/PrivacyScreen';
 import { ProfileScreen } from '@screens/account/ProfileScreen/ProfileScreen';
-import { ShowHuddlesScreen } from '@screens/account/ShowHuddlesScreen/ShowHuddlesScreen';
 import { ManageAccountScreen } from '@screens/account/ManageAccountScreen/ManageAccountScreen';
-import { MutedHuddlesScreen } from '@screens/account/MutedHuddlesScreen/MutedHuddlesScreen';
 import {
     AccountTitle,
     FriendsOptions,
     ManageAccountTitle,
-    MutedTitle,
     NotificationsTitle,
     PrivacyTitle,
-    SettingsTitle,
-    ShowTitle
+    SettingsTitle
 } from '@navigation/StackNavigators/account/AccountStackNavigator.options';
 import { NavigatorScreenOptions } from '@navigation/RootNavigator/RootStackNavigator.options';
 
@@ -56,11 +52,6 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader, ...FriendsOptions }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.ShowHuddlesScreen}
-            component={ShowHuddlesScreen}
-            options={{ ...NavigationScreenHeader, ...ShowTitle }}
-        />
-        <Account.Screen
             name={AccountStackNavigatorEnum.HuddleScreen}
             component={HuddleScreen}
             options={{ ...NavigationScreenHeader, ...NoTitle }}
@@ -69,11 +60,6 @@ export const AccountStackNavigator = (): JSX.Element => (
             name={AccountStackNavigatorEnum.ManageAccountScreen}
             component={ManageAccountScreen}
             options={{ ...NavigationScreenHeader, ...ManageAccountTitle }}
-        />
-        <Account.Screen
-            name={AccountStackNavigatorEnum.MutedHuddlesScreen}
-            component={MutedHuddlesScreen}
-            options={{ ...NavigationScreenHeader, ...MutedTitle }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.NotificationsScreen}

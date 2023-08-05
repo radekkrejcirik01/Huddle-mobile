@@ -7,10 +7,8 @@ import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.p
 import {
     CommentItemInterface,
     CommentLikeInterface
-} from '@components/huddles/HuddleCommentsListItem/HuddleCommentsListItem.props';
+} from '@components/huddles/CommentItem/CommentItem.props';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
-import { HiddenItemProps } from '@screens/account/ShowHuddlesScreen/ShowHuddlesScreen.props';
-import { MutedHuddlesItemProps } from '@screens/account/MutedHuddlesScreen/MutedHuddlesScreen.props';
 
 export interface ResponseInterface {
     status: string;
@@ -50,18 +48,6 @@ export interface ResponseFriendsGetInterface {
     status: string;
     message: string;
     data?: Array<FriendsItemProps>;
-}
-
-export interface ResponseShowPeopleGetInterface {
-    status: string;
-    message: string;
-    data?: Array<HiddenItemProps>;
-}
-
-export interface ResponseMutedHuddlesGetInterface {
-    status: string;
-    message: string;
-    data?: Array<MutedHuddlesItemProps>;
 }
 
 export interface ResponseIsConversationMutedGetInterface {

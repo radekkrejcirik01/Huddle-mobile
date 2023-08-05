@@ -19,14 +19,6 @@ export const SettingsScreen = (): JSX.Element => {
         navigateTo(AccountStackNavigatorEnum.PrivacyScreen);
     }, [navigateTo]);
 
-    const openShowHuddlesFrom = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.ShowHuddlesScreen);
-    }, [navigateTo]);
-
-    const openMuted = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.MutedHuddlesScreen);
-    }, [navigateTo]);
-
     const openNotifications = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.NotificationsScreen);
     }, [navigateTo]);
@@ -61,38 +53,6 @@ export const SettingsScreen = (): JSX.Element => {
                         <Text style={SettingsScreenStyle.titleText}>
                             Privacy
                         </Text>
-                    </View>
-                    <Icon
-                        name={IconEnum.BACK_RIGHT}
-                        size={12}
-                        style={SettingsScreenStyle.icon}
-                    />
-                </TouchableOpacity>
-            </View>
-            <View style={SettingsScreenStyle.box}>
-                <TouchableOpacity
-                    hitSlop={{}}
-                    onPress={openShowHuddlesFrom}
-                    style={SettingsScreenStyle.view}
-                >
-                    <View style={SettingsScreenStyle.titleView}>
-                        <Text style={SettingsScreenStyle.titleEmoji}>👀</Text>
-                        <Text style={SettingsScreenStyle.titleText}>Show</Text>
-                    </View>
-                    <Icon
-                        name={IconEnum.BACK_RIGHT}
-                        size={12}
-                        style={SettingsScreenStyle.icon}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    hitSlop={{}}
-                    onPress={openMuted}
-                    style={SettingsScreenStyle.view}
-                >
-                    <View style={SettingsScreenStyle.titleView}>
-                        <Text style={SettingsScreenStyle.titleEmoji}>🔇</Text>
-                        <Text style={SettingsScreenStyle.titleText}>Muted</Text>
                     </View>
                     <Icon
                         name={IconEnum.BACK_RIGHT}

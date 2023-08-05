@@ -18,7 +18,7 @@ import {
 import { ChatsScreenStyle } from '@screens/account/ChatsScreen/ChatsScreen.style';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 import { ReducerProps } from '@store/index/index.props';
-import { PostHuddle } from '@components/huddles/PostHuddle/PostHuddle';
+import { PostHuddleButton } from '@components/huddles/PostHuddleButton/PostHuddleButton';
 
 export const ChatsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
@@ -34,7 +34,7 @@ export const ChatsScreen = (): JSX.Element => {
     useEffect(
         () =>
             navigation.setOptions({
-                headerLeft: () => <PostHuddle onCreateHuddle={() => {}} />
+                headerLeft: () => <PostHuddleButton onCreateHuddle={() => {}} />
             }),
         [navigation]
     );
