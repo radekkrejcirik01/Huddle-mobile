@@ -2,6 +2,8 @@ import { MessageItemProps } from '@screens/account/ConversationScreen/Conversati
 
 export interface MessageListItemProps {
     item: MessageItemProps;
+    name: string;
+    profilePhoto: string;
     onMessageLongPress: () => void;
     onHuddlePress?: () => void;
     onHuddleProfilePress: () => void;

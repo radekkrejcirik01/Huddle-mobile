@@ -201,7 +201,14 @@ export const ConversationScreen = ({
     );
 
     const { renderMessageItem, keyMessageExtractor, onEndReached } =
-        useRenderMesages(messages, conversationId, loadMessages, addReaction);
+        useRenderMesages(
+            messages,
+            conversationId,
+            name,
+            profilePhoto,
+            loadMessages,
+            addReaction
+        );
 
     const sendMessage = useCallback(
         (message: string, buffer: string, fileName: string) => {

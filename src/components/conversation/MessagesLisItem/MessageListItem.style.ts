@@ -2,15 +2,20 @@ import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
 export const MessageListItemStyle = StyleSheet.create({
+    container: {
+        marginBottom: 2,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
     paddingTop: {
         paddingTop: 8,
         marginBottom: 2
     },
-    marginBottom: {
-        marginBottom: 2
-    },
     marginTop: {
         marginTop: 10
+    },
+    marginRight: {
+        marginRight: 5
     },
     view: {
         maxWidth: '75%',
@@ -21,9 +26,11 @@ export const MessageListItemStyle = StyleSheet.create({
         alignSelf: 'flex-start',
         alignItems: 'flex-end'
     },
-    flexEnd: {
-        alignSelf: 'flex-end',
+    blueBackground: {
         backgroundColor: COLORS.MESSAGE_BLUE
+    },
+    flexEnd: {
+        alignSelf: 'flex-end'
     },
     longMessage: {
         flexDirection: 'row',
@@ -71,5 +78,17 @@ export const MessageListItemStyle = StyleSheet.create({
         paddingHorizontal: '4%',
         marginBottom: 12,
         alignItems: 'center'
+    },
+    huddleTitleView: {
+        marginBottom: 4,
+        paddingVertical: 2,
+        paddingHorizontal: 8,
+        borderRadius: 10,
+        backgroundColor: COLORS.PASTEL_PURPLE
+    },
+    huddleTitleText: {
+        fontSize: 11,
+        color: COLORS.WHITE,
+        fontWeight: '500'
     }
 });

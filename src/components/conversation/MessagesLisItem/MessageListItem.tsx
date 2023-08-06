@@ -11,9 +11,12 @@ import { MessageListItemStyle } from '@components/conversation/MessagesLisItem/M
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { Icon } from '@components/general/Icon/Icon';
 import { LargeHuddleItem } from '@components/huddles/LargeHuddleItem/LargeHuddleItem';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const MessageListItem = ({
     item,
+    name,
+    profilePhoto,
     onMessageLongPress,
     onHuddlePress,
     onHuddleLikePress,
@@ -44,6 +47,11 @@ export const MessageListItem = ({
                     isMessageAbove && MessageListItemStyle.marginTop
                 ]}
             >
+                <View style={MessageListItemStyle.huddleTitleView}>
+                    <Text style={MessageListItemStyle.huddleTitleText}>
+                        Huddle
+                    </Text>
+                </View>
                 <LargeHuddleItem
                     item={item.huddle}
                     onProfilePress={onHuddleProfilePress}
@@ -60,16 +68,25 @@ export const MessageListItem = ({
         <View
             style={[
                 hasSpace && MessageListItemStyle.paddingTop,
-                MessageListItemStyle.marginBottom
+                MessageListItemStyle.container,
+                isOutbound && MessageListItemStyle.flexEnd
             ]}
         >
+            {!isOutbound && (
+                <ProfilePhoto
+                    name={name}
+                    photo={profilePhoto}
+                    size={30}
+                    style={MessageListItemStyle.marginRight}
+                />
+            )}
             <TouchableOpacity
                 activeOpacity={1}
                 onLongPress={onMessageLongPress}
                 onPress={onPhotoPress}
                 style={[
                     MessageListItemStyle.view,
-                    isOutbound && MessageListItemStyle.flexEnd,
+                    isOutbound && MessageListItemStyle.blueBackground,
                     item?.message?.length < 30 &&
                         MessageListItemStyle.longMessage,
                     isImage && MessageListItemStyle.imageView

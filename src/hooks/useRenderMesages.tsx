@@ -17,6 +17,8 @@ import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavig
 export const useRenderMesages = (
     messages: Array<MessageItemProps>,
     conversationId: number,
+    name: string,
+    profilePhoto: string,
     loadMessages: (lastId?: number) => void,
     addReaction: (messageId: number, value: string) => void
 ): {
@@ -113,6 +115,8 @@ export const useRenderMesages = (
             ) : (
                 <MessageListItem
                     item={item}
+                    name={name}
+                    profilePhoto={profilePhoto}
                     onMessageLongPress={() => showActionSheet(item)}
                     onHuddlePress={() => openHuddle(item.huddle.id)}
                     onHuddleProfilePress={() => openHuddleProfile(item.huddle)}
@@ -132,10 +136,12 @@ export const useRenderMesages = (
             ),
         [
             messages,
+            name,
             onHuddleLikePress,
             openHuddle,
             openHuddleActions,
             openHuddleProfile,
+            profilePhoto,
             showActionSheet
         ]
     );
