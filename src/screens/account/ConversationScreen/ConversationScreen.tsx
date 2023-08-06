@@ -259,7 +259,7 @@ export const ConversationScreen = ({
             }
             return 50;
         }
-        return 90;
+        return 85;
     };
 
     return (
