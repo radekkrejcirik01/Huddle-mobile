@@ -16,12 +16,14 @@ export const PostHuddleModalScreen = ({
     const { firstname } = useSelector((state: ReducerProps) => state.user.user);
 
     const message = useRef<string>();
+    const photos = useRef<Array<string>>([]);
 
-    const addHuddle = useCallback(() => {
+    const postHuddle = useCallback(() => {
         onClose();
         postRequestUser<ResponseInterface, AddHuddlePostInterface>('huddle', {
             name: firstname,
-            message: message?.current
+            message: message?.current,
+            photos: photos?.current
         }).subscribe((response: ResponseInterface) => {
             if (response?.status) {
                 onCreate();
@@ -29,14 +31,6 @@ export const PostHuddleModalScreen = ({
             }
         });
     }, [firstname, onClose, onCreate]);
-
-    const onPressAddCard = useCallback(() => {
-        if (message?.current?.length) {
-            addHuddle();
-        } else {
-            Alert.alert('Huddle is empty');
-        }
-    }, [addHuddle]);
 
     return (
         <View style={PostHuddleModalScreenStyle.screen}>
@@ -48,7 +42,15 @@ export const PostHuddleModalScreen = ({
                     onMessageChange={(text) => {
                         message.current = text;
                     }}
-                    onSend={onPressAddCard}
+                    onPhotoChoose={(value) => {
+                        photos.current.push(value);
+                    }}
+                    onPhotoRemove={(index) => {
+                        photos.current = photos.current.filter(
+                            (value, i) => i !== index
+                        );
+                    }}
+                    onSend={postHuddle}
                 />
                 <Text style={PostHuddleModalScreenStyle.description}>
                     Huddle will be posted across all chats

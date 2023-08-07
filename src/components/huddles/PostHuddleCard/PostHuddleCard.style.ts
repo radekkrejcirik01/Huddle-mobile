@@ -35,16 +35,16 @@ export const PostHuddleCardStyle = StyleSheet.create({
         color: COLORS.WHITE,
         fontWeight: '500'
     },
-    sendView: {
-        marginRight: 8,
-        marginBottom: 6,
-        paddingVertical: 12,
-        paddingRight: 10,
-        paddingLeft: 14,
-        borderRadius: 35,
-        backgroundColor: COLORS.BLACK_100,
-        alignSelf: 'flex-end',
-        justifyContent: 'center',
-        alignItems: 'center'
+    buttonsContainer: {
+        paddingHorizontal: 5,
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'space-between'
+    },
+    photoButtonText: {
+        fontSize: 20
+    },
+    sendButtonOpacity: {
+        opacity: 0.4
     }
 });

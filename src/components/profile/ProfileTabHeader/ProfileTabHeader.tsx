@@ -46,7 +46,7 @@ export const ProfileTabHeader = ({
                 UploadProfileImageInterface
             >('photo', {
                 buffer: base64,
-                fileName: image.filename
+                fileName: image?.filename
             }).subscribe((response: ResponseUploadImageInterface) => {
                 if (!response?.status) {
                     Alert.alert("Sorry, we couldn't upload this image 😔");

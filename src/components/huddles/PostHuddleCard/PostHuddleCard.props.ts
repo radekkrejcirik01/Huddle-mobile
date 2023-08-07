@@ -1,16 +1,16 @@
 import { StyleProp, ViewStyle } from 'react-native';
 
 export interface PostHuddleCardProps {
-    messageValue?: string;
     onMessageChange: (value: string) => void;
+    onPhotoChoose: (value: string) => void;
+    onPhotoRemove: (index: number) => void;
     onSend: () => void;
     style?: StyleProp<ViewStyle>;
 }
 
-export const HuddleEditableCardDefaultProps: Omit<
+export const PostHuddleCardDefaultProps: Omit<
     PostHuddleCardProps,
-    'onMessageChange' | 'onSend'
+    'onMessageChange' | 'onPhotoChoose' | 'onPhotoRemove' | 'onSend'
 > = {
-    messageValue: null,
     style: {}
 };

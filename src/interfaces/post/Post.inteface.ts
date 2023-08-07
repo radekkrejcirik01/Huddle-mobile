@@ -21,6 +21,7 @@ export interface AddPersonInvitePostInterface {
 export interface AddHuddlePostInterface {
     name: string;
     message: string;
+    photos: Array<string>;
 }
 
 export interface HuddleLikePostInterface {
@@ -44,14 +45,6 @@ export interface HuddleLikeCommentPostInterface {
     receiver: string;
     commentId: number;
     huddleId: number;
-}
-
-export interface ShowPeopleUpdatePutInterface {
-    usernames: Array<string>;
-}
-
-export interface MuteHuddlesPostInterface {
-    muted: string;
 }
 
 export interface BlockUserPostInterface {
@@ -95,6 +88,11 @@ export interface DevicePostInterface {
 }
 
 export interface UploadProfileImageInterface {
+    buffer: string;
+    fileName: string;
+}
+
+export interface HuddlePhotoPostInterface {
     buffer: string;
     fileName: string;
 }
