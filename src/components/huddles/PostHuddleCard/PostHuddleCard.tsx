@@ -17,7 +17,7 @@ import { IconButton } from '@components/general/IconButton/IconButton';
 import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseUploadImageInterface } from '@interfaces/response/Response.interface';
 import { HuddlePhotoPostInterface } from '@interfaces/post/Post.inteface';
-import { HuddlePhotosPreviews } from '@components/huddles/HuddlePhotosPreviews/HuddlePhotosPreviews';
+import { HuddlePhotoPreview } from '@components/huddles/HuddlePhotoPreview/HuddlePhotoPreview';
 
 export const PostHuddleCard = ({
     onMessageChange,
@@ -31,7 +31,7 @@ export const PostHuddleCard = ({
     );
 
     const [message, setMessage] = useState<string>();
-    const [photos, setPhotos] = useState<Array<string>>([]);
+    const [photo, setPhoto] = useState<string>();
 
     const onPressPhoto = useCallback(() => {
         ImagePicker.openPicker({
@@ -42,7 +42,7 @@ export const PostHuddleCard = ({
         }).then(async (image) => {
             const base64 = await fs.readFile(image?.path, 'base64');
 
-            setPhotos((value) => value.concat(image?.path));
+            setPhoto(image?.path);
 
             postRequestUser<
                 ResponseUploadImageInterface,
@@ -58,15 +58,10 @@ export const PostHuddleCard = ({
         });
     }, [onPhotoChoose]);
 
-    const onRemovePhoto = useCallback(
-        (index: number) => {
-            onPhotoRemove(index);
-            setPhotos((photosValue) =>
-                photosValue.filter((value, i) => i !== index)
-            );
-        },
-        [onPhotoRemove]
-    );
+    const onRemovePhoto = useCallback(() => {
+        onPhotoRemove();
+        setPhoto(null);
+    }, [onPhotoRemove]);
 
     return (
         <View style={[PostHuddleCardStyle.container, style]}>
@@ -95,29 +90,28 @@ export const PostHuddleCard = ({
                 style={PostHuddleCardStyle.input}
             />
             <View style={PostHuddleCardStyle.buttonsContainer}>
-                <View>
-                    <HuddlePhotosPreviews
-                        photos={photos}
+                {photo ? (
+                    <HuddlePhotoPreview
+                        photo={photo}
                         onPressRemove={onRemovePhoto}
                     />
-                    {photos?.length < 4 && (
-                        <TouchableOpacity onPress={onPressPhoto}>
-                            <Text style={PostHuddleCardStyle.photoButtonText}>
-                                📸
-                            </Text>
-                        </TouchableOpacity>
-                    )}
-                </View>
+                ) : (
+                    <TouchableOpacity onPress={onPressPhoto}>
+                        <Text style={PostHuddleCardStyle.photoButtonText}>
+                            📸
+                        </Text>
+                    </TouchableOpacity>
+                )}
                 <IconButton
                     icon={IconEnum.SEND}
                     onPress={onSend}
-                    size={25}
+                    size={28}
                     style={
                         !message &&
-                        !photos?.length &&
+                        !photo?.length &&
                         PostHuddleCardStyle.sendButtonOpacity
                     }
-                    disabled={!message && !photos?.length}
+                    disabled={!message && !photo?.length}
                 />
             </View>
         </View>

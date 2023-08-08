@@ -21,7 +21,7 @@ export interface AddPersonInvitePostInterface {
 export interface AddHuddlePostInterface {
     name: string;
     message: string;
-    photos: Array<string>;
+    photo: string;
 }
 
 export interface HuddleLikePostInterface {

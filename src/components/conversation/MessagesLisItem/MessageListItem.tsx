@@ -76,7 +76,7 @@ export const MessageListItem = ({
                 <ProfilePhoto
                     name={name}
                     photo={profilePhoto}
-                    size={30}
+                    size={35}
                     style={MessageListItemStyle.marginRight}
                 />
             )}

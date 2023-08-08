@@ -16,14 +16,14 @@ export const PostHuddleModalScreen = ({
     const { firstname } = useSelector((state: ReducerProps) => state.user.user);
 
     const message = useRef<string>();
-    const photos = useRef<Array<string>>([]);
+    const photo = useRef<string>();
 
     const postHuddle = useCallback(() => {
         onClose();
         postRequestUser<ResponseInterface, AddHuddlePostInterface>('huddle', {
             name: firstname,
             message: message?.current,
-            photos: photos?.current
+            photo: photo?.current
         }).subscribe((response: ResponseInterface) => {
             if (response?.status) {
                 onCreate();
@@ -43,12 +43,10 @@ export const PostHuddleModalScreen = ({
                         message.current = text;
                     }}
                     onPhotoChoose={(value) => {
-                        photos.current.push(value);
+                        photo.current = value;
                     }}
-                    onPhotoRemove={(index) => {
-                        photos.current = photos.current.filter(
-                            (value, i) => i !== index
-                        );
+                    onPhotoRemove={() => {
+                        photo.current = null;
                     }}
                     onSend={postHuddle}
                 />

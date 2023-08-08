@@ -37,8 +37,12 @@ export const LargeHuddleItemStyle = StyleSheet.create({
     messageText: {
         marginVertical: 5,
         fontSize: 16,
-        color: COLORS.WHITE,
-        fontWeight: '500'
+        color: COLORS.WHITE
+    },
+    photoMessageText: {
+        paddingHorizontal: 4,
+        backgroundColor: COLORS.PASTEL_PURPLE,
+        alignSelf: 'flex-start'
     },
     numberText: {
         margin: 5,
@@ -64,5 +68,16 @@ export const LargeHuddleItemStyle = StyleSheet.create({
     },
     likeText: {
         fontSize: 22
+    },
+    photoContainer: {
+        minHeight: 400,
+        minWidth: '100%'
+    },
+    imageView: {
+        flex: 1,
+        padding: 15,
+        paddingLeft: 12,
+        borderRadius: 15,
+        justifyContent: 'space-between'
     }
 });

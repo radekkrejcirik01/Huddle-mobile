@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import {
@@ -61,6 +62,90 @@ export const LargeHuddleItem = ({
     }, [likeAction, liked, removeLikeActionSheet]);
 
     const likedText = useMemo((): string => (liked ? '✅' : '👍'), [liked]);
+
+    if (item?.photo) {
+        return (
+            <TouchableOpacity
+                activeOpacity={1}
+                disabled={!onCardPress}
+                onPress={onCardPress}
+                onLongPress={onCardLongPress}
+                style={[LargeHuddleItemStyle.photoContainer, style]}
+            >
+                <FastImage
+                    source={{ uri: item?.photo }}
+                    style={LargeHuddleItemStyle.imageView}
+                >
+                    <View style={LargeHuddleItemStyle.row}>
+                        <TouchableOpacity
+                            activeOpacity={0.9}
+                            onPress={onProfilePress}
+                        >
+                            <ProfilePhoto
+                                name={item?.name}
+                                photo={item?.profilePhoto}
+                                size={32}
+                                textBackgroundColor={COLORS.BLACK_100}
+                            />
+                        </TouchableOpacity>
+                        <View style={LargeHuddleItemStyle.nameView}>
+                            <Text style={LargeHuddleItemStyle.nameText}>
+                                {item?.name}
+                            </Text>
+                        </View>
+                        <IconButton
+                            icon={IconEnum.MORE}
+                            onPress={onMorePress}
+                            size={16}
+                            style={LargeHuddleItemStyle.moreIcon}
+                        />
+                    </View>
+                    <View
+                        style={[
+                            LargeHuddleItemStyle.row,
+                            LargeHuddleItemStyle.flexEnd
+                        ]}
+                    >
+                        <View style={LargeHuddleItemStyle.flex}>
+                            <View style={LargeHuddleItemStyle.flex}>
+                                <Text
+                                    style={[
+                                        LargeHuddleItemStyle.messageText,
+                                        item?.message &&
+                                            LargeHuddleItemStyle.photoMessageText
+                                    ]}
+                                >
+                                    {item?.message}
+                                </Text>
+                            </View>
+                            <View
+                                style={[
+                                    LargeHuddleItemStyle.flex,
+                                    LargeHuddleItemStyle.row
+                                ]}
+                            >
+                                <Text style={LargeHuddleItemStyle.numberText}>
+                                    {item?.commentsNumber} 💬
+                                </Text>
+                                <Text style={LargeHuddleItemStyle.numberText}>
+                                    {item?.likesNumber} 👍
+                                </Text>
+                            </View>
+                        </View>
+                        <TouchableOpacity
+                            activeOpacity={1}
+                            onPress={like}
+                            style={LargeHuddleItemStyle.likeView}
+                        >
+                            <Text style={LargeHuddleItemStyle.likeText}>
+                                {likedText}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </FastImage>
+            </TouchableOpacity>
+        );
+    }
 
     return (
         <TouchableOpacity

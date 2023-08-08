@@ -87,8 +87,8 @@ export const MessageListItemStyle = StyleSheet.create({
         backgroundColor: COLORS.PASTEL_PURPLE
     },
     huddleTitleText: {
-        fontSize: 11,
+        fontSize: 12,
         color: COLORS.WHITE,
-        fontWeight: '500'
+        fontWeight: '600'
     }
 });

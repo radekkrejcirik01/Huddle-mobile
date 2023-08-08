@@ -42,7 +42,7 @@ export const PostHuddleCardStyle = StyleSheet.create({
         justifyContent: 'space-between'
     },
     photoButtonText: {
-        fontSize: 20
+        fontSize: 24
     },
     sendButtonOpacity: {
         opacity: 0.4
