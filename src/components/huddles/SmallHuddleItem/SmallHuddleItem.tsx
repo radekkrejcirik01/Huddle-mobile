@@ -10,7 +10,7 @@ export const SmallHuddleItem = ({
 }: SmallHuddleItemProps): JSX.Element => (
     <TouchableOpacity
         onPress={onPressCard}
-        style={[SmallHuddleItemStyle.container]}
+        style={SmallHuddleItemStyle.container}
     >
         <Text style={SmallHuddleItemStyle.messageText}>{item?.message}</Text>
     </TouchableOpacity>

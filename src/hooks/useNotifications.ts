@@ -2,6 +2,7 @@ import { useCallback, useEffect } from 'react';
 import messaging, {
     FirebaseMessagingTypes
 } from '@react-native-firebase/messaging';
+import Toast from 'react-native-toast-message';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
@@ -83,6 +84,22 @@ export const useNotifications = (
                 }
             ),
         [openConversation, openFriends]
+    );
+
+    useEffect(
+        () =>
+            // On in app notification
+            messaging().onMessage(
+                (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
+                    if (remoteMessage?.data?.type !== 'conversation') {
+                        Toast.show({
+                            text1: remoteMessage.notification.title,
+                            text2: remoteMessage.notification.body
+                        });
+                    }
+                }
+            ),
+        []
     );
 
     return { initNotification };

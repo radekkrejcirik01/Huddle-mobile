@@ -2,13 +2,14 @@ import { useCallback } from 'react';
 import { Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { useActionSheet } from '@expo/react-native-action-sheet';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { HuddleItemInterface } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { ReducerProps } from '@store/index/index.props';
 import { deleteRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { HuddleLikePostInterface } from '@interfaces/post/Post.inteface';
+import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
 export const useHuddleActions = (
     onLiked?: () => void,
@@ -23,17 +24,21 @@ export const useHuddleActions = (
     const { showActionSheetWithOptions } = useActionSheet();
     const openProfilePhoto = useOpenProfilePhoto();
     const navigation = useNavigation();
+    const route = useRoute();
+
+    const isConversationScreen =
+        route?.name === AccountStackNavigatorEnum.ConversationScreen;
 
     const deleteHuddle = useCallback(
         (id: number) =>
             deleteRequestUser<ResponseInterface>(`huddle/${id}`).subscribe(
                 (response: ResponseInterface) => {
-                    if (response?.status) {
+                    if (response?.status && !isConversationScreen) {
                         navigation.goBack();
                     }
                 }
             ),
-        [navigation]
+        [isConversationScreen, navigation]
     );
 
     const deleteHuddleMessage = useCallback(
@@ -54,9 +59,10 @@ export const useHuddleActions = (
 
     const openHuddleActions = useCallback(
         (item: HuddleItemInterface) => {
+            const isUsersHuddle = item.sender === username;
             const options = [
-                'Reply',
-                item.sender === username && 'Delete',
+                isConversationScreen && 'Reply',
+                isUsersHuddle && 'Delete',
                 'Cancel'
             ].filter(Boolean);
 
@@ -65,8 +71,9 @@ export const useHuddleActions = (
                     options,
                     title: 'Huddle actions',
                     cancelButtonIndex: options?.length - 1,
-                    destructiveButtonIndex:
-                        item.sender === username ? 1 : undefined,
+                    destructiveButtonIndex: isUsersHuddle
+                        ? options?.length - 2
+                        : undefined,
                     userInterfaceStyle: 'dark'
                 },
                 (selectedIndex: number) => {
@@ -79,7 +86,13 @@ export const useHuddleActions = (
                 }
             );
         },
-        [deleteHuddleMessage, onReply, showActionSheetWithOptions, username]
+        [
+            deleteHuddleMessage,
+            isConversationScreen,
+            onReply,
+            showActionSheetWithOptions,
+            username
+        ]
     );
 
     const likeHuddle = useCallback(

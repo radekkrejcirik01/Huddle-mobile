@@ -35,5 +35,5 @@ export const ToastMessage = (): JSX.Element => {
         )
     };
 
-    return <Toast config={toastConfig} />;
+    return <Toast config={toastConfig} onPress={Toast.hide} />;
 };
