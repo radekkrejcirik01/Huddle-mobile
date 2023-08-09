@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -33,6 +33,8 @@ export const PostHuddleCard = ({
     const [message, setMessage] = useState<string>();
     const [photo, setPhoto] = useState<string>();
 
+    const input = useRef<TextInput>();
+
     const onPressPhoto = useCallback(() => {
         ImagePicker.openPicker({
             width: 500,
@@ -41,6 +43,8 @@ export const PostHuddleCard = ({
             waitAnimationEnd: false
         }).then(async (image) => {
             const base64 = await fs.readFile(image?.path, 'base64');
+
+            input?.current?.focus();
 
             setPhoto(image?.path);
 
@@ -79,6 +83,7 @@ export const PostHuddleCard = ({
                 </View>
             </View>
             <TextInput
+                ref={input}
                 autoFocus
                 autoCorrect={false}
                 onChangeText={(value) => {
