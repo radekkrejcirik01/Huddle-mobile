@@ -21,5 +21,21 @@ export const ConversationScreenStyle = StyleSheet.create({
     listContainer: {
         paddingHorizontal: 10,
         paddingTop: 60
+    },
+    replyView: {
+        width: '100%',
+        height: 50,
+        padding: 10,
+        backgroundColor: COLORS.BLACK_300,
+        flexDirection: 'row'
+    },
+    replyMessageText: {
+        paddingRight: 10,
+        color: COLORS.LIGHTGRAY
+    },
+    replyPhoto: {
+        height: 50,
+        width: 50,
+        opacity: 0.7
     }
 });

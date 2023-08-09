@@ -11,7 +11,8 @@ import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { HuddleLikePostInterface } from '@interfaces/post/Post.inteface';
 
 export const useHuddleActions = (
-    onLiked?: () => void
+    onLiked?: () => void,
+    onReply?: (item: HuddleItemInterface) => void
 ): {
     openHuddleActions: (item: HuddleItemInterface) => void;
     onHuddleLikePress: (item: HuddleItemInterface) => void;
@@ -54,7 +55,7 @@ export const useHuddleActions = (
     const openHuddleActions = useCallback(
         (item: HuddleItemInterface) => {
             const options = [
-                'Report',
+                'Reply',
                 item.sender === username && 'Delete',
                 'Cancel'
             ].filter(Boolean);
@@ -69,10 +70,8 @@ export const useHuddleActions = (
                     userInterfaceStyle: 'dark'
                 },
                 (selectedIndex: number) => {
-                    if (options[selectedIndex] === 'Report') {
-                        Alert.alert(
-                            'Thank you for reporting, our team will take a look 🧡'
-                        );
+                    if (options[selectedIndex] === 'Reply') {
+                        onReply(item);
                     }
                     if (options[selectedIndex] === 'Delete') {
                         deleteHuddleMessage(item.id);
@@ -80,7 +79,7 @@ export const useHuddleActions = (
                 }
             );
         },
-        [deleteHuddleMessage, showActionSheetWithOptions, username]
+        [deleteHuddleMessage, onReply, showActionSheetWithOptions, username]
     );
 
     const likeHuddle = useCallback(

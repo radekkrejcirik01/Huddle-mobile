@@ -89,9 +89,23 @@ export const MessageListItem = ({
                     isOutbound && MessageListItemStyle.blueBackground,
                     item?.message?.length < 30 &&
                         MessageListItemStyle.longMessage,
-                    isImage && MessageListItemStyle.imageView
+                    (isImage || item?.replyMessage || item?.replyPhoto) &&
+                        MessageListItemStyle.imageView
                 ]}
             >
+                {(item?.replyMessage || item?.replyPhoto) && (
+                    <View style={MessageListItemStyle.replyView}>
+                        {item?.replyPhoto && (
+                            <FastImage
+                                source={{ uri: item?.replyPhoto }}
+                                style={MessageListItemStyle.replyPhoto}
+                            />
+                        )}
+                        <Text style={MessageListItemStyle.replyMessageText}>
+                            {item?.replyMessage}
+                        </Text>
+                    </View>
+                )}
                 {isImage ? (
                     <FastImage
                         source={{ uri: item?.url }}

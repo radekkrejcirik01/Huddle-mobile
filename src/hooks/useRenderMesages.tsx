@@ -1,11 +1,13 @@
 import React, { useCallback } from 'react';
-import { Alert } from 'react-native';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { useNavigation } from '@hooks/useNavigation';
 import { useHuddleActions } from '@hooks/useHuddleActions';
-import { MessageItemProps } from '@screens/account/ConversationScreen/ConversationScreen.props';
+import {
+    HuddleItemInterface,
+    MessageItemProps
+} from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { MessageReactionPostInterface } from '@interfaces/post/Post.inteface';
@@ -20,7 +22,9 @@ export const useRenderMesages = (
     name: string,
     profilePhoto: string,
     loadMessages: (lastId?: number) => void,
-    addReaction: (messageId: number, value: string) => void
+    addReaction: (messageId: number, value: string) => void,
+    onReplyHuddle: (item: HuddleItemInterface) => void,
+    onReplyMessage: (item: MessageItemProps) => void
 ): {
     renderMessageItem: ({
         item
@@ -31,7 +35,7 @@ export const useRenderMesages = (
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const { showActionSheetWithOptions } = useActionSheet();
     const { openHuddleActions, onHuddleLikePress, openHuddleProfile } =
-        useHuddleActions(loadMessages);
+        useHuddleActions(loadMessages, onReplyHuddle);
 
     const react = useCallback(
         (item: MessageItemProps, reaction: string) => {
@@ -51,13 +55,13 @@ export const useRenderMesages = (
         [addReaction, conversationId]
     );
 
-    const showActionSheet = useCallback(
+    const openMessageActions = useCallback(
         (item: MessageItemProps) => {
             const options = [
                 '👍',
                 '😂',
                 '❤️',
-                'Report',
+                'Reply',
                 !item?.url && 'Copy',
                 'Cancel'
             ].filter(Boolean);
@@ -72,10 +76,8 @@ export const useRenderMesages = (
                     if (options[selectedIndex] === 'Copy') {
                         Clipboard.setString(item?.message);
                     }
-                    if (options[selectedIndex] === 'Report') {
-                        Alert.alert(
-                            'Thank you for reporting. Our team will take a look 🙂'
-                        );
+                    if (options[selectedIndex] === 'Reply') {
+                        onReplyMessage(item);
                     }
                     if (options[selectedIndex] === '❤️') {
                         react(item, '❤️');
@@ -89,7 +91,7 @@ export const useRenderMesages = (
                 }
             );
         },
-        [react, showActionSheetWithOptions]
+        [onReplyMessage, react, showActionSheetWithOptions]
     );
 
     const openHuddle = useCallback(
@@ -105,7 +107,7 @@ export const useRenderMesages = (
             item?.animate ? (
                 <MessageListItemAnimated
                     item={item}
-                    onLongPress={() => showActionSheet(item)}
+                    onLongPress={() => openMessageActions(item)}
                     hasSpace={
                         messages[index]?.sender !==
                             messages[index + 1]?.sender &&
@@ -117,7 +119,7 @@ export const useRenderMesages = (
                     item={item}
                     name={name}
                     profilePhoto={profilePhoto}
-                    onMessageLongPress={() => showActionSheet(item)}
+                    onMessageLongPress={() => openMessageActions(item)}
                     onHuddlePress={() => openHuddle(item.huddle.id)}
                     onHuddleProfilePress={() => openHuddleProfile(item.huddle)}
                     onHuddleLikePress={() => onHuddleLikePress(item.huddle)}
@@ -141,8 +143,8 @@ export const useRenderMesages = (
             openHuddle,
             openHuddleActions,
             openHuddleProfile,
-            profilePhoto,
-            showActionSheet
+            openMessageActions,
+            profilePhoto
         ]
     );
 

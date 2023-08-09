@@ -31,6 +31,8 @@ export interface MessageItemProps {
     message: string;
     time: number;
     url?: string;
+    replyMessage?: string;
+    replyPhoto?: string;
     huddle?: HuddleItemInterface;
     reactions?: Array<string>;
     readBy?: Array<string>;

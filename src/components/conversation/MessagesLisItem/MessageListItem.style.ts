@@ -74,6 +74,22 @@ export const MessageListItemStyle = StyleSheet.create({
         fontSize: 15,
         marginLeft: 2
     },
+    replyView: {
+        width: '100%',
+        minWidth: 120,
+        borderRadius: 10,
+        padding: 2
+    },
+    replyPhoto: {
+        height: 50,
+        width: 50,
+        borderRadius: 10,
+        opacity: 0.9
+    },
+    replyMessageText: {
+        color: COLORS.WHITE,
+        opacity: 0.8
+    },
     huddleView: {
         paddingHorizontal: '4%',
         marginBottom: 12,

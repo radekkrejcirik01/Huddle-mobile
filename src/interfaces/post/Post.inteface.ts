@@ -60,6 +60,8 @@ export interface MessagePostInterface {
     message: string;
     buffer?: string;
     fileName?: string;
+    replyMessage?: string;
+    replyPhoto?: string;
 }
 
 export interface MessageReactionPostInterface {

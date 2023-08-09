@@ -1,5 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { NativeScrollEvent, NativeSyntheticEvent, View } from 'react-native';
+import {
+    NativeScrollEvent,
+    NativeSyntheticEvent,
+    Text,
+    View
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import {
     useFocusEffect,
@@ -13,6 +18,7 @@ import { useRenderMesages } from '@hooks/useRenderMesages';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import {
     ConversationScreenProps,
+    HuddleItemInterface,
     MessageItemProps
 } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { ConversationScreenStyle } from '@screens/account/ConversationScreen/ConversationScreen.style';
@@ -35,6 +41,7 @@ import { ReducerProps } from '@store/index/index.props';
 import { isiOS } from '@functions/checking-functions';
 import { ConversationHeader } from '@components/conversation/ConversationHeader/ConversationHeader';
 import { PostHuddleButton } from '@components/huddles/PostHuddleButton/PostHuddleButton';
+import FastImage from 'react-native-fast-image';
 
 export const ConversationScreen = ({
     route
@@ -51,6 +58,9 @@ export const ConversationScreen = ({
 
     const [messages, setMessages] = useState<Array<MessageItemProps>>([]);
     const [refreshList, setRefreshList] = useState<boolean>(false);
+    const [isReplying, setIsReplying] = useState<boolean>(false);
+    const [replyMessage, setReplyMessage] = useState<string>();
+    const [replyPhoto, setReplyPhoto] = useState<string>();
 
     const interval = useRef(null);
     const loadMessagesEnabled = useRef<boolean>(true);
@@ -200,6 +210,18 @@ export const ConversationScreen = ({
         [messages, refreshList]
     );
 
+    const onReplyHuddle = (item: HuddleItemInterface) => {
+        setIsReplying(true);
+        setReplyMessage(item.message);
+        setReplyPhoto(item?.photo);
+    };
+
+    const onReplyMessage = (item: MessageItemProps) => {
+        setIsReplying(true);
+        setReplyMessage(item?.message);
+        setReplyPhoto(item?.url);
+    };
+
     const { renderMessageItem, keyMessageExtractor, onEndReached } =
         useRenderMesages(
             messages,
@@ -207,7 +229,9 @@ export const ConversationScreen = ({
             name,
             profilePhoto,
             loadMessages,
-            addReaction
+            addReaction,
+            onReplyHuddle,
+            onReplyMessage
         );
 
     const sendMessage = useCallback(
@@ -231,16 +255,21 @@ export const ConversationScreen = ({
                     conversationId,
                     message,
                     buffer,
-                    fileName
+                    fileName,
+                    replyMessage,
+                    replyPhoto
                 }
             ).subscribe((response: ResponseInterface) => {
                 if (response?.status) {
+                    setIsReplying(false);
+                    setReplyMessage(null);
+                    setReplyPhoto(null);
                     loadMessagesEnabled.current = true;
                     loadMessages();
                 }
             });
         },
-        [conversationId, loadMessages, user]
+        [conversationId, loadMessages, replyMessage, replyPhoto, user]
     );
 
     const onScroll = useCallback(
@@ -287,6 +316,21 @@ export const ConversationScreen = ({
                         }
                         onEndReached={onEndReached}
                     />
+                    {isReplying && (
+                        <View style={ConversationScreenStyle.replyView}>
+                            <Text
+                                style={ConversationScreenStyle.replyMessageText}
+                            >
+                                {replyMessage}
+                            </Text>
+                            {replyPhoto && (
+                                <FastImage
+                                    source={{ uri: replyPhoto }}
+                                    style={ConversationScreenStyle.replyPhoto}
+                                />
+                            )}
+                        </View>
+                    )}
                     <ChatInput name={name} onSend={sendMessage} />
                 </View>
             </KeyboardAvoidingView>
