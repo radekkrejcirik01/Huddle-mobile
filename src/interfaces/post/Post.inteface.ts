@@ -89,6 +89,10 @@ export interface DevicePostInterface {
     deviceToken: string;
 }
 
+export interface ActivityPostInterface {
+    status: string;
+}
+
 export interface UploadProfileImageInterface {
     buffer: string;
     fileName: string;

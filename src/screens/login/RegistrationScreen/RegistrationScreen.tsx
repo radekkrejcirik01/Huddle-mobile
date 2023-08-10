@@ -17,6 +17,7 @@ import { PreloadService } from '@utils/general/PreloadService';
 import { LoginStackNavigatorEnum } from '@navigation/StackNavigators/login/LoginStackNavigator.enum';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
+import { ActivityService } from '@utils/general/ActivityService';
 
 export const RegistrationScreen = (): JSX.Element => {
     const dispatch = useDispatch();
@@ -49,7 +50,10 @@ export const RegistrationScreen = (): JSX.Element => {
                 if (response?.message?.includes('exists')) {
                     Alert.alert('This username is already taken');
                 } else {
+                    ActivityService.updateOnline();
+
                     dispatch(setUserToken(response?.token));
+
                     PersistStorage.setItem(
                         PersistStorageKeys.TOKEN,
                         response?.token

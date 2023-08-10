@@ -10,6 +10,7 @@ import { Navigation } from '@navigation/index';
 import { PreloadService } from '@utils/general/PreloadService';
 import { ToastMessage } from '@components/general/ToastMessage/ToastMessage';
 import { isiOS } from '@functions/checking-functions';
+import { ActivityService } from '@utils/general/ActivityService';
 
 const App = () => {
     PreloadService.init().catch();
@@ -19,9 +20,13 @@ const App = () => {
             'change',
             (nextAppState) => {
                 if (nextAppState === 'active') {
+                    ActivityService.updateOnline();
                     if (isiOS()) {
                         PushNotificationIOS.setApplicationIconBadgeNumber(0);
                     }
+                }
+                if (nextAppState === 'inactive') {
+                    ActivityService.updateOffline();
                 }
             }
         );

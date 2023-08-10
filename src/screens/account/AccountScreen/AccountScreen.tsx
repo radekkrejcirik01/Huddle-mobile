@@ -20,6 +20,7 @@ import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
+import { ActivityService } from '@utils/general/ActivityService';
 
 export const AccountScreen = (): JSX.Element => {
     const { firstname, username, profilePhoto } = useSelector(
@@ -63,7 +64,10 @@ export const AccountScreen = (): JSX.Element => {
         deleteRequestUser<ResponseInterface>('device').subscribe(
             (response: ResponseInterface) => {
                 if (response?.status) {
+                    ActivityService.updateOffline();
+
                     dispatch(resetUserState());
+
                     PersistStorage.setItem(
                         PersistStorageKeys.TOKEN,
                         ''

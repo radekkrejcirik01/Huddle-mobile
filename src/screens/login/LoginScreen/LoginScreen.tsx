@@ -20,6 +20,7 @@ import { PreloadService } from '@utils/general/PreloadService';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import { LoginHeader } from '@components/login/LoginHeader/LoginHeader';
 import { LoginStackNavigatorEnum } from '@navigation/StackNavigators/login/LoginStackNavigator.enum';
+import { ActivityService } from '@utils/general/ActivityService';
 
 export const LoginScreen = (): JSX.Element => {
     const dispatch = useDispatch();
@@ -39,7 +40,10 @@ export const LoginScreen = (): JSX.Element => {
                 }
             ).subscribe((response: AuthResponseInterface) => {
                 if (response?.status) {
+                    ActivityService.updateOnline();
+
                     dispatch(setUserToken(response?.token));
+
                     PersistStorage.setItem(
                         PersistStorageKeys.TOKEN,
                         response?.token
