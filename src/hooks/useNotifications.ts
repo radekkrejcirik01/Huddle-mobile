@@ -6,6 +6,8 @@ import Toast from 'react-native-toast-message';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
+import store from '@store/index/index';
+import { setTyping } from '@store/TypingReducer';
 
 export const useNotifications = (
     navigationRef: NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>
@@ -91,6 +93,10 @@ export const useNotifications = (
             // On in app notification
             messaging().onMessage(
                 (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
+                    if (remoteMessage?.data?.type === 'typing') {
+                        store.dispatch(setTyping(remoteMessage?.data));
+                        return;
+                    }
                     if (remoteMessage?.data?.type !== 'conversation') {
                         Toast.show({
                             text1: remoteMessage.notification.title,

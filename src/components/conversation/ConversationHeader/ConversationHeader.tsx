@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import { useTypingIndicator } from '@hooks/useTypingIndicator';
 import { useNavigation } from '@hooks/useNavigation';
 import { ConversationHeaderProps } from '@components/conversation/ConversationHeader/ConversationHeader.props';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
@@ -13,6 +14,8 @@ export const ConversationHeader = ({
     name,
     profilePhoto
 }: ConversationHeaderProps): JSX.Element => {
+    const { isTyping } = useTypingIndicator(conversationId);
+
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const openConversationDetails = useCallback(
@@ -36,7 +39,7 @@ export const ConversationHeader = ({
                 <View style={ConversationHeaderStyle.textsView}>
                     <Text style={ConversationHeaderStyle.nameText}>{name}</Text>
                     <Text style={ConversationHeaderStyle.tapHereText}>
-                        tap here for details
+                        {isTyping ? 'is typing...' : 'tap here for details'}
                     </Text>
                 </View>
             </TouchableOpacity>

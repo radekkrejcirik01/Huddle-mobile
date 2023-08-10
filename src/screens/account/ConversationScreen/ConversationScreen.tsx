@@ -331,7 +331,11 @@ export const ConversationScreen = ({
                             )}
                         </View>
                     )}
-                    <ChatInput name={name} onSend={sendMessage} />
+                    <ChatInput
+                        conversationId={conversationId}
+                        name={name}
+                        onSend={sendMessage}
+                    />
                 </View>
             </KeyboardAvoidingView>
         </View>

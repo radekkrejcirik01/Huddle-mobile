@@ -64,6 +64,11 @@ export interface MessagePostInterface {
     replyPhoto?: string;
 }
 
+export interface TypingPostInterface {
+    conversationId: number;
+    isTyping: number;
+}
+
 export interface MessageReactionPostInterface {
     receiver: string;
     message: string;

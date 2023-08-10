@@ -2,29 +2,29 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Typing } from '@store/index/index.props';
 
 const initialState: Typing = {
-    isTyping: []
+    typing: []
 };
 
 export const TypingReducer = createSlice({
     name: 'typing',
     initialState,
     reducers: {
-        setIsTyping: (state, action) => {
-            for (let i = 0; i < state.isTyping.length; i += 1) {
+        setTyping: (state, action) => {
+            for (let i = 0; i < state.typing.length; i += 1) {
                 if (
-                    state.isTyping[i].conversationId ===
+                    state.typing[i].conversationId ===
                         action.payload.conversationId &&
-                    state.isTyping[i].username === action.payload.username
+                    state.typing[i].username === action.payload.username
                 ) {
-                    state.isTyping[i].value = action.payload.value;
+                    state.typing[i].isTyping = action.payload.isTyping;
                     return;
                 }
             }
-            state.isTyping = [...state.isTyping, action.payload];
+            state.typing = [...state.typing, action.payload];
         }
     }
 });
 
-export const { setIsTyping } = TypingReducer.actions;
+export const { setTyping } = TypingReducer.actions;
 
 export default TypingReducer.reducer;

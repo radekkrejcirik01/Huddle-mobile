@@ -7,16 +7,14 @@ export const useTypingIndicator = (
 ): {
     isTyping: boolean;
 } => {
-    const { isTyping: typing } = useSelector(
-        (state: ReducerProps) => state.typing
-    );
+    const { typing } = useSelector((state: ReducerProps) => state.typing);
 
     const [isTyping, setIsTyping] = useState<boolean>(false);
 
     useEffect(() => {
         for (let i = 0; i < typing.length; i += 1) {
-            if (typing[i].conversationId === conversationId) {
-                if (typing[i].value) {
+            if (Number(typing[i].conversationId) === conversationId) {
+                if (Number(typing[i].isTyping)) {
                     setIsTyping(true);
                 } else {
                     setIsTyping(false);

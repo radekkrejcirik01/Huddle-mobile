@@ -40,9 +40,9 @@ export interface Conversation {
 }
 
 export interface Typing {
-    isTyping: Array<{
+    typing: Array<{
         conversationId: number;
         username: string;
-        value: number;
+        isTyping: number;
     }>;
 }

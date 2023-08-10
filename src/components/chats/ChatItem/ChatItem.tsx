@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import { useTypingIndicator } from '@hooks/useTypingIndicator';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { ChatItemProps } from '@components/chats/ChatItem/ChatItem.props';
 import { ChatItemStyle } from '@components/chats/ChatItem/ChatItem.style';
@@ -14,6 +15,8 @@ export const ChatItem = ({
     onLongPress,
     hasSeen
 }: ChatItemProps): JSX.Element => {
+    const { isTyping } = useTypingIndicator(item.id);
+
     function getNewHuddlesText(number: number): string {
         if (number === 1) {
             return `+ ${number} huddle`;
@@ -81,7 +84,7 @@ export const ChatItem = ({
                             item?.isNewMessage && ChatItemStyle.newMessageText
                         ]}
                     >
-                        {item?.lastMessage}
+                        {isTyping ? 'is typing...' : item?.lastMessage}
                     </Text>
                 </View>
                 {!!item.isLiked && <Text>❤️</Text>}
