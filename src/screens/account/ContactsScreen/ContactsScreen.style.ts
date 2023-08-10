@@ -1,14 +1,19 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const FriendsScreenStyle = StyleSheet.create({
+export const ContactsScreenStyle = StyleSheet.create({
     container: {
         flex: 1
     },
     input: {
         paddingLeft: 10,
         fontSize: 14,
+        backgroundColor: COLORS.BLACK_300,
         fontWeight: '500'
+    },
+    inputView: {
+        marginBottom: 5,
+        backgroundColor: COLORS.BLACK_300
     },
     description: {
         marginTop: 100,
@@ -21,18 +26,5 @@ export const FriendsScreenStyle = StyleSheet.create({
     listContentContainer: {
         paddingTop: 10,
         paddingBottom: 100
-    },
-    newInviteView: {
-        paddingVertical: 10,
-        paddingHorizontal: 22,
-        borderRadius: 12,
-        backgroundColor: COLORS.BUTTON_BLUE,
-        alignSelf: 'center',
-        position: 'absolute'
-    },
-    newInviteText: {
-        fontSize: 16,
-        color: COLORS.WHITE,
-        fontWeight: '600'
     }
 });

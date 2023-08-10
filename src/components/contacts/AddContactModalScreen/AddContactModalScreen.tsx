@@ -8,12 +8,12 @@ import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { AddPersonInvitePostInterface } from '@interfaces/post/Post.inteface';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
-import { AddFriendModalScreenProps } from '@components/friends/AddFriendModalScreen/AddFriendModalScreen.props';
-import { AddFriendModalScreenStyle } from '@components/friends/AddFriendModalScreen/AddFriendModalScreen.style';
+import { AddContactModalScreenProps } from '@components/contacts/AddContactModalScreen/AddContactModalScreen.props';
+import { AddContactModalScreenStyle } from '@components/contacts/AddContactModalScreen/AddContactModalScreen.style';
 
-export const AddFriendModalScreen = ({
+export const AddContactModalScreen = ({
     onClose
-}: AddFriendModalScreenProps): JSX.Element => {
+}: AddContactModalScreenProps): JSX.Element => {
     const [username, setUsername] = useState<string>();
 
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
@@ -60,10 +60,10 @@ export const AddFriendModalScreen = ({
     }, [hide, navigateTo, username]);
 
     return (
-        <View style={AddFriendModalScreenStyle.modalContainer}>
-            <View style={AddFriendModalScreenStyle.inputContainer}>
-                <Text style={AddFriendModalScreenStyle.title}>Username</Text>
-                <View style={AddFriendModalScreenStyle.inputView}>
+        <View style={AddContactModalScreenStyle.modalContainer}>
+            <View style={AddContactModalScreenStyle.inputContainer}>
+                <Text style={AddContactModalScreenStyle.title}>Username</Text>
+                <View style={AddContactModalScreenStyle.inputView}>
                     <TextInput
                         autoFocus
                         value={username}
@@ -71,16 +71,16 @@ export const AddFriendModalScreen = ({
                         autoCorrect={false}
                         autoCapitalize="none"
                         selectionColor={COLORS.WHITE}
-                        style={AddFriendModalScreenStyle.input}
+                        style={AddContactModalScreenStyle.input}
                     />
                 </View>
             </View>
             <TouchableOpacity
                 onPress={onSend}
-                style={AddFriendModalScreenStyle.sendButton}
+                style={AddContactModalScreenStyle.sendButton}
             >
-                <Text style={AddFriendModalScreenStyle.sendButtonText}>
-                    Send
+                <Text style={AddContactModalScreenStyle.sendButtonText}>
+                    Invite
                 </Text>
             </TouchableOpacity>
         </View>

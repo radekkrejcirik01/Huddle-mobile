@@ -1,10 +1,9 @@
 import React, { useCallback } from 'react';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@hooks/useNavigation';
 import { ConversationHeaderProps } from '@components/conversation/ConversationHeader/ConversationHeader.props';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { ConversationHeaderStyle } from '@components/conversation/ConversationHeader/ConversationHeader.style';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 import { Back } from '@components/general/Back/Back';

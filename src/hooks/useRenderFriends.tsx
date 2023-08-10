@@ -4,8 +4,8 @@ import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { useOpenChat } from '@hooks/useOpenChat';
 import { useRefresh } from '@hooks/useRefresh';
-import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
-import { FriendsListItem } from '@components/friends/FriendsListItem/FriendsListItem';
+import { FriendsItemProps } from '@screens/account/ContactsScreen/ContactsScreen.props';
+import { ContactItem } from '@components/contacts/ContactItem/ContactItem';
 import { putRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { AcceptPersonInviteInterface } from '@interfaces/post/Post.inteface';
@@ -55,7 +55,7 @@ export const useRenderFriends = (
 
     const renderFriendsItem = useCallback(
         ({ item }: ListRenderItemInfo<FriendsItemProps>): JSX.Element => (
-            <FriendsListItem
+            <ContactItem
                 item={item}
                 onItemPress={() => onItemPress(item)}
                 onPhotoPress={() =>

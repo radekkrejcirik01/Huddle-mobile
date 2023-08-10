@@ -31,7 +31,7 @@ export const useNotifications = (
             navigationRef.current.navigate(
                 RootStackNavigatorEnum.AccountStack as never,
                 {
-                    screen: AccountStackNavigatorEnum.FriendsScreen
+                    screen: AccountStackNavigatorEnum.ContactsScreen
                 } as never
             ),
         [navigationRef]

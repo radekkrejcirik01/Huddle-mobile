@@ -114,7 +114,7 @@ export const ProfileTabHeader = ({
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() =>
-                        navigateTo(AccountStackNavigatorEnum.FriendsScreen)
+                        navigateTo(AccountStackNavigatorEnum.ContactsScreen)
                     }
                     style={ProfileTabHeaderStyle.buttonView}
                 >

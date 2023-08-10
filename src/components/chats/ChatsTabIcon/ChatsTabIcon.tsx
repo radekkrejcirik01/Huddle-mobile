@@ -16,7 +16,7 @@ export const ChatsTabIcon = (): JSX.Element => {
 
     const loadUnseenInvites = () =>
         getRequestUser<ResponseNumberInvitesGetInterface>(
-            `unseen-invites`
+            'unseen-invites'
         ).subscribe((response: ResponseNumberInvitesGetInterface) => {
             if (response?.status) {
                 setBadge(response?.number);
@@ -30,7 +30,7 @@ export const ChatsTabIcon = (): JSX.Element => {
     );
 
     const openContacts = useCallback(() => {
-        navigateTo(AccountStackNavigatorEnum.FriendsScreen);
+        navigateTo(AccountStackNavigatorEnum.ContactsScreen);
 
         setTimeout(() => setBadge(0), 1000);
     }, [navigateTo]);

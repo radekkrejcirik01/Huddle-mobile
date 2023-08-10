@@ -1,12 +1,10 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const AddFriendModalScreenStyle = StyleSheet.create({
+export const AddContactModalScreenStyle = StyleSheet.create({
     modalContainer: {
         flex: 1,
         padding: 15,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
         backgroundColor: COLORS.BLACK,
         justifyContent: 'space-evenly',
         alignItems: 'center'
@@ -33,9 +31,9 @@ export const AddFriendModalScreenStyle = StyleSheet.create({
         fontWeight: '500'
     },
     sendButton: {
-        paddingVertical: 10,
+        paddingVertical: 12,
         paddingHorizontal: 26,
-        borderRadius: 12,
+        borderRadius: 20,
         backgroundColor: COLORS.BUTTON_BLUE
     },
     sendButtonText: {

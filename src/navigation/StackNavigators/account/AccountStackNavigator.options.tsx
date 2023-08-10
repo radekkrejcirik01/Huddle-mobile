@@ -1,24 +1,20 @@
+import React from 'react';
 import { StackNavigationOptions } from '@react-navigation/stack';
-import store from '@store/index/index';
+import { AddContactButton } from '@components/contacts/AddContactButton/AddContactButton';
+import { AccountStackNavigatorStyle } from '@navigation/StackNavigators/account/AccountStackNavigator.style';
 
 export const AccountTitle: StackNavigationOptions = {
     headerTitle: 'Account'
 };
 
-export const FriendsOptions: StackNavigationOptions = {
-    headerTitle: 'Contacts'
-};
-
-export const ShowTitle: StackNavigationOptions = {
-    headerTitle: 'Show'
+export const ContactsOptions: StackNavigationOptions = {
+    headerTitle: 'Contacts',
+    headerRight: () => <AddContactButton />,
+    headerStyle: AccountStackNavigatorStyle.header
 };
 
 export const ManageAccountTitle: StackNavigationOptions = {
     headerTitle: 'Manage account'
-};
-
-export const MutedTitle: StackNavigationOptions = {
-    headerTitle: 'Muted'
 };
 
 export const NotificationsTitle: StackNavigationOptions = {
@@ -30,5 +26,5 @@ export const PrivacyTitle: StackNavigationOptions = {
 };
 
 export const SettingsTitle: StackNavigationOptions = {
-    headerTitle: store.getState().user.user.username
+    headerTitle: 'Settings'
 };

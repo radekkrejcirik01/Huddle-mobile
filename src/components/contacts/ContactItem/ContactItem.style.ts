@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const FriendsListItemStyle = StyleSheet.create({
+export const ContactItemStyle = StyleSheet.create({
     view: {
         marginHorizontal: 12,
         paddingBottom: 5,
@@ -23,7 +23,7 @@ export const FriendsListItemStyle = StyleSheet.create({
     },
     chatEmoji: {
         marginRight: 10,
-        fontSize: 16
+        fontSize: 20
     },
     acceptView: {
         paddingVertical: 8,

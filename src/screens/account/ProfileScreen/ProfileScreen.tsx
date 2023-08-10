@@ -14,7 +14,7 @@ import { ProfileTabHeader } from '@components/profile/ProfileTabHeader/ProfileTa
 import { HuddleItemInterface } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { PostHuddleModalScreen } from '@components/huddles/PostHuddleModalScreen/PostHuddleModalScreen';
 import { Modal } from '@components/general/Modal/Modal';
-import { AddFriendModalScreen } from '@components/friends/AddFriendModalScreen/AddFriendModalScreen';
+import { AddContactModalScreen } from '@components/contacts/AddContactModalScreen/AddContactModalScreen';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
@@ -22,9 +22,7 @@ import { IconButton } from '@components/general/IconButton/IconButton';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 
 export const ProfileScreen = (): JSX.Element => {
-    const { firstname, username } = useSelector(
-        (state: ReducerProps) => state.user.user
-    );
+    const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const navigation = useDefaultNavigation();
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
@@ -36,7 +34,7 @@ export const ProfileScreen = (): JSX.Element => {
     useEffect(
         () =>
             navigation.setOptions({
-                title: firstname,
+                title: username,
                 headerRight: () => (
                     <IconButton
                         icon={IconEnum.MENU}
@@ -48,7 +46,7 @@ export const ProfileScreen = (): JSX.Element => {
                     />
                 )
             }),
-        [firstname, navigateTo, navigation]
+        [navigateTo, navigation, username]
     );
 
     const loadHuddles = useCallback(
@@ -98,7 +96,7 @@ export const ProfileScreen = (): JSX.Element => {
     }, [loadHuddles, onModalClose, showModal]);
 
     const onAddFriendPress = useCallback(() => {
-        setModalContent(<AddFriendModalScreen onClose={onModalClose} />);
+        setModalContent(<AddContactModalScreen onClose={onModalClose} />);
         showModal();
     }, [onModalClose, showModal]);
 

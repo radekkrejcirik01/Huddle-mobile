@@ -10,12 +10,12 @@ export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
     headerStyle: BottomTabNavigatorStyle.header,
     tabBarStyle: BottomTabNavigatorStyle.tabBar,
     tabBarLabelStyle: BottomTabNavigatorStyle.tabBarLabel,
-    title: null
+    title: null,
+    tabBarShowLabel: false
 };
 
 export const ChatsTabOptions: BottomTabNavigationOptions = {
     title: 'Chats',
     headerRight: () => <ProfileHeader />,
-    tabBarLabel: 'New chat',
     tabBarIcon: () => <ChatsTabIcon />
 };

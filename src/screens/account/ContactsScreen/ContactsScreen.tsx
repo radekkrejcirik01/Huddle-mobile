@@ -1,27 +1,22 @@
 import React, { useCallback, useState } from 'react';
-import { Keyboard, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useRenderFriends } from '@hooks/useRenderFriends';
-import { useModal } from '@hooks/useModal';
-import { FriendsScreenStyle } from '@screens/account/FriendsScreen/FriendsScreen.style';
+import { ContactsScreenStyle } from '@screens/account/ContactsScreen/ContactsScreen.style';
 import { Input } from '@components/general/Input/Input';
 import { InputTypeEnum } from '@components/general/Input/Input.enum';
-import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
+import { FriendsItemProps } from '@screens/account/ContactsScreen/ContactsScreen.props';
 import { getRequestUser, putRequestUser } from '@utils/Axios/Axios.service';
 import {
     ResponseFriendsGetInterface,
     ResponseInterface
 } from '@interfaces/response/Response.interface';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { AddFriendModalScreen } from '@components/friends/AddFriendModalScreen/AddFriendModalScreen';
-import { Modal } from '@components/general/Modal/Modal';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 
-export const FriendsScreen = (): JSX.Element => {
+export const ContactsScreen = (): JSX.Element => {
     const { bottom } = useSafeAreaInsets();
-    const { modalVisible, showModal, hideModal } = useModal();
 
     const [inputValue, setInputValue] = useState<string>();
     const [data, setData] = useState<Array<FriendsItemProps>>([]);
@@ -83,20 +78,18 @@ export const FriendsScreen = (): JSX.Element => {
         onEndReached
     } = useRenderFriends(data, loadFriends);
 
-    const hideKeyboardAndModal = useCallback(() => {
-        Keyboard.dismiss();
-        hideModal();
-    }, [hideModal]);
-
     return (
-        <View style={FriendsScreenStyle.container}>
+        <View
+            style={[ContactsScreenStyle.container, { paddingBottom: bottom }]}
+        >
             <Input
                 iconLeft={<Text>🔍</Text>}
                 placeholder="Search contacts"
                 value={inputValue}
                 onChange={filterData}
                 inputType={InputTypeEnum.TEXT}
-                inputStyle={FriendsScreenStyle.input}
+                inputStyle={ContactsScreenStyle.input}
+                viewStyle={ContactsScreenStyle.inputView}
             />
             <FlashList
                 data={filteredData}
@@ -105,32 +98,13 @@ export const FriendsScreen = (): JSX.Element => {
                 keyExtractor={keyFriendsExtractor}
                 estimatedItemSize={68}
                 ListEmptyComponent={
-                    <Text style={FriendsScreenStyle.description}>
-                        no contacts yet
+                    <Text style={ContactsScreenStyle.description}>
+                        no contacts yet 😴
                     </Text>
                 }
                 onEndReached={onEndReached}
                 ItemSeparatorComponent={() => <ItemSeparator space={10} />}
-                contentContainerStyle={FriendsScreenStyle.listContentContainer}
-            />
-            <TouchableOpacity
-                onPress={showModal}
-                style={[
-                    {
-                        bottom: bottom + 40
-                    },
-                    FriendsScreenStyle.newInviteView
-                ]}
-            >
-                <Text style={FriendsScreenStyle.newInviteText}>New invite</Text>
-            </TouchableOpacity>
-            <Modal
-                isVisible={modalVisible}
-                content={
-                    <AddFriendModalScreen onClose={hideKeyboardAndModal} />
-                }
-                backdropOpacity={0.7}
-                onClose={hideKeyboardAndModal}
+                contentContainerStyle={ContactsScreenStyle.listContentContainer}
             />
         </View>
     );

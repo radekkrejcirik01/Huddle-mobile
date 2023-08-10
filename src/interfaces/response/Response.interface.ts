@@ -3,7 +3,7 @@ import {
     HuddleItemInterface,
     MessageItemProps
 } from '@screens/account/ConversationScreen/ConversationScreen.props';
-import { FriendsItemProps } from '@screens/account/FriendsScreen/FriendsScreen.props';
+import { FriendsItemProps } from '@screens/account/ContactsScreen/ContactsScreen.props';
 import {
     CommentItemInterface,
     CommentLikeInterface

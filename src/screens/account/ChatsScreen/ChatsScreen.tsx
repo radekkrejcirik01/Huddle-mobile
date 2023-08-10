@@ -106,7 +106,7 @@ export const ChatsScreen = (): JSX.Element => {
                 ItemSeparatorComponent={() => <ItemSeparator space={18} />}
                 ListEmptyComponent={
                     <Text style={ChatsScreenStyle.description}>
-                        no chats yet
+                        no chats yet 😴
                     </Text>
                 }
                 contentContainerStyle={ChatsScreenStyle.contentContainer}

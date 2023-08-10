@@ -7,7 +7,7 @@ import {
 } from '@navigation/StackNavigators/StackNavigator.options';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { NotificationsScreen } from '@screens/account/NotificationsScreen/NotificationsScreen';
-import { FriendsScreen } from '@screens/account/FriendsScreen/FriendsScreen';
+import { ContactsScreen } from '@screens/account/ContactsScreen/ContactsScreen';
 import { ProfilePhotoScreen } from '@screens/account/ProfilePhotoScreen/ProfilePhotoScreen';
 import { ConversationScreen } from '@screens/account/ConversationScreen/ConversationScreen';
 import { ConversationDetailsScreen } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen';
@@ -19,7 +19,7 @@ import { ProfileScreen } from '@screens/account/ProfileScreen/ProfileScreen';
 import { ManageAccountScreen } from '@screens/account/ManageAccountScreen/ManageAccountScreen';
 import {
     AccountTitle,
-    FriendsOptions,
+    ContactsOptions,
     ManageAccountTitle,
     NotificationsTitle,
     PrivacyTitle,
@@ -47,9 +47,9 @@ export const AccountStackNavigator = (): JSX.Element => (
             options={{ ...NavigationScreenHeader }}
         />
         <Account.Screen
-            name={AccountStackNavigatorEnum.FriendsScreen}
-            component={FriendsScreen}
-            options={{ ...NavigationScreenHeader, ...FriendsOptions }}
+            name={AccountStackNavigatorEnum.ContactsScreen}
+            component={ContactsScreen}
+            options={{ ...NavigationScreenHeader, ...ContactsOptions }}
         />
         <Account.Screen
             name={AccountStackNavigatorEnum.HuddleScreen}
