@@ -32,7 +32,6 @@ export const LargeHuddleItemStyle = StyleSheet.create({
     },
     nameView: {
         marginLeft: 5,
-        paddingBottom: 2,
         justifyContent: 'center'
     },
     nameText: {
@@ -42,11 +41,11 @@ export const LargeHuddleItemStyle = StyleSheet.create({
     },
     shadowText: {
         textShadowRadius: 2,
-        textShadowColor: COLORS.BLACK_100
+        textShadowColor: COLORS.GRAY_200
     },
     shadowView: {
         shadowRadius: 2,
-        shadowColor: COLORS.BLACK_100
+        shadowColor: COLORS.GRAY_200
     },
     messageText: {
         marginTop: 5,

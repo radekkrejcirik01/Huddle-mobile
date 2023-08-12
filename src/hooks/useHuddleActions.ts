@@ -13,7 +13,8 @@ import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/A
 
 export const useHuddleActions = (
     onLiked?: () => void,
-    onReply?: (item: HuddleItemInterface) => void
+    onReply?: (item: HuddleItemInterface) => void,
+    onDelete?: () => void
 ): {
     openHuddleActions: (item: HuddleItemInterface) => void;
     onHuddleLikePress: (item: HuddleItemInterface) => void;
@@ -33,12 +34,13 @@ export const useHuddleActions = (
         (id: number) =>
             deleteRequestUser<ResponseInterface>(`huddle/${id}`).subscribe(
                 (response: ResponseInterface) => {
-                    if (response?.status && !isConversationScreen) {
-                        navigation.goBack();
+                    if (response?.status) {
+                        onDelete();
+                        if (!isConversationScreen) navigation.goBack();
                     }
                 }
             ),
-        [isConversationScreen, navigation]
+        [isConversationScreen, navigation, onDelete]
     );
 
     const deleteHuddleMessage = useCallback(

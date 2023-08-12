@@ -17,23 +17,21 @@ export const PostHuddleCardStyle = StyleSheet.create({
     row: {
         flexDirection: 'row'
     },
-    titleView: {
+    nameView: {
         flex: 1,
         marginLeft: 5,
-        paddingBottom: 2,
         justifyContent: 'center'
     },
-    titleText: {
+    nameText: {
         fontSize: 16,
         color: COLORS.WHITE,
-        fontWeight: 'bold'
+        fontWeight: '600'
     },
     input: {
         flex: 1,
         margin: 5,
         fontSize: 16,
-        color: COLORS.WHITE,
-        fontWeight: '500'
+        color: COLORS.WHITE
     },
     buttonsContainer: {
         paddingHorizontal: 5,

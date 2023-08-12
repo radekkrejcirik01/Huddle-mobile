@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { PostHuddleModalScreenStyle } from '@components/huddles/PostHuddleModalScreen/PostHuddleModalScreen.style';
 import { ReducerProps } from '@store/index/index.props';
@@ -27,7 +27,6 @@ export const PostHuddleModalScreen = ({
         }).subscribe((response: ResponseInterface) => {
             if (response?.status) {
                 onCreate();
-                Alert.alert('Posted ✅');
             }
         });
     }, [firstname, onClose, onCreate]);

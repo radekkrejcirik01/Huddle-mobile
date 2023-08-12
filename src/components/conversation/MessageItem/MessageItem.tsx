@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import FastImage from 'react-native-fast-image';
+import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import { MessageItemProps } from '@components/conversation/MessageItem/MessageItem.props';
 import { ReducerProps } from '@store/index/index.props';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
@@ -19,9 +20,46 @@ export const MessageItem = ({
 }: MessageItemProps): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
+    const openPhoto = useOpenProfilePhoto();
+
     const isOutbound = item.sender === username;
     const isShortMessage = item?.message?.length < 30;
     const isReply = item?.replyMessage || item?.replyPhoto;
+
+    if (item?.url) {
+        return (
+            <View
+                style={[
+                    MessageItemStyle.container,
+                    isOutbound && MessageItemStyle.flexEnd,
+                    hasSpace && MessageItemStyle.space
+                ]}
+            >
+                {!isOutbound &&
+                    (hasProfilePhoto ? (
+                        <ProfilePhoto
+                            name={name}
+                            photo={profilePhoto}
+                            size={35}
+                            style={MessageItemStyle.marginRight}
+                        />
+                    ) : (
+                        <View style={MessageItemStyle.width} />
+                    ))}
+                <TouchableOpacity
+                    onPress={() => openPhoto('', item.url)}
+                    onLongPress={onMessageLongPress}
+                    style={MessageItemStyle.imageView}
+                >
+                    <FastImage
+                        source={{ uri: item.url }}
+                        style={MessageItemStyle.image}
+                    />
+                    <MessageItemStatus item={item} isOutbound={isOutbound} />
+                </TouchableOpacity>
+            </View>
+        );
+    }
 
     return (
         <View

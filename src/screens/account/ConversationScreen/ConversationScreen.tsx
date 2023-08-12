@@ -82,10 +82,7 @@ export const ConversationScreen = ({
                 headerRight: () => (
                     <PostHuddleButton onCreateHuddle={() => {}} />
                 ),
-                headerStyle: [
-                    ConversationScreenStyle.headerStyle,
-                    !!bottom && ConversationScreenStyle.headerHeight
-                ]
+                headerStyle: ConversationScreenStyle.headerStyle
             }),
         [bottom, conversationId, name, navigation, profilePhoto]
     );
@@ -289,12 +286,9 @@ export const ConversationScreen = ({
 
     const getKeyboardOffset = (): number => {
         if (isiOS()) {
-            if (bottom) {
-                return 62;
-            }
-            return 50;
+            return 45;
         }
-        return 85;
+        return 90;
     };
 
     return (

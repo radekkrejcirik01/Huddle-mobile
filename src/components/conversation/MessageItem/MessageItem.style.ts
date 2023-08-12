@@ -57,5 +57,13 @@ export const MessageItemStyle = StyleSheet.create({
     messageText: {
         fontSize: 16,
         color: COLORS.WHITE
+    },
+    imageView: {
+        width: '50%',
+        height: 250
+    },
+    image: {
+        flex: 1,
+        borderRadius: 20
     }
 });

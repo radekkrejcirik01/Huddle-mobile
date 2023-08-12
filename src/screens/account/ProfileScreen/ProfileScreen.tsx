@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Keyboard, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { useNavigation as useDefaultNavigation } from '@react-navigation/native';
+import {
+    useFocusEffect,
+    useNavigation as useDefaultNavigation
+} from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useNavigation } from '@hooks/useNavigation';
 import { useModal } from '@hooks/useModal';
@@ -78,7 +81,7 @@ export const ProfileScreen = (): JSX.Element => {
         [username]
     );
 
-    useEffect(() => loadHuddles(), [loadHuddles]);
+    useFocusEffect(loadHuddles);
 
     const onModalClose = useCallback(() => {
         Keyboard.dismiss();

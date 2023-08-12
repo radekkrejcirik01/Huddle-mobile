@@ -64,7 +64,6 @@ export const LargeHuddleItem = ({
         return (
             <TouchableOpacity
                 activeOpacity={1}
-                disabled={!onCardPress}
                 onPress={onCardPress}
                 onLongPress={onCardLongPress}
                 style={[LargeHuddleItemStyle.photoContainer, style]}
@@ -85,7 +84,7 @@ export const LargeHuddleItem = ({
                                     <ProfilePhoto
                                         name={item?.name}
                                         photo={item?.profilePhoto}
-                                        size={30}
+                                        size={35}
                                         textBackgroundColor={COLORS.BLACK_100}
                                         style={LargeHuddleItemStyle.shadowView}
                                     />
@@ -154,7 +153,6 @@ export const LargeHuddleItem = ({
     return (
         <TouchableOpacity
             activeOpacity={1}
-            disabled={!onCardPress}
             onPress={onCardPress}
             onLongPress={onCardLongPress}
             style={[LargeHuddleItemStyle.container, style]}
@@ -168,7 +166,7 @@ export const LargeHuddleItem = ({
                         <ProfilePhoto
                             name={item?.name}
                             photo={item?.profilePhoto}
-                            size={30}
+                            size={35}
                             textBackgroundColor={COLORS.BLACK_100}
                         />
                     </TouchableOpacity>

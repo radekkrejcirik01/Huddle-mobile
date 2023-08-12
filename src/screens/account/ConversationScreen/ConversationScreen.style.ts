@@ -6,9 +6,6 @@ export const ConversationScreenStyle = StyleSheet.create({
         backgroundColor: COLORS.BLACK_300,
         shadowOpacity: 0
     },
-    headerHeight: {
-        height: 110
-    },
     container: {
         paddingTop: 2,
         backgroundColor: COLORS.BLACK_300

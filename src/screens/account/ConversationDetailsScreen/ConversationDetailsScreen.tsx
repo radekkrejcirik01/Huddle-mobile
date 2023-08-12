@@ -1,10 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, ScrollView, Switch, Text, View } from 'react-native';
+import {
+    Alert,
+    ScrollView,
+    Switch,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
 import COLORS from '@constants/COLORS';
 import { ConversationDetailsScreenProps } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen.props';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { Icon } from '@components/general/Icon/Icon';
 import { getRequestUser, postRequestUser } from '@utils/Axios/Axios.service';
@@ -106,7 +112,7 @@ export const ConversationDetailsScreen = ({
         <ScrollView style={ConversationDetailsScreenStyle.container}>
             <View style={ConversationDetailsScreenStyle.box}>
                 <TouchableOpacity
-                    hitSlop={{}}
+                    disabled
                     style={ConversationDetailsScreenStyle.view}
                 >
                     <View style={ConversationDetailsScreenStyle.titleView}>
@@ -127,7 +133,7 @@ export const ConversationDetailsScreen = ({
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    hitSlop={{}}
+                    activeOpacity={0.9}
                     onPress={blockUserPress}
                     style={ConversationDetailsScreenStyle.view}
                 >
@@ -143,7 +149,7 @@ export const ConversationDetailsScreen = ({
             </View>
             <View style={ConversationDetailsScreenStyle.box}>
                 <TouchableOpacity
-                    hitSlop={{}}
+                    activeOpacity={0.9}
                     onPress={() => openProfile(name, profilePhoto)}
                     style={ConversationDetailsScreenStyle.view}
                 >
@@ -154,7 +160,7 @@ export const ConversationDetailsScreen = ({
                             size={25}
                         />
                         <Text style={ConversationDetailsScreenStyle.titleText}>
-                            Profile photo
+                            Profile
                         </Text>
                     </View>
                     <Icon

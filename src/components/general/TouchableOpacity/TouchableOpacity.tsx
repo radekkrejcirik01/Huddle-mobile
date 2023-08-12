@@ -8,7 +8,7 @@ export const TouchableOpacity = ({
     ...props
 }: TouchableOpacityProps): JSX.Element => (
     <DefaultTouchableOpacity
-        activeOpacity={0.7}
+        activeOpacity={0.9}
         delayLongPress={250}
         hitSlop={{ top: 20, left: 20, bottom: 20, right: 20 }}
         {...props}

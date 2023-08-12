@@ -32,6 +32,7 @@ export const ConversationHeader = ({
         <View style={ConversationHeaderStyle.container}>
             <Back />
             <TouchableOpacity
+                activeOpacity={0.9}
                 onPress={openConversationDetails}
                 style={ConversationHeaderStyle.detailsView}
             >
@@ -39,7 +40,7 @@ export const ConversationHeader = ({
                 <View style={ConversationHeaderStyle.textsView}>
                     <Text style={ConversationHeaderStyle.nameText}>{name}</Text>
                     <Text style={ConversationHeaderStyle.tapHereText}>
-                        {isTyping ? 'is typing...' : 'tap here for details'}
+                        {isTyping ? 'is typing...' : 'last seen recently'}
                     </Text>
                 </View>
             </TouchableOpacity>

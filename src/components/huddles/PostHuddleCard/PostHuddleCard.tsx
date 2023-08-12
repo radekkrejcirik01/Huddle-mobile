@@ -73,11 +73,11 @@ export const PostHuddleCard = ({
                 <ProfilePhoto
                     name={firstname}
                     photo={profilePhoto}
-                    size={40}
+                    size={32}
                     textBackgroundColor={COLORS.BLACK_100}
                 />
-                <View style={PostHuddleCardStyle.titleView}>
-                    <Text style={PostHuddleCardStyle.titleText}>
+                <View style={PostHuddleCardStyle.nameView}>
+                    <Text style={PostHuddleCardStyle.nameText}>
                         {firstname}
                     </Text>
                 </View>

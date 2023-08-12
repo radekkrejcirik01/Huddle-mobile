@@ -36,7 +36,7 @@ export const useRenderMesages = (
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const { showActionSheetWithOptions } = useActionSheet();
     const { openHuddleActions, onHuddleLikePress, openHuddleProfile } =
-        useHuddleActions(loadMessages, onReplyHuddle);
+        useHuddleActions(loadMessages, onReplyHuddle, loadMessages);
 
     const react = useCallback(
         (item: MessageProps, reaction: string) => {
@@ -51,9 +51,13 @@ export const useRenderMesages = (
                     messageId: item.id,
                     value: reaction
                 }
-            ).subscribe();
+            ).subscribe((response: ResponseInterface) => {
+                if (response?.status) {
+                    loadMessages();
+                }
+            });
         },
-        [addReaction, conversationId]
+        [addReaction, conversationId, loadMessages]
     );
 
     const openMessageActions = useCallback(
