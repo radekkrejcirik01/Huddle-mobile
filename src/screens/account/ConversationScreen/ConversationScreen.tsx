@@ -3,6 +3,7 @@ import {
     NativeScrollEvent,
     NativeSyntheticEvent,
     Text,
+    TextInput,
     View
 } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -19,7 +20,7 @@ import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/K
 import {
     ConversationScreenProps,
     HuddleItemInterface,
-    MessageItemProps
+    MessageProps
 } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { ConversationScreenStyle } from '@screens/account/ConversationScreen/ConversationScreen.style';
 import {
@@ -56,7 +57,7 @@ export const ConversationScreen = ({
     const { bottom } = useSafeAreaInsets();
     const isFocused = useIsFocused();
 
-    const [messages, setMessages] = useState<Array<MessageItemProps>>([]);
+    const [messages, setMessages] = useState<Array<MessageProps>>([]);
     const [refreshList, setRefreshList] = useState<boolean>(false);
     const [isReplying, setIsReplying] = useState<boolean>(false);
     const [replyMessage, setReplyMessage] = useState<string>();
@@ -64,6 +65,7 @@ export const ConversationScreen = ({
 
     const interval = useRef(null);
     const loadMessagesEnabled = useRef<boolean>(true);
+    const input = useRef<TextInput>(null);
 
     useEffect(
         () =>
@@ -192,7 +194,7 @@ export const ConversationScreen = ({
     const addReaction = useCallback(
         (messageId: number, value: string) => {
             const index = messages.findIndex(
-                (message: MessageItemProps) => message.id === messageId
+                (message: MessageProps) => message.id === messageId
             );
 
             if (!messages[index]?.reactions?.length) {
@@ -214,12 +216,16 @@ export const ConversationScreen = ({
         setIsReplying(true);
         setReplyMessage(item.message);
         setReplyPhoto(item?.photo);
+
+        input.current.focus();
     };
 
-    const onReplyMessage = (item: MessageItemProps) => {
+    const onReplyMessage = (item: MessageProps) => {
         setIsReplying(true);
         setReplyMessage(item?.message);
         setReplyPhoto(item?.url);
+
+        input.current.focus();
     };
 
     const { renderMessageItem, keyMessageExtractor, onEndReached } =
@@ -318,20 +324,21 @@ export const ConversationScreen = ({
                     />
                     {isReplying && (
                         <View style={ConversationScreenStyle.replyView}>
-                            <Text
-                                style={ConversationScreenStyle.replyMessageText}
-                            >
-                                {replyMessage}
-                            </Text>
                             {replyPhoto && (
                                 <FastImage
                                     source={{ uri: replyPhoto }}
                                     style={ConversationScreenStyle.replyPhoto}
                                 />
                             )}
+                            <Text
+                                style={ConversationScreenStyle.replyMessageText}
+                            >
+                                {replyMessage}
+                            </Text>
                         </View>
                     )}
                     <ChatInput
+                        reference={input}
                         conversationId={conversationId}
                         name={name}
                         onSend={sendMessage}

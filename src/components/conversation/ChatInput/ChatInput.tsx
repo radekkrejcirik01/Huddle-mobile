@@ -13,6 +13,7 @@ import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { TypingPostInterface } from '@interfaces/post/Post.inteface';
 
 export const ChatInput = ({
+    reference,
     conversationId,
     onSend,
     name
@@ -70,6 +71,7 @@ export const ChatInput = ({
         <View style={ChatInputStyle.container}>
             <View style={ChatInputStyle.inputContainer}>
                 <TextInput
+                    ref={reference}
                     value={message}
                     onChangeText={setMessage}
                     multiline

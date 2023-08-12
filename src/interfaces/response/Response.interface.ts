@@ -1,7 +1,7 @@
 import { ChatsListDataProps } from '@screens/account/ChatsScreen/ChatsScreen.props';
 import {
     HuddleItemInterface,
-    MessageItemProps
+    MessageProps
 } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { FriendsItemProps } from '@screens/account/ContactsScreen/ContactsScreen.props';
 import {
@@ -103,13 +103,13 @@ export interface ResponseConversationLikedInterface {
 export interface MessagesResponseInterface {
     status: string;
     message: string;
-    data?: Array<MessageItemProps>;
+    data?: Array<MessageProps>;
 }
 
 export interface MessagesByUsernamesResponseInterface {
     status: string;
     message: string;
-    data?: Array<MessageItemProps>;
+    data?: Array<MessageProps>;
     conversationId?: number;
 }
 

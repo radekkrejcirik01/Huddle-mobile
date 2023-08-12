@@ -9,8 +9,6 @@ import {
 } from '@components/huddles/LargeHuddleItem/LargeHuddleItem.props';
 import { LargeHuddleItemStyle } from '@components/huddles/LargeHuddleItem/LargeHuddleItem.style';
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
-import { IconEnum } from '@components/general/Icon/Icon.enum';
-import { IconButton } from '@components/general/IconButton/IconButton';
 import COLORS from '@constants/COLORS';
 
 export const LargeHuddleItem = ({
@@ -19,7 +17,6 @@ export const LargeHuddleItem = ({
     onProfilePress,
     onLikePress,
     onCardLongPress,
-    onMorePress,
     style
 }: LargeHuddleItemProps): JSX.Element => {
     const [liked, setLiked] = useState<boolean>();
@@ -76,30 +73,6 @@ export const LargeHuddleItem = ({
                     source={{ uri: item?.photo }}
                     style={LargeHuddleItemStyle.imageView}
                 >
-                    <View style={LargeHuddleItemStyle.row}>
-                        <TouchableOpacity
-                            activeOpacity={0.9}
-                            onPress={onProfilePress}
-                        >
-                            <ProfilePhoto
-                                name={item?.name}
-                                photo={item?.profilePhoto}
-                                size={32}
-                                textBackgroundColor={COLORS.BLACK_100}
-                            />
-                        </TouchableOpacity>
-                        <View style={LargeHuddleItemStyle.nameView}>
-                            <Text style={LargeHuddleItemStyle.nameText}>
-                                {item?.name}
-                            </Text>
-                        </View>
-                        <IconButton
-                            icon={IconEnum.MORE}
-                            onPress={onMorePress}
-                            size={16}
-                            style={LargeHuddleItemStyle.moreIcon}
-                        />
-                    </View>
                     <View
                         style={[
                             LargeHuddleItemStyle.row,
@@ -108,26 +81,57 @@ export const LargeHuddleItem = ({
                     >
                         <View style={LargeHuddleItemStyle.flex}>
                             <View style={LargeHuddleItemStyle.flex}>
-                                <Text
-                                    style={[
-                                        LargeHuddleItemStyle.messageText,
-                                        item?.message &&
+                                <View style={LargeHuddleItemStyle.row}>
+                                    <ProfilePhoto
+                                        name={item?.name}
+                                        photo={item?.profilePhoto}
+                                        size={30}
+                                        textBackgroundColor={COLORS.BLACK_100}
+                                        style={LargeHuddleItemStyle.shadowView}
+                                    />
+                                    <View style={LargeHuddleItemStyle.nameView}>
+                                        <Text
+                                            style={[
+                                                LargeHuddleItemStyle.nameText,
+                                                LargeHuddleItemStyle.shadowText
+                                            ]}
+                                        >
+                                            {item.name}
+                                        </Text>
+                                    </View>
+                                </View>
+                                {item?.message && (
+                                    <Text
+                                        style={[
+                                            LargeHuddleItemStyle.shadowText,
                                             LargeHuddleItemStyle.photoMessageText
-                                    ]}
-                                >
-                                    {item?.message}
-                                </Text>
+                                        ]}
+                                    >
+                                        {item?.message}
+                                    </Text>
+                                )}
                             </View>
                             <View
                                 style={[
                                     LargeHuddleItemStyle.flex,
-                                    LargeHuddleItemStyle.row
+                                    LargeHuddleItemStyle.row,
+                                    LargeHuddleItemStyle.marginTop
                                 ]}
                             >
-                                <Text style={LargeHuddleItemStyle.numberText}>
+                                <Text
+                                    style={[
+                                        LargeHuddleItemStyle.numberText,
+                                        LargeHuddleItemStyle.shadowText
+                                    ]}
+                                >
                                     {item?.commentsNumber} 💬
                                 </Text>
-                                <Text style={LargeHuddleItemStyle.numberText}>
+                                <Text
+                                    style={[
+                                        LargeHuddleItemStyle.numberText,
+                                        LargeHuddleItemStyle.shadowText
+                                    ]}
+                                >
                                     {item?.likesNumber} 👍
                                 </Text>
                             </View>
@@ -173,12 +177,6 @@ export const LargeHuddleItem = ({
                             {item?.name}
                         </Text>
                     </View>
-                    <IconButton
-                        icon={IconEnum.MORE}
-                        onPress={onMorePress}
-                        size={16}
-                        style={LargeHuddleItemStyle.moreIcon}
-                    />
                 </View>
                 <View style={LargeHuddleItemStyle.flex}>
                     <Text style={LargeHuddleItemStyle.messageText}>
@@ -194,7 +192,8 @@ export const LargeHuddleItem = ({
                     <View
                         style={[
                             LargeHuddleItemStyle.flex,
-                            LargeHuddleItemStyle.row
+                            LargeHuddleItemStyle.row,
+                            LargeHuddleItemStyle.marginTop
                         ]}
                     >
                         <Text style={LargeHuddleItemStyle.numberText}>

@@ -25,7 +25,7 @@ export interface HuddleItemInterface {
     likesNumber?: number;
     liked?: number;
 }
-export interface MessageItemProps {
+export interface MessageProps {
     id: number;
     sender: string;
     message: string;

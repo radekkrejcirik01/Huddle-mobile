@@ -7,7 +7,6 @@ export interface LargeHuddleItemProps {
     onProfilePress: () => void;
     onLikePress?: () => void;
     onCardLongPress?: () => void;
-    onMorePress?: () => void;
     style?: StyleProp<ViewStyle>;
 }
 
@@ -18,6 +17,5 @@ export const LargeHuddlesListItemDefaultProps: Omit<
     onCardPress: null,
     onLikePress: null,
     onCardLongPress: null,
-    onMorePress: null,
     style: {}
 };

@@ -113,7 +113,9 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                 item={huddle}
                                 onProfilePress={() => openHuddleProfile(huddle)}
                                 onLikePress={() => onHuddleLikePress(huddle)}
-                                onMorePress={() => openHuddleActions(huddle)}
+                                onCardLongPress={() =>
+                                    openHuddleActions(huddle)
+                                }
                                 style={HuddleScreenStyle.huddleListItem}
                             />
                         </View>

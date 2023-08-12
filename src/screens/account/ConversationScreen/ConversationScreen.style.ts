@@ -24,18 +24,22 @@ export const ConversationScreenStyle = StyleSheet.create({
     },
     replyView: {
         width: '100%',
-        height: 50,
-        padding: 10,
+        paddingTop: 15,
+        paddingHorizontal: 25,
         backgroundColor: COLORS.BLACK_300,
         flexDirection: 'row'
     },
-    replyMessageText: {
-        paddingRight: 10,
-        color: COLORS.LIGHTGRAY
-    },
     replyPhoto: {
-        height: 50,
-        width: 50,
-        opacity: 0.7
+        height: 55,
+        width: 55,
+        borderRadius: 10,
+        opacity: 0.9
+    },
+    replyMessageText: {
+        marginLeft: 10,
+        opacity: 0.9,
+        fontSize: 16,
+        color: COLORS.WHITE,
+        fontWeight: '500'
     }
 });

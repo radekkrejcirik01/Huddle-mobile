@@ -6,30 +6,31 @@ import { useNavigation } from '@hooks/useNavigation';
 import { useHuddleActions } from '@hooks/useHuddleActions';
 import {
     HuddleItemInterface,
-    MessageItemProps
+    MessageProps
 } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseInterface } from '@interfaces/response/Response.interface';
 import { MessageReactionPostInterface } from '@interfaces/post/Post.inteface';
-import { MessageListItemAnimated } from '@components/conversation/MessagesLisItemAnimated/MessageListItemAnimated';
-import { MessageListItem } from '@components/conversation/MessagesLisItem/MessageListItem';
+import { MessageItemAnimated } from '@components/conversation/MessageItemAnimated/MessageItemAnimated';
+import { MessageItem } from '@components/conversation/MessageItem/MessageItem';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
+import { MessageHuddleItem } from '@components/conversation/MessageHuddleItem/MessageHuddleItem';
 
 export const useRenderMesages = (
-    messages: Array<MessageItemProps>,
+    messages: Array<MessageProps>,
     conversationId: number,
     name: string,
     profilePhoto: string,
     loadMessages: (lastId?: number) => void,
     addReaction: (messageId: number, value: string) => void,
     onReplyHuddle: (item: HuddleItemInterface) => void,
-    onReplyMessage: (item: MessageItemProps) => void
+    onReplyMessage: (item: MessageProps) => void
 ): {
     renderMessageItem: ({
         item
-    }: ListRenderItemInfo<MessageItemProps>) => JSX.Element;
-    keyMessageExtractor: (item: MessageItemProps, index: number) => string;
+    }: ListRenderItemInfo<MessageProps>) => JSX.Element;
+    keyMessageExtractor: (item: MessageProps, index: number) => string;
     onEndReached: () => void;
 } => {
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
@@ -38,7 +39,7 @@ export const useRenderMesages = (
         useHuddleActions(loadMessages, onReplyHuddle);
 
     const react = useCallback(
-        (item: MessageItemProps, reaction: string) => {
+        (item: MessageProps, reaction: string) => {
             addReaction(item.id, reaction);
 
             postRequestUser<ResponseInterface, MessageReactionPostInterface>(
@@ -56,7 +57,7 @@ export const useRenderMesages = (
     );
 
     const openMessageActions = useCallback(
-        (item: MessageItemProps) => {
+        (item: MessageProps) => {
             const options = [
                 '👍',
                 '😂',
@@ -103,39 +104,57 @@ export const useRenderMesages = (
     );
 
     const renderMessageItem = useCallback(
-        ({ item, index }: ListRenderItemInfo<MessageItemProps>): JSX.Element =>
-            item?.animate ? (
-                <MessageListItemAnimated
-                    item={item}
-                    onLongPress={() => openMessageActions(item)}
-                    hasSpace={
-                        messages[index]?.sender !==
-                            messages[index + 1]?.sender &&
-                        !messages[index + 1]?.huddle
-                    }
-                />
-            ) : (
-                <MessageListItem
+        ({ item, index }: ListRenderItemInfo<MessageProps>): JSX.Element => {
+            if (item?.animate) {
+                return (
+                    <MessageItemAnimated
+                        item={item}
+                        hasSpace={
+                            messages[index]?.sender !==
+                                messages[index + 1]?.sender &&
+                            !messages[index + 1]?.huddle
+                        }
+                    />
+                );
+            }
+            if (item?.huddle) {
+                return (
+                    <MessageHuddleItem
+                        item={item}
+                        onHuddlePress={() => openHuddle(item.huddle.id)}
+                        onHuddleProfilePress={() =>
+                            openHuddleProfile(item.huddle)
+                        }
+                        onHuddleLikePress={() => onHuddleLikePress(item.huddle)}
+                        onHuddleLongPress={() => openHuddleActions(item.huddle)}
+                        isMessageAbove={
+                            !!messages[index]?.huddle &&
+                            !messages[index + 1]?.huddle
+                        }
+                    />
+                );
+            }
+            return (
+                <MessageItem
                     item={item}
                     name={name}
                     profilePhoto={profilePhoto}
                     onMessageLongPress={() => openMessageActions(item)}
-                    onHuddlePress={() => openHuddle(item.huddle.id)}
-                    onHuddleProfilePress={() => openHuddleProfile(item.huddle)}
-                    onHuddleLikePress={() => onHuddleLikePress(item.huddle)}
-                    onHuddleLongPress={() => openHuddleActions(item.huddle)}
-                    onHuddleMorePress={() => openHuddleActions(item.huddle)}
                     hasSpace={
                         messages[index]?.sender !==
                             messages[index + 1]?.sender &&
                         !messages[index + 1]?.huddle
                     }
-                    isMessageAbove={
-                        !!messages[index]?.huddle &&
-                        !messages[index + 1]?.huddle
+                    hasProfilePhoto={
+                        messages[index]?.sender !==
+                            messages[index - 1]?.sender ||
+                        (messages[index - 1]?.huddle &&
+                            messages[index - 1]?.sender ===
+                                messages[index]?.sender)
                     }
                 />
-            ),
+            );
+        },
         [
             messages,
             name,
@@ -148,10 +167,8 @@ export const useRenderMesages = (
         ]
     );
 
-    const keyMessageExtractor = (
-        item: MessageItemProps,
-        index: number
-    ): string => item.id.toString() + index.toString();
+    const keyMessageExtractor = (item: MessageProps, index: number): string =>
+        item.id.toString() + index.toString();
 
     const onEndReached = useCallback(() => {
         if (messages?.length >= 20) {

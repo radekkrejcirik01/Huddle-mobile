@@ -21,39 +21,49 @@ export const LargeHuddleItemStyle = StyleSheet.create({
     flexEnd: {
         alignItems: 'flex-end'
     },
-    nameView: {
-        flex: 1,
-        marginLeft: 5,
-        paddingBottom: 2,
-        justifyContent: 'center'
-    },
-    nameText: {
-        color: COLORS.WHITE,
-        fontWeight: 'bold'
-    },
-    moreIcon: {
-        marginRight: 5
-    },
-    messageText: {
-        marginVertical: 5,
-        fontSize: 16,
-        color: COLORS.WHITE
-    },
-    photoMessageText: {
-        paddingHorizontal: 4,
-        backgroundColor: COLORS.PASTEL_PURPLE,
-        alignSelf: 'flex-start'
-    },
-    numberText: {
-        margin: 5,
-        fontSize: 14,
-        color: COLORS.WHITE
-    },
     flex: {
         flex: 1
     },
     spaceBetween: {
         justifyContent: 'space-between'
+    },
+    marginTop: {
+        marginTop: 5
+    },
+    nameView: {
+        marginLeft: 5,
+        paddingBottom: 2,
+        justifyContent: 'center'
+    },
+    nameText: {
+        fontSize: 16,
+        color: COLORS.WHITE,
+        fontWeight: '600'
+    },
+    shadowText: {
+        textShadowRadius: 2,
+        textShadowColor: COLORS.BLACK_100
+    },
+    shadowView: {
+        shadowRadius: 2,
+        shadowColor: COLORS.BLACK_100
+    },
+    messageText: {
+        marginTop: 5,
+        fontSize: 16,
+        color: COLORS.WHITE
+    },
+    photoMessageText: {
+        marginTop: 5,
+        marginRight: 10,
+        fontSize: 16,
+        color: COLORS.WHITE,
+        alignSelf: 'flex-start'
+    },
+    numberText: {
+        margin: 5,
+        color: COLORS.WHITE,
+        fontWeight: '500'
     },
     likeView: {
         marginRight: 2,
@@ -70,14 +80,17 @@ export const LargeHuddleItemStyle = StyleSheet.create({
         fontSize: 22
     },
     photoContainer: {
-        minHeight: 400,
-        minWidth: '100%'
+        minHeight: 450,
+        minWidth: '100%',
+        borderRadius: 20,
+        backgroundColor: COLORS.BLACK_50
     },
     imageView: {
         flex: 1,
         padding: 15,
+        paddingTop: 10,
         paddingLeft: 12,
-        borderRadius: 15,
-        justifyContent: 'space-between'
+        borderRadius: 20,
+        justifyContent: 'flex-end'
     }
 });
