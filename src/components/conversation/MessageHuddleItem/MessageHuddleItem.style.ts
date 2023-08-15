@@ -18,8 +18,8 @@ export const MessageHuddleItemStyle = StyleSheet.create({
         backgroundColor: COLORS.PASTEL_PURPLE
     },
     huddleTitleText: {
-        fontSize: 12,
+        fontSize: 11,
         color: COLORS.WHITE,
-        fontWeight: '600'
+        fontWeight: '500'
     }
 });

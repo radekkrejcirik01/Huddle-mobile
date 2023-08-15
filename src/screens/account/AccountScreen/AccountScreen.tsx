@@ -61,11 +61,10 @@ export const AccountScreen = (): JSX.Element => {
     );
 
     const logout = useCallback(() => {
+        ActivityService.updateOffline();
         deleteRequestUser<ResponseInterface>('device').subscribe(
             (response: ResponseInterface) => {
                 if (response?.status) {
-                    ActivityService.updateOffline();
-
                     dispatch(resetUserState());
 
                     PersistStorage.setItem(

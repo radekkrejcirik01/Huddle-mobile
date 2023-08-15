@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sender.logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="6Pv-ml-zKB">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="koala.png" translatesAutoresizingMaskIntoConstraints="NO" id="6Pv-ml-zKB">
                                 <rect key="frame" x="119" y="265" width="136" height="67"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -31,6 +31,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="sender.logo.png" width="1024" height="1024"/>
+        <image name="koala.png" width="512" height="512"/>
     </resources>
 </document>

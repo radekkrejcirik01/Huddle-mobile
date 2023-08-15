@@ -70,7 +70,7 @@ export const RegistrationScreen = (): JSX.Element => {
             <KeyboardAvoidingView keyboardVerticalOffset={50}>
                 <View style={RegistrationScreenStyle.inputsContainer}>
                     <Input
-                        placeholder="firstname"
+                        placeholder="Name"
                         autoFocus
                         onChange={setFirstname}
                         inputType={InputTypeEnum.TEXT}
@@ -78,7 +78,7 @@ export const RegistrationScreen = (): JSX.Element => {
                         viewStyle={RegistrationScreenStyle.inputView}
                     />
                     <Input
-                        placeholder="username"
+                        placeholder="Username"
                         onChange={setUsername}
                         inputType={InputTypeEnum.TEXT}
                         iconRight={<Icon name={IconEnum.PROFILE} size={24} />}
@@ -88,7 +88,7 @@ export const RegistrationScreen = (): JSX.Element => {
                         ]}
                     />
                     <Input
-                        placeholder="password"
+                        placeholder="Password"
                         onChange={setPassword}
                         inputType={InputTypeEnum.PASSWORD}
                         viewStyle={[

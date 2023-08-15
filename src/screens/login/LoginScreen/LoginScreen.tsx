@@ -67,7 +67,7 @@ export const LoginScreen = (): JSX.Element => {
                 <KeyboardAvoidingView keyboardVerticalOffset={50}>
                     <View style={LoginScreenStyle.inputsContainer}>
                         <Input
-                            placeholder="username"
+                            placeholder="Username"
                             onChange={setUsername}
                             inputType={InputTypeEnum.TEXT}
                             iconRight={
@@ -76,7 +76,7 @@ export const LoginScreen = (): JSX.Element => {
                             viewStyle={LoginScreenStyle.usernameInputView}
                         />
                         <Input
-                            placeholder="password"
+                            placeholder="Password"
                             onChange={setPassword}
                             inputType={InputTypeEnum.PASSWORD}
                             viewStyle={LoginScreenStyle.passwordInputView}
