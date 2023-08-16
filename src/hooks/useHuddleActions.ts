@@ -35,7 +35,7 @@ export const useHuddleActions = (
             deleteRequestUser<ResponseInterface>(`huddle/${id}`).subscribe(
                 (response: ResponseInterface) => {
                     if (response?.status) {
-                        onDelete();
+                        if (onDelete) onDelete();
                         if (!isConversationScreen) navigation.goBack();
                     }
                 }
@@ -80,7 +80,7 @@ export const useHuddleActions = (
                 },
                 (selectedIndex: number) => {
                     if (options[selectedIndex] === 'Reply') {
-                        onReply(item);
+                        if (onReply) onReply(item);
                     }
                     if (options[selectedIndex] === 'Delete') {
                         deleteHuddleMessage(item.id);
@@ -108,7 +108,7 @@ export const useHuddleActions = (
                 }
             ).subscribe((response: ResponseInterface) => {
                 if (response?.status) {
-                    onLiked();
+                    if (onLiked) onLiked();
                 }
             }),
         [onLiked]
@@ -119,7 +119,7 @@ export const useHuddleActions = (
             deleteRequestUser<ResponseInterface>(`like/${huddleId}`).subscribe(
                 (response: ResponseInterface) => {
                     if (response?.status) {
-                        onLiked();
+                        if (onLiked) onLiked();
                     }
                 }
             ),
