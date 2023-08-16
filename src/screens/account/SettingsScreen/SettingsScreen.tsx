@@ -1,10 +1,9 @@
 import React, { useCallback } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@hooks/useNavigation';
 import { Icon } from '@components/general/Icon/Icon';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { SettingsScreenStyle } from '@screens/account/SettingsScreen/SettingsScreen.style';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 
@@ -27,7 +26,7 @@ export const SettingsScreen = (): JSX.Element => {
         <ScrollView contentContainerStyle={SettingsScreenStyle.container}>
             <View style={SettingsScreenStyle.box}>
                 <TouchableOpacity
-                    hitSlop={{}}
+                    activeOpacity={0.9}
                     onPress={openAccount}
                     style={SettingsScreenStyle.view}
                 >
@@ -44,7 +43,7 @@ export const SettingsScreen = (): JSX.Element => {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    hitSlop={{}}
+                    activeOpacity={0.9}
                     onPress={openPrivacy}
                     style={SettingsScreenStyle.view}
                 >
@@ -63,7 +62,7 @@ export const SettingsScreen = (): JSX.Element => {
             </View>
             <View style={SettingsScreenStyle.box}>
                 <TouchableOpacity
-                    hitSlop={{}}
+                    activeOpacity={0.9}
                     onPress={openNotifications}
                     style={SettingsScreenStyle.view}
                 >

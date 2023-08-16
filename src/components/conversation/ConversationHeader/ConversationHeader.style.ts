@@ -19,8 +19,8 @@ export const ConversationHeaderStyle = StyleSheet.create({
         color: COLORS.WHITE,
         fontWeight: '600'
     },
-    tapHereText: {
-        fontSize: 11,
+    indicatorText: {
+        fontSize: 12,
         opacity: 0.8,
         color: COLORS.WHITE,
         fontWeight: '600'

@@ -39,8 +39,8 @@ export const ConversationHeader = ({
                 <ProfilePhoto name={name} photo={profilePhoto} size={38} />
                 <View style={ConversationHeaderStyle.textsView}>
                     <Text style={ConversationHeaderStyle.nameText}>{name}</Text>
-                    <Text style={ConversationHeaderStyle.tapHereText}>
-                        {isTyping ? 'is typing...' : 'last seen recently'}
+                    <Text style={ConversationHeaderStyle.indicatorText}>
+                        {isTyping ? 'is typing...' : '🐨'}
                     </Text>
                 </View>
             </TouchableOpacity>

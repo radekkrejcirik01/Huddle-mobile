@@ -5,20 +5,21 @@ export const AccountScreenStyle = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 50,
-        paddingHorizontal: 5,
         justifyContent: 'space-between'
     },
     infoContainer: {
         alignItems: 'center'
     },
-    firstname: {
+    name: {
         marginTop: 15,
-        fontSize: 15,
+        fontSize: 18,
         color: COLORS.WHITE,
-        fontWeight: '500'
+        fontWeight: '600'
     },
     username: {
-        color: COLORS.WHITE
+        opacity: 0.8,
+        color: COLORS.WHITE,
+        fontWeight: '500'
     },
     item: {
         marginTop: 50,

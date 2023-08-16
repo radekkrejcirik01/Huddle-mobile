@@ -8,7 +8,7 @@ export const SmallHuddleItemStyle = StyleSheet.create({
         width: DIMENSIONS.width / 3 - 8,
         height: DIMENSIONS.width / 3 - 8,
         margin: 2.5,
-        paddingHorizontal: 20,
+        padding: 20,
         borderRadius: 12,
         backgroundColor: COLORS.PASTEL_PURPLE,
         alignItems: 'center',
@@ -18,6 +18,6 @@ export const SmallHuddleItemStyle = StyleSheet.create({
         bottom: 5,
         right: 2,
         color: COLORS.WHITE,
-        fontWeight: 'bold'
+        fontWeight: '600'
     }
 });

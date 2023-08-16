@@ -19,7 +19,7 @@ export const MessageHuddleItem = ({
         ]}
     >
         <View style={MessageHuddleItemStyle.huddleTitleView}>
-            <Text style={MessageHuddleItemStyle.huddleTitleText}>Huddle</Text>
+            <Text style={MessageHuddleItemStyle.huddleTitleText}>Leaf</Text>
         </View>
         <LargeHuddleItem
             item={item.huddle}

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert, ScrollView, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import fs from 'react-native-fs';
@@ -77,7 +77,7 @@ export const AccountScreen = (): JSX.Element => {
     }, [dispatch]);
 
     return (
-        <View style={AccountScreenStyle.container}>
+        <ScrollView contentContainerStyle={AccountScreenStyle.container}>
             <View style={AccountScreenStyle.infoContainer}>
                 <TouchableOpacity onPress={changeProfilePhoto}>
                     <ProfilePhoto
@@ -86,8 +86,8 @@ export const AccountScreen = (): JSX.Element => {
                         size={100}
                     />
                 </TouchableOpacity>
-                <Text style={AccountScreenStyle.firstname}>{firstname}</Text>
-                <Text style={AccountScreenStyle.username}>@{username}</Text>
+                <Text style={AccountScreenStyle.name}>{firstname}</Text>
+                <Text style={AccountScreenStyle.username}>{username}</Text>
                 <ListItem
                     title="Manage account"
                     onPress={manageAccount}
@@ -98,6 +98,6 @@ export const AccountScreen = (): JSX.Element => {
             <View style={AccountScreenStyle.buttons}>
                 <ListItem title="Logout" onPress={logout} hasArrow />
             </View>
-        </View>
+        </ScrollView>
     );
 };

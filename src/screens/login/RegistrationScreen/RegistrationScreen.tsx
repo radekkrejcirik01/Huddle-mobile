@@ -98,6 +98,7 @@ export const RegistrationScreen = (): JSX.Element => {
                     />
                 </View>
                 <TouchableOpacity
+                    activeOpacity={0.9}
                     onPress={() =>
                         navigateTo(LoginStackNavigatorEnum.PrivacyScreen)
                     }
@@ -110,6 +111,7 @@ export const RegistrationScreen = (): JSX.Element => {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                    activeOpacity={0.9}
                     onPress={create}
                     style={RegistrationScreenStyle.button}
                 >

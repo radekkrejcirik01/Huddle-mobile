@@ -17,6 +17,7 @@ import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseUploadImageInterface } from '@interfaces/response/Response.interface';
 import { UploadProfileImageInterface } from '@interfaces/post/Post.inteface';
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
+import COLORS from '@constants/COLORS';
 
 export const ProfileTabHeader = ({
     onAddFriendPress,
@@ -90,7 +91,12 @@ export const ProfileTabHeader = ({
     return (
         <View style={ProfileTabHeaderStyle.container}>
             <TouchableOpacity onPress={onPressProfilePhoto}>
-                <ProfilePhoto name={firstname} photo={profilePhoto} size={80} />
+                <ProfilePhoto
+                    name={firstname}
+                    photo={profilePhoto}
+                    size={80}
+                    textBackgroundColor={COLORS.PASTEL_PURPLE}
+                />
             </TouchableOpacity>
             <View style={ProfileTabHeaderStyle.buttonsContainer}>
                 <TouchableOpacity
@@ -109,7 +115,7 @@ export const ProfileTabHeader = ({
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>
-                        Post huddle 👋
+                        Post leaf 🐨
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity

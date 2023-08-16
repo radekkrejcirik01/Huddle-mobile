@@ -51,19 +51,16 @@ export const ChatItemStyle = StyleSheet.create({
         fontWeight: '600'
     },
     newHuddlesView: {
-        marginLeft: 10,
-        marginBottom: 4,
-        paddingTop: 2,
-        paddingBottom: 4,
-        paddingHorizontal: 8,
+        marginLeft: 6,
+        paddingVertical: 2,
+        paddingHorizontal: 6,
         borderRadius: 10,
         backgroundColor: COLORS.PASTEL_PURPLE,
-        alignSelf: 'flex-end',
         alignItems: 'center'
     },
     newHuddlesText: {
-        fontSize: 12,
+        fontSize: 11,
         color: COLORS.WHITE,
-        fontWeight: 'bold'
+        fontWeight: '500'
     }
 });

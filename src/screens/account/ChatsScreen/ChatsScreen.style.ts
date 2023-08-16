@@ -14,8 +14,7 @@ export const ChatsScreenStyle = StyleSheet.create({
         marginTop: 100,
         fontSize: 18,
         color: COLORS.WHITE,
-        alignSelf: 'center',
-        fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontWeight: '600'
     }
 });

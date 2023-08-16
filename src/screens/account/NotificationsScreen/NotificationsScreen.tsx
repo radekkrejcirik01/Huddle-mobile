@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ScrollView, Switch, Text, View } from 'react-native';
+import { ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { ConversationDetailsScreenStyle } from '@screens/account/ConversationDetailsScreen/ConversationDetailsScreen.style';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import COLORS from '@constants/COLORS';
 import { getRequestUser, putRequestUser } from '@utils/Axios/Axios.service';
 import {
@@ -93,12 +92,12 @@ export const NotificationsScreen = (): JSX.Element => {
         <ScrollView style={NotificationsScreenStyle.container}>
             <View style={NotificationsScreenStyle.box}>
                 <TouchableOpacity
-                    hitSlop={{}}
+                    activeOpacity={0.9}
                     style={NotificationsScreenStyle.view}
                 >
                     <View style={NotificationsScreenStyle.titleView}>
                         <Text style={NotificationsScreenStyle.titleText}>
-                            Friends invites
+                            🤝 New Contacts
                         </Text>
                     </View>
                     <Switch
@@ -113,12 +112,12 @@ export const NotificationsScreen = (): JSX.Element => {
             </View>
             <View style={NotificationsScreenStyle.box}>
                 <TouchableOpacity
-                    hitSlop={{}}
+                    activeOpacity={0.9}
                     style={NotificationsScreenStyle.view}
                 >
                     <View style={NotificationsScreenStyle.titleView}>
                         <Text style={NotificationsScreenStyle.titleText}>
-                            New Huddles
+                            🐨 New Leafs
                         </Text>
                     </View>
                     <Switch
@@ -131,12 +130,12 @@ export const NotificationsScreen = (): JSX.Element => {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    hitSlop={{}}
+                    activeOpacity={0.9}
                     style={NotificationsScreenStyle.view}
                 >
                     <View style={NotificationsScreenStyle.titleView}>
                         <Text style={NotificationsScreenStyle.titleText}>
-                            Huddle Likes
+                            👍 Leafs Likes
                         </Text>
                     </View>
                     <Switch
@@ -149,12 +148,12 @@ export const NotificationsScreen = (): JSX.Element => {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    hitSlop={{}}
+                    activeOpacity={0.9}
                     style={NotificationsScreenStyle.view}
                 >
                     <View style={NotificationsScreenStyle.titleView}>
                         <Text style={NotificationsScreenStyle.titleText}>
-                            Comments
+                            💬 Comments
                         </Text>
                     </View>
                     <Switch
@@ -167,12 +166,12 @@ export const NotificationsScreen = (): JSX.Element => {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    hitSlop={{}}
+                    activeOpacity={0.9}
                     style={NotificationsScreenStyle.view}
                 >
                     <View style={NotificationsScreenStyle.titleView}>
                         <Text style={NotificationsScreenStyle.titleText}>
-                            Mentions
+                            🔈 Comments Mentions
                         </Text>
                     </View>
                     <Switch
@@ -187,12 +186,12 @@ export const NotificationsScreen = (): JSX.Element => {
             </View>
             <View style={NotificationsScreenStyle.box}>
                 <TouchableOpacity
-                    hitSlop={{}}
+                    activeOpacity={0.9}
                     style={NotificationsScreenStyle.view}
                 >
                     <View style={NotificationsScreenStyle.titleView}>
                         <Text style={NotificationsScreenStyle.titleText}>
-                            Messages
+                            📱 Messages
                         </Text>
                     </View>
                     <Switch

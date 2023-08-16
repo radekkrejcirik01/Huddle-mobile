@@ -102,8 +102,8 @@ export const LargeHuddleItem = ({
                                 {item?.message && (
                                     <Text
                                         style={[
-                                            LargeHuddleItemStyle.shadowText,
-                                            LargeHuddleItemStyle.photoMessageText
+                                            LargeHuddleItemStyle.photoMessageText,
+                                            LargeHuddleItemStyle.shadowText
                                         ]}
                                     >
                                         {item?.message}
@@ -138,7 +138,10 @@ export const LargeHuddleItem = ({
                         <TouchableOpacity
                             activeOpacity={1}
                             onPress={like}
-                            style={LargeHuddleItemStyle.likeView}
+                            style={[
+                                LargeHuddleItemStyle.likeView,
+                                LargeHuddleItemStyle.shadowView
+                            ]}
                         >
                             <Text style={LargeHuddleItemStyle.likeText}>
                                 {likedText}

@@ -1,55 +1,55 @@
 {
   "images" : [
     {
-      "filename" : "koala.logo40x40.png",
+      "filename" : "koala40x40.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
-      "filename" : "koala.logo60x60.png",
+      "filename" : "koala60x60.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
-      "filename" : "koala.logo58x58.png",
+      "filename" : "koala58x58.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
-      "filename" : "koala.logo87x87.png",
+      "filename" : "koala87x87.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
-      "filename" : "koala.logo80x80.png",
+      "filename" : "koala80x80.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
-      "filename" : "koala.logo120x120.png",
+      "filename" : "koala120x120.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
-      "filename" : "koala.logo120x120 1.png",
+      "filename" : "koala120x120 1.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
-      "filename" : "koala.logo180x180.png",
+      "filename" : "koala180x180.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
-      "filename" : "koala.logo.png",
+      "filename" : "koala.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"

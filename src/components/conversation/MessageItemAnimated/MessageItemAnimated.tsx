@@ -15,7 +15,7 @@ export const MessageItemAnimated = ({
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     const isOutbound = item.sender === username;
-    const isShortMessage = item?.message?.length < 30;
+    const isShortMessage = item?.message?.length < 25;
     const isReply = item?.replyMessage || item?.replyPhoto;
 
     const animation = useRef(new Animated.Value(0)).current;

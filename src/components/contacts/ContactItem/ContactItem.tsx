@@ -15,12 +15,17 @@ export const ContactItem = ({
         <View style={ContactItemStyle.infoRow}>
             <TouchableOpacity onPress={onPhotoPress}>
                 <ProfilePhoto
-                    name={item.user.name}
-                    photo={item.user?.profilePhoto}
-                    size={45}
+                    name={item?.user?.name}
+                    photo={item?.user?.profilePhoto}
+                    size={42}
                 />
             </TouchableOpacity>
-            <Text style={ContactItemStyle.name}>{item.user.name}</Text>
+            <View style={{ marginLeft: 8 }}>
+                <Text style={ContactItemStyle.name}>{item?.user?.name}</Text>
+                <Text style={ContactItemStyle.username}>
+                    {item?.user?.username}
+                </Text>
+            </View>
         </View>
         {item?.accepted ? (
             <Text style={ContactItemStyle.chatEmoji}>💬</Text>

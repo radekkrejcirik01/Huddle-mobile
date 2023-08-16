@@ -51,7 +51,7 @@ export const PostHuddleModalScreen = ({
                     onSend={postHuddle}
                 />
                 <Text style={PostHuddleModalScreenStyle.description}>
-                    Huddle will be posted across all chats
+                    Leaf will be shared to all chats
                 </Text>
             </>
         </View>

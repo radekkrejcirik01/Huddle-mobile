@@ -16,14 +16,17 @@ export const ContactItemStyle = StyleSheet.create({
         alignItems: 'center'
     },
     name: {
-        marginLeft: 10,
-        fontSize: 15,
         color: COLORS.WHITE,
-        fontWeight: 'bold'
+        fontWeight: '600'
+    },
+    username: {
+        opacity: 0.8,
+        fontSize: 12,
+        color: COLORS.WHITE,
+        fontWeight: '500'
     },
     chatEmoji: {
-        marginRight: 10,
-        fontSize: 20
+        fontSize: 16
     },
     acceptView: {
         paddingVertical: 8,

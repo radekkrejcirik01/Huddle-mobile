@@ -13,12 +13,12 @@ export const MessageHuddleItemStyle = StyleSheet.create({
     huddleTitleView: {
         marginBottom: 4,
         paddingVertical: 2,
-        paddingHorizontal: 8,
+        paddingHorizontal: 10,
         borderRadius: 10,
         backgroundColor: COLORS.PASTEL_PURPLE
     },
     huddleTitleText: {
-        fontSize: 11,
+        fontSize: 12,
         color: COLORS.WHITE,
         fontWeight: '500'
     }

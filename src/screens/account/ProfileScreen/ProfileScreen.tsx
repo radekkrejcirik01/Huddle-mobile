@@ -18,7 +18,6 @@ import { HuddleItemInterface } from '@screens/account/ConversationScreen/Convers
 import { PostHuddleModalScreen } from '@components/huddles/PostHuddleModalScreen/PostHuddleModalScreen';
 import { Modal } from '@components/general/Modal/Modal';
 import { AddContactModalScreen } from '@components/contacts/AddContactModalScreen/AddContactModalScreen';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { IconEnum } from '@components/general/Icon/Icon.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { IconButton } from '@components/general/IconButton/IconButton';
@@ -133,21 +132,9 @@ export const ProfileScreen = (): JSX.Element => {
                 onEndReached={onEndReachedSmallItem}
                 contentContainerStyle={ProfileScreenStyle.listContentContainer}
                 ListEmptyComponent={
-                    <>
-                        <Text style={ProfileScreenStyle.description}>
-                            place for huddles
-                        </Text>
-                        <TouchableOpacity
-                            onPress={onPostHuddlePress}
-                            style={ProfileScreenStyle.descriptionButtonView}
-                        >
-                            <Text
-                                style={ProfileScreenStyle.descriptionButtonText}
-                            >
-                                post huddle
-                            </Text>
-                        </TouchableOpacity>
-                    </>
+                    <Text style={ProfileScreenStyle.description}>
+                        place for leafs 🐨
+                    </Text>
                 }
             />
             <Modal

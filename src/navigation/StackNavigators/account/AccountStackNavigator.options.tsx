@@ -8,7 +8,7 @@ export const AccountTitle: StackNavigationOptions = {
 };
 
 export const ContactsOptions: StackNavigationOptions = {
-    headerTitle: 'Contacts',
+    headerTitle: 'Friends',
     headerRight: () => <AddContactButton />,
     headerStyle: AccountStackNavigatorStyle.header
 };

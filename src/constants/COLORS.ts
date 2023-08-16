@@ -12,7 +12,7 @@ export default {
     MESSAGE_BLUE: '#3366ff',
     WHITE: '#ffffff',
     GRAY_100: '#262626',
-    GRAY_200: '#999999',
+    GRAY_200: '#8c8c8c',
     GRAY_300: '#0d0d0d',
     GRAY_400: '#333333',
     GRAY_800: '#b3b3b3',

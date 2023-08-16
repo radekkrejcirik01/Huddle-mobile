@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useRenderFriends } from '@hooks/useRenderFriends';
@@ -16,8 +15,6 @@ import {
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 
 export const ContactsScreen = (): JSX.Element => {
-    const { bottom } = useSafeAreaInsets();
-
     const [inputValue, setInputValue] = useState<string>();
     const [data, setData] = useState<Array<FriendsItemProps>>([]);
     const [filteredData, setFilteredData] = useState<Array<FriendsItemProps>>(
@@ -79,18 +76,18 @@ export const ContactsScreen = (): JSX.Element => {
     } = useRenderFriends(data, loadFriends);
 
     return (
-        <View
-            style={[ContactsScreenStyle.container, { paddingBottom: bottom }]}
-        >
-            <Input
-                iconLeft={<Text>🔍</Text>}
-                placeholder="Search contacts"
-                value={inputValue}
-                onChange={filterData}
-                inputType={InputTypeEnum.TEXT}
-                inputStyle={ContactsScreenStyle.input}
-                viewStyle={ContactsScreenStyle.inputView}
-            />
+        <View style={ContactsScreenStyle.container}>
+            {!!data?.length && (
+                <Input
+                    iconLeft={<Text>🔍</Text>}
+                    placeholder="Names"
+                    value={inputValue}
+                    onChange={filterData}
+                    inputType={InputTypeEnum.TEXT}
+                    inputStyle={ContactsScreenStyle.input}
+                    viewStyle={ContactsScreenStyle.inputView}
+                />
+            )}
             <FlashList
                 data={filteredData}
                 renderItem={renderFriendsItem}
@@ -99,11 +96,11 @@ export const ContactsScreen = (): JSX.Element => {
                 estimatedItemSize={68}
                 ListEmptyComponent={
                     <Text style={ContactsScreenStyle.description}>
-                        no contacts yet 😴
+                        no added friends yet 😴
                     </Text>
                 }
                 onEndReached={onEndReached}
-                ItemSeparatorComponent={() => <ItemSeparator space={10} />}
+                ItemSeparatorComponent={() => <ItemSeparator space={8} />}
                 contentContainerStyle={ContactsScreenStyle.listContentContainer}
             />
         </View>
