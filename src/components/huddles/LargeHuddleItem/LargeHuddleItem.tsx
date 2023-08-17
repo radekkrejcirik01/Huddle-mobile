@@ -17,6 +17,7 @@ export const LargeHuddleItem = ({
     onProfilePress,
     onLikePress,
     onCardLongPress,
+    onOpenLikes,
     style
 }: LargeHuddleItemProps): JSX.Element => {
     const [liked, setLiked] = useState<boolean>();
@@ -125,14 +126,16 @@ export const LargeHuddleItem = ({
                                 >
                                     {item?.commentsNumber} 💬
                                 </Text>
-                                <Text
-                                    style={[
-                                        LargeHuddleItemStyle.numberText,
-                                        LargeHuddleItemStyle.shadowText
-                                    ]}
-                                >
-                                    {item?.likesNumber} 👍
-                                </Text>
+                                <TouchableOpacity onPress={onOpenLikes}>
+                                    <Text
+                                        style={[
+                                            LargeHuddleItemStyle.numberText,
+                                            LargeHuddleItemStyle.shadowText
+                                        ]}
+                                    >
+                                        {item?.likesNumber} 👍
+                                    </Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                         <TouchableOpacity
@@ -200,9 +203,11 @@ export const LargeHuddleItem = ({
                         <Text style={LargeHuddleItemStyle.numberText}>
                             {item?.commentsNumber} 💬
                         </Text>
-                        <Text style={LargeHuddleItemStyle.numberText}>
-                            {item?.likesNumber} 👍
-                        </Text>
+                        <TouchableOpacity onPress={onOpenLikes}>
+                            <Text style={LargeHuddleItemStyle.numberText}>
+                                {item?.likesNumber} 👍
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <TouchableOpacity
                         onPress={like}

@@ -25,7 +25,8 @@ export const useRenderMesages = (
     loadMessages: (lastId?: number) => void,
     addReaction: (messageId: number, value: string) => void,
     onReplyHuddle: (item: HuddleItemInterface) => void,
-    onReplyMessage: (item: MessageProps) => void
+    onReplyMessage: (item: MessageProps) => void,
+    onHuddleOpenLikes: (id: number) => void
 ): {
     renderMessageItem: ({
         item
@@ -131,6 +132,9 @@ export const useRenderMesages = (
                         }
                         onHuddleLikePress={() => onHuddleLikePress(item.huddle)}
                         onHuddleLongPress={() => openHuddleActions(item.huddle)}
+                        onHuddleOpenLikes={() =>
+                            onHuddleOpenLikes(item.huddle.id)
+                        }
                         isMessageAbove={
                             !!messages[index]?.huddle &&
                             !messages[index + 1]?.huddle
@@ -163,6 +167,7 @@ export const useRenderMesages = (
             messages,
             name,
             onHuddleLikePress,
+            onHuddleOpenLikes,
             openHuddle,
             openHuddleActions,
             openHuddleProfile,

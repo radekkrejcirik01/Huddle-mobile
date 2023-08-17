@@ -6,7 +6,7 @@ import { CommentItemProps } from '@components/huddles/CommentItem/CommentItem.pr
 import { CommentsItemStyle } from '@components/huddles/CommentItem/CommentsItem.style';
 import { CommentLikeButton } from '@components/huddles/CommentLikeButton/CommentLikeButton';
 import { Modal } from '@components/general/Modal/Modal';
-import { LikesModal } from '@components/huddles/LikesModal/LikesModal';
+import { CommentLikesModal } from '@components/huddles/CommentLikesModal/CommentLikesModal';
 import { getLocalTimeFromUTCUnix } from '@functions/getLocalTimeFromUTCUnix';
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
@@ -84,7 +84,9 @@ export const CommentsItem = ({
             <CommentLikeButton value={liked} onPressLike={onPressLike} />
             <Modal
                 isVisible={modalVisible}
-                content={<LikesModal id={item.id} hideModal={hideModal} />}
+                content={
+                    <CommentLikesModal id={item.id} hideModal={hideModal} />
+                }
                 backdropOpacity={0.2}
                 onClose={hideModal}
                 style={CommentsItemStyle.modal}

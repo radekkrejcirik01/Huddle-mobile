@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const LikesModalStyle = StyleSheet.create({
+export const CommentLikesModalStyle = StyleSheet.create({
     view: {
         height: '45%',
         borderTopLeftRadius: 20,
@@ -10,9 +10,10 @@ export const LikesModalStyle = StyleSheet.create({
     },
     title: {
         padding: 20,
-        fontSize: 14,
+        fontSize: 16,
         color: COLORS.WHITE,
-        fontWeight: '500'
+        fontWeight: '600',
+        textAlign: 'center'
     },
     listContainer: {
         flexGrow: 1

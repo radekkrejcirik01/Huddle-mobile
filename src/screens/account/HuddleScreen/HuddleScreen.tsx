@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useHuddleActions } from '@hooks/useHuddleActions';
+import { useModal } from '@hooks/useModal';
 import { useRenderComments } from '@hooks/useRenderComments';
 import { LargeHuddleItem } from '@components/huddles/LargeHuddleItem/LargeHuddleItem';
 import { getRequestUser } from '@utils/Axios/Axios.service';
@@ -18,10 +19,13 @@ import { CommentItemInterface } from '@components/huddles/CommentItem/CommentIte
 import { CommentInput } from '@components/huddles/CommentInput/CommentInput';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
 import { HuddleItemInterface } from '@screens/account/ConversationScreen/ConversationScreen.props';
+import { HuddleLikesModal } from '@components/huddles/HuddleLikesModal/HuddleLikesModal';
+import { Modal } from '@components/general/Modal/Modal';
 
 export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
     const { huddleId } = route.params;
     const { bottom } = useSafeAreaInsets();
+    const { modalVisible, showModal, hideModal } = useModal();
 
     const [huddle, setHuddle] = useState<HuddleItemInterface>();
     const [comments, setComments] = useState<Array<CommentItemInterface>>([]);
@@ -116,6 +120,7 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                                 onCardLongPress={() =>
                                     openHuddleActions(huddle)
                                 }
+                                onOpenLikes={showModal}
                                 style={HuddleScreenStyle.huddleListItem}
                             />
                         </View>
@@ -140,6 +145,15 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                     mentions={mentions}
                 />
             </KeyboardAvoidingView>
+            <Modal
+                isVisible={modalVisible}
+                content={
+                    <HuddleLikesModal id={huddleId} hideModal={hideModal} />
+                }
+                backdropOpacity={0.2}
+                onClose={hideModal}
+                style={HuddleScreenStyle.huddleLikesModal}
+            />
         </View>
     );
 };

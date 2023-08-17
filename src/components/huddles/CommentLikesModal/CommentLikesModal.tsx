@@ -2,14 +2,18 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, ListRenderItemInfo, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useOpenProfilePhoto } from '@hooks/useOpenProfilePhoto';
-import { LikesModalProps } from '@components/huddles/LikesModal/LikesModal.props';
+import { CommentLikesModalProps } from '@components/huddles/CommentLikesModal/CommentLikesModal.props';
 import { CommentLikeInterface } from '@components/huddles/CommentItem/CommentItem.props';
-import { CommentLikeItem } from '@components/huddles/CommentLikeItem/CommentLikeItem';
+import { LikeItem } from '@components/huddles/LikeItem/LikeItem';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseHuddleCommentLikesGetInterface } from '@interfaces/response/Response.interface';
-import { LikesModalStyle } from '@components/huddles/LikesModal/LikesModal.style';
+import { CommentLikesModalStyle } from '@components/huddles/CommentLikesModal/CommentLikesModal.style';
+import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 
-export const LikesModal = ({ id, hideModal }: LikesModalProps): JSX.Element => {
+export const CommentLikesModal = ({
+    id,
+    hideModal
+}: CommentLikesModalProps): JSX.Element => {
     const openProfile = useOpenProfilePhoto();
     const { bottom } = useSafeAreaInsets();
 
@@ -41,7 +45,7 @@ export const LikesModal = ({ id, hideModal }: LikesModalProps): JSX.Element => {
 
     const renderLikeItem = useCallback(
         ({ item }: ListRenderItemInfo<CommentLikeInterface>): JSX.Element => (
-            <CommentLikeItem
+            <LikeItem
                 onPress={() => {
                     hideModal();
                     openProfile(item.name, item?.profilePhoto);
@@ -64,20 +68,21 @@ export const LikesModal = ({ id, hideModal }: LikesModalProps): JSX.Element => {
     return (
         <View
             style={[
-                LikesModalStyle.view,
+                CommentLikesModalStyle.view,
                 {
                     paddingBottom: bottom
                 }
             ]}
         >
-            <Text style={LikesModalStyle.title}>Likes</Text>
+            <Text style={CommentLikesModalStyle.title}>Comment likes</Text>
             <FlatList
                 data={likes}
                 renderItem={renderLikeItem}
                 keyExtractor={keyExtractor}
-                onEndReached={onEndReached}
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={LikesModalStyle.listContainer}
+                ItemSeparatorComponent={() => <ItemSeparator space={10} />}
+                onEndReached={onEndReached}
+                contentContainerStyle={CommentLikesModalStyle.listContainer}
             />
         </View>
     );

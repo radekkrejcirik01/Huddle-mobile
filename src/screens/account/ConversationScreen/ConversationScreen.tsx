@@ -14,7 +14,9 @@ import {
 } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { FlashList } from '@shopify/flash-list';
+import FastImage from 'react-native-fast-image';
 import moment from 'moment';
+import { useModal } from '@hooks/useModal';
 import { useRenderMesages } from '@hooks/useRenderMesages';
 import { KeyboardAvoidingView } from '@components/general/KeyboardAvoidingView/KeyboardAvoidingView';
 import {
@@ -42,7 +44,8 @@ import { ReducerProps } from '@store/index/index.props';
 import { isiOS } from '@functions/checking-functions';
 import { ConversationHeader } from '@components/conversation/ConversationHeader/ConversationHeader';
 import { PostHuddleButton } from '@components/huddles/PostHuddleButton/PostHuddleButton';
-import FastImage from 'react-native-fast-image';
+import { Modal } from '@components/general/Modal/Modal';
+import { HuddleLikesModal } from '@components/huddles/HuddleLikesModal/HuddleLikesModal';
 
 export const ConversationScreen = ({
     route
@@ -56,12 +59,14 @@ export const ConversationScreen = ({
     const navigation = useDefaultNavigation();
     const { bottom } = useSafeAreaInsets();
     const isFocused = useIsFocused();
+    const { modalVisible, showModal, hideModal } = useModal();
 
     const [messages, setMessages] = useState<Array<MessageProps>>([]);
     const [refreshList, setRefreshList] = useState<boolean>(false);
     const [isReplying, setIsReplying] = useState<boolean>(false);
     const [replyMessage, setReplyMessage] = useState<string>();
     const [replyPhoto, setReplyPhoto] = useState<string>();
+    const [huddleId, setHuddleId] = useState<number>();
 
     const interval = useRef(null);
     const loadMessagesEnabled = useRef<boolean>(true);
@@ -228,6 +233,11 @@ export const ConversationScreen = ({
         input.current.focus();
     };
 
+    const openLikes = (id: number) => {
+        setHuddleId(id);
+        showModal();
+    };
+
     const { renderMessageItem, keyMessageExtractor, onEndReached } =
         useRenderMesages(
             messages,
@@ -237,7 +247,8 @@ export const ConversationScreen = ({
             loadMessages,
             addReaction,
             onReplyHuddle,
-            onReplyMessage
+            onReplyMessage,
+            openLikes
         );
 
     const sendMessage = useCallback(
@@ -345,6 +356,15 @@ export const ConversationScreen = ({
                     />
                 </View>
             </KeyboardAvoidingView>
+            <Modal
+                isVisible={modalVisible}
+                content={
+                    <HuddleLikesModal id={huddleId} hideModal={hideModal} />
+                }
+                backdropOpacity={0.2}
+                onClose={hideModal}
+                style={ConversationScreenStyle.huddleLikesModal}
+            />
         </View>
     );
 };

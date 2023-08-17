@@ -1,7 +1,10 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { LargeHuddleItem } from '@components/huddles/LargeHuddleItem/LargeHuddleItem';
-import { MessageHuddleItemProps } from '@components/conversation/MessageHuddleItem/MessageHuddleItem.props';
+import {
+    MessageHuddleItemDefaultProps,
+    MessageHuddleItemProps
+} from '@components/conversation/MessageHuddleItem/MessageHuddleItem.props';
 import { MessageHuddleItemStyle } from '@components/conversation/MessageHuddleItem/MessageHuddleItem.style';
 
 export const MessageHuddleItem = ({
@@ -10,7 +13,8 @@ export const MessageHuddleItem = ({
     onHuddleProfilePress,
     onHuddlePress,
     onHuddleLongPress,
-    onHuddleLikePress
+    onHuddleLikePress,
+    onHuddleOpenLikes
 }: MessageHuddleItemProps): JSX.Element => (
     <View
         style={[
@@ -27,6 +31,9 @@ export const MessageHuddleItem = ({
             onCardPress={onHuddlePress}
             onCardLongPress={onHuddleLongPress}
             onLikePress={onHuddleLikePress}
+            onOpenLikes={onHuddleOpenLikes}
         />
     </View>
 );
+
+MessageHuddleItem.defaultProps = MessageHuddleItemDefaultProps;

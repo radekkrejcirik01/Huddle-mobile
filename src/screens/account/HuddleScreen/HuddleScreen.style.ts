@@ -21,5 +21,9 @@ export const HuddleScreenStyle = StyleSheet.create({
     },
     listContentContainer: {
         paddingBottom: DIMENSIONS.height / 3
+    },
+    huddleLikesModal: {
+        margin: 0,
+        justifyContent: 'flex-end'
     }
 });

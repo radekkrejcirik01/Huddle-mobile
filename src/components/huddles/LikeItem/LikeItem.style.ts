@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import COLORS from '@constants/COLORS';
 
-export const CommentLikeItemStyle = StyleSheet.create({
+export const LikeItemStyle = StyleSheet.create({
     view: {
         paddingHorizontal: 15,
         flexDirection: 'row',

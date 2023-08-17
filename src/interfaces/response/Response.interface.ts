@@ -9,6 +9,7 @@ import {
     CommentLikeInterface
 } from '@components/huddles/CommentItem/CommentItem.props';
 import { Mention } from '@components/huddles/CommentInput/CommentInput.props';
+import { HuddleLike } from '@components/huddles/HuddleLikesModal/HuddleLikesModal.props';
 
 export interface ResponseInterface {
     status: string;
@@ -73,6 +74,12 @@ export interface ResponseHuddlesGetInterface {
     status: string;
     message: string;
     data?: Array<HuddleItemInterface>;
+}
+
+export interface ResponseGetHuddleLikesInterface {
+    status: string;
+    message: string;
+    data?: Array<HuddleLike>;
 }
 
 export interface ResponseHuddlesCommentsGetInterface {

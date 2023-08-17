@@ -41,5 +41,9 @@ export const ConversationScreenStyle = StyleSheet.create({
         fontSize: 16,
         color: COLORS.WHITE,
         fontWeight: '500'
+    },
+    huddleLikesModal: {
+        margin: 0,
+        justifyContent: 'flex-end'
     }
 });
