@@ -80,7 +80,7 @@ export const ContactsScreen = (): JSX.Element => {
             {!!data?.length && (
                 <Input
                     iconLeft={<Text>🔍</Text>}
-                    placeholder="Names"
+                    placeholder="Name"
                     value={inputValue}
                     onChange={filterData}
                     inputType={InputTypeEnum.TEXT}
