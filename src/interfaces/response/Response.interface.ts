@@ -86,7 +86,12 @@ export interface ResponseHuddlesCommentsGetInterface {
     status: string;
     message: string;
     data?: Array<CommentItemInterface>;
-    mentions?: Array<Mention>;
+}
+
+export interface ResponseGetMentionsInterface {
+    status: string;
+    message: string;
+    data?: Array<Mention>;
 }
 
 export interface ResponseHuddleCommentLikesGetInterface {

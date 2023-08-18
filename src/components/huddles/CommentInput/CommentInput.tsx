@@ -14,10 +14,8 @@ import {
     View
 } from 'react-native';
 import { FlashList, ListRenderItemInfo } from '@shopify/flash-list';
-import FastImage from 'react-native-fast-image';
 import COLORS from '@constants/COLORS';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 import {
     CommentInputProps,
     Mention
@@ -29,6 +27,7 @@ import {
     HuddleCommentPostInterface
 } from '@interfaces/post/Post.inteface';
 import { CommentInputStyle } from '@components/huddles/CommentInput/CommentInput.style';
+import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 
 export const CommentInput = ({
     huddleId,
@@ -61,13 +60,6 @@ export const CommentInput = ({
         },
         [mentions]
     );
-
-    const getMentionSuggestionsListHeight = useCallback((): number => {
-        const itemsHeight = filteredData?.length * 25;
-        const separatorsHeight = (filteredData?.length - 1) * 15;
-
-        return itemsHeight + separatorsHeight + 20; // 20 is total vertical padding of the container
-    }, [filteredData?.length]);
 
     const addComment = useCallback(
         () =>
@@ -115,9 +107,10 @@ export const CommentInput = ({
                 }}
                 style={CommentInputStyle.mentionItemView}
             >
-                <FastImage
-                    source={{ uri: item.profilePhoto }}
-                    style={CommentInputStyle.mentionItemImage}
+                <ProfilePhoto
+                    name={item.name}
+                    photo={item.profilePhoto}
+                    size={30}
                 />
                 <Text style={CommentInputStyle.mentionItemText}>
                     {item.name}
@@ -174,20 +167,13 @@ export const CommentInput = ({
     return (
         <>
             {!!mentions?.length && mentionSuggest && !!filteredData?.length && (
-                <View
-                    style={[
-                        CommentInputStyle.mentionListContainer,
-                        { height: getMentionSuggestionsListHeight() }
-                    ]}
-                >
+                <View style={CommentInputStyle.mentionListContainer}>
                     <FlashList
                         data={filteredData}
                         renderItem={renderMentionItem}
-                        estimatedItemSize={55}
+                        estimatedItemSize={82}
+                        keyExtractor={(item) => item.id.toString()}
                         keyboardShouldPersistTaps="always"
-                        ItemSeparatorComponent={() => (
-                            <ItemSeparator space={15} />
-                        )}
                     />
                 </View>
             )}

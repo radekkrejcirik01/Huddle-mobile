@@ -3,24 +3,20 @@ import COLORS from '@constants/COLORS';
 
 export const CommentInputStyle = StyleSheet.create({
     mentionListContainer: {
-        paddingVertical: 10,
-        backgroundColor: COLORS.BLACK
+        height: 110,
+        paddingTop: 5,
+        paddingHorizontal: 20,
+        backgroundColor: COLORS.BLACK_300
     },
     mentionItemView: {
-        marginHorizontal: 20,
+        marginBottom: 8,
         flexDirection: 'row',
-        alignItems: 'center',
-        alignSelf: 'flex-start'
-    },
-    mentionItemImage: {
-        height: 25,
-        width: 25,
-        borderRadius: 10
+        alignItems: 'center'
     },
     mentionItemText: {
         marginLeft: 5,
         color: COLORS.WHITE,
-        fontWeight: '500'
+        fontWeight: '600'
     },
     bottomContainer: {
         paddingTop: 10,

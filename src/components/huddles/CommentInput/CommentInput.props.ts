@@ -6,6 +6,7 @@ export interface CommentInputProps {
 }
 
 export interface Mention {
+    id: number;
     username: string;
     name: string;
     profilePhoto: string;

@@ -8,6 +8,7 @@ import { useRenderComments } from '@hooks/useRenderComments';
 import { LargeHuddleItem } from '@components/huddles/LargeHuddleItem/LargeHuddleItem';
 import { getRequestUser } from '@utils/Axios/Axios.service';
 import {
+    ResponseGetMentionsInterface,
     ResponseHuddleGetInterface,
     ResponseHuddlesCommentsGetInterface
 } from '@interfaces/response/Response.interface';
@@ -58,8 +59,6 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
                 endpoint
             ).subscribe((response: ResponseHuddlesCommentsGetInterface) => {
                 if (response?.status) {
-                    setMentions(response?.mentions);
-
                     if (!lastId) {
                         setComments(response?.data);
                         return;
@@ -74,9 +73,20 @@ export const HuddleScreen = ({ route }: HuddleScreenProps): JSX.Element => {
         [huddleId]
     );
 
+    const loadMentions = () => {
+        getRequestUser<ResponseGetMentionsInterface>('mentions').subscribe(
+            (response: ResponseGetMentionsInterface) => {
+                if (response?.status) {
+                    setMentions(response?.data);
+                }
+            }
+        );
+    };
+
     useEffect(() => {
         loadHuddle();
         loadComments();
+        loadMentions();
     }, [loadComments, loadHuddle]);
 
     const {
