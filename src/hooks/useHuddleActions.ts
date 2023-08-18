@@ -27,6 +27,8 @@ export const useHuddleActions = (
     const navigation = useNavigation();
     const route = useRoute();
 
+    const isHuddleScreen =
+        route?.name === AccountStackNavigatorEnum.HuddleScreen;
     const isConversationScreen =
         route?.name === AccountStackNavigatorEnum.ConversationScreen;
 
@@ -36,11 +38,11 @@ export const useHuddleActions = (
                 (response: ResponseInterface) => {
                     if (response?.status) {
                         if (onDelete) onDelete();
-                        if (!isConversationScreen) navigation.goBack();
+                        if (isHuddleScreen) navigation.goBack();
                     }
                 }
             ),
-        [isConversationScreen, navigation, onDelete]
+        [isHuddleScreen, navigation, onDelete]
     );
 
     const deleteHuddleMessage = useCallback(
@@ -71,7 +73,6 @@ export const useHuddleActions = (
             showActionSheetWithOptions(
                 {
                     options,
-                    title: 'Huddle actions',
                     cancelButtonIndex: options?.length - 1,
                     destructiveButtonIndex: isUsersHuddle
                         ? options?.length - 2

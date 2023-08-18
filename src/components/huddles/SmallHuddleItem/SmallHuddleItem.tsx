@@ -6,10 +6,12 @@ import { SmallHuddleItemStyle } from '@components/huddles/SmallHuddleItem/SmallH
 
 export const SmallHuddleItem = ({
     item,
-    onPressCard
+    onPressCard,
+    onLongPressCard
 }: SmallHuddleItemProps): JSX.Element => (
     <TouchableOpacity
         onPress={onPressCard}
+        onLongPress={onLongPressCard}
         style={SmallHuddleItemStyle.container}
     >
         <Text style={SmallHuddleItemStyle.messageText}>{item?.message}</Text>

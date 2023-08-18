@@ -3,6 +3,7 @@ import { RefreshControl } from 'react-native';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import { useNavigation } from '@hooks/useNavigation';
 import { useRefresh } from '@hooks/useRefresh';
+import { useHuddleActions } from '@hooks/useHuddleActions';
 import { HuddleItemInterface } from '@screens/account/ConversationScreen/ConversationScreen.props';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { SmallHuddleItem } from '@components/huddles/SmallHuddleItem/SmallHuddleItem';
@@ -22,6 +23,7 @@ export const useRenderHuddles = (
 } => {
     const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
     const { refreshing, onRefresh } = useRefresh(loadHuddles);
+    const { openHuddleActions } = useHuddleActions(null, null, loadHuddles);
 
     const scrollBeginDragged = useRef<boolean>(false);
 
@@ -38,9 +40,10 @@ export const useRenderHuddles = (
             <SmallHuddleItem
                 item={item}
                 onPressCard={() => openHuddle(item.id)}
+                onLongPressCard={() => openHuddleActions(item)}
             />
         ),
-        [openHuddle]
+        [openHuddle, openHuddleActions]
     );
     const keyExtractor = (item: HuddleItemInterface): string =>
         item?.id?.toString();

@@ -3,4 +3,5 @@ import { HuddleItemInterface } from '@screens/account/ConversationScreen/Convers
 export interface SmallHuddleItemProps {
     item: HuddleItemInterface;
     onPressCard: () => void;
+    onLongPressCard: () => void;
 }
