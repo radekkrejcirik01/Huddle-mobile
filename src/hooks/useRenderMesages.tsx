@@ -75,6 +75,7 @@ export const useRenderMesages = (
             showActionSheetWithOptions(
                 {
                     options,
+                    title: item.message,
                     cancelButtonIndex: item?.url ? 4 : 5,
                     userInterfaceStyle: 'dark'
                 },

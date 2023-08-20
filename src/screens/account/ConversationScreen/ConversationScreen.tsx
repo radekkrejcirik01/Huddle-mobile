@@ -72,29 +72,6 @@ export const ConversationScreen = ({
     const loadMessagesEnabled = useRef<boolean>(true);
     const input = useRef<TextInput>(null);
 
-    useEffect(
-        () =>
-            navigation.setOptions({
-                ...(conversationId && {
-                    headerLeft: () => (
-                        <ConversationHeader
-                            conversationId={conversationId}
-                            name={name}
-                            profilePhoto={profilePhoto}
-                        />
-                    )
-                }),
-                headerRight: () => (
-                    <PostHuddleButton onCreateHuddle={() => {}} />
-                ),
-                headerStyle: [
-                    ConversationScreenStyle.headerStyle,
-                    !!bottom && ConversationScreenStyle.headerHeight
-                ]
-            }),
-        [bottom, conversationId, name, navigation, profilePhoto]
-    );
-
     const updateLastRead = (idConversation: number) => {
         if (idConversation) {
             putRequestUser<ResponseInterface, LastReadMessagePostInterface>(
@@ -138,6 +115,29 @@ export const ConversationScreen = ({
             }
         },
         [conversationId]
+    );
+
+    useEffect(
+        () =>
+            navigation.setOptions({
+                ...(conversationId && {
+                    headerLeft: () => (
+                        <ConversationHeader
+                            conversationId={conversationId}
+                            name={name}
+                            profilePhoto={profilePhoto}
+                        />
+                    )
+                }),
+                headerRight: () => (
+                    <PostHuddleButton onCreateHuddle={loadMessages} />
+                ),
+                headerStyle: [
+                    ConversationScreenStyle.headerStyle,
+                    !!bottom && ConversationScreenStyle.headerHeight
+                ]
+            }),
+        [bottom, conversationId, loadMessages, name, navigation, profilePhoto]
     );
 
     const loadMessagesByUsernames = useCallback(() => {

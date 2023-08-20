@@ -78,7 +78,7 @@ export const useRenderComments = (
             const commentByUser = item.sender === username;
             const options = [
                 'Copy',
-                !commentByUser && 'Reply',
+                'Reply',
                 commentByUser && 'Delete',
                 'Cancel'
             ].filter(Boolean);
@@ -86,9 +86,10 @@ export const useRenderComments = (
             showActionSheetWithOptions(
                 {
                     options,
-                    cancelButtonIndex: 2,
+                    title: item.message,
+                    cancelButtonIndex: options.length - 1,
                     ...(commentByUser && {
-                        destructiveButtonIndex: 1
+                        destructiveButtonIndex: 2
                     }),
                     userInterfaceStyle: 'dark'
                 },

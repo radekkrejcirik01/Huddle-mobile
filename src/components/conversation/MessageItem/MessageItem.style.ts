@@ -55,6 +55,7 @@ export const MessageItemStyle = StyleSheet.create({
         color: COLORS.WHITE
     },
     messageText: {
+        padding: 2,
         fontSize: 16,
         color: COLORS.WHITE
     },

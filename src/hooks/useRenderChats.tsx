@@ -79,7 +79,7 @@ export const useRenderChats = (
     );
 
     const openActions = useCallback(
-        (conversationId: number) => {
+        (conversationId: number, name: string) => {
             getRequestUser<ResponseConversationLikedInterface>(
                 `conversation-like/${conversationId}`
             ).subscribe((response: ResponseConversationLikedInterface) => {
@@ -92,6 +92,7 @@ export const useRenderChats = (
                     showActionSheetWithOptions(
                         {
                             options,
+                            title: name,
                             cancelButtonIndex: 1,
                             userInterfaceStyle: 'dark'
                         },
@@ -115,7 +116,7 @@ export const useRenderChats = (
             <ChatItem
                 item={item}
                 onPress={() => openConversation(item)}
-                onLongPress={() => openActions(item.id)}
+                onLongPress={() => openActions(item.id, item.name)}
                 hasSeen={item.sender === username}
             />
         ),

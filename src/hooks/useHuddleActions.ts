@@ -29,6 +29,7 @@ export const useHuddleActions = (
 
     const isHuddleScreen =
         route?.name === AccountStackNavigatorEnum.HuddleScreen;
+
     const isConversationScreen =
         route?.name === AccountStackNavigatorEnum.ConversationScreen;
 
@@ -47,7 +48,7 @@ export const useHuddleActions = (
 
     const deleteHuddleMessage = useCallback(
         (id: number) =>
-            Alert.alert('Delete Huddle', '', [
+            Alert.alert('Delete Leaf', '', [
                 {
                     text: 'Cancel',
                     style: 'cancel'
@@ -73,6 +74,7 @@ export const useHuddleActions = (
             showActionSheetWithOptions(
                 {
                     options,
+                    title: item.message,
                     cancelButtonIndex: options?.length - 1,
                     destructiveButtonIndex: isUsersHuddle
                         ? options?.length - 2
