@@ -49,7 +49,7 @@ export const PostHuddleModalScreen = ({
                 onSend={postHuddle}
             />
             <Text style={PostHuddleModalScreenStyle.description}>
-                Leaf will be posted ín chats
+                Leaf will appear ín your chats
             </Text>
         </View>
     );
