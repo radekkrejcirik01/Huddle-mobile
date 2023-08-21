@@ -90,14 +90,13 @@ export const ProfileTabHeader = ({
 
     return (
         <View style={ProfileTabHeaderStyle.container}>
-            <TouchableOpacity onPress={onPressProfilePhoto}>
-                <ProfilePhoto
-                    name={firstname}
-                    photo={profilePhoto}
-                    size={80}
-                    textBackgroundColor={COLORS.PASTEL_PURPLE}
-                />
-            </TouchableOpacity>
+            <ProfilePhoto
+                name={firstname}
+                photo={profilePhoto}
+                size={80}
+                onPhotoPress={onPressProfilePhoto}
+                textBackgroundColor={COLORS.PASTEL_PURPLE}
+            />
             <View style={ProfileTabHeaderStyle.buttonsContainer}>
                 <TouchableOpacity
                     onPress={onAddFriendPress}

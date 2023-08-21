@@ -165,17 +165,13 @@ export const LargeHuddleItem = ({
         >
             <View style={LargeHuddleItemStyle.content}>
                 <View style={LargeHuddleItemStyle.row}>
-                    <TouchableOpacity
-                        activeOpacity={0.9}
-                        onPress={onProfilePress}
-                    >
-                        <ProfilePhoto
-                            name={item?.name}
-                            photo={item?.profilePhoto}
-                            size={35}
-                            textBackgroundColor={COLORS.BLACK_100}
-                        />
-                    </TouchableOpacity>
+                    <ProfilePhoto
+                        name={item?.name}
+                        photo={item?.profilePhoto}
+                        size={35}
+                        onPhotoPress={onProfilePress}
+                        textBackgroundColor={COLORS.BLACK_100}
+                    />
                     <View style={LargeHuddleItemStyle.nameView}>
                         <Text style={LargeHuddleItemStyle.nameText}>
                             {item?.name}

@@ -28,16 +28,13 @@ export const CommentsItem = ({
             style={CommentsItemStyle.container}
         >
             <View style={CommentsItemStyle.content}>
-                <TouchableOpacity
-                    onPress={onPressProfilePhoto}
+                <ProfilePhoto
+                    name={item.name}
+                    photo={item?.profilePhoto}
+                    onPhotoPress={onPressProfilePhoto}
+                    size={40}
                     style={CommentsItemStyle.imageView}
-                >
-                    <ProfilePhoto
-                        name={item.name}
-                        photo={item?.profilePhoto}
-                        size={40}
-                    />
-                </TouchableOpacity>
+                />
                 <View style={CommentsItemStyle.textsContainer}>
                     <View style={CommentsItemStyle.row}>
                         <TouchableOpacity

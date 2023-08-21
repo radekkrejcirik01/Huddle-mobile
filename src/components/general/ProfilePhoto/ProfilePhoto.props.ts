@@ -4,6 +4,7 @@ export interface ProfilePhotoProps {
     name: string;
     photo: string;
     size: number;
+    onPhotoPress?: () => void;
     textBackgroundColor?: string;
     style?: StyleProp<ViewStyle>;
 }
@@ -13,5 +14,6 @@ export const ProfilePhotoDefaultProps: Omit<
     'name' | 'photo' | 'size'
 > = {
     textBackgroundColor: null,
+    onPhotoPress: null,
     style: {}
 };

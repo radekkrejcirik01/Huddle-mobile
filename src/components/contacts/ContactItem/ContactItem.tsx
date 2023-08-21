@@ -13,13 +13,12 @@ export const ContactItem = ({
 }: ContactItemProps): JSX.Element => (
     <TouchableOpacity onPress={onItemPress} style={ContactItemStyle.view}>
         <View style={ContactItemStyle.infoRow}>
-            <TouchableOpacity onPress={onPhotoPress}>
-                <ProfilePhoto
-                    name={item?.user?.name}
-                    photo={item?.user?.profilePhoto}
-                    size={42}
-                />
-            </TouchableOpacity>
+            <ProfilePhoto
+                name={item?.user?.name}
+                photo={item?.user?.profilePhoto}
+                onPhotoPress={onPhotoPress}
+                size={42}
+            />
             <View style={{ marginLeft: 8 }}>
                 <Text style={ContactItemStyle.name}>{item?.user?.name}</Text>
                 <Text style={ContactItemStyle.username}>

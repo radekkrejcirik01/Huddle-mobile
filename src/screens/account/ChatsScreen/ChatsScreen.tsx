@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import {
     useFocusEffect,
@@ -34,7 +34,13 @@ export const ChatsScreen = (): JSX.Element => {
     useEffect(
         () =>
             navigation.setOptions({
-                headerLeft: () => <PostHuddleButton onCreateHuddle={() => {}} />
+                headerLeft: () => (
+                    <PostHuddleButton
+                        onCreateHuddle={() => {
+                            Alert.alert('Posted 🐨');
+                        }}
+                    />
+                )
             }),
         [navigation]
     );

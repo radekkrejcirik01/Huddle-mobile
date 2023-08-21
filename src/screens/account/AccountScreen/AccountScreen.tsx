@@ -13,7 +13,6 @@ import {
 } from '@interfaces/response/Response.interface';
 import { ReducerProps } from '@store/index/index.props';
 import { UploadProfileImageInterface } from '@interfaces/post/Post.inteface';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { AccountScreenStyle } from '@screens/account/AccountScreen/AccountScreen.style';
 import { PersistStorage } from '@utils/PersistStorage/PersistStorage';
 import { PersistStorageKeys } from '@utils/PersistStorage/PersistStorage.enum';
@@ -79,13 +78,12 @@ export const AccountScreen = (): JSX.Element => {
     return (
         <ScrollView contentContainerStyle={AccountScreenStyle.container}>
             <View style={AccountScreenStyle.infoContainer}>
-                <TouchableOpacity onPress={changeProfilePhoto}>
-                    <ProfilePhoto
-                        name={firstname}
-                        photo={profilePhoto}
-                        size={100}
-                    />
-                </TouchableOpacity>
+                <ProfilePhoto
+                    name={firstname}
+                    photo={profilePhoto}
+                    onPhotoPress={changeProfilePhoto}
+                    size={100}
+                />
                 <Text style={AccountScreenStyle.name}>{firstname}</Text>
                 <Text style={AccountScreenStyle.username}>{username}</Text>
                 <ListItem

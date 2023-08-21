@@ -7,28 +7,32 @@ import {
 } from '@components/general/ProfilePhoto/ProfilePhoto.props';
 import COLORS from '@constants/COLORS';
 import { ProfilePhotoStyle } from '@components/general/ProfilePhoto/ProfilePhoto.style';
+import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const ProfilePhoto = ({
     name,
     photo,
     size,
     textBackgroundColor,
+    onPhotoPress,
     style
 }: ProfilePhotoProps): JSX.Element => (
     <View style={style}>
         {photo ? (
-            <FastImage
-                source={{
-                    uri: photo
-                }}
-                style={[
-                    ProfilePhotoStyle.image,
-                    {
-                        width: size,
-                        height: size
-                    }
-                ]}
-            />
+            <TouchableOpacity disabled={!onPhotoPress} onPress={onPhotoPress}>
+                <FastImage
+                    source={{
+                        uri: photo
+                    }}
+                    style={[
+                        ProfilePhotoStyle.image,
+                        {
+                            width: size,
+                            height: size
+                        }
+                    ]}
+                />
+            </TouchableOpacity>
         ) : (
             <View
                 style={[
