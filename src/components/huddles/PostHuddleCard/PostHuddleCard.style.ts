@@ -42,7 +42,17 @@ export const PostHuddleCardStyle = StyleSheet.create({
     photoButtonText: {
         fontSize: 24
     },
-    sendButtonOpacity: {
-        opacity: 0.4
+    postButtonView: {
+        paddingVertical: 20,
+        paddingHorizontal: 15,
+        borderRadius: 40,
+        backgroundColor: COLORS.BLACK_50
+    },
+    postButtonText: {
+        color: COLORS.MAIN_WHITE_100,
+        fontWeight: 'bold'
+    },
+    sendButtonTextOpacity: {
+        opacity: 0.8
     }
 });

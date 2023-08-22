@@ -12,8 +12,6 @@ import {
 import { PostHuddleCardStyle } from '@components/huddles/PostHuddleCard/PostHuddleCard.style';
 import { ProfilePhoto } from '@components/general/ProfilePhoto/ProfilePhoto';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
-import { IconEnum } from '@components/general/Icon/Icon.enum';
-import { IconButton } from '@components/general/IconButton/IconButton';
 import { postRequestUser } from '@utils/Axios/Axios.service';
 import { ResponseUploadImageInterface } from '@interfaces/response/Response.interface';
 import { HuddlePhotoPostInterface } from '@interfaces/post/Post.inteface';
@@ -107,17 +105,22 @@ export const PostHuddleCard = ({
                         </Text>
                     </TouchableOpacity>
                 )}
-                <IconButton
-                    icon={IconEnum.SEND}
+                <TouchableOpacity
                     onPress={onSend}
-                    size={28}
-                    style={
-                        !message &&
-                        !photo?.length &&
-                        PostHuddleCardStyle.sendButtonOpacity
-                    }
                     disabled={!message && !photo?.length}
-                />
+                    style={PostHuddleCardStyle.postButtonView}
+                >
+                    <Text
+                        style={[
+                            PostHuddleCardStyle.postButtonText,
+                            !message &&
+                                !photo?.length &&
+                                PostHuddleCardStyle.sendButtonTextOpacity
+                        ]}
+                    >
+                        Post
+                    </Text>
+                </TouchableOpacity>
             </View>
         </View>
     );

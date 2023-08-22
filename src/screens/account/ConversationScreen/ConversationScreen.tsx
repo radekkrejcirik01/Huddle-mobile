@@ -37,6 +37,7 @@ import {
 } from '@interfaces/response/Response.interface';
 import { ChatInput } from '@components/conversation/ChatInput/ChatInput';
 import {
+    CreateConversationPostInterface,
     LastReadMessagePostInterface,
     MessagePostInterface
 } from '@interfaces/post/Post.inteface';
@@ -140,10 +141,13 @@ export const ConversationScreen = ({
         [bottom, conversationId, loadMessages, name, navigation, profilePhoto]
     );
 
-    const loadMessagesByUsernames = useCallback(() => {
-        getRequestUser<MessagesByUsernamesResponseInterface>(
-            `messages/${username}`
-        ).subscribe((response: MessagesByUsernamesResponseInterface) => {
+    const createConversation = useCallback(() => {
+        postRequestUser<
+            MessagesByUsernamesResponseInterface,
+            CreateConversationPostInterface
+        >('new-conversation', {
+            receiver: username
+        }).subscribe((response: MessagesByUsernamesResponseInterface) => {
             if (response?.status) {
                 // Set conversation id after creating or getting conversation
                 navigation.setParams({
@@ -162,11 +166,11 @@ export const ConversationScreen = ({
     useFocusEffect(
         useCallback(() => {
             if (username) {
-                return loadMessagesByUsernames();
+                return createConversation();
             }
 
             return () => {};
-        }, [loadMessagesByUsernames, username])
+        }, [createConversation, username])
     );
 
     // loadMessages has conversationId dependency that would cause redundant load

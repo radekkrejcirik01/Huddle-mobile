@@ -55,6 +55,10 @@ export interface ConversationNotificationsPostInterface {
     conversationId: number;
 }
 
+export interface CreateConversationPostInterface {
+    receiver: string;
+}
+
 export interface MessagePostInterface {
     conversationId: number;
     message: string;

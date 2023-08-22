@@ -14,9 +14,5 @@ export const PostHuddleModalScreenStyle = StyleSheet.create({
         fontSize: 24,
         color: COLORS.WHITE,
         fontWeight: '600'
-    },
-    description: {
-        margin: 8,
-        color: COLORS.LIGHTGRAY
     }
 });

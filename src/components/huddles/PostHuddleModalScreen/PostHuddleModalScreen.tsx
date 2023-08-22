@@ -48,9 +48,6 @@ export const PostHuddleModalScreen = ({
                 }}
                 onSend={postHuddle}
             />
-            <Text style={PostHuddleModalScreenStyle.description}>
-                Leaf will appear ín your chats
-            </Text>
         </View>
     );
 };

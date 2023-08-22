@@ -17,22 +17,24 @@ export const ProfilePhoto = ({
     onPhotoPress,
     style
 }: ProfilePhotoProps): JSX.Element => (
-    <View style={style}>
+    <TouchableOpacity
+        disabled={!onPhotoPress}
+        onPress={onPhotoPress}
+        style={style}
+    >
         {photo ? (
-            <TouchableOpacity disabled={!onPhotoPress} onPress={onPhotoPress}>
-                <FastImage
-                    source={{
-                        uri: photo
-                    }}
-                    style={[
-                        ProfilePhotoStyle.image,
-                        {
-                            width: size,
-                            height: size
-                        }
-                    ]}
-                />
-            </TouchableOpacity>
+            <FastImage
+                source={{
+                    uri: photo
+                }}
+                style={[
+                    ProfilePhotoStyle.image,
+                    {
+                        width: size,
+                        height: size
+                    }
+                ]}
+            />
         ) : (
             <View
                 style={[
@@ -56,7 +58,7 @@ export const ProfilePhoto = ({
                 </Text>
             </View>
         )}
-    </View>
+    </TouchableOpacity>
 );
 
 ProfilePhoto.defaultProps = ProfilePhotoDefaultProps;
