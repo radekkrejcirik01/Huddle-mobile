@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -10,7 +10,6 @@ import { ReducerProps } from '@store/index/index.props';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { ProfileTabHeaderStyle } from '@components/profile/ProfileTabHeader/ProfileTabHeader.style';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { ProfileTabHeaderProps } from '@components/profile/ProfileTabHeader/ProfileTabHeader.props';
 import { setProfilePhotoAction } from '@store/UserReducer';
 import { postRequestUser } from '@utils/Axios/Axios.service';
@@ -99,32 +98,35 @@ export const ProfileTabHeader = ({
             />
             <View style={ProfileTabHeaderStyle.buttonsContainer}>
                 <TouchableOpacity
+                    activeOpacity={0.9}
                     onPress={onAddFriendPress}
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>
-                        Add friend
+                        Invite
                         <Text style={ProfileTabHeaderStyle.letterSpacing}>
                             🧍‍♀️🧍‍♂️
                         </Text>
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={onPostHuddlePress}
-                    style={ProfileTabHeaderStyle.buttonView}
-                >
-                    <Text style={ProfileTabHeaderStyle.buttonText}>
-                        Post leaf 🐨
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                    activeOpacity={0.9}
                     onPress={() =>
                         navigateTo(AccountStackNavigatorEnum.ContactsScreen)
                     }
                     style={ProfileTabHeaderStyle.buttonView}
                 >
                     <Text style={ProfileTabHeaderStyle.buttonText}>
-                        Start chat 💬
+                        Chat 💬
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    activeOpacity={0.9}
+                    onPress={onPostHuddlePress}
+                    style={ProfileTabHeaderStyle.buttonView}
+                >
+                    <Text style={ProfileTabHeaderStyle.buttonText}>
+                        Post 🐨
                     </Text>
                 </TouchableOpacity>
             </View>

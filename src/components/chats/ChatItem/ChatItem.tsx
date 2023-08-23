@@ -19,9 +19,9 @@ export const ChatItem = ({
 
     function getNewHuddlesText(number: number): string {
         if (number === 1) {
-            return `+ ${number} leaf`;
+            return `+ ${number} post`;
         }
-        return `+ ${number} leafs`;
+        return `+ ${number} posts`;
     }
 
     return (

@@ -110,16 +110,7 @@ export const PostHuddleCard = ({
                     disabled={!message && !photo?.length}
                     style={PostHuddleCardStyle.postButtonView}
                 >
-                    <Text
-                        style={[
-                            PostHuddleCardStyle.postButtonText,
-                            !message &&
-                                !photo?.length &&
-                                PostHuddleCardStyle.sendButtonTextOpacity
-                        ]}
-                    >
-                        Post
-                    </Text>
+                    <Text style={PostHuddleCardStyle.postButtonText}>Post</Text>
                 </TouchableOpacity>
             </View>
         </View>

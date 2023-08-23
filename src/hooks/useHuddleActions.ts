@@ -48,7 +48,7 @@ export const useHuddleActions = (
 
     const deleteHuddleMessage = useCallback(
         (id: number) =>
-            Alert.alert('Delete Leaf', '', [
+            Alert.alert('Delete post', '', [
                 {
                     text: 'Cancel',
                     style: 'cancel'

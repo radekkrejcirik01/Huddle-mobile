@@ -13,7 +13,7 @@ export const MessageHuddleItemStyle = StyleSheet.create({
     huddleTitleView: {
         marginBottom: 4,
         paddingVertical: 2,
-        paddingHorizontal: 10,
+        paddingHorizontal: 8,
         borderRadius: 10,
         backgroundColor: COLORS.PASTEL_PURPLE
     },

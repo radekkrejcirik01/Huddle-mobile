@@ -11,6 +11,7 @@ import { PreloadService } from '@utils/general/PreloadService';
 import { ToastMessage } from '@components/general/ToastMessage/ToastMessage';
 import { isiOS } from '@functions/checking-functions';
 import { ActivityService } from '@utils/general/ActivityService';
+import { InvitesService } from '@utils/general/InvitesService';
 
 const App = () => {
     PreloadService.init().catch();
@@ -21,6 +22,7 @@ const App = () => {
             (nextAppState) => {
                 if (nextAppState === 'active') {
                     ActivityService.updateOnline();
+                    InvitesService.getUnseenInvites();
                     if (isiOS()) {
                         PushNotificationIOS.setApplicationIconBadgeNumber(0);
                     }

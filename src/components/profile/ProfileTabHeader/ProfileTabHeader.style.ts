@@ -6,7 +6,7 @@ export const ProfileTabHeaderStyle = StyleSheet.create({
         alignItems: 'center'
     },
     buttonsContainer: {
-        width: '80%',
+        width: '60%',
         marginVertical: 12,
         flexDirection: 'row',
         flexWrap: 'wrap',

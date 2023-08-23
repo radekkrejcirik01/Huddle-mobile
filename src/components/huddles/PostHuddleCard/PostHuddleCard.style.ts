@@ -51,8 +51,5 @@ export const PostHuddleCardStyle = StyleSheet.create({
     postButtonText: {
         color: COLORS.MAIN_WHITE_100,
         fontWeight: 'bold'
-    },
-    sendButtonTextOpacity: {
-        opacity: 0.8
     }
 });

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Keyboard, Text, View } from 'react-native';
+import { Keyboard, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import {
     useFocusEffect,
@@ -131,11 +131,6 @@ export const ProfileScreen = (): JSX.Element => {
                 onScrollBeginDrag={onScrollBeginDrag}
                 onEndReached={onEndReachedSmallItem}
                 contentContainerStyle={ProfileScreenStyle.listContentContainer}
-                ListEmptyComponent={
-                    <Text style={ProfileScreenStyle.description}>
-                        place for leafs 🐨
-                    </Text>
-                }
             />
             <Modal
                 isVisible={modalVisible}

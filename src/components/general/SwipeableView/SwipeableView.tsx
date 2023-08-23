@@ -1,5 +1,5 @@
 import React, { ReactElement, useCallback, useRef } from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import {
     GestureHandlerRootView,
     Swipeable
@@ -9,7 +9,6 @@ import {
     SwipeableViewDefaultProps,
     SwipeableViewProps
 } from '@components/general/SwipeableView/SwipeableView.props';
-import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 
 export const SwipeableView = ({
     text,
@@ -32,6 +31,7 @@ export const SwipeableView = ({
                 containerStyle={SwipeableViewStyle.swipeableContainer}
                 renderRightActions={() => (
                     <TouchableOpacity
+                        activeOpacity={0.9}
                         onPress={handlePress}
                         style={[SwipeableViewStyle.view, style]}
                     >

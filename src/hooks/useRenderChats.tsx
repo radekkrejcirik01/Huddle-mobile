@@ -85,7 +85,7 @@ export const useRenderChats = (
             ).subscribe((response: ResponseConversationLikedInterface) => {
                 if (response?.status) {
                     const options = [
-                        response?.isLiked === 1 ? 'Remove ❤️' : 'Like ❤️',
+                        response?.isLiked === 1 ? 'Remove like' : 'Like ❤️',
                         'Cancel'
                     ];
 
@@ -100,7 +100,7 @@ export const useRenderChats = (
                             if (options[selectedIndex] === 'Like ❤️') {
                                 likeConversation(conversationId);
                             }
-                            if (options[selectedIndex] === 'Remove ❤️') {
+                            if (options[selectedIndex] === 'Remove like') {
                                 removeConversationLike(conversationId);
                             }
                         }

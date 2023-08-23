@@ -1,44 +1,33 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Text } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@hooks/useNavigation';
 import { TouchableOpacity } from '@components/general/TouchableOpacity/TouchableOpacity';
 import { RootStackNavigatorEnum } from '@navigation/RootNavigator/RootStackNavigator.enum';
 import { AccountStackNavigatorEnum } from '@navigation/StackNavigators/account/AccountStackNavigator.enum';
 import { ChatsTabIconStyle } from '@components/chats/ChatsTabIcon/ChatsTabIcon.style';
-import { getRequestUser } from '@utils/Axios/Axios.service';
-import { ResponseNumberInvitesGetInterface } from '@interfaces/response/Response.interface';
 import { Badge } from '@components/general/Badge/Badge';
+import { ReducerProps } from '@store/index/index.props';
+import { setUnseenInvites } from '@store/Invites';
 
 export const ChatsTabIcon = (): JSX.Element => {
-    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
-    const [badge, setBadge] = useState<number>(0);
-
-    const loadUnseenInvites = () =>
-        getRequestUser<ResponseNumberInvitesGetInterface>(
-            'unseen-invites'
-        ).subscribe((response: ResponseNumberInvitesGetInterface) => {
-            if (response?.status) {
-                setBadge(response?.number);
-            }
-        });
-
-    useFocusEffect(
-        useCallback(() => {
-            loadUnseenInvites();
-        }, [])
+    const { unseenInvites } = useSelector(
+        (state: ReducerProps) => state.invites
     );
+    const dispatch = useDispatch();
+
+    const { navigateTo } = useNavigation(RootStackNavigatorEnum.AccountStack);
 
     const openContacts = useCallback(() => {
         navigateTo(AccountStackNavigatorEnum.ContactsScreen);
 
-        setTimeout(() => setBadge(0), 1000);
-    }, [navigateTo]);
+        setTimeout(() => dispatch(setUnseenInvites(0)), 1000);
+    }, [dispatch, navigateTo]);
 
     return (
         <TouchableOpacity onPress={openContacts}>
             <Text style={ChatsTabIconStyle.text}>💬</Text>
-            <Badge value={badge} />
+            <Badge value={unseenInvites} />
         </TouchableOpacity>
     );
 };

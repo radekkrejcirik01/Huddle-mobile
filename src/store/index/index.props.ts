@@ -1,9 +1,9 @@
 export interface ReducerProps {
     user: User;
-    selectUsers: SelectUsers;
     device: Device;
     navigationState: NavigationSate;
     conversation: Conversation;
+    invites: Invites;
     typing: Typing;
 }
 
@@ -14,15 +14,6 @@ export interface User {
         username: string;
         profilePhoto: string;
     };
-}
-
-export interface SelectUsers {
-    selectedUsernames: Array<string>;
-    selectedUsers: Array<{
-        username: string;
-        firstname: string;
-        profilePhoto: string;
-    }>;
 }
 
 export interface Device {
@@ -37,6 +28,10 @@ export interface Conversation {
     conversationId: number;
     loadConversation: boolean;
     loadRead: boolean;
+}
+
+export interface Invites {
+    unseenInvites: number;
 }
 
 export interface Typing {
