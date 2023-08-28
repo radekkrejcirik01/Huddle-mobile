@@ -516,7 +516,7 @@
 				DEVELOPMENT_TEAM = QHEV58KVJ8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = PingMe/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Koala;
+				INFOPLIST_KEY_CFBundleDisplayName = Sender;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -550,7 +550,7 @@
 				CURRENT_PROJECT_VERSION = 19;
 				DEVELOPMENT_TEAM = QHEV58KVJ8;
 				INFOPLIST_FILE = PingMe/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Koala;
+				INFOPLIST_KEY_CFBundleDisplayName = Sender;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

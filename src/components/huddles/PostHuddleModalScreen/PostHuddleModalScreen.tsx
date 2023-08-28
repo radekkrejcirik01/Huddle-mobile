@@ -33,9 +33,14 @@ export const PostHuddleModalScreen = ({
 
     return (
         <View style={PostHuddleModalScreenStyle.screen}>
-            <Text style={PostHuddleModalScreenStyle.title}>
-                {`What's on your mind?`}
-            </Text>
+            <View>
+                <Text style={PostHuddleModalScreenStyle.title}>
+                    {`What's on your mind?`}
+                </Text>
+                <Text style={PostHuddleModalScreenStyle.subtitle}>
+                    This post will show up in your chats
+                </Text>
+            </View>
             <PostHuddleCard
                 onMessageChange={(text) => {
                     message.current = text;
@@ -47,6 +52,7 @@ export const PostHuddleModalScreen = ({
                     photo.current = null;
                 }}
                 onSend={postHuddle}
+                style={PostHuddleModalScreenStyle.card}
             />
         </View>
     );

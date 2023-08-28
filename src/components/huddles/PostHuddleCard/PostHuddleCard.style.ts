@@ -46,10 +46,10 @@ export const PostHuddleCardStyle = StyleSheet.create({
         paddingVertical: 20,
         paddingHorizontal: 15,
         borderRadius: 40,
-        backgroundColor: COLORS.BLACK_50
+        backgroundColor: COLORS.PASTEL_PURPLE
     },
     postButtonText: {
-        color: COLORS.MAIN_WHITE_100,
+        color: COLORS.WHITE,
         fontWeight: 'bold'
     }
 });

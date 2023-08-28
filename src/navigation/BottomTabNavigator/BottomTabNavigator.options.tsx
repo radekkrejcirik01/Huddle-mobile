@@ -1,9 +1,11 @@
 import React from 'react';
+import { Alert } from 'react-native';
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { BottomTabNavigatorStyle } from '@navigation/BottomTabNavigator/BottomTabNavigator.style';
 import COLORS from '@constants/COLORS';
-import { ChatsTabIcon } from '@components/chats/ChatsTabIcon/ChatsTabIcon';
 import { ProfileHeader } from '@components/profile/ProfileHeader/ProfileHeader';
+import { PostHuddleButton } from '@components/huddles/PostHuddleButton/PostHuddleButton';
+import { ChatsTabIcon } from '@components/chats/ChatsTabIcon/ChatsTabIcon';
 
 export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
     headerTintColor: COLORS.WHITE,
@@ -16,6 +18,13 @@ export const BottomTabNavigatorOptions: BottomTabNavigationOptions = {
 
 export const ChatsTabOptions: BottomTabNavigationOptions = {
     title: 'Chats',
+    headerLeft: () => <ChatsTabIcon />,
     headerRight: () => <ProfileHeader />,
-    tabBarIcon: () => <ChatsTabIcon />
+    tabBarIcon: () => (
+        <PostHuddleButton
+            onCreateHuddle={() => {
+                Alert.alert('Posted');
+            }}
+        />
+    )
 };

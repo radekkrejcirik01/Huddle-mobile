@@ -10,9 +10,14 @@ export const PostHuddleModalScreenStyle = StyleSheet.create({
         justifyContent: 'center'
     },
     title: {
-        marginBottom: '20%',
         fontSize: 24,
         color: COLORS.WHITE,
         fontWeight: '600'
+    },
+    subtitle: {
+        color: COLORS.BUTTON_BLUE
+    },
+    card: {
+        marginTop: '10%'
     }
 });

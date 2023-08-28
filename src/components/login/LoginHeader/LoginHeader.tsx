@@ -10,20 +10,12 @@ export const LoginHeader = (): JSX.Element => {
     return (
         <View style={[LoginHeaderStyle.view, { top }]}>
             <Text style={LoginHeaderStyle.titleText}>
-                <Text style={{ color: COLORS.PASTEL_ORANGE }}>K</Text>
-                <Text style={{ color: COLORS.PASTEL_RED }}>o</Text>
-                <Text style={{ color: COLORS.PASTEL_PURPLE }}>a</Text>
-                <Text style={{ color: COLORS.PASTEL_BLUE }}>l</Text>
-                <Text style={{ color: COLORS.BUTTON_BLUE }}>a</Text>{' '}
-                <Text style={{ color: COLORS.BUTTON_BLUE }}>M</Text>
-                <Text style={{ color: COLORS.PASTEL_BLUE }}>e</Text>
-                <Text style={{ color: COLORS.PASTEL_PURPLE }}>s</Text>
-                <Text style={{ color: COLORS.PASTEL_RED }}>s</Text>
-                <Text style={{ color: COLORS.PASTEL_ORANGE }}>e</Text>
-                <Text style={{ color: COLORS.PASTEL_BLUE }}>n</Text>
-                <Text style={{ color: COLORS.BUTTON_BLUE }}>g</Text>
-                <Text style={{ color: COLORS.PASTEL_PURPLE }}>e</Text>
-                <Text style={{ color: COLORS.PASTEL_RED }}>r</Text> 🐨
+                <Text style={{ color: COLORS.PASTEL_ORANGE }}>S</Text>
+                <Text style={{ color: COLORS.PASTEL_RED }}>e</Text>
+                <Text style={{ color: COLORS.PASTEL_PURPLE }}>n</Text>
+                <Text style={{ color: COLORS.PASTEL_BLUE }}>d</Text>
+                <Text style={{ color: COLORS.BUTTON_BLUE }}>e</Text>
+                <Text style={{ color: COLORS.BUTTON_BLUE }}>r</Text>
             </Text>
         </View>
     );

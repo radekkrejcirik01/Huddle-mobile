@@ -1,11 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import {
-    useFocusEffect,
-    useIsFocused,
-    useNavigation as useDefaultNavigation
-} from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import { FlashList } from '@shopify/flash-list';
 import { useMessaging } from '@hooks/useMessaging';
 import { useRenderChats } from '@hooks/useRenderChats';
@@ -18,32 +14,16 @@ import {
 import { ChatsScreenStyle } from '@screens/account/ChatsScreen/ChatsScreen.style';
 import { ItemSeparator } from '@components/general/ItemSeparator/ItemSeparator';
 import { ReducerProps } from '@store/index/index.props';
-import { PostHuddleButton } from '@components/huddles/PostHuddleButton/PostHuddleButton';
 
 export const ChatsScreen = (): JSX.Element => {
     const { username } = useSelector((state: ReducerProps) => state.user.user);
 
     useMessaging();
     const isFocused = useIsFocused();
-    const navigation = useDefaultNavigation();
 
     const [chats, setChats] = useState<Array<ChatsListDataProps>>([]);
 
     const interval = useRef(null);
-
-    useEffect(
-        () =>
-            navigation.setOptions({
-                headerLeft: () => (
-                    <PostHuddleButton
-                        onCreateHuddle={() => {
-                            Alert.alert('Posted 🐨');
-                        }}
-                    />
-                )
-            }),
-        [navigation]
-    );
 
     const loadChats = useCallback(
         (lastId?: number) => {

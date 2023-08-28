@@ -25,7 +25,7 @@ export const ChatsTabIcon = (): JSX.Element => {
     }, [dispatch, navigateTo]);
 
     return (
-        <TouchableOpacity onPress={openContacts}>
+        <TouchableOpacity onPress={openContacts} style={ChatsTabIconStyle.view}>
             <Text style={ChatsTabIconStyle.text}>💬</Text>
             <Badge value={unseenInvites} />
         </TouchableOpacity>
